@@ -501,6 +501,16 @@
                   </option>
                 </select>
               </div>
+              <div class="col-md-12 my-1" v-if="order_confirm.delivery_money">
+                Transport hodim
+                <textarea
+                  cols="30"
+                  rows="2"
+                  class="form-control form-control-sm"
+                  placeholder="izoh"
+                  v-model="order_confirm.comment"
+                ></textarea>
+              </div>
             </div>
           </div>
           <div class="modal-footer">
