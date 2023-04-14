@@ -487,6 +487,7 @@
                 Transport hodim
                 <select
                   class="form-select form-select-sm"
+                  required
                   @click="users.length ? false : getUsers()"
                   v-model="order_confirm.worker_id"
                 >
@@ -692,7 +693,7 @@ export default {
       }
     },
     get(page, limit) {
-      api.orders("", "", false, 0, page, limit).then((Response) => {
+      api.orders("", "", false, 0, 0, "", page, limit).then((Response) => {
         this.orders = Response.data.data;
         if (this.orders.length) {
           this.order = this.orders[0];

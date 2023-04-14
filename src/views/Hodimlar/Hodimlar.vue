@@ -59,6 +59,7 @@
                   <span v-if="hodim.role == 'branch_admin'">Filial admin</span>
                   <span v-if="hodim.role == 'cashier'">Kassir</span>
                   <span v-if="hodim.role == 'seller'">Sotuvchi</span>
+                  <span v-if="hodim.role == 'worker'">Transport</span>
                 </li>
                 <!-- <li class="list-group-item">
                   <span class="fa fa-coins" />

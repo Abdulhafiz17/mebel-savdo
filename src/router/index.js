@@ -22,6 +22,12 @@ let routes = [
     component: HomeView,
   },
   {
+    path: "/transport",
+    name: "transport",
+    meta: { requiresAuth: true, title: "Transport", role: "worker" },
+    component: () => import("../views/Transport/Transport.vue"),
+  },
+  {
     path: "/main",
     name: "main",
     meta: { requiresAuth: true, title: "Asosiy", role: "admin" },

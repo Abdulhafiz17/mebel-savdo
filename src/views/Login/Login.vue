@@ -70,6 +70,7 @@ export default {
       localStorage.setItem("access_token", data.access_token);
       localStorage.setItem("role", data.role);
       localStorage.setItem("branch_id", data.branch_id);
+      localStorage.setItem("user_id", data.id);
       location.href = "/home";
     },
   },

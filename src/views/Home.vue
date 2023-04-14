@@ -15,6 +15,8 @@ export default {
       this.$router.push("/main");
     } else if (this.role == "branch_admin") {
       this.forBranch();
+    } else if (this.role == "worker") {
+      this.$router.push("/transport");
     }
   },
   methods: {

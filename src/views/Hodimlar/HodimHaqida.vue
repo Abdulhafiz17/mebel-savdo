@@ -206,6 +206,8 @@ export default {
           this.to_date_2,
           true,
           this.$route.params.id,
+          0,
+          "",
           page,
           limit
         )

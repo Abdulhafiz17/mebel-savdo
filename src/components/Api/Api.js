@@ -373,18 +373,23 @@ export function removePhoto(articul, id) {
 export function order(id) {
   return api(`get_this_order/${id}`, "get");
 }
-export function orders(from_time, to_time, status, id, page, limit) {
-  if (from_time && to_time) {
-    return api(
-      `get_orders?from_time=${from_time}&to_time=${to_time}&status=${status}&seller_id=${id}&page=${page}&limit=${limit}`,
-      "get"
-    );
-  } else {
-    return api(
-      `get_orders?status=${status}&seller_id=${id}&page=${page}&limit=${limit}`,
-      "get"
-    );
-  }
+export function orders(
+  from_time,
+  to_time,
+  status,
+  seller_id,
+  worker_id,
+  delivered,
+  page,
+  limit
+) {
+  const time_query =
+    from_time && to_time ? `from_time=${from_time}&to_time=${to_time}&` : ``;
+  const delivered_query = delivered ? `&delivered=${delivered}` : ``;
+  return api(
+    `get_orders?${time_query}status=${status}&seller_id=${seller_id}&worker_id=${worker_id}${delivered_query}&page=${page}&limit=${limit}`,
+    "get"
+  );
 }
 export function customerOrders(customer_id, from_time, to_time, page, limit) {
   if (from_time && to_time) {
@@ -407,6 +412,9 @@ export function removeOrder(id) {
 }
 export function confirmationOrder(data) {
   return api(`order_confirmation`, "put", data);
+}
+export function deliverOrder(id) {
+  return api(`deliver_order/${id}`, "put");
 }
 
 // trade
