@@ -33,6 +33,12 @@
               {{ item.customer?.name }}
             </p>
             <p>
+              <i class="fa fa-phone"></i>
+              <a :href="`tel:+998${item.customer?.phone}`">
+                {{ "+998" + item.customer?.phone }}
+              </a>
+            </p>
+            <p>
               <i class="fa fa-map"></i>
               {{ item.customer?.address }}
               <br />
