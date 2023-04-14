@@ -399,25 +399,9 @@
                         type="number"
                         min="0"
                         step="any"
-                        :max="
-                          order_balance.total_price -
-                            order_confirm.money[1].paid_money >
-                          0
-                            ? order_balance.total_price -
-                              order_confirm.money[1].paid_money
-                            : false
-                        "
+                        :max="max(order_confirm.money[0].paid_money)"
                         class="form-control form-control-sm"
                         v-model="order_confirm.money[0].paid_money"
-                        @keyup="
-                          count(
-                            'naxt',
-                            order_confirm.money[0].paid_money,
-                            order_confirm.money[1].paid_money,
-                            order_confirm.discount,
-                            loan_price
-                          )
-                        "
                       />
                       <div class="input-group-append">
                         <div class="input-group-text">naxt</div>
@@ -430,25 +414,9 @@
                         type="number"
                         min="0"
                         step="any"
-                        :max="
-                          order_balance.total_price -
-                            order_confirm.money[0].paid_money >
-                          0
-                            ? order_balance.total_price -
-                              order_confirm.money[0].paid_money
-                            : false
-                        "
+                        :max="max(order_confirm.money[1].paid_money)"
                         class="form-control form-control-sm"
                         v-model="order_confirm.money[1].paid_money"
-                        @keyup="
-                          count(
-                            'plastik',
-                            order_confirm.money[0].paid_money,
-                            order_confirm.money[1].paid_money,
-                            order_confirm.discount,
-                            loan_price
-                          )
-                        "
                       />
                       <div class="input-group-append">
                         <div class="input-group-text">plastik</div>
@@ -457,36 +425,36 @@
                   </div>
                 </div>
               </div>
-              <!-- <div :class="customer_type == 'none' ? 'col-md-12' : 'col-md-6'">
+              <div :class="customer_type == 'none' ? 'col-md-12' : 'col-md-6'">
                 Chegirma summa
                 <input
                   type="number"
                   min="0"
+                  :max="max(order_confirm.discount)"
                   step="any"
                   class="form-control form-control-sm"
                   placeholder="chegirma summa"
                   v-model="order_confirm.discount"
-                  @focusout="
-                    count(
-                      'chegirma',
-                      order_confirm.money[0].paid_money,
-                      order_confirm.money[1].paid_money,
-                      order_confirm.discount,
-                      loan_price
-                    )
-                  "
-                  :disabled="
-                    customer_type == 'none' ||
-                    order_confirm.money[0].paid_money +
-                      order_confirm.money[1].paid_money >=
-                      order_balance.total_price
-                  "
                 />
-              </div> -->
+              </div>
+              <div :class="customer_type == 'none' ? 'col-md-12' : 'col-md-6'">
+                Yakuniy summa
+                <input
+                  type="number"
+                  min="0"
+                  :max="max(order_confirm.delivery_money)"
+                  step="any"
+                  class="form-control form-control-sm"
+                  placeholder="yakuniy summa"
+                  v-model="order_confirm.delivery_money"
+                />
+              </div>
               <div class="col-md-12" v-if="customer_type !== 'none'">
                 Nasiya summa
                 <input
                   type="number"
+                  min="0"
+                  :max="max(loan_price)"
                   class="form-control form-control-sm"
                   placeholder="nasiya summa"
                   v-model="loan_price"
@@ -506,11 +474,29 @@
                 Hodim
                 <select
                   class="form-select form-select-sm"
-                  @click="users.length ? '' : getUsers()"
+                  @click="users.length ? false : getUsers()"
                   v-model="order_confirm.seller_id"
                 >
                   <option :value="0">kassir</option>
                   <option v-for="item in users" :key="item" :value="item.id">
+                    {{ item.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-12 my-1" v-if="order_confirm.delivery_money">
+                Transport hodim
+                <select
+                  class="form-select form-select-sm"
+                  @click="users.length ? false : getUsers()"
+                  v-model="order_confirm.worker_id"
+                >
+                  <option
+                    v-for="item in users.filter(
+                      (item) => item.role == 'worker'
+                    )"
+                    :key="item"
+                    :value="item.id"
+                  >
                     {{ item.name }}
                   </option>
                 </select>
@@ -605,7 +591,7 @@ export default {
         seller_id: 0,
         comment: "",
         worker_id: 0,
-        delivery_money: 0,
+        delivery_money: null,
       },
       loan_price: null,
       users: [],
@@ -667,6 +653,17 @@ export default {
     },
   },
   methods: {
+    max(price) {
+      return (
+        this.order_balance.total_price -
+        (this.order_confirm.money[0].paid_money +
+          this.order_confirm.money[1].paid_money +
+          this.order_confirm.discount +
+          this.order_confirm.delivery_money +
+          this.loan_price) +
+        price
+      );
+    },
     toggleDisable(index) {
       let timeout;
       clearTimeout(timeout);
@@ -739,20 +736,21 @@ export default {
         });
       } else {
         order.id = this.order.id;
-        order.money[0].paid_money = order.money[0].paid_money
-          ? order.money[0].paid_money
-          : 0;
-        order.money[1].paid_money = order.money[1].paid_money
-          ? order.money[1].paid_money
-          : 0;
-        order.discount = order.discount ? order.discount : 0;
+        order.money[0].paid_money = order.money[0].paid_money || 0;
+        order.money[1].paid_money = order.money[1].paid_money || 0;
+        order.discount = order.discount || 0;
+        order.delivery_money = order.delivery_money || 0;
         api.confirmationOrder(order).then((Response) => {
           document.querySelector("[close-confirmation]").click();
           this.order_confirm = {
+            id: 0,
             customer_name: "",
             customer_phone: null,
             customer_birthday: "",
             customer_type: "",
+            customer_address: "",
+            customer_long: "",
+            customer_lat: "",
             discount: null,
             money: [
               {
@@ -766,6 +764,9 @@ export default {
             ],
             loan_repayment_date: null,
             seller_id: 0,
+            comment: "",
+            worker_id: 0,
+            delivery_money: null,
           };
           this.trades = [];
           api.success().then(() => {
@@ -903,31 +904,6 @@ export default {
               this.page = Response.data.current_page;
               this.pages = Response.data.pages;
             });
-        }
-      }
-    },
-    count(type, naxt, plastik, chegirma, nasiya) {
-      if (this.customer_type == "none") {
-        if (type == "naxt") {
-          if (naxt >= this.order_balance.total_price) {
-            this.order_confirm.money[1].paid_money = 0;
-          } else {
-            this.order_confirm.money[1].paid_money =
-              this.order_balance.total_price - naxt;
-          }
-        } else if (type == "plastik") {
-          if (plastik >= this.order_balance.total_price) {
-            this.order_confirm.money[0].paid_money = 0;
-          } else {
-            this.order_confirm.money[0].paid_money =
-              this.order_balance.total_price - plastik;
-          }
-        }
-      } else {
-        if (naxt + plastik <= this.order_balance.total_price) {
-          this.loan_price = this.order_balance.total_price - (naxt + plastik);
-        } else {
-          this.loan_price = 0;
         }
       }
     },
