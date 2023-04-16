@@ -438,7 +438,7 @@
                 />
               </div>
               <div :class="customer_type == 'none' ? 'col-md-12' : 'col-md-6'">
-                Yakuniy summa
+                Yetkazilganda olinadigan summa
                 <input
                   type="number"
                   min="0"
@@ -503,7 +503,7 @@
                 </select>
               </div>
               <div class="col-md-12 my-1" v-if="order_confirm.delivery_money">
-                Transport hodim
+                Transport izoh
                 <textarea
                   cols="30"
                   rows="2"

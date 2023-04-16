@@ -58,7 +58,12 @@
             <br />
           </span>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
+          Yetkazilganda olinadigan summa
+          <br />
+          {{ Intl.NumberFormat().format(order.delivery_money) + " so'm" }}
+        </div>
+        <div class="col-md-3">
           Nasiya summa
           <br />
           {{
@@ -66,16 +71,16 @@
               balance.total_price -
                 (income[0].Incomes.money +
                   (income[1] ? income[1].Incomes.money : 0)) -
-                order.discount >
+                order.discount -
+                order.delivery_money >
                 0
                 ? balance.total_price -
                     (income[0].Incomes.money +
                       (income[1] ? income[1].Incomes.money : 0)) -
-                    order.discount
+                    order.discount -
+                    order.delivery_money
                 : 0
-            ) +
-            " " +
-            balance.currency
+            ) + " so'm"
           }}
         </div>
       </div>

@@ -126,41 +126,52 @@
               </strong>
             </span>
           </summary>
-          <ul class="list-group">
-            <li class="list-group-item">
-              Buyurtma summasi:
+          <div class="row my-1" v-if="order && income.length && balance">
+            <div class="col-md-3">
+              Buyurtma summasi
+              <br />
               {{ Intl.NumberFormat().format(balance.total_price) + " so'm" }}
-            </li>
-            <li class="list-group-item" v-if="order && balance">
-              Chegirma summa:
-              {{ Intl.NumberFormat().format(order.Orders.discount) + " so'm" }}
-            </li>
-            <li class="list-group-item">
-              <span>
-                To'lov summa:
-                <span v-for="(i, index) in income" :key="i">
-                  {{
-                    (index == 0 ? "" : ", ") +
-                    i.Incomes.comment +
-                    ": " +
-                    Intl.NumberFormat().format(i.Incomes.money) +
-                    " so'm"
-                  }}
-                </span>
+            </div>
+            <div class="col-md-3">
+              To'lov summa
+              <br />
+              <span v-for="(i, index) in income" :key="i">
+                {{
+                  i.Incomes.comment +
+                  ": " +
+                  Intl.NumberFormat().format(i.Incomes.money) +
+                  " so'm" +
+                  (index !== income.length - 1 ? ", " : "")
+                }}
+                <br />
               </span>
-            </li>
-            <li class="list-group-item">
-              Nasiya summa:
+            </div>
+            <div class="col-md-3">
+              Yetkazilganda olinadigan summa
+              <br />
+              {{ Intl.NumberFormat().format(order.delivery_money) + " so'm" }}
+            </div>
+            <div class="col-md-3">
+              Nasiya summa
+              <br />
               {{
                 Intl.NumberFormat().format(
                   balance.total_price -
                     (income[0].Incomes.money +
                       (income[1] ? income[1].Incomes.money : 0)) -
-                    order.Orders.discount
+                    order.discount -
+                    order.delivery_money >
+                    0
+                    ? balance.total_price -
+                        (income[0].Incomes.money +
+                          (income[1] ? income[1].Incomes.money : 0)) -
+                        order.discount -
+                        order.delivery_money
+                    : 0
                 ) + " so'm"
               }}
-            </li>
-          </ul>
+            </div>
+          </div>
         </details>
         <div class="table-responsive my-1">
           <table class="table table-sm table-hover">

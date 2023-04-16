@@ -131,36 +131,51 @@
           </div>
         </div>
         <div class="row my-1" v-if="order && income.length && balance">
-          <div class="col-md-3">
-            Buyurtma summasi:
-            {{ Intl.NumberFormat().format(balance.total_price) + " so'm" }}
-          </div>
-          <div class="col-md-3">
-            Chegirma summa:
-            {{ Intl.NumberFormat().format(order.Orders.discount) + " so'm" }}
-          </div>
-          <div class="col-md-3">
-            To'lov summa
-            <span v-for="(i, index) in income" :key="i">
+          <div class="row my-1" v-if="order && income.length && balance">
+            <div class="col-md-3">
+              Buyurtma summasi
+              <br />
+              {{ Intl.NumberFormat().format(balance.total_price) + " so'm" }}
+            </div>
+            <div class="col-md-3">
+              To'lov summa
+              <br />
+              <span v-for="(i, index) in income" :key="i">
+                {{
+                  i.Incomes.comment +
+                  ": " +
+                  Intl.NumberFormat().format(i.Incomes.money) +
+                  " so'm" +
+                  (index !== income.length - 1 ? ", " : "")
+                }}
+                <br />
+              </span>
+            </div>
+            <div class="col-md-3">
+              Yetkazilganda olinadigan summa
+              <br />
+              {{ Intl.NumberFormat().format(order.delivery_money) + " so'm" }}
+            </div>
+            <div class="col-md-3">
+              Nasiya summa
+              <br />
               {{
-                (index == 0 ? ": " : ", ") +
-                i.Incomes.comment +
-                ": " +
-                Intl.NumberFormat().format(i.Incomes.money) +
-                " so'm"
+                Intl.NumberFormat().format(
+                  balance.total_price -
+                    (income[0].Incomes.money +
+                      (income[1] ? income[1].Incomes.money : 0)) -
+                    order.discount -
+                    order.delivery_money >
+                    0
+                    ? balance.total_price -
+                        (income[0].Incomes.money +
+                          (income[1] ? income[1].Incomes.money : 0)) -
+                        order.discount -
+                        order.delivery_money
+                    : 0
+                ) + " so'm"
               }}
-            </span>
-          </div>
-          <div class="col-md-3">
-            Nasiya summa:
-            {{
-              Intl.NumberFormat().format(
-                balance.total_price -
-                  (income[0].Incomes.money +
-                    (income[1] ? income[1].Incomes.money : 0)) -
-                  order.Orders.discount
-              ) + " so'm"
-            }}
+            </div>
           </div>
         </div>
         <div class="table-responsive first my-1" v-if="trades.length">
