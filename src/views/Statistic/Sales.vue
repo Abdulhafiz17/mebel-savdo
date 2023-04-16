@@ -103,6 +103,18 @@
                 </span>
               </strong>
             </span>
+            <span v-show="item.incomes_delivered.length">
+              Yetkazib berilganda:
+              <strong>
+                <span
+                  v-for="item2 in item.incomes_delivered"
+                  :key="item2"
+                  v-show="item2.sum_price"
+                >
+                  {{ _.format(item2.sum_price) + " so'm" }}
+                </span>
+              </strong>
+            </span>
             <span v-show="item.incomes_loan.length">
               Nasiya:
               <strong>
