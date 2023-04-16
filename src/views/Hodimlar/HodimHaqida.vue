@@ -108,18 +108,10 @@
                 }}
               </td>
               <td>
-                {{
-                  Intl.NumberFormat().format(i.Trades.price) +
-                  " " +
-                  i.Currencies.currency
-                }}
+                {{ Intl.NumberFormat().format(i.Trades.price) + " so'm" }}
               </td>
               <td>
-                {{
-                  Intl.NumberFormat().format(i.Trades.discount) +
-                  " " +
-                  i.Currencies.currency
-                }}
+                {{ Intl.NumberFormat().format(i.Trades.discount) + " so'm" }}
               </td>
               <td>
                 {{ i.sum_quantity + " dona" }}
@@ -139,9 +131,7 @@
                 {{
                   Intl.NumberFormat().format(
                     (i.Trades.price - i.Trades.discount) * i.sum_quantity
-                  ) +
-                  " " +
-                  i.Currencies.currency
+                  ) + " so'm"
                 }}
               </td>
             </tr>
@@ -212,7 +202,7 @@ export default {
           true,
           this.$route.params.id,
           0,
-          "",
+          "true",
           page,
           limit
         )

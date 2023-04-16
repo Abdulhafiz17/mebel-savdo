@@ -14,7 +14,7 @@
             <div class="check-img">
               <img :src="`${api.url_to_files}/${logo}`" :alt="logo" />
             </div>
-            <div class="news">
+            <!-- <div class="news">
               Yangiliklardan <br />
               habardor bo'ling !
             </div>
@@ -28,7 +28,7 @@
             <div class="news">
               Будьте в курсе <br />
               новостей !
-            </div>
+            </div> -->
             <div class="date-time">
               <b>{{ order?.Orders?.time.split("T")[1].substring(0, 5) }}</b>
               <b>{{ order?.Orders?.time.split("T")[0] }}</b>
@@ -68,25 +68,18 @@
               <div>
                 <div class="discount" v-if="item.Trades.discount">
                   <div class="discount-price">
-                    {{
-                      _.format(item.Trades.price) +
-                      " " +
-                      item.Currencies.currency
-                    }}
+                    {{ _.format(item.Trades.price) + " so'm" }}
                   </div>
                   <div class="residual-price">
                     <i class="fa fa-tag"></i>
                     {{
                       _.format(item.Trades.price - item.Trades.discount) +
-                      " " +
-                      item.Currencies.currency
+                      " so'm"
                     }}
                   </div>
                 </div>
                 <div v-else>
-                  {{
-                    _.format(item.Trades.price) + " " + item.Currencies.currency
-                  }}
+                  {{ _.format(item.Trades.price) + " so'm" }}
                 </div>
               </div>
             </div>
@@ -96,16 +89,14 @@
                 <span>Chegirmasiz summa:</span>
                 <span>
                   {{
-                    _.format(balance?.total_price + trades_discount) +
-                    " " +
-                    balance?.currency
+                    _.format(balance?.total_price + trades_discount) + " so'm"
                   }}
                 </span>
               </div>
               <div>
                 <span>Chegirma summa:</span>
                 <span>
-                  {{ _.format(trades_discount) + " " + balance?.currency }}
+                  {{ _.format(trades_discount) + " so'm" }}
                 </span>
               </div>
               <hr />
@@ -117,15 +108,13 @@
                 <span>
                   {{ item.Incomes.comment + ":" }}
                 </span>
-                <span>{{
-                  _.format(item.Incomes.money) + " " + item.currency
-                }}</span>
+                <span>{{ _.format(item.Incomes.money) + " so'm" }}</span>
               </div>
               <hr />
               <div>
                 <span>Jami summa:</span>
                 <span>
-                  {{ _.format(balance?.total_price) + " " + balance?.currency }}
+                  {{ _.format(balance?.total_price) + " so'm" }}
                 </span>
               </div>
             </div>

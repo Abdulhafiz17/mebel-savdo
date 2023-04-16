@@ -36,6 +36,7 @@
   <Fixed
     @getExpenses="getData"
     :expenses="chiqimlar"
+    ref="fixedExpense"
     v-if="expense == 'fixed'"
   />
 
@@ -379,6 +380,7 @@ export default {
         document.querySelector("#close-modal").click();
         api.success().then(() => {
           this.expense = "fixed";
+          this.$refs.fixedExpense.getFixedExpenses(0, 25);
         });
       });
     },
@@ -400,7 +402,8 @@ export default {
         };
         document.querySelector("#close").click();
         api.success().then(() => {
-          this.expense = "variable";
+          // this.expense = "variable";
+          this.$refs.fixedExpense.getFixedExpenses(0, 25);
         });
       });
     },

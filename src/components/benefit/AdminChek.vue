@@ -23,19 +23,19 @@
             <span>
               Umumiy tan narx:
               <strong>
-                {{ _.format(data?.trade_total_tan_narx) + " " + currency }}
+                {{ _.format(data?.trade_total_tan_narx) + " so'm" }}
               </strong>
             </span>
             <span>
               Umumiy savdo:
               <strong>
-                {{ _.format(data?.trade_total_price) + " " + currency }}
+                {{ _.format(data?.trade_total_price) + " so'm" }}
               </strong>
             </span>
             <span>
               Umumiy vozvrat:
               <strong>
-                {{ _.format(data?.returned_price) + " " + currency }}
+                {{ _.format(data?.returned_price) + " so'm" }}
               </strong>
             </span>
             <hr />
@@ -48,9 +48,7 @@
                   :key="item"
                   v-show="item.sum_price"
                 >
-                  {{
-                    _.format(item.sum_price) + " " + currency + " " + item.type
-                  }}
+                  {{ _.format(item.sum_price) + " so'm " + item.type }}
                   <br />
                 </span>
               </strong>
@@ -63,9 +61,7 @@
                   :key="item"
                   v-show="item.sum_price"
                 >
-                  {{
-                    _.format(item.sum_price) + " " + currency + " " + item.type
-                  }}
+                  {{ _.format(item.sum_price) + " so'm " + item.type }}
                 </span>
                 <br />
               </strong>
@@ -75,68 +71,68 @@
               Umumiy chiqim:
               <strong>
                 <span v-for="item in data?.expenses" :key="item">
-                  {{ _.format(item.sum_price) + " " + item.currency }}
+                  {{ _.format(item.sum_price) + " so'm" }}
                 </span>
               </strong>
             </span>
-            <hr />
+            <!-- <hr />
             <div class="date">Chegirmadan qolgan summa</div>
             <span>
               Adminga:
               <strong>
-                {{ _.format(data?.total_admin_discount) + " " + currency }}
+                {{ _.format(data?.total_admin_discount) + " so'm" }}
               </strong>
             </span>
             <span>
               Filialga:
               <strong>
-                {{ _.format(data?.trade_total_discount) + " " + currency }}
+                {{ _.format(data?.trade_total_discount) + " so'm" }}
               </strong>
             </span>
             <hr />
             <span>
               Oylik:
               <strong>
-                {{ _.format(data?.total_profit) + " " + currency }}
+                {{ _.format(data?.total_profit) + " so'm" }}
               </strong>
             </span>
             <span>
               Maosh:
               <strong>
-                {{ _.format(data?.maosh) + " " + currency }}
+                {{ _.format(data?.maosh) + " so'm" }}
               </strong>
             </span>
             <span>
               Nasiya maosh:
               <strong>
-                {{ _.format(data?.nasiya_maosh) + " " + currency }}
+                {{ _.format(data?.nasiya_maosh) + " so'm" }}
               </strong>
             </span>
             <hr />
             <span>
               Admin summa:
               <strong>
-                {{ _.format(data?.admin_price) + " " + currency }}
+                {{ _.format(data?.admin_price) + " so'm" }}
               </strong>
             </span>
             <span>
               Admin oldi:
               <strong>
-                {{ _.format(data?.admin_oldi) + " " + currency }}
+                {{ _.format(data?.admin_oldi) + " so'm" }}
               </strong>
             </span>
             <span>
               Admin terminal:
               <strong>
-                {{ _.format(data?.income_p_sum) + " " + currency }}
+                {{ _.format(data?.income_p_sum) + " so'm" }}
               </strong>
             </span>
             <span>
               Admin nasiya:
               <strong>
-                {{ _.format(data?.order_loan_sum_admin) + " " + currency }}
+                {{ _.format(data?.order_loan_sum_admin) + " so'm" }}
               </strong>
-            </span>
+            </span> -->
           </div>
         </div>
         <div class="modal-footer">
