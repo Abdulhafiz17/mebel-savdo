@@ -27,150 +27,44 @@
     </div>
   </div>
   <div class="responsive" style="max-height: 65vh">
-    <details v-for="item in orders" :key="item" :id="item.id">
-      <summary @click="getLoan(item)">
-        <h5>Buyurtma - {{ item.ordinal_number }}</h5>
-        <h5>Mijoz: {{ item.customer ? item.customer.name : "Umumiy" }}</h5>
+    <ul class="list-group">
+      <li
+        class="list-group-item"
+        v-for="item in orders"
+        :key="item"
+        :id="item.id"
+        @click="$refs.orderModal.start(item.id)"
+      >
+        <span class="text-left">
+          <h5>Buyurtma - {{ item.ordinal_number }}</h5>
+          <p class="m-0">
+            Mijoz: {{ item.customer ? item.customer.name : "Umumiy" }}
+          </p>
+        </span>
         <strong>{{ item.time.substring(0, item.time.length - 9) }}</strong>
-      </summary>
-      <div class="row my-1" v-if="order && income.length && balance">
-        <div class="col-md-4">
-          Buyurtma summasi
-          <br />
-          {{ Intl.NumberFormat().format(balance.total_price) + " so'm" }}
-        </div>
-        <div class="col-md-4">
-          To'lov summa
-          <br />
-          <span v-for="(i, index) in income" :key="i">
-            {{
-              i.Incomes.comment +
-              ": " +
-              Intl.NumberFormat().format(i.Incomes.money) +
-              " so'm" +
-              (index !== income.length - 1 ? ", " : "")
-            }}
-            <br />
-          </span>
-        </div>
-        <div class="col-md-3">
-          Yetkazilganda olinadigan summa
-          <br />
-          {{ Intl.NumberFormat().format(order.delivery_money) + " so'm" }}
-        </div>
-        <div class="col-md-3">
-          Nasiya summa
-          <br />
-          {{
-            Intl.NumberFormat().format(
-              balance.total_price -
-                (income[0].Incomes.money +
-                  (income[1] ? income[1].Incomes.money : 0)) -
-                order.discount -
-                order.delivery_money >
-                0
-                ? balance.total_price -
-                    (income[0].Incomes.money +
-                      (income[1] ? income[1].Incomes.money : 0)) -
-                    order.discount -
-                    order.delivery_money
-                : 0
-            ) + " so'm"
-          }}
-        </div>
-      </div>
-      <div class="table-responsive my-1" v-if="trades.length">
-        <table class="table table-sm table-hover">
-          <thead>
-            <tr>
-              <th>Mahsulot</th>
-              <th>Narx</th>
-              <th>Chegirma</th>
-              <th>Miqdor</th>
-              <th>Qaytarilgan</th>
-              <th>Summa</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="i in trades" :key="i">
-              <td>
-                {{ i.Categories.name + " - " + i.Products.articul }}
-              </td>
-              <td>
-                {{ Intl.NumberFormat().format(i.Trades.price) + " so'm" }}
-              </td>
-              <td>
-                {{ Intl.NumberFormat().format(i.Trades.discount) + " so'm" }}
-              </td>
-              <td>
-                {{ i.sum_quantity + " dona" }}
-              </td>
-              <td>
-                {{
-                  (returned_products.find((item) => {
-                    return i.Trades.code == item.Returned_products.code;
-                  })
-                    ? returned_products.find((item) => {
-                        return i.Trades.code == item.Returned_products.code;
-                      }).sum_quantity
-                    : "0") + " dona"
-                }}
-              </td>
-              <td>
-                {{
-                  Intl.NumberFormat().format(
-                    (i.Trades.price - i.Trades.discount) * i.sum_quantity
-                  ) + " so'm"
-                }}
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colspan="6">
-                <Pagination
-                  :page="page_2"
-                  :pages="pages_2"
-                  :limit="limit_2"
-                  @get="getTrades"
-                />
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-    </details>
+      </li>
+    </ul>
+    <Pagination :page="page" :pages="pages" :limit="limit" @get="getOrders" />
   </div>
-  <Pagination :page="page" :pages="pages" :limit="limit" @get="getOrders" />
+  <orderModal ref="orderModal" />
 </template>
 
 <script>
 import * as api from "@/components/Api/Api";
 import Pagination from "../../components/Pagination/Pagination.vue";
+import orderModal from "@/components/order/orderModal.vue";
 export default {
   name: "Hodim",
-  components: { Pagination },
+  components: { Pagination, orderModal },
   data() {
     return {
       page: 0,
       pages: 1,
       limit: 100,
-      page_2: 0,
-      pages_2: 1,
-      limit_2: 100,
       user: null,
-      from_date: "",
-      to_date: "",
-      expenses: [],
       from_date_2: "",
       to_date_2: "",
       orders: [],
-      order: null,
-      loan: null,
-      income: [],
-      balance: null,
-      trades: [],
-      returned_products: [],
     };
   },
   created() {
@@ -205,52 +99,6 @@ export default {
             item.trades = [];
           });
         });
-    },
-    getLoan(order) {
-      this.loan = null;
-      this.income = [];
-      this.balance = null;
-      this.trades = [];
-      this.returned_products = [];
-      document.querySelectorAll("details").forEach((details) => {
-        if (Number(details.id) !== order.id) {
-          details.removeAttribute("open");
-        }
-      });
-      this.order = order;
-      if (order.customer) {
-        api.loan(order.customer.id).then((Response) => {
-          this.loan = Response.data;
-          this.getIncome(order.id);
-        });
-      } else {
-        this.getIncome(order.id);
-      }
-    },
-    getIncome(id) {
-      api.incomes(id, "order", 0, 100).then((Response) => {
-        this.income = Response.data.data;
-        this.getBalance(id);
-      });
-    },
-    getBalance(id) {
-      api.tradeBalance(id).then((Response) => {
-        this.balance = Response.data;
-        this.getTrades(0, 100);
-      });
-    },
-    getTrades(page, limit) {
-      api.trades(this.order.id, page, limit).then((Response) => {
-        this.page_2 = Response.data.current_page;
-        this.pages_2 = Response.data.pages;
-        this.trades = Response.data.data;
-        this.getReturnedProducts(this.order.id, page, limit);
-      });
-    },
-    getReturnedProducts(id, page, limit) {
-      api.returnedProducts(id, page, limit).then((Response) => {
-        this.returned_products = Response.data.data;
-      });
     },
   },
 };

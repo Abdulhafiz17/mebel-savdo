@@ -370,6 +370,15 @@ export function uploadPhoto(articul, file) {
 export function removePhoto(articul, id) {
   return api(`remove_photo/${articul}/${id}`, "delete");
 }
+export function orderPhotos(id) {
+  return api(`get_photos_order/${id}`, "get");
+}
+export function uploadOrderPhoto(id, data) {
+  return api(`upload_photo_order/${id}`, "post", data);
+}
+export function removeOrderPhoto(id) {
+  return api(`remove_photo_order/${id}`, "delete");
+}
 
 // order
 
