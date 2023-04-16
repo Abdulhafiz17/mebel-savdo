@@ -143,7 +143,7 @@
             </tbody>
             <tfoot>
               <tr>
-                <td colspan="4">
+                <td colspan="5">
                   <Pagination
                     :page="page"
                     :pages="pages"
@@ -339,7 +339,7 @@ export default {
           document.querySelectorAll("[data-dismiss]")[0].click();
           this.loan_price = null;
           api.success().then(() => {
-            this.getFalse(this.customer_id, this.page, this.limit);
+            this.getFalse(0, 25);
           });
         });
     },

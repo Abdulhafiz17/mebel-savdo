@@ -27,6 +27,8 @@ export default {
   },
   methods: {
     start(order_id) {
+      this.files = [];
+
       this.getFiles(order_id);
     },
     getFiles(id) {

@@ -78,7 +78,20 @@ export default {
   },
   methods: {
     start(order_id) {
+      this.trades = {
+        current_page: 0,
+        pages: 1,
+        limit: 25,
+        data: [],
+      };
+      this.returned_products = {
+        current_page: 0,
+        pages: 1,
+        limit: 25,
+        data: [],
+      };
       this.order_id = order_id;
+
       this.getTrades(0, 25);
     },
     getTrades(page, limit) {

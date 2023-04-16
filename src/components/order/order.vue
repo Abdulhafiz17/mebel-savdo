@@ -32,7 +32,7 @@
     <div class="col-md-3" v-if="loan">
       Nasiya summa
       <br />
-      {{ Intl.NumberFormat().format(loan.money) + " so'm" }}
+      {{ Intl.NumberFormat().format(loan.Loans.money) + " so'm" }}
     </div>
   </div>
 </template>

@@ -51,7 +51,10 @@
           role="tab"
           aria-controls="pills-profile"
           aria-selected="false"
-          @click="getOrder()"
+          @click="
+            $refs.order.start($route.params.order_id);
+            $refs.trades.start($route.params.order_id);
+          "
         >
           Nasiya buyurtmasi
         </button>
@@ -111,116 +114,8 @@
         role="tabpanel"
         aria-labelledby="pills-profile-tab"
       >
-        <details v-if="order && income.length && balance">
-          <summary>
-            <span>
-              <h5>Buyurtma - {{ order.Orders.ordinal_number }}</h5>
-            </span>
-            <span>
-              <strong>
-                {{
-                  order.Orders.time
-                    .replace("T", " ")
-                    .substring(0, order.Orders.time.length - 3)
-                }}
-              </strong>
-            </span>
-          </summary>
-          <div class="row my-1" v-if="order && income.length && balance">
-            <div class="col-md-3">
-              Buyurtma summasi
-              <br />
-              {{ Intl.NumberFormat().format(balance.total_price) + " so'm" }}
-            </div>
-            <div class="col-md-3">
-              To'lov summa
-              <br />
-              <span v-for="(i, index) in income" :key="i">
-                {{
-                  i.Incomes.comment +
-                  ": " +
-                  Intl.NumberFormat().format(i.Incomes.money) +
-                  " so'm" +
-                  (index !== income.length - 1 ? ", " : "")
-                }}
-                <br />
-              </span>
-            </div>
-            <div class="col-md-3">
-              Yetkazilganda olinadigan summa
-              <br />
-              {{ Intl.NumberFormat().format(order.delivery_money) + " so'm" }}
-            </div>
-            <div class="col-md-3">
-              Nasiya summa
-              <br />
-              {{
-                Intl.NumberFormat().format(
-                  balance.total_price -
-                    (income[0].Incomes.money +
-                      (income[1] ? income[1].Incomes.money : 0)) -
-                    order.discount -
-                    order.delivery_money >
-                    0
-                    ? balance.total_price -
-                        (income[0].Incomes.money +
-                          (income[1] ? income[1].Incomes.money : 0)) -
-                        order.discount -
-                        order.delivery_money
-                    : 0
-                ) + " so'm"
-              }}
-            </div>
-          </div>
-        </details>
-        <div class="table-responsive my-1">
-          <table class="table table-sm table-hover">
-            <thead>
-              <tr>
-                <th>Mahsulot</th>
-                <th>Narx</th>
-                <th>Chegirma</th>
-                <th>Miqdor</th>
-                <th>Summa</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="i in trades" :key="i">
-                <td>
-                  {{ i.Categories.name + " - " + i.Products.articul }}
-                </td>
-                <td>
-                  {{ Intl.NumberFormat().format(i.Trades.price) + " so'm" }}
-                </td>
-                <td>
-                  {{ Intl.NumberFormat().format(i.Trades.discount) + " so'm" }}
-                </td>
-                <td>
-                  {{ i.sum_quantity + " dona" }}
-                </td>
-                <td>
-                  {{
-                    Intl.NumberFormat().format(
-                      (i.Trades.price - i.Trades.discount) * i.sum_quantity
-                    ) + " so'm"
-                  }}
-                </td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colspan="5">
-                  <Pagination
-                    :page="page1"
-                    :pages="pages1"
-                    :limit="limit1"
-                    @get="getTrades"
-                  />
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
+        <order ref="order" />
+        <trades ref="trades" />
       </div>
     </div>
   </div>
@@ -228,10 +123,12 @@
 
 <script>
 import * as api from "@/components/Api/Api";
+import order from "@/components/order/order.vue";
+import trades from "@/components/order/trades.vue";
 import Pagination from "@/components/Pagination/Pagination.vue";
 export default {
   name: "NasiyaTarix",
-  components: { Pagination },
+  components: { Pagination, order, trades },
   data() {
     return {
       page: 0,
@@ -260,32 +157,6 @@ export default {
           this.limit = Response.data.limit;
           this.payments = Response.data.data;
         });
-    },
-    getOrder() {
-      api.order(this.$route.params.order_id).then((Response) => {
-        this.order = Response.data;
-        this.getIncome(this.order.Orders.id);
-      });
-    },
-    getIncome(id) {
-      api.incomes(id, "order", 0, 100).then((Response) => {
-        this.income = Response.data.data;
-        this.getBalance(id);
-      });
-    },
-    getBalance(id) {
-      api.tradeBalance(id).then((Response) => {
-        this.balance = Response.data;
-        this.getTrades(0, 100);
-      });
-    },
-    getTrades(page, limit) {
-      api.trades(this.$route.params.order_id, page, limit).then((Response) => {
-        this.page1 = Response.data.current_page;
-        this.pages1 = Response.data.pages;
-        this.limit1 = Response.data.limit;
-        this.trades = Response.data.data;
-      });
     },
   },
 };

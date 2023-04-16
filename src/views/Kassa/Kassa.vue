@@ -458,7 +458,6 @@
                   class="form-control form-control-sm"
                   placeholder="nasiya summa"
                   v-model="loan_price"
-                  disabled
                 />
               </div>
               <div class="col-md-12 my-1" v-if="loan_price">
@@ -477,7 +476,6 @@
                   @click="users.length ? false : getUsers()"
                   v-model="order_confirm.seller_id"
                 >
-                  <option :value="0">kassir</option>
                   <option v-for="item in users" :key="item" :value="item.id">
                     {{ item.name }}
                   </option>
