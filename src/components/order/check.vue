@@ -163,6 +163,9 @@ export default {
   },
   created() {},
   methods: {
+    start() {
+      this.getBranch();
+    },
     formatPhoneNumber(number) {
       return String(
         "(" +
@@ -175,71 +178,48 @@ export default {
           String(number).substr(7, 2)
       );
     },
-    start() {
-      this.getBranch();
-    },
     getBranch() {
       api.branch(this.branch_id).then((res) => {
-        this.logo = res.data.logo.logo;
+        this.logo = res.data.logo?.logo;
         this.phone = res.data.branch.phone;
         this.getOrder();
       });
     },
     getOrder() {
-      api
-        .order(this.id)
-        .then((res) => {
-          this.order = res.data;
-          this.getTrades();
-        })
-        .catch((err) => {
-          api.catchError(err);
-        });
+      api.order(this.id).then((res) => {
+        this.order = res.data;
+        this.getTrades();
+      });
     },
     getTrades() {
-      api
-        .trades(this.id, 0, 50)
-        .then((res) => {
-          this.trades = res.data.data;
-          let quantity = null,
-            discount = null;
-          this.trades.forEach((item) => {
-            quantity += item.Trades.quantity;
-            discount += item.Trades.discount * item.Trades.quantity;
-          });
-          this.trades_quantity = quantity;
-          this.trades_discount = discount;
-          this.getBalance();
-        })
-        .catch((err) => {
-          api.catchError(err);
+      api.trades(this.id, 0, 50).then((res) => {
+        this.trades = res.data.data;
+        let quantity = null,
+          discount = null;
+        this.trades.forEach((item) => {
+          quantity += item.Trades.quantity;
+          discount += item.Trades.discount * item.Trades.quantity;
         });
+        this.trades_quantity = quantity;
+        this.trades_discount = discount;
+        this.getBalance();
+      });
     },
     getBalance() {
-      api
-        .tradeBalance(this.id)
-        .then((res) => {
-          this.balance = res.data;
-          this.getIncomes();
-        })
-        .catch((err) => {
-          api.catchError(err);
-        });
+      api.tradeBalance(this.id).then((res) => {
+        this.balance = res.data;
+        this.getIncomes();
+      });
     },
     getIncomes() {
-      api
-        .incomes(this.id, "order", 0, 50)
-        .then((res) => {
-          this.incomes = res.data.data.sort((a, b) => {
-            let x = a.Incomes.comment,
-              y = b.Incomes.comment;
-            return x > y ? 1 : x < y ? -1 : 0;
-          });
-          this.createQrcode();
-        })
-        .catch((err) => {
-          api.catchError(err);
+      api.incomes(this.id, "order", 0, 50).then((res) => {
+        this.incomes = res.data.data.sort((a, b) => {
+          let x = a.Incomes.comment,
+            y = b.Incomes.comment;
+          return x > y ? 1 : x < y ? -1 : 0;
         });
+        this.createQrcode();
+      });
     },
     createQrcode() {
       let div = document.querySelector("#qrcode");

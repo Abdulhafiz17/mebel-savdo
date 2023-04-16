@@ -13,7 +13,21 @@
           <trades ref="trades" />
           <hr />
           <div class="d-flex justify-content-end">
-            <button class="btn btn-outline-danger" data-dismiss="modal">
+            <button
+              v-if="printable"
+              class="btn btn-outline-primary mx-1"
+              @click="$refs.check.start()"
+            >
+              <i class="fa fa-print"></i>
+            </button>
+            <button
+              v-if="returnable"
+              class="btn btn-outline-info mx-1"
+              @click="routerToReturn()"
+            >
+              <i class="fa fa-undo" />
+            </button>
+            <button class="btn btn-outline-danger mx-1" data-dismiss="modal">
               <i class="far fa-circle-xmark" />
             </button>
           </div>
@@ -21,21 +35,31 @@
       </div>
     </div>
   </div>
+
+  <check :order-id="order_id" ref="check" />
 </template>
 
 <script>
 import order from "./order.vue";
 import trades from "./trades.vue";
+import check from "@/components/order/check.vue";
 export default {
   name: "orderModal",
-  components: { order, trades },
+  props: {
+    printable: { default: false },
+    returnable: { default: false },
+  },
+  components: { order, trades, check },
   data() {
     return {
+      order_id: 0,
       timeout: null,
     };
   },
   methods: {
     start(order_id) {
+      this.order_id = order_id;
+
       this.$refs.order.start(order_id);
       this.$refs.trades.start(order_id);
       this.showModal();
@@ -45,6 +69,14 @@ export default {
       this.timeout = setTimeout(() => {
         document.querySelector(`[order-modal-button]`).click();
       }, 100);
+    },
+    routerToReturn() {
+      localStorage.setItem("order_id_for_return", this.order_id);
+      const buttons = document.querySelectorAll(`[data-dismiss="modal"]`);
+      buttons.forEach((item) => {
+        item.click();
+      });
+      this.$router.push("/return");
     },
   },
 };
