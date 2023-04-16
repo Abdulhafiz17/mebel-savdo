@@ -2,14 +2,13 @@
   <h3>Transport</h3>
   <div class="row">
     <div class="col-md-4">
-      <select
-        class="form-select form-select-sm"
-        v-model="status"
-        @change="getOrders(0, 25)"
+      <button
+        class="btn btn-sm btn-block btn-outline-info"
+        data-toggle="modal"
+        data-target="#filter"
       >
-        <option value="false">yetkazilmagan</option>
-        <option value="true">yetkazilgan</option>
-      </select>
+        <i class="fa fa-filter"></i>
+      </button>
     </div>
     <div class="col-md-4">{{ currency.format(user?.balance) + " so'm" }}</div>
     <div class="col-md-4">
@@ -98,6 +97,64 @@
   </div>
 
   <orderModal ref="orderModal" />
+
+  <div class="modal fade" id="filter">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5>Filter</h5>
+        </div>
+        <div class="modal-body">
+          <div class="row gap-1">
+            <div class="col-12">
+              Status
+              <select class="form-select" v-model="filter.status">
+                <option value="false">yetkazilmagan</option>
+                <option value="true">yetkazilgan</option>
+              </select>
+            </div>
+            <div class="col-12">
+              Dan
+              <input
+                type="date"
+                class="form-control"
+                required
+                v-model="filter.from_time"
+              />
+            </div>
+            <div class="col-12">
+              Gacha
+              <input
+                type="date"
+                class="form-control"
+                required
+                v-model="filter.to_time"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            class="btn btn-outline-primary"
+            data-dismiss="modal"
+            @click="getOrders(0, 25)"
+          >
+            <i class="far fa-circle-check"></i>
+          </button>
+          <button
+            class="btn btn-outline-danger"
+            data-dismiss="modal"
+            @click="
+              filter = { status: false, from_time: '', to_time: '' };
+              getOrders(0, 25);
+            "
+          >
+            <i class="far fa-circle-xmark"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -112,7 +169,11 @@ export default {
       currency: Intl.NumberFormat(),
       worker_id: localStorage["user_id"],
       user: null,
-      status: false,
+      filter: {
+        status: false,
+        from_time: "",
+        to_time: "",
+      },
       orders: {
         current_page: 0,
         pages: 1,
@@ -134,7 +195,16 @@ export default {
     },
     getOrders(page = 0, limit = 25) {
       api
-        .orders("", "", true, 0, this.worker_id, this.status, page, limit)
+        .orders(
+          this.filter.from_time,
+          this.filter.to_time,
+          true,
+          0,
+          this.worker_id,
+          this.filter.status,
+          page,
+          limit
+        )
         .then((res) => {
           this.orders = res.data;
         });
