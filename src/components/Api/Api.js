@@ -184,6 +184,9 @@ export function takeLoan(id, price, type) {
 export function incomes(id, status, page, limit) {
   return api(`get_incomes/${id}/${status}?page=${page}&limit=${limit}`, "get");
 }
+export function takeIncomeFromUser(data) {
+  return api(`take_income_from_user`, "post", data);
+}
 
 // market
 

@@ -90,6 +90,19 @@
                   <span class="fa fa-info" />
                 </router-link>
               </div>
+              <div class="col" v-if="hodim.role == 'worker'">
+                <button
+                  class="btn btn-sm btn-block btn-outline-primary"
+                  data-toggle="modal"
+                  data-target="#pay"
+                  @click="
+                    this.editHodim = hodim;
+                    this.editHodim.password = '';
+                  "
+                >
+                  <span class="fa fa-coins" />
+                </button>
+              </div>
               <div class="col">
                 <button
                   class="btn btn-sm btn-block btn-outline-warning"
@@ -290,7 +303,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4>{{ editHodim.name }} ga pul berish</h4>
+          <h4>{{ editHodim.name }} dan pul olish</h4>
         </div>
         <form @submit.prevent="payToUser(paying)">
           <div class="modal-body">
@@ -302,12 +315,10 @@
                 class="form-control"
                 placeholder="summa"
                 required
-                v-model="paying.price"
+                v-model="paying.money"
               />
               <div class="input-group-append">
-                <div class="input-group-text">
-                  {{ currency ? currency.currency : "" }}
-                </div>
+                <div class="input-group-text">so'm</div>
               </div>
             </div>
             <textarea
@@ -359,9 +370,9 @@ export default {
       branch: null,
       currency: null,
       paying: {
-        price: null,
-        currency_id: null,
-        source: null,
+        money: null,
+        currency_id: 0,
+        from_: null,
         comment: "",
       },
     };
@@ -442,14 +453,13 @@ export default {
       });
     },
     payToUser(data) {
-      data.currency_id = this.currency.id;
-      data.source = this.editHodim.id;
+      data.from_ = this.editHodim.id;
       data.comment = data.comment ? data.comment : " ";
-      api.payForUser(data).then((Response) => {
+      api.takeIncomeFromUser(data).then((Response) => {
         this.paying = {
-          price: null,
-          currency_id: null,
-          source: null,
+          money: null,
+          currency_id: 0,
+          from_: null,
           comment: "",
         };
         api.success(2).then(() => {
