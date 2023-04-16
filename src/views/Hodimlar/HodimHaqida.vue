@@ -37,11 +37,7 @@
         <div class="col-md-4">
           Buyurtma summasi
           <br />
-          {{
-            Intl.NumberFormat().format(balance.total_price) +
-            " " +
-            balance.currency
-          }}
+          {{ Intl.NumberFormat().format(balance.total_price) + " so'm" }}
         </div>
         <div class="col-md-4">
           To'lov summa
@@ -51,8 +47,7 @@
               i.Incomes.comment +
               ": " +
               Intl.NumberFormat().format(i.Incomes.money) +
-              " " +
-              i.currency +
+              " so'm" +
               (index !== income.length - 1 ? ", " : "")
             }}
             <br />
@@ -99,13 +94,7 @@
           <tbody>
             <tr v-for="i in trades" :key="i">
               <td>
-                {{
-                  i.Categories.name +
-                  " - " +
-                  i.Products.articul +
-                  " - " +
-                  i.Products.size
-                }}
+                {{ i.Categories.name + " - " + i.Products.articul }}
               </td>
               <td>
                 {{ Intl.NumberFormat().format(i.Trades.price) + " so'm" }}
@@ -195,13 +184,15 @@ export default {
       });
     },
     getOrders(page, limit) {
+      const seller_id = this.user.role !== "worker" ? this.$route.params.id : 0;
+      const worker_id = this.user.role == "worker" ? this.$route.params.id : 0;
       api
         .orders(
           this.from_date_2,
           this.to_date_2,
           true,
-          this.$route.params.id,
-          0,
+          seller_id,
+          worker_id,
           "true",
           page,
           limit
