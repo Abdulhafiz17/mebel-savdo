@@ -1,0 +1,165 @@
+<template>
+  <h3><span class="fa fa-box" /> Mahsulotlar</h3>
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 my-1"></div>
+    <div class="col-md-4">
+      <div class="input-group input-group-sm">
+        <input
+          type="search"
+          class="form-control"
+          placeholder="qidiruv"
+          v-model="search"
+          @keyup="get(0, 25, 0, 25)"
+        />
+        <div class="input-group-text">
+          <i class="fa fa-search"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr />
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="table-responsive" style="max-height: 80vh">
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th>Mahsulot</th>
+              <th>Narx</th>
+              <th>Miqdor</th>
+              <th>Joylashuv</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in products.data_w" :key="item">
+              <td>
+                {{
+                  item.Categories.name +
+                  " - " +
+                  item.Warehouse_products.name +
+                  " - " +
+                  item.Warehouse_products.articul
+                }}
+              </td>
+              <td>
+                {{ $util.currency(item.Warehouse_products.price) + " so'm" }}
+              </td>
+              <td>{{ item.Warehouse_products.quantity + " dona" }}</td>
+              <td>{{ item.Warehouses.name }}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="4">
+                <Pagination
+                  :page="products.current_page_w"
+                  :pages="products.pages_w"
+                  :limit="products.limit_w"
+                  @get="getWarehouseProducts"
+                />
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="table-responsive" style="max-height: 80vh">
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th>Mahsulot</th>
+              <th>Narx</th>
+              <th>Miqdor</th>
+              <th>Joylashuv</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in products.data_p" :key="item">
+              <td>
+                {{
+                  item.Categories.name +
+                  " - " +
+                  item.Products.name +
+                  " - " +
+                  item.Products.articul
+                }}
+              </td>
+              <td>
+                {{ $util.currency(item.Products.price) + " so'm" }}
+              </td>
+              <td>{{ item.sum_quantity + " dona" }}</td>
+              <td>{{ item.Branches.name }}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="4">
+                <Pagination
+                  :page="products.current_page_p"
+                  :pages="products.pages_p"
+                  :limit="products.limit_p"
+                  @get="getBranchProducts"
+                />
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import * as api from "@/components/Api/Api.js";
+import Pagination from "@/components/Pagination/Pagination.vue";
+export default {
+  name: "Mahsulotlar",
+  components: { Pagination },
+  data() {
+    return {
+      search: "",
+      products: {
+        current_page_w: 0,
+        current_page_p: 0,
+        pages_w: 1,
+        pages_p: 1,
+        limit_w: 25,
+        limit_p: 25,
+        data_w: [],
+        data_p: [],
+      },
+    };
+  },
+  created() {
+    this.get(0, 25);
+  },
+  methods: {
+    getWarehouseProducts(page = 0, limit = 25) {
+      this.get(
+        page,
+        limit,
+        this.products.current_page_p,
+        this.products.limit_p
+      );
+    },
+    getBranchProducts(page = 0, limit = 25) {
+      this.get(
+        this.products.current_page_w,
+        this.products.limit_w,
+        page,
+        limit
+      );
+    },
+    get(page_w = 0, limit_w = 25, page_p = 0, limit_p = 25) {
+      api
+        .allProducts(this.search, page_w, limit_w, page_p, limit_p)
+        .then((res) => {
+          this.products = res.data;
+        });
+    },
+  },
+};
+</script>
