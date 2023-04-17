@@ -98,10 +98,10 @@
               </div>
               <div class="col my-1">
                 <router-link
-                  :to="`/expense/${item.id}`"
+                  :to="`/cashiers?branch_id=${item.id}`"
                   class="btn btn-sm btn-block btn-outline-primary"
                 >
-                  <i class="fa fa-wallet" />
+                  <i class="fa fa-cash-register" />
                 </router-link>
               </div>
               <div class="col my-1">

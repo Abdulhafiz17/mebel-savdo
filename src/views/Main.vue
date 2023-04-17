@@ -8,57 +8,12 @@
   <hr />
 
   <div class="row">
-    <!-- <div class="col-md-4 my-1">
-      <router-link to="/statistics" class="card shadow">
+    <div class="col-md-4 my-1" v-for="item in links" :key="item">
+      <router-link :to="item.link" class="card shadow">
         <div class="card-body">
-          <i class="fa fa-2x fa-chart-line" />
+          <i class="fa-2x" :class="item.icon" />
           <hr />
-          <strong>Hisobotlar</strong>
-        </div>
-      </router-link>
-    </div> -->
-    <div class="col-md-4 my-1">
-      <router-link to="/filiallar" class="card shadow">
-        <div class="card-body">
-          <i class="fa fa-2x fa-code-branch" />
-          <hr />
-          <strong>Filiallar</strong>
-        </div>
-      </router-link>
-    </div>
-    <div class="col-md-4 my-1">
-      <router-link to="/omborlar" class="card shadow">
-        <div class="card-body">
-          <i class="fas fa-2x fa-warehouse" />
-          <hr />
-          <strong>Omborlar</strong>
-        </div>
-      </router-link>
-    </div>
-    <div class="col-md-4 my-1">
-      <router-link to="/taminotlar" class="card shadow">
-        <div class="card-body">
-          <i class="fa fa-2x fa-truck" />
-          <hr />
-          <strong>Ta'minot</strong>
-        </div>
-      </router-link>
-    </div>
-    <div class="col-md-4 my-1">
-      <router-link to="/taminotchilar" class="card shadow">
-        <div class="card-body">
-          <i class="fa fa-2x fa-truck-loading" />
-          <hr />
-          <strong>Ta'minotchilar</strong>
-        </div>
-      </router-link>
-    </div>
-    <div class="col-md-4 my-1">
-      <router-link to="/settings" class="card shadow">
-        <div class="card-body">
-          <i class="fa fa-2x fa-tools" />
-          <hr />
-          <strong>Sozlamalar</strong>
+          <strong>{{ item.title }}</strong>
         </div>
       </router-link>
     </div>
@@ -68,7 +23,47 @@
 <script>
 export default {
   name: "Home",
-  created() {},
+  data() {
+    return {
+      links: [
+        // {
+        //   link: `/statistics`,
+        //   icon: "fa fa-chart-line",
+        //   title: "Hisobotlar",
+        // },
+        {
+          link: `/filiallar`,
+          icon: "fa fa-code-branch",
+          title: "Filiallar",
+        },
+        {
+          link: `/omborlar`,
+          icon: "fas fa-warehouse",
+          title: "Omborlar",
+        },
+        {
+          link: `/taminotlar`,
+          icon: "fa fa-truck",
+          title: "Ta'minot",
+        },
+        {
+          link: `/taminotchilar`,
+          icon: "fa fa-truck-loading",
+          title: "Ta'minotchilar",
+        },
+        {
+          link: `/cashiers`,
+          icon: "fa fa-cash-register",
+          title: "Kassalar",
+        },
+        {
+          link: `/settings`,
+          icon: "fa fa-tools",
+          title: "Sozlamalar",
+        },
+      ],
+    };
+  },
 };
 </script>
 

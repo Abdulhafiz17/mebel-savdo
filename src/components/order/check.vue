@@ -212,7 +212,7 @@ export default {
       });
     },
     getIncomes() {
-      api.incomes(this.id, "order", 0, 50).then((res) => {
+      api.incomes(this.id, "order", 0, 0, 50).then((res) => {
         this.incomes = res.data.data.sort((a, b) => {
           let x = a.Incomes.comment,
             y = b.Incomes.comment;

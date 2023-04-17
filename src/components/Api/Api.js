@@ -181,8 +181,11 @@ export function takeLoan(id, price, type) {
 
 // income
 
-export function incomes(id, status, page, limit) {
-  return api(`get_incomes/${id}/${status}?page=${page}&limit=${limit}`, "get");
+export function incomes(id, status, kassa_id, page, limit) {
+  return api(
+    `get_incomes/${id}/${status}?kassa_id=${kassa_id}&page=${page}&limit=${limit}`,
+    "get"
+  );
 }
 export function takeIncomeFromUser(data) {
   return api(`take_income_from_user`, "post", data);
@@ -516,6 +519,13 @@ export function removeSupply(id) {
 
 // expense
 
+export function kassaExpenses(from_time, to_time, kassa_id, page, limit) {
+  const time_query =
+    from_time && to_time ? `from_time=${from_time}&to_time=${to_time}&` : ``;
+  return api(
+    `get_kassa_expenses?${time_query}kassa_id=${kassa_id}&page=${page}&limit=${limit}`
+  );
+}
 export function fixedExpenses() {
   return api("get_fixed_expenses", "get");
 }
@@ -676,9 +686,18 @@ export function kassa(search = "", id = 0, branch_id = 0) {
   const search_query = search ? `search=${search}&` : ``;
   return api(`get_kassa?${search_query}id=${id}&branch_id=${branch_id}`, "get");
 }
+export function kassaHistory(from_id, to_id, type, page, limit) {
+  return api(`get_kassa_history?from_kassa_id=${from_id}&to_id=${to_id}&type=${type}&page=${page}&limit=${limit}`);
+}
 export function createKassa(data) {
   return api(`create_kassa_r`, "post", data);
 }
 export function updateKassa(data) {
   return api(`update_kassa_r`, "put", data);
+}
+export function takeMoneyFromBranchKassa(data) {
+  return api(`take_money_from_branch_kassa`, "post", data);
+}
+export function takeMoneyFromAdminKassa(data) {
+  return api(`take_money_from_admin_kassa`, "post", data);
 }

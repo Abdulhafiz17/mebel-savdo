@@ -178,8 +178,26 @@ let routes = [
   {
     path: "/kassa",
     name: "kassa",
-    meta: { requiresAuth: true, title: "Kassa" },
+    meta: { requiresAuth: true, title: "Buyurtma" },
     component: () => import("../views/Kassa/Kassa.vue"),
+  },
+  {
+    path: "/cashiers",
+    name: "cashiers",
+    meta: { requiresAuth: true, title: "Kassalar" },
+    component: () => import("../views/Cashier/Cashiers.vue"),
+  },
+  {
+    path: "/cashier/:id",
+    name: "cashier",
+    meta: { requiresAuth: true, title: "Kassa" },
+    component: () => import("../views/Cashier/Cashier.vue"),
+  },
+  {
+    path: "/cashierHistory/:id",
+    name: "cashierHistory",
+    meta: { requiresAuth: true, title: "Kassa Tarix" },
+    component: () => import("../views/Cashier/CashierHistory.vue"),
   },
   {
     path: "/admin/:id",

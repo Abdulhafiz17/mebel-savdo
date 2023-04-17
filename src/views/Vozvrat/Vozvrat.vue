@@ -513,7 +513,7 @@ export default {
       });
     },
     getIncome(id) {
-      api.incomes(id, "order", 0, 100).then((Response) => {
+      api.incomes(id, "order", 0, 0, 100).then((Response) => {
         this.income = Response.data.data;
         this.getBalance(id);
       });

@@ -150,7 +150,7 @@ export default {
   methods: {
     get(page, limit) {
       api
-        .incomes(this.$route.params.id, "loan", page, limit)
+        .incomes(this.$route.params.id, "loan", 0, page, limit)
         .then((Response) => {
           this.page = Response.data.current_page;
           this.pages = Response.data.pages;

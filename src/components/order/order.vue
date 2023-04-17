@@ -72,7 +72,7 @@ export default {
       });
     },
     getIncome(id) {
-      api.incomes(id, "order", 0, 100).then((res) => {
+      api.incomes(id, "order", 0, 0, 100).then((res) => {
         this.incomes = res.data.data;
       });
     },
