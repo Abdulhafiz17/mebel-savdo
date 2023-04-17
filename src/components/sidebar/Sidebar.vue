@@ -33,11 +33,20 @@ export default {
       <div class="sidebar-link">
         <router-link
           class="SidebarLink"
-          to="/kassa"
+          :to="`/cashiers?branch_id=${branch_id}`"
           v-if="role === 'branch_admin'"
         >
           <i class="icon"><span class="fa fa-cash-register" /></i>
           <p>Kassa</p>
+        </router-link>
+
+        <router-link
+          class="SidebarLink"
+          to="/kassa"
+          v-if="role === 'branch_admin'"
+        >
+          <i class="icon"><span class="fa fa-receipt" /></i>
+          <p>Buyurtmalar</p>
         </router-link>
 
         <router-link
