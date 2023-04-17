@@ -8,7 +8,7 @@
     <div :class="loan ? 'col-md-3' : 'col-md-4'">
       Buyurtma summasi
       <br />
-      {{ Intl.NumberFormat().format(balance.total_price) + " so'm" }}
+      {{ $util.currency(balance.total_price) + " so'm" }}
     </div>
     <div :class="loan ? 'col-md-3' : 'col-md-4'">
       To'lov summa
@@ -17,7 +17,7 @@
         {{
           i.Incomes.comment +
           ": " +
-          Intl.NumberFormat().format(i.Incomes.money) +
+          $util.currency(i.Incomes.money) +
           " so'm" +
           (index !== incomes.length - 1 ? ", " : "")
         }}
@@ -27,12 +27,12 @@
     <div :class="loan ? 'col-md-3' : 'col-md-4'">
       Yetkazilganda olinadigan summa
       <br />
-      {{ Intl.NumberFormat().format(order.delivery_money) + " so'm" }}
+      {{ $util.currency(order.delivery_money) + " so'm" }}
     </div>
     <div class="col-md-3" v-if="loan">
       Nasiya summa
       <br />
-      {{ Intl.NumberFormat().format(loan.Loans.money) + " so'm" }}
+      {{ $util.currency(loan.Loans.money) + " so'm" }}
     </div>
   </div>
 </template>
