@@ -669,3 +669,16 @@ export function tradeSumStatistics(from_time, to_time, branch_id) {
     "get"
   );
 }
+
+// kassa
+
+export function kassa(search = "", id = 0, branch_id = 0) {
+  const search_query = search ? `search=${search}&` : ``;
+  return api(`get_kassa?${search_query}id=${id}&branch_id=${branch_id}`, "get");
+}
+export function createKassa(data) {
+  return api(`create_kassa_r`, "post", data);
+}
+export function updateKassa(data) {
+  return api(`update_kassa_r`, "put", data);
+}
