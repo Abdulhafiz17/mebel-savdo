@@ -129,8 +129,11 @@ export function thisUser(id) {
 export function user() {
   return api("get_user", "get");
 }
-export function users(id, page, limit) {
-  return api(`get_users/?branch_id=${id}&?page=${page}&limit=${limit}`, "get");
+export function users(branch_id, warehouse_id, page, limit) {
+  return api(
+    `get_users?branch_id=${branch_id}&warehouse_id=${warehouse_id}&page=${page}&limit=${limit}`,
+    "get"
+  );
 }
 export function createUser(data) {
   return api("create_user", "post", data);
@@ -477,8 +480,21 @@ export function returnProduct(id, data) {
 
 // party
 
-export function parties(status, page, limit) {
-  return api(`get_parties?status=${status}&page=${page}&limit=${limit}`, "get");
+export function party(id) {
+  return api(`get_party/${id}`, "get");
+}
+export function parties(
+  status,
+  warehouseman,
+  warehouseman_id,
+  warehouse_id,
+  page,
+  limit
+) {
+  return api(
+    `get_parties?status=${status}&warehouseman=${warehouseman}&warehouseman_id=${warehouseman_id}&warehouse_id=${warehouse_id}&page=${page}&limit=${limit}`,
+    "get"
+  );
 }
 export function createParty() {
   return api("create_party", "post");

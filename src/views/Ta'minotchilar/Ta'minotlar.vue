@@ -1,96 +1,121 @@
 <template>
   <h3><span class="fa fa-truck" /> Ta'minotlar</h3>
   <div class="row">
-    <div class="col-md-4"></div>
-    <div class="col-md-4 my-1">
+    <div class="col-md-4">
       <button class="btn btn-sm btn-outline-secondary" @click="post()">
         <i class="fa fa-circle-plus" /> Ta'minot qo'shish
       </button>
     </div>
-    <div class="col-md-4"></div>
+    <div class="col-md-4 my-1"></div>
+    <div class="col-md-4">
+      <button
+        class="btn btn-sm btn-outline-info"
+        data-toggle="modal"
+        data-target="#filter"
+      >
+        <i class="fa fa-filter" /> Filter
+      </button>
+    </div>
   </div>
   <hr />
 
   <div class="body">
-    <ul class="nav nav-pills nav-justified mb-3" id="pills-tab" role="tablist">
-      <li class="nav-item" role="presentation">
-        <button
-          class="nav-link active"
-          id="pills-home-tab"
-          data-bs-toggle="pill"
-          data-bs-target="#pills-home"
-          type="button"
-          role="tab"
-          aria-controls="pills-home"
-          aria-selected="true"
-        >
-          Faol
-        </button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button
-          class="nav-link"
-          id="pills-profile-tab"
-          data-bs-toggle="pill"
-          data-bs-target="#pills-profile"
-          type="button"
-          role="tab"
-          aria-controls="pills-profile"
-          aria-selected="false"
-        >
-          Yakunlangan
-        </button>
-      </li>
-    </ul>
-    <div class="tab-content" id="pills-tabContent">
-      <div
-        class="tab-pane fade show active"
-        id="pills-home"
-        role="tabpanel"
-        aria-labelledby="pills-home-tab"
+    <ul class="list-group">
+      <router-link
+        class="list-group-item"
+        v-for="item in parties.data"
+        :key="item"
+        :to="`/taminot/${item.id}`"
+        @click="setItem(true)"
       >
-        <div class="responsive">
-          <div class="row">
-            <div class="col-md-11 mx-auto">
-              <ul class="list-group">
-                <router-link
-                  class="list-group-item"
-                  v-for="item in taminotlarFalse"
+        <span><strong>Id: </strong> {{ item.id }} </span>
+        <span><strong>Sana:</strong> {{ item.sana }} </span>
+      </router-link>
+    </ul>
+  </div>
+
+  <div class="modal fade" id="filter">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4>Filter</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row gap-1 text-left">
+            <div class="col-12">
+              Status
+              <select class="form-select" v-model="filter.status">
+                <option value="false">Faol</option>
+                <option value="true">Yakunlangan</option>
+              </select>
+            </div>
+            <div class="col-12" v-if="filter.status == 'true'">
+              Ombor
+              <select
+                class="form-select"
+                v-model="filter.warehouse_id"
+                @change="getUsers()"
+              >
+                <option v-for="item in warehouses" :key="item" :value="item.id">
+                  {{ item.name }}
+                </option>
+              </select>
+            </div>
+            <div class="col-12" v-if="filter.status == 'true'">
+              Status
+              <select
+                class="form-select"
+                v-model="filter.warehouseman"
+                @change="
+                  filter.warehouseman == 'false'
+                    ? (filter.warehouseman_id = 0)
+                    : false
+                "
+              >
+                <option value="false">Omborga qabul qilinmagan</option>
+                <option value="true">Omborga qabul qilingan</option>
+              </select>
+            </div>
+            <div
+              class="col-12"
+              v-if="filter.warehouse_id && filter.warehouseman == 'true'"
+            >
+              Omborchi
+              <select class="form-select" v-model="filter.warehouseman_id">
+                <option
+                  v-for="item in warehousemen"
                   :key="item"
-                  :to="`/taminot/${item.id}`"
-                  @click="setItem(true)"
+                  :value="item.id"
                 >
-                  <span><strong>Id: </strong> {{ item.id }} </span>
-                  <span><strong>Sana:</strong> {{ item.sana }} </span>
-                </router-link>
-              </ul>
+                  {{ item.name }}
+                </option>
+              </select>
             </div>
           </div>
         </div>
-      </div>
-      <div
-        class="tab-pane fade"
-        id="pills-profile"
-        role="tabpanel"
-        aria-labelledby="pills-profile-tab"
-      >
-        <div class="responsive">
-          <div class="row">
-            <div class="col-md-11 mx-auto">
-              <ul class="list-group">
-                <router-link
-                  class="list-group-item"
-                  v-for="item in taminotlarTrue"
-                  :key="item"
-                  :to="`/taminot/${item.id}`"
-                  @click="setItem(false)"
-                >
-                  <span><strong>Id: </strong> {{ item.id }} </span>
-                  <span><strong>Sana:</strong> {{ item.sana }} </span>
-                </router-link>
-              </ul>
-            </div>
-          </div>
+        <div class="modal-footer">
+          <button
+            class="btn btn-outline-primary"
+            data-dismiss="modal"
+            @click="getParties(0, 25)"
+          >
+            <i class="far fa-circle-check"></i>
+          </button>
+          <button
+            class="btn btn-outline-danger"
+            data-dismiss="modal"
+            @click="
+              filter = {
+                status: 'false',
+                warehouseman: false,
+                warehouseman_id: 0,
+                warehouse_id: 0,
+              };
+              getParties(0, 25);
+            "
+          >
+            <i class="fa fa-trash"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -99,30 +124,60 @@
 
 <script>
 import * as api from "@/components/Api/Api";
+import Pagination from "@/components/Pagination/Pagination.vue";
 export default {
   name: "Ta'minot",
+  components: { Pagination },
   data() {
     return {
-      taminotlarFalse: [],
-      taminotlarTrue: [],
+      warehousemen: [],
+      warehouses: {
+        current_page: 0,
+        pages: 1,
+        limit: 25,
+        data: [],
+      },
+      filter: {
+        status: "false",
+        warehouseman: false,
+        warehouseman_id: 0,
+        warehouse_id: 0,
+      },
+      parties: {
+        current_page: 0,
+        pages: 1,
+        limit: 25,
+        data: [],
+      },
     };
   },
   created() {
-    this.get(false, 0, 100);
+    this.getParties(0, 25);
+    this.getWarehouses(0, 25);
   },
   methods: {
-    get(status, page, limit) {
-      this.getFalse(status, page, limit);
+    getParties(page, limit) {
+      api
+        .parties(
+          this.filter.status,
+          this.filter.warehouseman,
+          this.filter.warehouseman_id,
+          this.filter.warehouse_id,
+          page,
+          limit
+        )
+        .then((Response) => {
+          this.parties = Response.data;
+        });
     },
-    getFalse(status, page, limit) {
-      api.parties(status, page, limit).then((Response) => {
-        this.taminotlarFalse = Response.data.data;
-        this.getTrue(true, 0, 100);
+    getUsers() {
+      api.users(0, this.filter.warehouse_id, 0, 100).then((res) => {
+        this.warehousemen = res.data.data;
       });
     },
-    getTrue(status, page, limit) {
-      api.parties(status, page, limit).then((Response) => {
-        this.taminotlarTrue = Response.data.data;
+    getWarehouses(page, limit) {
+      api.warehouses().then((res) => {
+        this.warehouses = res.data;
       });
     },
     post() {
