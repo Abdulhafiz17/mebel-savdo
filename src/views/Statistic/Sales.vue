@@ -435,7 +435,7 @@ export default {
     },
     getUsers() {
       this.template = "chart";
-      api.users(this.branch_id, 0, 25).then((Response) => {
+      api.users(this.branch_id, 0, 0, 25).then((Response) => {
         this.users = Response.data.data;
         this.getSumStatistics();
       });

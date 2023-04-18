@@ -919,9 +919,11 @@ export default {
       this.putTrade("discount", trade);
     },
     getUsers() {
-      api.users(localStorage.getItem("branch_id"), 0, 50).then((Response) => {
-        this.users = Response.data.data;
-      });
+      api
+        .users(localStorage.getItem("branch_id"), 0, 0, 50)
+        .then((Response) => {
+          this.users = Response.data.data;
+        });
     },
     scrolling(menu) {
       if (menu.scrollTop + menu.clientHeight >= menu.scrollHeight) {

@@ -422,7 +422,7 @@ export default {
       });
     },
     get(id, page, limit) {
-      api.users(id, page, limit).then((Response) => {
+      api.users(id, 0, page, limit).then((Response) => {
         this.hodimlar = Response.data.data;
         this.getBranch();
       });
