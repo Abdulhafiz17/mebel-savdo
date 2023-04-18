@@ -11,7 +11,11 @@ export default {
     };
   },
   created() {
-    if (this.role == "admin" || this.role == "warehouseman") {
+    if (
+      this.role == "admin" ||
+      this.role == "warehouseman" ||
+      this.role == "logistika"
+    ) {
       this.$router.replace("/main");
     } else if (this.role == "branch_admin") {
       this.forBranch();

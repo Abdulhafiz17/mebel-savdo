@@ -4,7 +4,7 @@
     <strong>{{ order?.time.replace("T", " ").substring(0, 16) }}</strong>
   </div>
   <hr />
-  <div class="row mb-2" v-if="order && incomes.length && balance">
+  <div class="row mb-2" v-if="order && incomes.length && balance && price">
     <div :class="loan ? 'col-md-3' : 'col-md-4'">
       Buyurtma summasi
       <br />
@@ -49,6 +49,13 @@ export default {
       loan: null,
     };
   },
+  computed: {
+    price() {
+      if (["branch_admin", "seller"].includes(this.$util.storage("role")))
+        return true;
+      else return false;
+    },
+  },
   methods: {
     start(order_id) {
       this.order = null;
@@ -59,7 +66,7 @@ export default {
       this.getOrder(order_id);
       this.getBalance(order_id);
       this.getIncome(order_id);
-      this.getLoan(order_id);
+      if (this.price) this.getLoan(order_id);
     },
     getOrder(id) {
       api.order(id).then((res) => {

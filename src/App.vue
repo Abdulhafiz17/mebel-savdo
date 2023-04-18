@@ -2,7 +2,12 @@
   <div class="app dark">
     <span v-if="this.$route.name !== 'login'">
       <Sidebar
-        v-if="role !== 'admin' && role !== 'worker' && role !== 'warehouseman'"
+        v-if="
+          role !== 'admin' &&
+          role !== 'worker' &&
+          role !== 'warehouseman' &&
+          role !== 'logistika'
+        "
       />
     </span>
     <div class="container-fluid pt-2" style="height: 100vh">
@@ -15,6 +20,7 @@
           this.$route.name == 'login' ||
           role == 'admin' ||
           role == 'worker' ||
+          role == 'logistika' ||
           role == 'warehouseman'
             ? { 'margin-left': '0' }
             : { 'margin-left': '35px' },
@@ -23,7 +29,9 @@
         <div
           class="btn-group btn-group-sm btn-admin"
           v-if="
-            (role == 'admin' || role == 'warehouseman') &&
+            (role == 'admin' ||
+              role == 'warehouseman' ||
+              role == 'logistika') &&
             this.$route.name !== 'login' &&
             this.$route.name !== 'main'
           "

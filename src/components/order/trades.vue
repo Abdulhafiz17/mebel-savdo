@@ -4,11 +4,11 @@
       <thead>
         <tr>
           <th>Mahsulot</th>
-          <th>Narx</th>
-          <th>Chegirma</th>
+          <th v-if="price">Narx</th>
+          <th v-if="price">Chegirma</th>
           <th>Miqdor</th>
-          <th>Qaytarilgan</th>
-          <th>Summa</th>
+          <th v-if="price">Qaytarilgan</th>
+          <th v-if="price">Summa</th>
         </tr>
       </thead>
       <tbody>
@@ -16,19 +16,19 @@
           <td>
             {{ i.Categories.name + " - " + i.Products.articul }}
           </td>
-          <td>
+          <td v-if="price">
             {{ Intl.NumberFormat().format(i.Trades.price) + " so'm" }}
           </td>
-          <td>
+          <td v-if="price">
             {{ Intl.NumberFormat().format(i.Trades.discount) + " so'm" }}
           </td>
           <td>
             {{ i.sum_quantity + " dona" }}
           </td>
-          <td>
+          <td v-if="price">
             {{ findProduct(i) + " dona" }}
           </td>
-          <td>
+          <td v-if="price">
             {{
               Intl.NumberFormat().format(
                 (i.Trades.price - i.Trades.discount) * i.sum_quantity
@@ -75,6 +75,13 @@ export default {
         data: [],
       },
     };
+  },
+  computed: {
+    price() {
+      if (["branch_admin", "seller"].includes(this.$util.storage("role")))
+        return true;
+      else return false;
+    },
   },
   methods: {
     start(order_id) {

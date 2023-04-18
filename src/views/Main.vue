@@ -63,6 +63,11 @@ export default {
           title: "Kassalar",
         },
         {
+          link: `/admin-hodimlar`,
+          icon: "fa fa-user-group",
+          title: "Hodimlar",
+        },
+        {
           link: `/settings`,
           icon: "fa fa-tools",
           title: "Sozlamalar",
@@ -75,17 +80,28 @@ export default {
           title: "Ombor",
         },
         {
+          link: `/ombor-buyurtmalar/${localStorage["branch_id"]}`,
+          icon: "fa fa-receipt",
+          title: "Buyurtmalar",
+        },
+        {
           link: `/ombor-taminotlar/${localStorage["branch_id"]}`,
           icon: "fa fa-truck-loading",
           title: "Taminotlar",
+        },
+      ],
+      logistika: [
+        {
+          link: `/davomad`,
+          icon: "fa fa-clipboard-check",
+          title: "Davomad",
         },
       ],
     };
   },
   computed: {
     links() {
-      if (this.role == "admin") return this.admin;
-      else return this.warehouseman;
+      return this[this.role];
     },
   },
 };

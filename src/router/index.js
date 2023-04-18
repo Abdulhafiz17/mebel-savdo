@@ -46,6 +46,12 @@ let routes = [
     component: () => import("../views/Omborlar/omborTaminotlar.vue"),
   },
   {
+    path: "/ombor-buyurtmalar/:id",
+    name: "ombor-buyurtmalar",
+    meta: { requiresAuth: true, title: "Ombor Buyurtmalar" },
+    component: () => import("../views/Omborlar/omborBuyurtmalar.vue"),
+  },
+  {
     path: "/omborlar",
     name: "omborlar",
     meta: { requiresAuth: true, title: "Omborlar", role: "admin" },
@@ -80,6 +86,12 @@ let routes = [
     name: "hodimlar",
     meta: { requiresAuth: true, title: "Hodimlar" },
     component: () => import("../views/Hodimlar/Hodimlar.vue"),
+  },
+  {
+    path: "/admin-hodimlar",
+    name: "admin-hodimlar",
+    meta: { requiresAuth: true, title: "Hodimlar" },
+    component: () => import("../views/Admin/Hodimlar.vue"),
   },
   {
     path: "/ombor-hodimlar/:id",
