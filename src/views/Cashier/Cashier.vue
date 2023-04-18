@@ -55,16 +55,19 @@
       id="pills-profile"
       role="tabpanel"
       aria-labelledby="pills-profile-tab"
-    ></div>
+    >
+      <expense v-if="template == 'expense'" />
+    </div>
   </div>
 </template>
 
 <script>
 import * as api from "@/components/Api/Api.js";
 import income from "./income.vue";
+import expense from "./expense.vue";
 export default {
   name: "Cashier",
-  components: { income },
+  components: { income, expense },
   data() {
     return {
       template: "income",

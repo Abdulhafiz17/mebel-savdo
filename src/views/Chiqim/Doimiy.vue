@@ -58,7 +58,8 @@
           <th>Chiqim</th>
           <th>Summa</th>
           <th>Izoh</th>
-          <th>Kim tomonidan</th>
+          <th>Hodim</th>
+          <th>Kassa</th>
           <th>Sana</th>
         </tr>
       </thead>
@@ -66,12 +67,13 @@
         <tr v-for="item in history" :key="item">
           <td>{{ item.name }}</td>
           <td>
-            {{ Intl.NumberFormat().format(item.price) }}
-            {{ item.currency.currency }}
+            {{ Intl.NumberFormat().format(item.Expenses.price) }}
+            {{ item.Expenses.currency.currency }}
           </td>
-          <td>{{ item.comment }}</td>
-          <td>{{ item.user.name }}</td>
-          <td>{{ item.time.replace("T", " ") }}</td>
+          <td>{{ item.Expenses.comment }}</td>
+          <td>{{ item.Expenses.user.name }}</td>
+          <td>{{ item.kassa }}</td>
+          <td>{{ item.Expenses.time.replace("T", " ") }}</td>
         </tr>
       </tbody>
       <tfoot>
@@ -141,6 +143,7 @@ export default {
           this.to_time
         )
         .then((Response) => {
+          console.log(Response.data);
           this.page = Response.data.current_page;
           this.pages = Response.data.pages;
           this.history = Response.data.data;
@@ -157,6 +160,7 @@ export default {
           this.to_time
         )
         .then((Response) => {
+          console.log(Response.data);
           this.page = Response.data.current_page;
           this.pages = Response.data.pages;
           this.history = this.history.concat(Response.data.data);
