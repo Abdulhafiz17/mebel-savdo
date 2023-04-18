@@ -2,7 +2,11 @@
   <h3>
     <span class="fa fa-user-group" />
     {{
-      role == "admin" ? (branch ? branch.name + " hodimlari" : "") : "Hodimlar"
+      role == "admin"
+        ? warehouse
+          ? warehouse.name + " hodimlari"
+          : ""
+        : "Hodimlar"
     }}
   </h3>
   <div class="row">
@@ -53,14 +57,6 @@
                   <span class="fa fa-phone" />
                   <span>+998 {{ format(hodim.phone) }}</span>
                 </a>
-                <li class="list-group-item">
-                  <span class="fa fa-user-tag" />
-                  <span v-if="hodim.role == 'admin'">Admin</span>
-                  <span v-if="hodim.role == 'branch_admin'">Filial admin</span>
-                  <span v-if="hodim.role == 'cashier'">Kassir</span>
-                  <span v-if="hodim.role == 'seller'">Sotuvchi</span>
-                  <span v-if="hodim.role == 'worker'">Transport</span>
-                </li>
                 <li class="list-group-item">
                   <span class="fa fa-coins" />
                   <span
@@ -173,21 +169,6 @@
                   <div class="input-group-text">so'm</div>
                 </div>
               </div>
-              <div class="col-md-12">
-                Vazifasi
-                <select
-                  class="form-control form-control-sm"
-                  required
-                  v-model="yangiHodim.role"
-                >
-                  <option hidden value="">role</option>
-                  <option v-if="role == 'admin'" value="branch_admin">
-                    Filial admin
-                  </option>
-                  <option value="seller">Sotuvchi</option>
-                  <option value="worker">Transport</option>
-                </select>
-              </div>
               <div class="col-md-6">
                 Foydalanuvchi nomi
                 <input
@@ -259,6 +240,8 @@
                   />
                 </div>
               </div>
+            </div>
+            <div class="row gap-1">
               <div class="col-md-12">
                 Kunlik ish haqqi
                 <div class="input-group input-group-sm">
@@ -273,8 +256,6 @@
                   <div class="input-group-text">so'm</div>
                 </div>
               </div>
-            </div>
-            <div class="row">
               <div class="col-md-12">
                 Status
                 <select
@@ -398,14 +379,14 @@ export default {
         name: "",
         username: "",
         password: "",
-        role: "",
-        branch_id: "",
+        role: "warehouseman",
+        branch_id: this.$route.params.id,
         phone: null,
         daily_money: null,
         status: true,
       },
       editHodim: {},
-      branch: null,
+      warehouse: null,
       currency: null,
       paying: {
         money: null,
@@ -420,7 +401,6 @@ export default {
     this.get(this.$route.params.id, 0, 100);
     this.getCashiers();
   },
-  mounted() {},
   computed: {
     filterUser: function () {
       return this.hodimlar.filter((hodim) => {
@@ -450,38 +430,25 @@ export default {
       });
     },
     get(id, page, limit) {
-      api.users(id, 0, page, limit).then((Response) => {
+      api.users(id, id, page, limit).then((Response) => {
         this.hodimlar = Response.data.data;
-        this.getBranch();
+        this.getWarehouse();
       });
     },
-    getBranch() {
-      api.branch(this.$route.params.id).then((Response) => {
-        this.branch = Response.data.branch;
-        this.getCurrency();
-      });
-    },
-    getCurrency() {
-      api.currencies().then((Response) => {
-        this.currency = Response.data.find((item) => {
-          return item.id == this.branch.trade_currency;
-        });
+    getWarehouse() {
+      api.warehouse(this.$route.params.id).then((Response) => {
+        this.warehouse = Response.data;
       });
     },
     post(data) {
-      // if (this.role == "admin") {
-      data.branch_id = this.$route.params.id;
-      // } else {
-      //   data.branch_id = this.branch_id;
-      // }
       api.createUser(data).then((Response) => {
         this.yangiHodim = {
           id: 0,
           name: "",
           username: "",
           password: "",
-          role: "",
-          branch_id: "",
+          role: "warehouseman",
+          branch_id: this.$route.params.id,
           phone: null,
           status: true,
         };

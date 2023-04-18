@@ -56,6 +56,22 @@
                 </router-link>
               </div>
               <div class="col my-1">
+                <router-link
+                  :to="`/ombor-hodimlar/${item.id}`"
+                  class="btn btn-sm btn-block btn-outline-primary"
+                >
+                  <i class="fa fa-user-group" />
+                </router-link>
+              </div>
+              <div class="col my-1">
+                <router-link
+                  :to="`/ombor/${item.id}`"
+                  class="btn btn-sm btn-block btn-outline-info"
+                >
+                  <i class="fa fa-truck-loading" />
+                </router-link>
+              </div>
+              <div class="col my-1">
                 <button
                   class="btn btn-sm btn-block btn-outline-warning"
                   data-toggle="modal"

@@ -76,6 +76,12 @@ let routes = [
     component: () => import("../views/Hodimlar/Hodimlar.vue"),
   },
   {
+    path: "/ombor-hodimlar/:id",
+    name: "ombor-hodimlar",
+    meta: { requiresAuth: true, title: "Hodimlar" },
+    component: () => import("../views/Omborlar/Hodimlar.vue"),
+  },
+  {
     path: "/hodim/:id",
     name: "hodim",
     meta: { requiresAuth: true, title: "Hodim haqida" },
