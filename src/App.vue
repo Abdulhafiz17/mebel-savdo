@@ -1,7 +1,9 @@
 <template>
   <div class="app dark">
     <span v-if="this.$route.name !== 'login'">
-      <Sidebar v-if="role !== 'admin' && role !== 'worker'" />
+      <Sidebar
+        v-if="role !== 'admin' && role !== 'worker' && role !== 'warehouseman'"
+      />
     </span>
     <div class="container-fluid pt-2" style="height: 100vh">
       <div
@@ -10,7 +12,10 @@
           this.$route.name !== 'login' ? 'card shadow p-2 responsive' : ''
         "
         :style="[
-          this.$route.name == 'login' || role == 'admin' || role == 'worker'
+          this.$route.name == 'login' ||
+          role == 'admin' ||
+          role == 'worker' ||
+          role == 'warehouseman'
             ? { 'margin-left': '0' }
             : { 'margin-left': '35px' },
         ]"
@@ -18,7 +23,7 @@
         <div
           class="btn-group btn-group-sm btn-admin"
           v-if="
-            role == 'admin' &&
+            (role == 'admin' || role == 'warehouseman') &&
             this.$route.name !== 'login' &&
             this.$route.name !== 'main'
           "

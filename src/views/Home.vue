@@ -11,12 +11,12 @@ export default {
     };
   },
   created() {
-    if (this.role == "admin") {
-      this.$router.push("/main");
+    if (this.role == "admin" || this.role == "warehouseman") {
+      this.$router.replace("/main");
     } else if (this.role == "branch_admin") {
       this.forBranch();
     } else if (this.role == "worker") {
-      this.$router.push("/transport");
+      this.$router.replace("/transport");
     }
   },
   methods: {
@@ -35,7 +35,7 @@ export default {
           Response.data.logo
             ? localStorage.setItem("main_logo", Response.data.logo.logo)
             : false;
-          this.$router.push(`/kassa`);
+          this.$router.replace(`/kassa`);
         },
         () => {
           this.forBranch();

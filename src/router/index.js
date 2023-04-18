@@ -30,14 +30,20 @@ let routes = [
   {
     path: "/main",
     name: "main",
-    meta: { requiresAuth: true, title: "Asosiy", role: "admin" },
+    meta: { requiresAuth: true, title: "Asosiy" },
     component: () => import("../views/Main.vue"),
   },
   {
     path: "/ombor/:id",
     name: "ombor",
-    meta: { requiresAuth: true, title: "Ombor", role: "admin" },
+    meta: { requiresAuth: true, title: "Ombor" },
     component: () => import("../views/Omborlar/Ombor.vue"),
+  },
+  {
+    path: "/ombor-taminotlar/:id",
+    name: "ombor-taminotlar",
+    meta: { requiresAuth: true, title: "Ombor ta'minotlari" },
+    component: () => import("../views/Omborlar/omborTaminotlar.vue"),
   },
   {
     path: "/omborlar",

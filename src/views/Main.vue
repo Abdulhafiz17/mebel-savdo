@@ -25,7 +25,8 @@ export default {
   name: "Home",
   data() {
     return {
-      links: [
+      role: localStorage["role"],
+      admin: [
         // {
         //   link: `/statistics`,
         //   icon: "fa fa-chart-line",
@@ -67,7 +68,25 @@ export default {
           title: "Sozlamalar",
         },
       ],
+      warehouseman: [
+        {
+          link: `/ombor/${localStorage["branch_id"]}`,
+          icon: "fa fa-warehouse",
+          title: "Ombor",
+        },
+        {
+          link: `/ombor-taminotlar/${localStorage["branch_id"]}`,
+          icon: "fa fa-truck-loading",
+          title: "Taminotlar",
+        },
+      ],
     };
+  },
+  computed: {
+    links() {
+      if (this.role == "admin") return this.admin;
+      else return this.warehouseman;
+    },
   },
 };
 </script>

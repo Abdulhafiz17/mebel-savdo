@@ -3,7 +3,7 @@
   <div class="row" v-if="supplyType">
     <div class="col-md-4"></div>
     <div class="col-md-4 my-1">
-      <div class="btn-group">
+      <div class="btn-group" v-if="supplyType">
         <button
           class="btn btn-sm btn-outline-secondary"
           data-toggle="modal"
@@ -21,7 +21,17 @@
         </button>
       </div>
     </div>
-    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <button
+        v-if="role == 'warehouseman'"
+        class="btn btn-sm btn-outline-success"
+        data-toggle="modal"
+        data-target="#confirm"
+        @click="confirmParty()"
+      >
+        <i class="far fa-circle-check" /> Tasdiqlash
+      </button>
+    </div>
   </div>
   <!-- <div class="row">
     <div class="col-md-6">
@@ -406,7 +416,7 @@
                 <span v-if="index !== totalExpense.length - 1">, </span>
               </span>
               <label>
-                <form @submit.prevent="confirmParty()" id="form-confirmation">
+                <form @submit.prevent="updateParty()" id="form-confirmation">
                   Chiqimlarni yaxlitlash uchun valyuta turini tanlang
                   <div class="input-group input-group-sm mt-1">
                     <select
@@ -527,6 +537,7 @@ export default {
   name: "Ta'minot",
   data() {
     return {
+      role: localStorage["role"],
       supplyType: false,
       markets: [],
       categories: [],
@@ -706,7 +717,7 @@ export default {
         }
       });
     },
-    confirmParty() {
+    updateParty() {
       api
         .updateParty(
           this.$route.params.id,
@@ -719,6 +730,16 @@ export default {
           document.querySelectorAll("[data-dismiss]")[1].click();
           api.success().then(() => {
             this.$router.push("/taminotlar");
+          });
+        });
+    },
+    confirmParty() {
+      api
+        .confirmationParty(this.$route.params.id, this.to_branch)
+        .then((Response) => {
+          document.querySelectorAll("[data-dismiss]")[1].click();
+          api.success().then(() => {
+            this.$router.push(`/ombor-taminotlar/${this.$route.params.id}`);
           });
         });
     },
@@ -742,7 +763,7 @@ li span {
 .responsive {
   overflow-x: hidden;
   overflow-y: auto;
-  max-height: 70vh;
+  max-height: 65vh;
 }
 
 .tab {
