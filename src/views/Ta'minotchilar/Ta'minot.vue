@@ -96,7 +96,7 @@
         <div class="col-md-12">
           <form @submit.prevent="post(supply)">
             <div class="row m-1">
-              <div class="col-md-2 my-1">
+              <div class="col-md-4 my-1">
                 <select
                   class="form-select form-select-sm"
                   required
@@ -109,7 +109,7 @@
                   </option>
                 </select>
               </div>
-              <div class="col-md-2 my-1">
+              <div class="col-md-4 my-1">
                 <select
                   class="form-select form-select-sm"
                   required
@@ -126,7 +126,7 @@
                   </option>
                 </select>
               </div>
-              <div class="col-md-2 my-1">
+              <div class="col-md-4 my-1">
                 <input
                   class="form-control form-control-sm"
                   type="text"
@@ -135,7 +135,16 @@
                   v-model="supply.articul"
                 />
               </div>
-              <div class="col-md-2 my-1">
+              <div class="col-md-4 my-1">
+                <input
+                  class="form-control form-control-sm"
+                  type="text"
+                  placeholder="kodi"
+                  required
+                  v-model="supply.name"
+                />
+              </div>
+              <div class="col-md-3 my-1">
                 <div class="input-group input-group-sm">
                   <input
                     class="form-control"
@@ -148,7 +157,7 @@
                   <div class="input-group-text">dona</div>
                 </div>
               </div>
-              <div class="col-md-3 my-1">
+              <div class="col-md-4 my-1">
                 <div class="input-group input-group-sm">
                   <input
                     class="form-control form-control-sm"
@@ -531,6 +540,7 @@ export default {
       supply: {
         category_id: "",
         articul: null,
+        name: null,
         quantity: null,
         price: null,
         currency_id: "",
@@ -645,6 +655,7 @@ export default {
         api.success().then(() => {
           this.supply.category_id = "";
           this.supply.articul = null;
+          this.supply.name = null;
           this.supply.quantity = null;
           this.supply.price = null;
           this.supply.currency_id = this.currencies[0].id;
@@ -697,7 +708,7 @@ export default {
     },
     confirmParty() {
       api
-        .confirmationParty(
+        .updateParty(
           this.$route.params.id,
           this.to_id,
           this.currency_id,

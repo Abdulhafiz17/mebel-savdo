@@ -499,7 +499,7 @@ export function parties(
 export function createParty() {
   return api("create_party", "post");
 }
-export function confirmationParty(
+export function updateParty(
   party_id,
   warehouse_id,
   currency_id,
@@ -507,9 +507,12 @@ export function confirmationParty(
   to_price
 ) {
   return api(
-    `confirmation_party/${party_id}/${warehouse_id}/${currency_id}?to_branch=${to_branch}&to_price=${to_price}`,
+    `update_party/${party_id}/${warehouse_id}/${currency_id}?to_branch=${to_branch}&to_price=${to_price}`,
     "post"
   );
+}
+export function confirmationParty(party_id, to_branch) {
+  return api(`confirmation_party/${party_id}?to_branch=${to_branch}`, "post");
 }
 export function partyBalances(id) {
   return api(`get_party_balances/${id}`, "get");
