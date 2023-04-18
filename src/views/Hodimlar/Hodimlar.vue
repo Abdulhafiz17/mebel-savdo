@@ -61,7 +61,7 @@
                   <span v-if="hodim.role == 'seller'">Sotuvchi</span>
                   <span v-if="hodim.role == 'worker'">Transport</span>
                 </li>
-                <!-- <li class="list-group-item">
+                <li class="list-group-item">
                   <span class="fa fa-coins" />
                   <span
                     :class="
@@ -78,7 +78,7 @@
                       (currency ? currency.currency : "")
                     }}
                   </span>
-                </li> -->
+                </li>
               </ul>
             </details>
             <div class="row my-1 gap-1">
@@ -307,6 +307,15 @@
         </div>
         <form @submit.prevent="payToUser(paying)">
           <div class="modal-body">
+            <select
+              class="form-select form-select-sm"
+              required
+              v-model="paying.kassa_id"
+            >
+              <option v-for="item in cashiers" :key="item" :value="item.id">
+                {{ item.name }}
+              </option>
+            </select>
             <div class="input-group input-group-sm my-1">
               <input
                 type="number"
@@ -355,6 +364,7 @@ export default {
       branch_id: localStorage.getItem("branch_id"),
       search: "",
       hodimlar: [],
+      cashiers: [],
       yangiHodim: {
         id: 0,
         name: "",
@@ -374,11 +384,13 @@ export default {
         currency_id: 0,
         from_: null,
         comment: "",
+        kassa_id: 0,
       },
     };
   },
   created() {
     this.get(this.$route.params.id, 0, 100);
+    this.getCashiers();
   },
   mounted() {},
   computed: {
@@ -403,6 +415,11 @@ export default {
           " " +
           String(number).substr(7, 2)
       );
+    },
+    getCashiers() {
+      api.kassa("", 0, this.branch_id).then((res) => {
+        this.cashiers = res.data;
+      });
     },
     get(id, page, limit) {
       api.users(id, page, limit).then((Response) => {
@@ -461,6 +478,7 @@ export default {
           currency_id: 0,
           from_: null,
           comment: "",
+          kassa_id: 0,
         };
         api.success(2).then(() => {
           this.get(this.$route.params.id, 0, 100);

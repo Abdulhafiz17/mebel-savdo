@@ -183,6 +183,17 @@
                 </select>
               </div>
               <div class="col-md-10 mx-auto" v-if="payToFixedExpense.source">
+                <select
+                  class="form-select form-select-sm"
+                  required
+                  v-model="payToFixedExpense.kassa_id"
+                >
+                  <option v-for="item in cashiers" :key="item" :value="item.id">
+                    {{ item.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-10 mx-auto" v-if="payToFixedExpense.source">
                 <div class="input-group input-group-sm">
                   <input
                     class="form-control"
@@ -246,6 +257,17 @@
         <form @submit.prevent="payToVariable(payToVariableExpense)">
           <div class="modal-body">
             <div class="row gap-1">
+              <div class="col-md-10 mx-auto">
+                <select
+                  class="form-select form-select-sm"
+                  required
+                  v-model="payToVariableExpense.kassa_id"
+                >
+                  <option v-for="item in cashiers" :key="item" :value="item.id">
+                    {{ item.name }}
+                  </option>
+                </select>
+              </div>
               <div class="col-md-10 mx-auto">
                 <div class="input-group input-group-sm">
                   <input
@@ -311,6 +333,7 @@ export default {
   data() {
     return {
       role: localStorage["role"],
+      cashiers: [],
       page: 0,
       pages: 1,
       limit: 100,
@@ -326,22 +349,28 @@ export default {
         currency_id: "",
         source: "",
         comment: "",
-        admin_currency: "",
+        kassa_id: 0,
       },
       payToVariableExpense: {
         price: null,
         currency_id: "",
         source: 0,
         comment: "",
-        admin_currency: "",
+        kassa_id: 0,
       },
     };
   },
   created() {
     this.expense = "fixed";
     this.getCurrency();
+    this.getCashiers();
   },
   methods: {
+    getCashiers() {
+      api.kassa("", 0, localStorage["branch_id"]).then((res) => {
+        this.cashiers = res.data;
+      });
+    },
     getData() {
       api.fixedExpenses().then((Response) => {
         this.chiqimlar = Response.data;

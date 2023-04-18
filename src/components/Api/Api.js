@@ -175,8 +175,11 @@ export function loans(status, id, page, limit) {
     "get"
   );
 }
-export function takeLoan(id, price, type) {
-  return api(`take_loan/${id}?money=${price}&type=${type}`, "post");
+export function takeLoan(id, price, type, kassa_id) {
+  return api(
+    `take_loan/${id}?money=${price}&type=${type}&kassa_id=${kassa_id}`,
+    "post"
+  );
 }
 
 // income
@@ -246,6 +249,19 @@ export function warehouseProducts(id, category_id, page, limit, status) {
 }
 export function removeWarehouseProduct(product_id, quantity) {
   return api(`remove_w_product/${product_id}/${quantity}`, "delete");
+}
+export function allProducts(
+  search = "",
+  page_w = 0,
+  limit_w = 25,
+  page_p = 0,
+  limit_p = 25
+) {
+  const search_query = search ? `search=${search}&` : ``;
+  return api(
+    `get_all_products?${search_query}page_w=${page_w}&limit_w=${limit_w}&page_p=${page_p}&limit_p=${limit_p}`,
+    "get"
+  );
 }
 
 // transfer
@@ -687,7 +703,9 @@ export function kassa(search = "", id = 0, branch_id = 0) {
   return api(`get_kassa?${search_query}id=${id}&branch_id=${branch_id}`, "get");
 }
 export function kassaHistory(from_id, to_id, type, page, limit) {
-  return api(`get_kassa_history?from_kassa_id=${from_id}&to_id=${to_id}&type=${type}&page=${page}&limit=${limit}`);
+  return api(
+    `get_kassa_history?from_kassa_id=${from_id}&to_id=${to_id}&type=${type}&page=${page}&limit=${limit}`
+  );
 }
 export function createKassa(data) {
   return api(`create_kassa_r`, "post", data);

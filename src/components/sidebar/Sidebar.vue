@@ -130,14 +130,14 @@ export default {
           <p>Chiqim</p>
         </router-link>
 
-        <router-link
+        <!-- <router-link
           class="SidebarLink"
           :to="`/admin/${branch_id}`"
           v-if="role === 'branch_admin'"
         >
           <i class="icon"><span class="fa fa-user" /></i>
           <p>Admin</p>
-        </router-link>
+        </router-link> -->
 
         <router-link
           class="SidebarLink"

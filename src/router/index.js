@@ -154,6 +154,12 @@ let routes = [
     component: () => import("../views/Revision/Revision.vue"),
   },
   {
+    path: "/products",
+    name: "products",
+    meta: { requiresAuth: true, title: "Mahsulotlar" },
+    component: () => import("../views/Mahsulotlar/Mahsulotlar.vue"),
+  },
+  {
     path: "/categoryProducts/:id",
     name: "categoryProducts",
     meta: {

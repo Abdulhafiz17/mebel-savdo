@@ -255,6 +255,17 @@
                   </div>
                 </div>
               </div>
+              <div class="col-12">
+                <select
+                  class="form-select form-select-sm"
+                  required
+                  v-model="cashier_id"
+                >
+                  <option v-for="item in cashiers" :key="item" :value="item.id">
+                    {{ item.name }}
+                  </option>
+                </select>
+              </div>
             </div>
           </div>
           <div class="modal-footer">
@@ -280,6 +291,7 @@ export default {
   data() {
     return {
       _: Intl.NumberFormat(),
+      cashiers: [],
       page: 0,
       pages: 1,
       limit: 25,
@@ -288,15 +300,22 @@ export default {
       loan: null,
       loan_price: null,
       loan_price_type: "naxt",
+      cashier_id: 0,
       mijozlar: [],
       customer_id: 0,
       sum_loan: null,
     };
   },
   created() {
+    this.getCashiers();
     this.getFalse(this.page, this.limit);
   },
   methods: {
+    getCashiers() {
+      api.kassa("", 0, localStorage["branch_id"]).then((res) => {
+        this.cashiers = res.data;
+      });
+    },
     getFalse(page, limit) {
       api.loans(false, this.customer_id, page, limit).then((Response) => {
         this.page = Response.data.current_page;
@@ -334,10 +353,16 @@ export default {
     },
     post(loan) {
       api
-        .takeLoan(loan.Loans.id, this.loan_price, this.loan_price_type)
+        .takeLoan(
+          loan.Loans.id,
+          this.loan_price,
+          this.loan_price_type,
+          this.cashier_id
+        )
         .then((Response) => {
           document.querySelectorAll("[data-dismiss]")[0].click();
           this.loan_price = null;
+          this.cashier_id = 0;
           api.success().then(() => {
             this.getFalse(0, 25);
           });

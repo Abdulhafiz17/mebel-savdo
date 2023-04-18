@@ -38,8 +38,13 @@ export default {
         },
         {
           link: `/omborlar`,
-          icon: "fas fa-warehouse",
+          icon: "fa fa-warehouse",
           title: "Omborlar",
+        },
+        {
+          link: `/products`,
+          icon: "fa fa-box",
+          title: "Mahsulotlar",
         },
         {
           link: `/taminotlar`,

@@ -470,6 +470,18 @@
                 />
               </div>
               <div class="col-md-12 my-1">
+                Kassa
+                <select
+                  class="form-select form-select-sm"
+                  required
+                  v-model="order_confirm.kassa_id"
+                >
+                  <option v-for="item in cashiers" :key="item" :value="item.id">
+                    {{ item.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-12 my-1">
                 Hodim
                 <select
                   class="form-select form-select-sm"
@@ -550,6 +562,7 @@ export default {
   components: { Bar, check },
   data() {
     return {
+      cashiers: [],
       page: 0,
       pages: 1,
       limit: 50,
@@ -601,6 +614,7 @@ export default {
         comment: "",
         worker_id: 0,
         delivery_money: null,
+        kassa_id: 0,
       },
       loan_price: null,
       users: [],
@@ -611,6 +625,7 @@ export default {
   },
   created() {
     this.get(0, 100);
+    this.getCashiers();
   },
   mounted() {
     if (this.order) {
@@ -704,6 +719,11 @@ export default {
             total_price: null,
           };
         }
+      });
+    },
+    getCashiers() {
+      api.kassa("", 0, localStorage["branch_id"]).then((res) => {
+        this.cashiers = res.data;
       });
     },
     getTrades(order) {

@@ -416,6 +416,20 @@
                 </div>
               </label>
             </div>
+            <div class="row my-1">
+              <label class="col-md-12 mb-1">
+                Kassa
+                <select
+                  class="form-select form-select-sm"
+                  required
+                  v-model="return_product.kassa_id"
+                >
+                  <option v-for="item in cashiers" :key="item" :value="item.id">
+                    {{ item.name }}
+                  </option>
+                </select>
+              </label>
+            </div>
           </div>
           <div class="modal-footer">
             <button class="btn btn-outline-primary">
@@ -440,6 +454,7 @@ export default {
   components: { Pagination },
   data() {
     return {
+      cashiers: [],
       page: 0,
       pages: 1,
       limit: 100,
@@ -456,6 +471,7 @@ export default {
         price: null,
         loan_price: 0,
         status: true,
+        kassa_id: 0,
       },
       returned_products: [],
     };
@@ -466,12 +482,18 @@ export default {
       this.order_id = order_id;
       this.getOrder(order_id);
     }
+    this.getCashiers();
   },
   mounted() {},
   beforeUnmount() {
     localStorage.removeItem("order_id_for_return");
   },
   methods: {
+    getCashiers() {
+      api.kassa("", 0, localStorage["branch_id"]).then((res) => {
+        this.cashiers = res.data;
+      });
+    },
     getOrder(id) {
       this.loan = null;
       this.income = [];
