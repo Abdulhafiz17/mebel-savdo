@@ -10,9 +10,17 @@
         <i class="fa fa-filter"></i>
       </button>
     </div>
-    <div class="col-md-4">{{ currency.format(user?.balance) + " so'm" }}</div>
     <div class="col-md-4">
-      <router-link class="btn btn-sm btn-block btn-outline-secondary" to="/">
+      <div v-if="role == 'worker'">
+        {{ currency.format(user?.balance) + " so'm" }}
+      </div>
+    </div>
+    <div class="col-md-4">
+      <router-link
+        v-if="role == 'worker'"
+        class="btn btn-sm btn-block btn-outline-secondary"
+        to="/"
+      >
         <i class="fa fa-sign-out"></i> Chiqish
       </router-link>
     </div>
@@ -166,6 +174,7 @@ export default {
   components: { Pagination, orderModal },
   data() {
     return {
+      role: localStorage["role"],
       currency: Intl.NumberFormat(),
       worker_id: localStorage["user_id"],
       user: null,
@@ -194,13 +203,14 @@ export default {
       });
     },
     getOrders(page = 0, limit = 25) {
+      const worker_id = this.role == "worker" ? this.worker_id : 0;
       api
         .orders(
           this.filter.from_time,
           this.filter.to_time,
           true,
           0,
-          this.worker_id,
+          worker_id,
           this.filter.status,
           page,
           limit

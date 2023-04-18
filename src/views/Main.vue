@@ -101,6 +101,11 @@ export default {
           icon: "fa fa-user-group",
           title: "Hodimlar",
         },
+        {
+          link: `/transport`,
+          icon: "fa fa-truck",
+          title: "Transport",
+        },
       ],
     };
   },

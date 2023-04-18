@@ -90,19 +90,6 @@
                   <span class="fa fa-info" />
                 </router-link>
               </div>
-              <div class="col" v-if="hodim.role == 'worker'">
-                <button
-                  class="btn btn-sm btn-block btn-outline-primary"
-                  data-toggle="modal"
-                  data-target="#pay"
-                  @click="
-                    this.editHodim = hodim;
-                    this.editHodim.password = '';
-                  "
-                >
-                  <span class="fa fa-coins" />
-                </button>
-              </div>
               <div class="col">
                 <button
                   class="btn btn-sm btn-block btn-outline-warning"
@@ -379,7 +366,6 @@ export default {
     get() {
       api.users(0, 0, ["worker", "ustanovshik"], 0, 100).then((Response) => {
         this.hodimlar = Response.data.data;
-        this.getBranch();
       });
     },
     post(data) {
