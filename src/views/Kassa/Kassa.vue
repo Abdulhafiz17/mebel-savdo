@@ -920,7 +920,7 @@ export default {
     },
     getUsers() {
       api
-        .users(localStorage.getItem("branch_id"), 0, 0, 50)
+        .users(localStorage.getItem("branch_id"), 0, ["seller"], 0, 50)
         .then((Response) => {
           this.users = Response.data.data;
         });

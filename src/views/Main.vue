@@ -92,9 +92,14 @@ export default {
       ],
       logistika: [
         {
-          link: `/davomad`,
+          link: `/davomat`,
           icon: "fa fa-clipboard-check",
-          title: "Davomad",
+          title: "davomat",
+        },
+        {
+          link: `/logistika-hodimlar`,
+          icon: "fa fa-user-group",
+          title: "Hodimlar",
         },
       ],
     };

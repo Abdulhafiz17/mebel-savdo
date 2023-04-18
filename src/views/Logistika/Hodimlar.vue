@@ -2,11 +2,7 @@
   <h3>
     <span class="fa fa-user-group" />
     {{
-      role == "admin"
-        ? warehouse
-          ? warehouse.name + " hodimlari"
-          : ""
-        : "Hodimlar"
+      role == "admin" ? (branch ? branch.name + " hodimlari" : "") : "Hodimlar"
     }}
   </h3>
   <div class="row">
@@ -57,6 +53,14 @@
                   <span class="fa fa-phone" />
                   <span>+998 {{ format(hodim.phone) }}</span>
                 </a>
+                <li class="list-group-item">
+                  <span class="fa fa-user-tag" />
+                  <span v-if="hodim.role == 'admin'">Admin</span>
+                  <span v-if="hodim.role == 'branch_admin'">Filial admin</span>
+                  <span v-if="hodim.role == 'cashier'">Kassir</span>
+                  <span v-if="hodim.role == 'seller'">Sotuvchi</span>
+                  <span v-if="hodim.role == 'worker'">Transport</span>
+                </li>
                 <li class="list-group-item">
                   <span class="fa fa-coins" />
                   <span
@@ -169,6 +173,17 @@
                   <div class="input-group-text">so'm</div>
                 </div>
               </div>
+              <div class="col-md-12">
+                Vazifasi
+                <select
+                  class="form-control form-control-sm"
+                  required
+                  v-model="yangiHodim.role"
+                >
+                  <option value="worker">Transport</option>
+                  <option value="ustanovshik">Ustanovshik</option>
+                </select>
+              </div>
               <div class="col-md-6">
                 Foydalanuvchi nomi
                 <input
@@ -240,8 +255,6 @@
                   />
                 </div>
               </div>
-            </div>
-            <div class="row gap-1">
               <div class="col-md-12">
                 Kunlik ish haqqi
                 <div class="input-group input-group-sm">
@@ -256,6 +269,8 @@
                   <div class="input-group-text">so'm</div>
                 </div>
               </div>
+            </div>
+            <div class="row">
               <div class="col-md-12">
                 Status
                 <select
@@ -295,63 +310,8 @@
             <button class="btn btn-outline-primary">
               <span class="far fa-circle-check" />
             </button>
-            <button
-              class="btn btn-outline-danger"
-              data-dismiss="modal"
-              @click="get(this.$route.params.id, 0, 50)"
-            >
-              <span class="far fa-circle-xmark" />
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal fade" id="pay">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4>{{ editHodim.name }} dan pul olish</h4>
-        </div>
-        <form @submit.prevent="payToUser(paying)">
-          <div class="modal-body">
-            <select
-              class="form-select form-select-sm"
-              required
-              v-model="paying.kassa_id"
-            >
-              <option v-for="item in cashiers" :key="item" :value="item.id">
-                {{ item.name }}
-              </option>
-            </select>
-            <div class="input-group input-group-sm my-1">
-              <input
-                type="number"
-                step="any"
-                min="0"
-                class="form-control"
-                placeholder="summa"
-                required
-                v-model="paying.money"
-              />
-              <div class="input-group-append">
-                <div class="input-group-text">so'm</div>
-              </div>
-            </div>
-            <textarea
-              type="textarea"
-              class="form-control form-control-sm"
-              placeholder="izoh"
-              v-model="paying.comment"
-            ></textarea>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-outline-primary">
-              <i class="far fa-circle-check" />
-            </button>
             <button class="btn btn-outline-danger" data-dismiss="modal">
-              <i class="far fa-circle-xmark" />
+              <span class="far fa-circle-xmark" />
             </button>
           </div>
         </form>
@@ -379,27 +339,19 @@ export default {
         name: "",
         username: "",
         password: "",
-        role: "warehouseman",
-        branch_id: this.$route.params.id,
+        role: "",
+        branch_id: 0,
         phone: null,
         daily_money: null,
         status: true,
       },
       editHodim: {},
-      warehouse: null,
+      branch: null,
       currency: null,
-      paying: {
-        money: null,
-        currency_id: 0,
-        from_: null,
-        comment: "",
-        kassa_id: 0,
-      },
     };
   },
   created() {
-    this.get(this.$route.params.id, 0, 100);
-    this.getCashiers();
+    this.get();
   },
   computed: {
     filterUser: function () {
@@ -424,20 +376,10 @@ export default {
           String(number).substr(7, 2)
       );
     },
-    getCashiers() {
-      api.kassa("", 0, this.branch_id).then((res) => {
-        this.cashiers = res.data;
-      });
-    },
-    get(id, page, limit) {
-      api.users(id, id, ["warehouseman"], page, limit).then((Response) => {
+    get() {
+      api.users(0, 0, ["worker", "ustanovshik"], 0, 100).then((Response) => {
         this.hodimlar = Response.data.data;
-        this.getWarehouse();
-      });
-    },
-    getWarehouse() {
-      api.warehouse(this.$route.params.id).then((Response) => {
-        this.warehouse = Response.data;
+        this.getBranch();
       });
     },
     post(data) {
@@ -447,36 +389,20 @@ export default {
           name: "",
           username: "",
           password: "",
-          role: "warehouseman",
-          branch_id: this.$route.params.id,
+          role: "",
+          branch_id: 0,
           phone: null,
           status: true,
         };
         api.success(0).then(() => {
-          this.get(this.$route.params.id, 0, 25);
+          this.get();
         });
       });
     },
     put(data) {
       api.updateUser(data).then((Response) => {
         api.success(1).then(() => {
-          this.get(this.$route.params.id, 0, 25);
-        });
-      });
-    },
-    payToUser(data) {
-      data.from_ = this.editHodim.id;
-      data.comment = data.comment ? data.comment : " ";
-      api.takeIncomeFromUser(data).then((Response) => {
-        this.paying = {
-          money: null,
-          currency_id: 0,
-          from_: null,
-          comment: "",
-          kassa_id: 0,
-        };
-        api.success(2).then(() => {
-          this.get(this.$route.params.id, 0, 100);
+          this.get();
         });
       });
     },

@@ -171,9 +171,11 @@ export default {
         });
     },
     getUsers() {
-      api.users(0, this.filter.warehouse_id, 0, 100).then((res) => {
-        this.warehousemen = res.data.data;
-      });
+      api
+        .users(0, this.filter.warehouse_id, ["warehouseman"], 0, 100)
+        .then((res) => {
+          this.warehousemen = res.data.data;
+        });
     },
     getWarehouses(page, limit) {
       api.warehouses().then((res) => {

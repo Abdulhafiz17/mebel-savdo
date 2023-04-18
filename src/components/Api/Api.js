@@ -129,9 +129,28 @@ export function thisUser(id) {
 export function user() {
   return api("get_user", "get");
 }
-export function users(branch_id, warehouse_id, page, limit) {
+export function users(branch_id, warehouse_id, role = [""], page, limit) {
+  let role_query = ``;
+  if (role.length) {
+    role.forEach((item) => {
+      role_query += `role=${item}&`;
+    });
+  } else {
+    [
+      "admin",
+      "cashier",
+      "warehouseman",
+      "logistika",
+      "branch_admin",
+      "seller",
+      "worker",
+      "ustanovshik",
+    ].forEach((item) => {
+      role_query += `role=${item}&`;
+    });
+  }
   return api(
-    `get_users?branch_id=${branch_id}&warehouse_id=${warehouse_id}&page=${page}&limit=${limit}`,
+    `get_users?branch_id=${branch_id}&warehouse_id=${warehouse_id}&${role_query}page=${page}&limit=${limit}`,
     "get"
   );
 }
@@ -737,4 +756,21 @@ export function takeMoneyFromBranchKassa(data) {
 }
 export function takeMoneyFromAdminKassa(data) {
   return api(`take_money_from_admin_kassa`, "post", data);
+}
+
+// davomat
+
+export function davomat(user_id, from_time, to_time, page, limit) {
+  const time_query =
+    from_time && to_time ? `from_time=${from_time}&to_time=${to_time}&` : ``;
+  return api(
+    `get_davomat?user_id=${user_id}&${time_query}page=${page}&limit=${limit}`,
+    "get"
+  );
+}
+export function enter_user(data) {
+  return api(`enter_user`, "post", data);
+}
+export function close_user(data) {
+  return api(`close_user`, "put", data);
 }

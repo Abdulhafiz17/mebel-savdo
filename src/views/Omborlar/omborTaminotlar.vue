@@ -137,9 +137,11 @@ export default {
         });
     },
     getUsers() {
-      api.users(0, this.$route.params.id, 0, 100).then((res) => {
-        this.warehousemen = res.data.data;
-      });
+      api
+        .users(0, this.$route.params.id, ["warehouseman"], 0, 100)
+        .then((res) => {
+          this.warehousemen = res.data.data;
+        });
     },
     getWarehouse() {
       api.warehouse(this.$route.params.id).then((res) => {

@@ -94,6 +94,12 @@ let routes = [
     component: () => import("../views/Admin/Hodimlar.vue"),
   },
   {
+    path: "/logistika-hodimlar",
+    name: "logistika-hodimlar",
+    meta: { requiresAuth: true, title: "Hodimlar" },
+    component: () => import("../views/Logistika/Hodimlar.vue"),
+  },
+  {
     path: "/ombor-hodimlar/:id",
     name: "ombor-hodimlar",
     meta: { requiresAuth: true, title: "Hodimlar" },
@@ -104,6 +110,12 @@ let routes = [
     name: "hodim",
     meta: { requiresAuth: true, title: "Hodim haqida" },
     component: () => import("../views/Hodimlar/HodimHaqida.vue"),
+  },
+  {
+    path: "/davomat",
+    name: "davomat",
+    meta: { requiresAuth: true, title: "Davomat" },
+    component: () => import("../views/Davomat/Davomat.vue"),
   },
   {
     path: "/mijozlar",
