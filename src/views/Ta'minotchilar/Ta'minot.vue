@@ -518,7 +518,7 @@ export default {
   name: "Ta'minot",
   data() {
     return {
-      supplyType: localStorage.getItem("supply"),
+      supplyType: false,
       markets: [],
       categories: [],
       currencies: [],
@@ -555,6 +555,7 @@ export default {
     };
   },
   created() {
+    this.getParty();
     this.getMarkets(0, 25);
     this.getCurrencies();
     this.get(0, 100);
@@ -564,6 +565,11 @@ export default {
       this.getBalances();
       this.getSupplies(0, 25);
       this.getExpenses(0, 25);
+    },
+    getParty() {
+      api.party(this.$route.params.id).then((res) => {
+        this.supplyType = !res.data.status;
+      });
     },
     getMarkets(page, limit) {
       api.markets(page, limit).then((Response) => {
