@@ -15,6 +15,7 @@
                 v-model="data.username"
                 placeholder="foydalanuvchi nomi"
                 required
+                autofocus
               />
               <div class="input-group-text">
                 <i class="fa fa-at" />
