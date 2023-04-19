@@ -253,16 +253,17 @@
             <tbody>
               <tr v-for="item in expenses" :key="item">
                 <td>
-                  {{ Intl.NumberFormat().format(item.price) }}
-                  {{ item.currency.currency }}
+                  {{
+                    Intl.NumberFormat().format(item.Expenses.price) + " so'm"
+                  }}
                 </td>
-                <td>{{ item.comment }}</td>
-                <td>{{ item.user.name }}</td>
+                <td>{{ item.Expenses.comment }}</td>
+                <td>{{ item.Expenses.user.name }}</td>
                 <td>
                   {{
-                    item.time
+                    item.Expenses.time
                       .replace("T", " ")
-                      .substring(0, item.time.length - 3)
+                      .substring(0, item.Expenses.time.length - 3)
                   }}
                 </td>
               </tr>
