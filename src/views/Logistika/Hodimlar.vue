@@ -91,6 +91,14 @@
                 </router-link>
               </div>
               <div class="col">
+                <router-link
+                  class="btn btn-sm btn-block btn-outline-secondary"
+                  :to="'/hodim-tarix/' + hodim.id"
+                >
+                  <span class="fa fa-history" />
+                </router-link>
+              </div>
+              <div class="col">
                 <button
                   class="btn btn-sm btn-block btn-outline-warning"
                   data-toggle="modal"

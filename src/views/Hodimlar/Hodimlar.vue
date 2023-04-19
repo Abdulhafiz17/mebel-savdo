@@ -82,12 +82,28 @@
               </ul>
             </details>
             <div class="row my-1 gap-1">
+              <div class="col">
+                <button
+                  class="btn btn-sm btn-block btn-outline-success"
+                  @click="$refs.payToUser.start(hodim)"
+                >
+                  <span class="fa fa-coins" />
+                </button>
+              </div>
               <div class="col" v-if="role !== 'admin'">
                 <router-link
                   class="btn btn-sm btn-block btn-outline-info"
                   :to="'/hodim/' + hodim.id"
                 >
                   <span class="fa fa-info" />
+                </router-link>
+              </div>
+              <div class="col">
+                <router-link
+                  class="btn btn-sm btn-block btn-outline-secondary"
+                  :to="'/hodim-tarix/' + hodim.id"
+                >
+                  <span class="fa fa-history" />
                 </router-link>
               </div>
               <div class="col" v-if="hodim.role == 'worker'">
@@ -377,14 +393,17 @@
       </div>
     </div>
   </div>
+
+  <payToUser ref="payToUser" @end="get(this.$route.params.id, 0, 100)" />
 </template>
 
 <script>
 import * as api from "@/components/Api/Api";
 import Pagination from "@/components/Pagination/Pagination.vue";
+import payToUser from "@/components/modal/payToUser.vue";
 export default {
   name: "Hodimlar",
-  components: { Pagination },
+  components: { Pagination, payToUser },
   data() {
     return {
       _: Intl.NumberFormat(),

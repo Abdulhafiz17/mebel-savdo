@@ -435,10 +435,10 @@ export default {
     },
     getUsers() {
       this.template = "chart";
-      api.users(this.branch_id, 0, 0, 25).then((Response) => {
-        this.users = Response.data.data;
-        this.getSumStatistics();
-      });
+      // api.users(this.branch_id, 0, 0, 25).then((Response) => {
+      //   this.users = Response.data.data;
+      this.getSumStatistics();
+      // });
     },
     getSumStatistics() {
       api

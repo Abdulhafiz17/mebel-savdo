@@ -118,6 +118,12 @@ let routes = [
     component: () => import("../views/Hodimlar/HodimHaqida.vue"),
   },
   {
+    path: "/hodim-tarix/:id",
+    name: "hodim-tarix",
+    meta: { requiresAuth: true, title: "Hodim to'lov tarixi" },
+    component: () => import("../views/Hodimlar/Tolovlar.vue"),
+  },
+  {
     path: "/davomat",
     name: "davomat",
     meta: { requiresAuth: true, title: "Davomat" },
