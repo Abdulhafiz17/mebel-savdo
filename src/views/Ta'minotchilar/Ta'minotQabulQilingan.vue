@@ -151,7 +151,7 @@ export default {
       api
         .transfers(
           this.warehouse_id,
-          "tasdiqlandi",
+          "filialga_berish_tasdiqlandi",
           page,
           limit,
           this.$route.params.id,
