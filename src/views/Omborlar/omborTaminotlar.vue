@@ -40,12 +40,24 @@
           <div class="row gap-1 text-left">
             <div class="col-12">
               Status
-              <select class="form-select" v-model="filter.status">
+              <select
+                class="form-select"
+                v-model="filter.status"
+                @change="
+                  filter.status == 'false'
+                    ? (filter = {
+                        status: 'false',
+                        warehouseman: false,
+                        warehouseman_id: 0,
+                      })
+                    : false
+                "
+              >
                 <option value="false">Faol</option>
                 <option value="true">Yakunlangan</option>
               </select>
             </div>
-            <div class="col-12" v-if="filter.status == 'false'">
+            <div class="col-12" v-if="filter.status == 'true'">
               Status
               <select class="form-select" v-model="filter.warehouseman">
                 <option value="false">Omborga qabul qilinmagan</option>
@@ -82,7 +94,7 @@
             data-dismiss="modal"
             @click="
               filter = {
-                status: 'true',
+                status: 'false',
                 warehouseman: false,
                 warehouseman_id: 0,
               };
@@ -110,7 +122,7 @@ export default {
       warehousemen: [],
       warehouse: null,
       filter: {
-        status: "true",
+        status: "false",
         warehouseman: false,
         warehouseman_id: 0,
       },
@@ -130,17 +142,20 @@ export default {
     getParties(page, limit) {
       const warehouseman =
         this.role == "admin" ? this.filter.warehouseman : true;
-      const warehouseman_id =
-        this.role == "admin"
-          ? this.filter.warehouseman_id
-          : warehouseman
-          ? this.user_id
-          : 0;
+      const warehouseman_id = () => {
+        if (this.role == "admin") {
+          if (warehouseman) return this.filter.warehouseman_id;
+          else return 0;
+        } else {
+          if (this.filter.warehouseman) return this.user_id;
+          else return 0;
+        }
+      };
       api
         .parties(
           this.filter.status,
           warehouseman,
-          warehouseman_id,
+          warehouseman_id(),
           this.$route.params.id,
           page,
           limit
