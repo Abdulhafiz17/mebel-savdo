@@ -185,7 +185,13 @@ export default {
     post() {
       api.createParty().then((Response) => {
         api.success().then(() => {
-          this.get(false, 0, 100);
+          this.filter = {
+            status: "false",
+            warehouseman: false,
+            warehouseman_id: 0,
+            warehouse_id: 0,
+          };
+          this.getParties(0, 25);
         });
       });
     },

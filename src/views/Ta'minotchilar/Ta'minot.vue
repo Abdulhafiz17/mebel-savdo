@@ -1,9 +1,9 @@
 <template>
   <h3><span class="fa fa-box" /> Ta'minot</h3>
-  <div class="row" v-if="supplyType">
+  <div class="row">
     <div class="col-md-4"></div>
     <div class="col-md-4 my-1">
-      <div class="btn-group" v-if="supplyType">
+      <div class="btn-group" v-if="supplyType && !party?.warehouseman">
         <button
           class="btn btn-sm btn-outline-secondary"
           data-toggle="modal"
@@ -23,10 +23,8 @@
     </div>
     <div class="col-md-4">
       <button
-        v-if="role == 'warehouseman'"
-        class="btn btn-sm btn-outline-success"
-        data-toggle="modal"
-        data-target="#confirm"
+        v-if="party?.warehouseman && !party?.warehouseman_id"
+        class="btn btn-sm btn-block btn-outline-success"
         @click="confirmParty()"
       >
         <i class="far fa-circle-check" /> Tasdiqlash
@@ -102,7 +100,7 @@
       role="tabpanel"
       aria-labelledby="pills-home-tab"
     >
-      <div class="row" v-if="supplyType">
+      <div class="row" v-if="supplyType && !party?.warehouseman">
         <div class="col-md-12">
           <form @submit.prevent="post(supply)">
             <div class="row m-1">
@@ -228,7 +226,7 @@
                       <th>Narx</th>
                       <th>Soni</th>
                       <th>Summa</th>
-                      <th v-if="supplyType"></th>
+                      <th v-if="supplyType && !party?.warehouseman"></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -246,7 +244,7 @@
                         }}
                         {{ item.currency.currency }}
                       </td>
-                      <td v-if="supplyType">
+                      <td v-if="supplyType && !party?.warehouseman">
                         <button
                           class="btn btn-sm btn-outline-danger"
                           @click="remove(item.id)"
@@ -269,7 +267,7 @@
       role="tabpanel"
       aria-labelledby="pills-profile-tab"
     >
-      <div class="row" v-if="supplyType">
+      <div class="row" v-if="supplyType && !party?.warehouseman">
         <div class="col-md-11 mx-auto">
           <form @submit.prevent="postExpense(expense)">
             <div class="row my-1">
@@ -538,7 +536,9 @@ export default {
   data() {
     return {
       role: localStorage["role"],
+      branch_id: localStorage["branch_id"],
       supplyType: false,
+      party: null,
       markets: [],
       categories: [],
       currencies: [],
@@ -589,6 +589,7 @@ export default {
     },
     getParty() {
       api.party(this.$route.params.id).then((res) => {
+        this.party = res.data;
         this.supplyType = !res.data.status;
       });
     },
@@ -739,7 +740,7 @@ export default {
         .then((Response) => {
           document.querySelectorAll("[data-dismiss]")[1].click();
           api.success().then(() => {
-            this.$router.push(`/ombor-taminotlar/${this.$route.params.id}`);
+            this.$router.push(`/ombor-taminotlar/${this.branch_id}`);
           });
         });
     },

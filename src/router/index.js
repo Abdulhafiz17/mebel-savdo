@@ -180,7 +180,7 @@ let routes = [
   {
     path: "/taminot/:id",
     name: "taminot",
-    meta: { requiresAuth: true, title: "Ta'minot", role: "admin" },
+    meta: { requiresAuth: true, title: "Ta'minot" },
     component: () => import("../views/Ta'minotchilar/Ta'minot.vue"),
   },
   {

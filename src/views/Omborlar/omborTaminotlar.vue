@@ -45,14 +45,17 @@
                 <option value="true">Yakunlangan</option>
               </select>
             </div>
-            <div class="col-12" v-if="filter.status == 'true'">
+            <div class="col-12" v-if="filter.status == 'false'">
               Status
               <select class="form-select" v-model="filter.warehouseman">
                 <option value="false">Omborga qabul qilinmagan</option>
                 <option value="true">Omborga qabul qilingan</option>
               </select>
             </div>
-            <div class="col-12" v-if="filter.warehouseman == 'true'">
+            <div
+              class="col-12"
+              v-if="filter.warehouseman == 'true' && role == 'admin'"
+            >
               Omborchi
               <select class="form-select" v-model="filter.warehouseman_id">
                 <option
@@ -102,6 +105,8 @@ export default {
   components: { Pagination },
   data() {
     return {
+      role: localStorage["role"],
+      user_id: localStorage["user_id"],
       warehousemen: [],
       warehouse: null,
       filter: {
@@ -123,11 +128,19 @@ export default {
   },
   methods: {
     getParties(page, limit) {
+      const warehouseman =
+        this.role == "admin" ? this.filter.warehouseman : true;
+      const warehouseman_id =
+        this.role == "admin"
+          ? this.filter.warehouseman_id
+          : warehouseman
+          ? this.user_id
+          : 0;
       api
         .parties(
           this.filter.status,
-          this.filter.warehouseman,
-          this.filter.warehouseman_id,
+          warehouseman,
+          warehouseman_id,
           this.$route.params.id,
           page,
           limit
