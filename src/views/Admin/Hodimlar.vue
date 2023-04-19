@@ -181,6 +181,7 @@
                   </option>
                   <option value="seller">Sotuvchi</option>
                   <option value="worker">Transport</option>
+                  <option value="ustanovshik">Ustanovshik</option>
                 </select>
               </div>
               <div

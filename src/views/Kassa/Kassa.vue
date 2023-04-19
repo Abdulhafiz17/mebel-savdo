@@ -493,35 +493,6 @@
                   </option>
                 </select>
               </div>
-              <div class="col-md-12 my-1" v-if="order_confirm.delivery_money">
-                Transport hodim
-                <select
-                  class="form-select form-select-sm"
-                  required
-                  @click="users.length ? false : getUsers()"
-                  v-model="order_confirm.worker_id"
-                >
-                  <option
-                    v-for="item in users.filter(
-                      (item) => item.role == 'worker'
-                    )"
-                    :key="item"
-                    :value="item.id"
-                  >
-                    {{ item.name }}
-                  </option>
-                </select>
-              </div>
-              <div class="col-md-12 my-1" v-if="order_confirm.delivery_money">
-                Transport izoh
-                <textarea
-                  cols="30"
-                  rows="2"
-                  class="form-control form-control-sm"
-                  placeholder="izoh"
-                  v-model="order_confirm.comment"
-                ></textarea>
-              </div>
             </div>
           </div>
           <div class="modal-footer">
@@ -613,6 +584,7 @@ export default {
         seller_id: 0,
         comment: "",
         worker_id: 0,
+        ustanovshik_id: 0,
         delivery_money: null,
         kassa_id: 0,
       },
@@ -706,7 +678,7 @@ export default {
       }
     },
     get(page, limit) {
-      api.orders("", "", false, 0, 0, "", page, limit).then((Response) => {
+      api.orders("", "", false, 0, 0, 0, "", page, limit).then((Response) => {
         this.orders = Response.data.data;
         if (this.orders.length) {
           this.order = this.orders[0];

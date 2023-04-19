@@ -64,6 +64,16 @@
               {{ item.comment }}
             </p>
             <div class="row">
+              <div class="col" v-if="!item.delivered">
+                <button
+                  class="btn btn-sm btn-block btn-outline-warning"
+                  data-toggle="modal"
+                  data-target="#update"
+                  @click="order = item"
+                >
+                  <i class="fa fa-edit"></i>
+                </button>
+              </div>
               <div class="col">
                 <a
                   class="btn btn-sm btn-block btn-outline-primary"
@@ -81,7 +91,7 @@
                   <i class="fa fa-info"></i>
                 </button>
               </div>
-              <div class="col">
+              <div class="col" v-if="!item.delivered">
                 <button
                   class="btn btn-sm btn-block btn-outline-success"
                   @click="putOrder(item.id)"
@@ -113,12 +123,19 @@
           <h5>Filter</h5>
         </div>
         <div class="modal-body">
-          <div class="row gap-1">
+          <div class="row gap-1 text-left">
             <div class="col-12">
               Status
               <select class="form-select" v-model="filter.status">
                 <option value="false">yetkazilmagan</option>
                 <option value="true">yetkazilgan</option>
+              </select>
+            </div>
+            <div class="col-12" v-if="filter.status == 'false'">
+              Status
+              <select class="form-select" v-model="filter.attached">
+                <option :value="true">hodim biriktirilgan</option>
+                <option :value="false">hodim biriktirilmagan</option>
               </select>
             </div>
             <div class="col-12">
@@ -163,6 +180,82 @@
       </div>
     </div>
   </div>
+
+  <div class="modal fade" id="update">
+    <div class="modal-dialog modal-sm">
+      <form class="modal-content" @submit.prevent="attachOrder()">
+        <div class="modal-header">
+          <h5>Buyurtma</h5>
+        </div>
+        <div class="modal-body">
+          <div class="row gap-1 text-left">
+            <div class="col-12">
+              Haydovchi
+              <select class="form-select" required v-model="attach.worker_id">
+                <option
+                  v-for="item in users.filter((item) => item.role == 'worker')"
+                  :key="item"
+                  :value="item.id"
+                >
+                  {{ item.name }}
+                </option>
+              </select>
+            </div>
+            <div class="col-12">
+              Ustanovshik
+              <select
+                class="form-select"
+                required
+                v-model="attach.ustanovshik_id"
+              >
+                <option
+                  v-for="item in users.filter(
+                    (item) => item.role == 'ustanovshik'
+                  )"
+                  :key="item"
+                  :value="item.id"
+                >
+                  {{ item.name }}
+                </option>
+              </select>
+            </div>
+            <div class="col-12">
+              <button
+                type="button"
+                class="btn btn-block"
+                :class="attach.etaj ? 'bg-primary' : ''"
+                @click="attach.etaj = !attach.etaj"
+              >
+                Ko'p qavatli
+              </button>
+            </div>
+            <div class="col-12">
+              <button
+                type="button"
+                class="btn btn-block"
+                :class="attach.city ? 'bg-primary' : ''"
+                @click="attach.city = !attach.city"
+              >
+                Shahardan tashqari
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-primary">
+            <i class="far fa-circle-check"></i>
+          </button>
+          <button
+            class="btn btn-outline-danger"
+            data-dismiss="modal"
+            close-attach-modal
+          >
+            <i class="far fa-circle-xmark"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -176,10 +269,12 @@ export default {
     return {
       role: localStorage["role"],
       currency: Intl.NumberFormat(),
-      worker_id: localStorage["user_id"],
+      user_id: localStorage["user_id"],
       user: null,
+      users: [],
       filter: {
-        status: false,
+        status: "false",
+        attached: true,
         from_time: "",
         to_time: "",
       },
@@ -190,10 +285,21 @@ export default {
         data: [],
       },
       order: null,
+      attach: {
+        order_id: 0,
+        worker_id: 0,
+        ustanovshik_id: 0,
+        etaj: false,
+        city: false,
+      },
     };
   },
   created() {
-    this.getUser();
+    if (["worker", "ustanovshik"].includes(this.role)) {
+      this.getUser();
+    } else {
+      this.getUsers();
+    }
     this.getOrders(0, 25);
   },
   methods: {
@@ -202,8 +308,20 @@ export default {
         this.user = res.data;
       });
     },
+    getUsers() {
+      api.users(0, 0, ["worker", "ustanovshik"], 0, 100).then((res) => {
+        this.users = res.data.data;
+      });
+    },
     getOrders(page = 0, limit = 25) {
-      const worker_id = this.role == "worker" ? this.worker_id : 0;
+      const worker_id =
+        this.role == "worker" ? this.user_id : this.filter.attached ? 1 : 0;
+      const ustanovshik_id =
+        this.role == "ustanovshik"
+          ? this.user_id
+          : this.filter.attached
+          ? 1
+          : 0;
       api
         .orders(
           this.filter.from_time,
@@ -211,6 +329,7 @@ export default {
           true,
           0,
           worker_id,
+          ustanovshik_id,
           this.filter.status,
           page,
           limit
@@ -222,6 +341,21 @@ export default {
     putOrder(id) {
       api.deliverOrder(id).then((res) => {
         api.success().then(() => {
+          this.getOrders(0, 25);
+        });
+      });
+    },
+    attachOrder() {
+      this.attach.order_id = this.order.id;
+      api.attachLogistika(this.attach).then(() => {
+        api.success("close-attach-modal").then(() => {
+          this.attach = {
+            order_id: 0,
+            worker_id: 0,
+            ustanovshik_id: 0,
+            etaj: false,
+            city: false,
+          };
           this.getOrders(0, 25);
         });
       });

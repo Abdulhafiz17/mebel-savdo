@@ -78,8 +78,10 @@ export default {
       });
     },
     getOrders(page, limit) {
-      const seller_id = this.user.role !== "worker" ? this.$route.params.id : 0;
+      const seller_id = this.user.role == "seller" ? this.$route.params.id : 0;
       const worker_id = this.user.role == "worker" ? this.$route.params.id : 0;
+      const ustanovshik_id =
+        this.user.role == "ustanovshik" ? this.$route.params.id : 0;
       api
         .orders(
           this.from_date_2,
@@ -87,6 +89,7 @@ export default {
           true,
           seller_id,
           worker_id,
+          ustanovshik_id,
           "true",
           page,
           limit

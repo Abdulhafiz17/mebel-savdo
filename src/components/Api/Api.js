@@ -435,6 +435,7 @@ export function orders(
   status,
   seller_id,
   worker_id,
+  ustanovshik_id,
   delivered,
   page,
   limit
@@ -443,7 +444,7 @@ export function orders(
     from_time && to_time ? `from_time=${from_time}&to_time=${to_time}&` : ``;
   const delivered_query = delivered ? `&delivered=${delivered}` : ``;
   return api(
-    `get_orders?${time_query}status=${status}&seller_id=${seller_id}&worker_id=${worker_id}${delivered_query}&page=${page}&limit=${limit}`,
+    `get_orders?${time_query}status=${status}&seller_id=${seller_id}&worker_id=${worker_id}&ustanovshik_id=${ustanovshik_id}${delivered_query}&page=${page}&limit=${limit}`,
     "get"
   );
 }
@@ -468,6 +469,9 @@ export function removeOrder(id) {
 }
 export function confirmationOrder(data) {
   return api(`order_confirmation`, "put", data);
+}
+export function attachLogistika(data) {
+  return api(`attach_logistika`, "put", data);
 }
 export function deliverOrder(id) {
   return api(`deliver_order/${id}`, "put");
