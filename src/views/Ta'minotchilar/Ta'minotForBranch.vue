@@ -87,7 +87,6 @@
               <tr v-for="item in transfersWaiting" :key="item">
                 <td>
                   <input type="checkbox" :value="item" v-model="transfers" />
-                  {{ countCurrency(item) }}
                 </td>
                 <td>
                   {{
@@ -255,12 +254,14 @@ export default {
       api
         .transfers(
           0,
-          "kutish",
+          "filialga_berish_kutish",
           page,
           limit,
           this.$route.params.id,
           this.from_time,
-          this.to_time
+          this.to_time,
+          0,
+          0
         )
         .then((Response) => {
           this.page = Response.data.current_page;

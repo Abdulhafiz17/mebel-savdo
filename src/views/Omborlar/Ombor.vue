@@ -1144,7 +1144,7 @@ export default {
           limit,
           this.branch_id,
           this.from_date,
-          this.to_date
+          this.to_date,0,0
         )
         .then((Response) => {
           this.transfersWaiting = Response.data.data;
@@ -1162,7 +1162,7 @@ export default {
           limit,
           this.branch_id,
           this.from_date,
-          this.to_date
+          this.to_date,0,0
         )
         .then((Response) => {
           this.transfersAccepted = Response.data.data;
@@ -1185,6 +1185,7 @@ export default {
             quantity: item.Warehouse_products.quantity,
             transfer_price: item.Warehouse_products.price,
             to_: this.to.id,
+            order_from_branch_id: 0,
           });
           if (index == data.length - 1) {
             api

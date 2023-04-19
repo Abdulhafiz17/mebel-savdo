@@ -156,7 +156,9 @@ export default {
           limit,
           this.$route.params.id,
           this.from_time,
-          this.to_time
+          this.to_time,
+          0,
+          0
         )
         .then((Response) => {
           this.transfers = Response.data.data;

@@ -11,7 +11,8 @@
     <div class="col-md-4 my-1" v-for="item in links" :key="item">
       <router-link :to="item.link" class="card shadow">
         <div class="card-body">
-          <i class="fa-2x" :class="item.icon" />
+          <i class="fa-2x px-1" :class="item.icon" />
+          <i v-if="item.icon_2" class="fa-2x px-1" :class="item.icon_2" />
           <hr />
           <strong>{{ item.title }}</strong>
         </div>
@@ -117,6 +118,12 @@ export default {
           title: "Transport",
         },
         {
+          link: `/transfer`,
+          icon: "fa fa-arrow-up",
+          icon_2: "fa fa-arrow-down",
+          title: "Transfer",
+        },
+        {
           link: `/`,
           icon: "fa fa-sign-out",
           title: "Chiqish",
@@ -132,6 +139,24 @@ export default {
           link: `/cashiers`,
           icon: "fa fa-cash-register",
           title: "Kassalar",
+        },
+        {
+          link: `/`,
+          icon: "fa fa-sign-out",
+          title: "Chiqish",
+        },
+      ],
+      worker: [
+        {
+          link: `/transport`,
+          icon: "fa fa-truck",
+          title: "Transport",
+        },
+        {
+          link: `/transfer`,
+          icon: "fa fa-arrow-up",
+          icon_2: "fa fa-arrow-down",
+          title: "Transfer",
         },
         {
           link: `/`,

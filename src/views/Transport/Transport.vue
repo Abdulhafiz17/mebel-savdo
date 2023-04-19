@@ -15,15 +15,7 @@
         {{ currency.format(user?.balance) + " so'm" }}
       </div>
     </div>
-    <div class="col-md-4">
-      <router-link
-        v-if="role == 'worker'"
-        class="btn btn-sm btn-block btn-outline-secondary"
-        to="/"
-      >
-        <i class="fa fa-sign-out"></i> Chiqish
-      </router-link>
-    </div>
+    <div class="col-md-4"></div>
   </div>
 
   <div class="responsive" style="max-height: 84vh">

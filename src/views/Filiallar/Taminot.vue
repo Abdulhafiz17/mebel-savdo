@@ -262,7 +262,9 @@ export default {
           limit,
           this.$route.params.id,
           this.from_date,
-          this.to_date
+          this.to_date,
+          0,
+          0
         )
         .then((Response) => {
           this.page = Response.data.current_page;
@@ -280,7 +282,9 @@ export default {
           limit,
           this.$route.params.id,
           this.from_date_2,
-          this.to_date_2
+          this.to_date_2,
+          0,
+          0
         )
         .then((Response) => {
           this.page1 = Response.data.current_page;

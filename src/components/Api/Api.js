@@ -317,34 +317,37 @@ export function confirmationOrderFromBranch(id) {
 // transfer
 
 export function transfers(
-  id,
+  warehouse_id,
   status,
   page,
   limit,
   branch_id,
   from_time,
-  to_time
+  to_time,
+  worker_id,
+  ustanovshik_id
 ) {
-  if (from_time && to_time) {
-    return api(
-      `get_transfers?warehouse_id=${id}&status=${status}&branch_id=${branch_id}&from_time=${from_time}&to_time=${to_time}&page=${page}&limit${limit}`,
-      "get"
-    );
-  } else {
-    return api(
-      `get_transfers?warehouse_id=${id}&status=${status}&branch_id=${branch_id}&page=${page}&limit${limit}`,
-      "get"
-    );
-  }
+  const time_query =
+    from_time && to_time ? `from_time=${from_time}&to_time=${to_time}&` : ``;
+  return api(
+    `get_transfers?warehouse_id=${warehouse_id}&status=${status}&branch_id=${branch_id}&${time_query}worker_id=${worker_id}&ustanovshik_id=${ustanovshik_id}&page=${page}&limit${limit}`,
+    "get"
+  );
 }
 export function transferProduct(id, data) {
   return api(`transfer_product/${id}`, "post", data);
+}
+export function transferProductLogistika(data) {
+  return api(`transfer_product_logistika`, "put", data);
 }
 export function removeTransfer(transfer_id) {
   return api(`remove_transfer/${transfer_id}`, "delete");
 }
 export function acceptTransfer(data) {
   return api(`acceptance_product`, "post", data);
+}
+export function acceptTransferLogistika(data) {
+  return api(`acceptance_product_logistika`, "put", data);
 }
 
 // currency

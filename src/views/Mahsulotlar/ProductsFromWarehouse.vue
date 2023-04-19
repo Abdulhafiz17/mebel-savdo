@@ -179,7 +179,7 @@ export default {
   },
   methods: {
     getWarehouses() {
-      api.warehouses().then((re) => {
+      api.warehouses().then((res) => {
         this.warehouses = res.data;
       });
     },
@@ -192,9 +192,7 @@ export default {
       const branch_id =
         this.role == "branch_admin" ? this.branch_id : this.filter.branch_id;
       const warehouse_id =
-        this.role == "branch_admin"
-          ? this.warehouse_id
-          : this.filter.warehouse_id;
+        this.role == "branch_admin" ? 0 : this.filter.warehouse_id;
       api
         .ordersFromBranch(
           "",

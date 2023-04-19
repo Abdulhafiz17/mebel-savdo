@@ -28,6 +28,12 @@ let routes = [
     component: () => import("../views/Transport/Transport.vue"),
   },
   {
+    path: "/transfer",
+    name: "transfer",
+    meta: { requiresAuth: true, title: "Transfer" },
+    component: () => import("../views/Logistika/Transfer.vue"),
+  },
+  {
     path: "/main",
     name: "main",
     meta: { requiresAuth: true, title: "Asosiy" },

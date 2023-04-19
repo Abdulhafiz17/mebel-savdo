@@ -66,6 +66,7 @@ export default {
   components: { Pagination },
   data() {
     return {
+      today: new Date().toISOString().substring(0, 10),
       role: localStorage["role"],
       branch_id: localStorage["branch_id"],
       users: {
