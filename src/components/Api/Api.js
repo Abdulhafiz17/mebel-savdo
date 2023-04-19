@@ -272,6 +272,9 @@ export function warehouseProducts(id, category_id, page, limit, status) {
 export function removeWarehouseProduct(product_id, quantity) {
   return api(`remove_w_product/${product_id}/${quantity}`, "delete");
 }
+export function updateKpiWarehouseProduct(data) {
+  return api(`update_kpi_w_pr`, "put", data);
+}
 export function allProducts(
   search = "",
   page_w = 0,

@@ -154,6 +154,7 @@
                   <tr>
                     <th>Nomi</th>
                     <th>Miqdor</th>
+                    <th>Kpi</th>
                     <th>Narx</th>
                     <th>Tan narx</th>
                     <th>Summa</th>
@@ -164,6 +165,7 @@
                   <tr v-for="item in item.products" :key="item">
                     <td>{{ item.Warehouse_products.articul }}</td>
                     <td>{{ item.Warehouse_products.quantity }} dona</td>
+                    <td>{{ item.Warehouse_products.kpi }} so'm</td>
                     <td>
                       {{
                         Intl.NumberFormat().format(
@@ -191,6 +193,12 @@
                     </td>
                     <td>
                       <div class="btn-group btn-group-sm">
+                        <button
+                          class="btn btn-outline-warning"
+                          @click="$refs.mahsulotModal.start(item)"
+                        >
+                          <i class="fa fa-edit" />
+                        </button>
                         <button
                           class="btn btn-outline-secondary"
                           data-toggle="modal"
@@ -993,15 +1001,18 @@
       </div>
     </div>
   </div>
+
+  <mahsulotModal ref="mahsulotModal" />
 </template>
 
 <script>
 import * as api from "@/components/Api/Api";
 import Pagination from "@/components/Pagination/Pagination.vue";
+import mahsulotModal from "./mahsulotModal.vue";
 import swal from "sweetalert";
 export default {
   name: "Ombor",
-  components: { Pagination },
+  components: { Pagination, mahsulotModal },
   data() {
     return {
       image: api.url_to_files,
