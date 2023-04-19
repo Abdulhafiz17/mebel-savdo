@@ -72,15 +72,7 @@
             <th>Hodim</th>
             <th>Kassa</th>
             <th>Sana</th>
-            <th>
-              <button
-                class="btn btn-sm btn-outline-info"
-                data-toggle="modal"
-                data-target="#filter"
-              >
-                <i class="fa fa-filter"></i>
-              </button>
-            </th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
