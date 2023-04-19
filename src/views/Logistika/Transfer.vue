@@ -33,6 +33,7 @@
         <tr>
           <th>
             <input
+              v-if="role == 'worker'"
               type="checkbox"
               :checked="
                 transfers.data.length &&
@@ -64,7 +65,12 @@
       <tbody>
         <tr v-for="item in transfers.data" :key="item">
           <td>
-            <input type="checkbox" :value="item" v-model="transfers_to_send" />
+            <input
+              v-if="role == 'worker'"
+              type="checkbox"
+              :value="item"
+              v-model="transfers_to_send"
+            />
           </td>
           <td>
             {{
@@ -143,9 +149,9 @@
             <div class="col-12">
               Status
               <select class="form-select" v-model="filter.status">
-                <option value="filialga_berish_logistika">
-                  filialga_berish_logistika
-                </option>
+                <option value="filialga_berish_kutish">Kutish</option>
+                <option value="filialga_berish_logistika">Logistika</option>
+                <option value="filialga_berish_tasdiqlandi">Tasdiqlandi</option>
               </select>
             </div>
             <div class="col-12" v-if="['admin', 'logistika'].includes(role)">

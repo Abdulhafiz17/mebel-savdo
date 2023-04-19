@@ -9,7 +9,7 @@
 
   <div class="row">
     <div class="col-md-4 my-1" v-for="item in links" :key="item">
-      <router-link :to="item.link" class="card shadow">
+      <router-link :to="item.link" class="card shadow h-100">
         <div class="card-body">
           <i class="fa-2x px-1" :class="item.icon" />
           <i v-if="item.icon_2" class="fa-2x px-1" :class="item.icon_2" />
@@ -39,9 +39,21 @@ export default {
           title: "Filiallar",
         },
         {
+          link: `/products-from-warehouse`,
+          icon: "fa fa-code-branch",
+          icon_2: "fa fa-warehouse",
+          title: "Filial ombordan so'ragan mahsulotlar",
+        },
+        {
           link: `/omborlar`,
           icon: "fa fa-warehouse",
           title: "Omborlar",
+        },
+        {
+          link: `/transfer`,
+          icon: "fa fa-arrow-up",
+          icon_2: "fa fa-arrow-down",
+          title: "Transfer",
         },
         {
           link: `/products`,

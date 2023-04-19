@@ -78,7 +78,7 @@
                 </option>
               </select>
             </div>
-            <div class="col-12" v-if="role == 'branch_admin'">
+            <div class="col-12" v-if="role !== 'warehouseman'">
               Ombor
               <select class="form-select" v-model="filter.warehouse_id">
                 <option v-for="item in warehouses" :key="item" :value="item.id">
@@ -172,7 +172,10 @@ export default {
   created() {
     if (this.role == "branch_admin") {
       this.getWarehouses();
-    } else {
+    } else if (this.role == "warehouseman") {
+      this.getBranches();
+    } else if (this.role == "admin") {
+      this.getWarehouses();
       this.getBranches();
     }
     this.getProducts();

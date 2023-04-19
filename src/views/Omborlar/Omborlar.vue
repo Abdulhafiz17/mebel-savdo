@@ -63,7 +63,7 @@
                   <i class="fa fa-user-group" />
                 </router-link>
               </div>
-              <div class="col my-1">
+              <div class="col my-1" v-if="role == 'warehouseman'">
                 <router-link
                   :to="`/products-from-warehouse`"
                   class="btn btn-sm btn-block btn-outline-success"
@@ -195,6 +195,7 @@ export default {
   name: "Omborlar",
   data() {
     return {
+      role: localStorage["role"],
       search: "",
       omborlar: [],
       editOmbor: {},
