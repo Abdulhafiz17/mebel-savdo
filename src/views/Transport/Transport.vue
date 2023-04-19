@@ -83,7 +83,7 @@
                   <i class="fa fa-info"></i>
                 </button>
               </div>
-              <div class="col" v-if="!item.delivered">
+              <div class="col" v-if="!item.delivered && role !== 'logistika'">
                 <button
                   class="btn btn-sm btn-block btn-outline-success"
                   @click="putOrder(item.id)"
