@@ -288,6 +288,31 @@ export function allProducts(
     "get"
   );
 }
+export function ordersFromBranch(
+  search,
+  branch_id,
+  status,
+  warehouse_id,
+  from_time,
+  to_time,
+  user_id,
+  page,
+  limit
+) {
+  const search_query = search ? `search=${search}&` : ``;
+  const time_query =
+    from_time && to_time ? `from_time=${from_time}&to_time=${to_time}&` : ``;
+  return api(
+    `get_orders_from_branch?${search_query}branch_id=${branch_id}&status=${status}&warehouse_id=${warehouse_id}&${time_query}user_id=${user_id}&page=${page}&limit=${limit}`,
+    "get"
+  );
+}
+export function createOrderFromBranch(data) {
+  return api(`create_order_from_branch`, "post", data);
+}
+export function confirmationOrderFromBranch(id) {
+  return api(`order_confirmation/${id}`, "put");
+}
 
 // transfer
 

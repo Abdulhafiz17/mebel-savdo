@@ -196,6 +196,12 @@ let routes = [
     component: () => import("../views/Mahsulotlar/Mahsulotlar.vue"),
   },
   {
+    path: "/products-from-warehouse",
+    name: "products-from-warehouse",
+    meta: { requiresAuth: true, title: "Mahsulotlar" },
+    component: () => import("../views/Mahsulotlar/ProductsFromWarehouse.vue"),
+  },
+  {
     path: "/categoryProducts/:id",
     name: "categoryProducts",
     meta: {

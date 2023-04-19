@@ -65,6 +65,14 @@
               </div>
               <div class="col my-1">
                 <router-link
+                  :to="`/products-from-warehouse`"
+                  class="btn btn-sm btn-block btn-outline-success"
+                >
+                  <i class="fa fa-code-branch" />
+                </router-link>
+              </div>
+              <div class="col my-1">
+                <router-link
                   :to="`/ombor-taminotlar/${item.id}`"
                   class="btn btn-sm btn-block btn-outline-info"
                 >

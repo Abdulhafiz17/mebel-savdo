@@ -30,6 +30,7 @@
               <th>Narx</th>
               <th>Miqdor</th>
               <th>Joylashuv</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -48,11 +49,19 @@
               </td>
               <td>{{ item.Warehouse_products.quantity + " dona" }}</td>
               <td>{{ item.Warehouses.name }}</td>
+              <td>
+                <button
+                  class="btn btn-sm btn-outline-success"
+                  @click="$refs.mahsulotModal.start(item)"
+                >
+                  <i class="fa fa-receipt"></i>
+                </button>
+              </td>
             </tr>
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="4">
+              <td colspan="5">
                 <Pagination
                   :page="products.current_page_w"
                   :pages="products.pages_w"
@@ -110,14 +119,17 @@
       </div>
     </div>
   </div>
+
+  <mahsulotModal ref="mahsulotModal" />
 </template>
 
 <script>
 import * as api from "@/components/Api/Api.js";
 import Pagination from "@/components/Pagination/Pagination.vue";
+import mahsulotModal from "./mahsulotModal.vue";
 export default {
   name: "Mahsulotlar",
-  components: { Pagination },
+  components: { Pagination, mahsulotModal },
   data() {
     return {
       role: localStorage["role"],
@@ -135,7 +147,7 @@ export default {
     };
   },
   created() {
-    this.get(0, 25);
+    this.get();
   },
   methods: {
     getWarehouseProducts(page = 0, limit = 25) {
