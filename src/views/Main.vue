@@ -2,7 +2,9 @@
   <h3><span class="fa fa-home" /> Asosiy</h3>
   <div class="row">
     <div class="col-md-4"></div>
-    <div class="col-md-4 my-1"></div>
+    <div class="col-md-4 my-1">
+      {{ $util.currency(user?.balance) + " so'm" }}
+    </div>
     <div class="col-md-4"></div>
   </div>
   <hr />
@@ -22,11 +24,13 @@
 </template>
 
 <script>
+import * as api from "@/components/Api/Api";
 export default {
   name: "Home",
   data() {
     return {
       role: localStorage["role"],
+      user: null,
       admin: [
         // {
         //   link: `/statistics`,
@@ -197,6 +201,11 @@ export default {
     links() {
       return this[this.role];
     },
+  },
+  created() {
+    api.user().then((res) => {
+      this.user = res.data;
+    });
   },
 };
 </script>
