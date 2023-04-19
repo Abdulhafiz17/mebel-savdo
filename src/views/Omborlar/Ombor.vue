@@ -160,6 +160,7 @@
                     <th>Nomi</th>
                     <th>Miqdor</th>
                     <th>Kpi</th>
+                    <th>Kpi savdo</th>
                     <th>Narx</th>
                     <th>Tan narx</th>
                     <th>Summa</th>
@@ -170,7 +171,15 @@
                   <tr v-for="item in item.products" :key="item">
                     <td>{{ item.Warehouse_products.articul }}</td>
                     <td>{{ item.Warehouse_products.quantity }} dona</td>
-                    <td>{{ item.Warehouse_products.kpi }} so'm</td>
+                    <td>
+                      {{ $util.currency(item.Warehouse_products.kpi) }} so'm
+                    </td>
+                    <td>
+                      {{
+                        $util.currency(item.Warehouse_products.kpi_trade)
+                      }}
+                      so'm
+                    </td>
                     <td>
                       {{
                         Intl.NumberFormat().format(

@@ -35,6 +35,20 @@
               <div class="input-group-text">so'm</div>
             </div>
           </div>
+          <div class="text-left">
+            Kpi savdo narxi
+            <div class="input-group">
+              <input
+                type="number"
+                step="any"
+                min="1"
+                class="form-control"
+                required
+                v-model="kpi_trade"
+              />
+              <div class="input-group-text">so'm</div>
+            </div>
+          </div>
         </div>
         <div class="modal-footer">
           <button class="btn btn-outline-primary">
@@ -61,12 +75,14 @@ export default {
     return {
       product: null,
       kpi: null,
+      kpi_trade: null,
     };
   },
   methods: {
     start(product) {
       this.product = product;
       this.kpi = product.Warehouse_products.kpi;
+      this.kpi_trade = product.Warehouse_products.kpi_trade;
       document.querySelector(`[put-modal-button]`).click();
     },
     putProduct() {
@@ -75,6 +91,7 @@ export default {
         articul: this.product.Warehouse_products.articul,
         name: this.product.Warehouse_products.name,
         kpi: this.kpi,
+        kpi_trade: this.kpi_trade,
       };
       api.updateKpiWarehouseProduct(data).then(() => {
         api.success("close-put-modal").then(() => {
