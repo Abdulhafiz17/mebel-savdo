@@ -60,8 +60,8 @@
             <div class="col-12" v-if="filter.status == 'true'">
               Status
               <select class="form-select" v-model="filter.warehouseman">
-                <option value="false">Omborga qabul qilinmagan</option>
-                <option value="true">Omborga qabul qilingan</option>
+                <option :value="false">Omborga qabul qilinmagan</option>
+                <option :value="true">Omborga qabul qilingan</option>
               </select>
             </div>
             <div
@@ -140,6 +140,15 @@ export default {
   },
   methods: {
     getParties(page, limit) {
+      const status = () => {
+        if (this.role == "admin") {
+          return this.filter.status;
+        } else {
+          if (this.filter.warehouseman) {
+            return "true";
+          } else return "false";
+        }
+      };
       const warehouseman =
         this.role == "admin" ? this.filter.warehouseman : true;
       const warehouseman_id = () => {
@@ -153,7 +162,7 @@ export default {
       };
       api
         .parties(
-          this.filter.status,
+          status(),
           warehouseman,
           warehouseman_id(),
           this.$route.params.id,
