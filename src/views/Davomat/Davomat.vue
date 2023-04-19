@@ -38,6 +38,17 @@
               >
                 <i class="fa fa-arrow-up"></i> Ketdi
               </button>
+              <button
+                class="btn btn-outline-secondary"
+                data-toggle="modal"
+                data-target="#history"
+                @click="
+                  user = item;
+                  getHistory(0, 25);
+                "
+              >
+                <i class="fa fa-history"></i>
+              </button>
             </div>
           </td>
         </tr>
@@ -56,6 +67,70 @@
       </tfoot>
     </table>
   </div>
+
+  <div class="modal fade" id="history">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4>{{ user?.name }} davomat tarixi</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row my-1">
+            <div class="col-md-5">
+              <input
+                type="date"
+                class="form-control form-control-sm"
+                v-model="from_time"
+              />
+            </div>
+            <div class="col-md-5">
+              <input
+                type="date"
+                class="form-control form-control-sm"
+                v-model="to_time"
+              />
+            </div>
+            <div class="col-md-2">
+              <button
+                class="btn btn-sm btn-block btn-outline-secondary"
+                @click="getHistory(0, 25)"
+              >
+                <i class="far fa-circle-check" />
+              </button>
+            </div>
+          </div>
+          <div class="table-responsive" style="max-height: 60vh">
+            <table class="table table-sm table-hover">
+              <thead>
+                <tr>
+                  <th>Keldi</th>
+                  <th>Ketdi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="item in history.data" :key="item">
+                  <td>{{ item.Davomat.kelgan_vaqt.replace("T", " ") }}</td>
+                  <td>{{ item.Davomat.ketgan_vaqt.replace("T", " ") }}</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="2">
+                    <Pagination
+                      :page="history.current_page"
+                      :pages="history.pages"
+                      :limit="history.limit"
+                      @get="getHistory"
+                    />
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -70,6 +145,15 @@ export default {
       role: localStorage["role"],
       branch_id: localStorage["branch_id"],
       users: {
+        current_page: 0,
+        pages: 1,
+        limit: 25,
+        data: [],
+      },
+      user: null,
+      from_time: "",
+      to_time: "",
+      history: {
         current_page: 0,
         pages: 1,
         limit: 25,
@@ -104,6 +188,13 @@ export default {
         .then((res) => {
           this.users.data[index].davomat = res.data.data[0]?.Davomat;
           if (index < this.users.data.length - 1) this.getDavomat(index + 1);
+        });
+    },
+    getHistory(page, limit) {
+      api
+        .davomat(this.user.id, this.from_time, this.to_time, page, limit)
+        .then((res) => {
+          this.history = res.data;
         });
     },
     postDavomat(id) {
