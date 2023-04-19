@@ -812,8 +812,8 @@ export function close_user(data) {
 
 // shipping
 
-export function shippingCost() {
-  return api(`get_shipping_cost`, "get");
+export function shippingCost(price_for_branch) {
+  return api(`get_shipping_cost?price_for_branch=${price_for_branch}`, "get");
 }
 export function createShippingCost(data) {
   return api(`create_shipping_cost`, "post", data);

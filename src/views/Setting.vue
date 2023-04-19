@@ -211,6 +211,29 @@
       </summary>
       <div class="row">
         <div class="col-md-8 my-1 mx-auto">
+          <form @submit.prevent="postPriceForBranch()">
+            <div class="input-group input-group-sm">
+              <div class="input-group-text">Do'kon uchun</div>
+              <input
+                class="form-control"
+                type="text"
+                minlength="1"
+                placeholder="nomi"
+                required
+                v-model="price_for_branch.price_for_branch"
+              />
+              <div class="input-group-append">
+                <div class="input-group-text">so'm</div>
+              </div>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary">
+                  <i class="far fa-circle-check" />
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-8 my-1 mx-auto">
           <form @submit.prevent="postShipping()">
             <div class="input-group input-group-sm">
               <div class="input-group-text p-0">
@@ -423,6 +446,14 @@ export default {
         city: false,
         price_for_branch: 0,
       },
+      price_for_branch: {
+        id: 0,
+        price: 0,
+        city: false,
+        etaj: false,
+        user_id: 1,
+        price_for_branch: 1000,
+      },
     };
   },
   created() {},
@@ -457,8 +488,11 @@ export default {
       });
     },
     getShipping() {
-      api.shippingCost().then((res) => {
+      api.shippingCost(false).then((res) => {
         this.shippings = res.data;
+        api.shippingCost(true).then((res) => {
+          if (res.data) this.price_for_branch = res.data;
+        });
       });
     },
     postCurrency(data) {
@@ -492,6 +526,22 @@ export default {
         });
       });
     },
+    postPriceForBranch() {
+      if (!this.price_for_branch.id) {
+        api.createShippingCost(this.price_for_branch).then(() => {
+          api.success().then(() => {
+            this.price_for_branch = {
+              id: 0,
+              price: 0,
+              city: false,
+              etaj: false,
+              user_id: 1,
+              price_for_branch: 1000,
+            };
+          });
+        });
+      } else this.putPriceForBranch(this.price_for_branch);
+    },
     put(data) {
       api.updateUser(data).then((Response) => {
         api.success();
@@ -509,6 +559,11 @@ export default {
       });
     },
     putShipping(data) {
+      api.updateShippingCost(data.id, data).then(() => {
+        api.success();
+      });
+    },
+    putPriceForBranch(data) {
       api.updateShippingCost(data.id, data).then(() => {
         api.success();
       });
