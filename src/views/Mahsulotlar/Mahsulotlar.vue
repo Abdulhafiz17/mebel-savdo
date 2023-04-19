@@ -21,7 +21,7 @@
   <hr />
 
   <div class="row">
-    <div class="col-md-6">
+    <div :class="role == 'admin' ? 'col-md-6' : 'col-md-12'">
       <div class="table-responsive" style="max-height: 80vh">
         <table class="table table-sm table-hover">
           <thead>
@@ -65,7 +65,7 @@
         </table>
       </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6" v-if="role == 'admin'">
       <div class="table-responsive" style="max-height: 80vh">
         <table class="table table-sm table-hover">
           <thead>
@@ -120,6 +120,7 @@ export default {
   components: { Pagination },
   data() {
     return {
+      role: localStorage["role"],
       search: "",
       products: {
         current_page_w: 0,
