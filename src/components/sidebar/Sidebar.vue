@@ -69,6 +69,15 @@ export default {
 
         <router-link
           class="SidebarLink"
+          :to="`/davomat`"
+          v-if="role === 'branch_admin'"
+        >
+          <i class="icon"><span class="fa fa-clipboard-check" /></i>
+          <p>Davomat</p>
+        </router-link>
+
+        <router-link
+          class="SidebarLink"
           to="/mijozlar"
           v-if="role === 'branch_admin'"
         >

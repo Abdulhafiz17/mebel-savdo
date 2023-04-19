@@ -68,6 +68,11 @@ export default {
           title: "Hodimlar",
         },
         {
+          link: `/davomat`,
+          icon: "fa fa-clipboard-check",
+          title: "davomat",
+        },
+        {
           link: `/settings`,
           icon: "fa fa-tools",
           title: "Sozlamalar",

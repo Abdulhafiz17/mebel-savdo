@@ -84,7 +84,12 @@ export default {
       let branch_id = 0;
       let warehouse_id = 0;
       let roles = [""];
-      if (this.role == "logistika") {
+      if (this.role == "admin") {
+        roles = [];
+      } else if (this.role == "branch_admin") {
+        branch_id = this.branch_id;
+        roles = ["branch_admin", "seller"];
+      } else if (this.role == "logistika") {
         roles = ["worker", "ustanovshik"];
       }
       api.users(branch_id, warehouse_id, roles, page, limit).then((res) => {
