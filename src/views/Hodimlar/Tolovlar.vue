@@ -37,24 +37,30 @@
           <th>Summa</th>
           <th>Izoh</th>
           <th>Hodim</th>
+          <th>Kassa</th>
           <th>Sana</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="item in expenses.data" :key="item">
           <td>
-            {{ Intl.NumberFormat().format(item.price) + " so'm" }}
+            {{ Intl.NumberFormat().format(item.Expenses.price) + " so'm" }}
           </td>
-          <td>{{ item.comment }}</td>
-          <td>{{ item.user.name }}</td>
+          <td>{{ item.Expenses.comment }}</td>
+          <td>{{ item.Expenses.user.name }}</td>
+          <td>{{ item.kassa }}</td>
           <td>
-            {{ item.time.replace("T", " ").substring(0, item.time.length - 3) }}
+            {{
+              item.Expenses.time
+                .replace("T", " ")
+                .substring(0, item.Expenses.time.length - 3)
+            }}
           </td>
         </tr>
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="4">
+          <td colspan="5">
             <Pagination
               :page="expenses.current_page"
               :pages="expenses.pages"
@@ -73,6 +79,7 @@ import * as api from "@/components/Api/Api.js";
 import Pagination from "@/components/Pagination/Pagination.vue";
 export default {
   name: "tolov",
+  components: { Pagination },
   data() {
     return {
       user: null,

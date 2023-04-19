@@ -146,6 +146,11 @@ export default {
           title: "Kassalar",
         },
         {
+          link: `/admin-hodimlar`,
+          icon: "fa fa-user-group",
+          title: "Hodimlar",
+        },
+        {
           link: `/`,
           icon: "fa fa-sign-out",
           title: "Chiqish",
