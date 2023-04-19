@@ -60,7 +60,7 @@ let routes = [
   {
     path: "/filiallar",
     name: "filiallar",
-    meta: { requiresAuth: true, title: "Filiallar", role: "admin" },
+    meta: { requiresAuth: true, title: "Filiallar" },
     component: () => import("../views/Filiallar/Filiallar.vue"),
   },
   {

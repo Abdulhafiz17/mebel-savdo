@@ -19,6 +19,7 @@
     <div class="col-md-4 my-1"></div>
     <div class="col-md-4">
       <button
+        v-if="role == 'admin'"
         class="btn btn-sm btn-block btn-outline-secondary"
         data-toggle="modal"
         data-target="#filialAdd"
@@ -80,7 +81,7 @@
               </a>
             </ul>
             <div class="row my-1">
-              <div class="col my-1">
+              <div class="col my-1" v-if="role == 'admin'">
                 <router-link
                   :to="`/statistic/${item.id}`"
                   class="btn btn-sm btn-block btn-outline-success"
@@ -88,7 +89,7 @@
                   <i class="fa fa-chart-line" />
                 </router-link>
               </div>
-              <div class="col my-1">
+              <div class="col my-1" v-if="role == 'admin'">
                 <router-link
                   :to="`/hodimlar/${item.id}`"
                   class="btn btn-sm btn-block btn-outline-info"
@@ -104,7 +105,7 @@
                   <i class="fa fa-cash-register" />
                 </router-link>
               </div>
-              <div class="col my-1">
+              <div class="col my-1" v-if="role == 'admin'">
                 <router-link
                   :to="`/filial/${item.id}`"
                   class="btn btn-sm btn-block btn-outline-secondary"
@@ -112,7 +113,7 @@
                   <i class="fa fa-history" />
                 </router-link>
               </div>
-              <div class="col my-1">
+              <div class="col my-1" v-if="role == 'admin'">
                 <button
                   class="btn btn-sm btn-block btn-outline-warning"
                   data-toggle="modal"
@@ -364,6 +365,7 @@ export default {
   name: "Filiallar",
   data() {
     return {
+      role: localStorage["role"],
       image: api.url_to_files,
       search: "",
       currencies: [],

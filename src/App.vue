@@ -1,14 +1,7 @@
 <template>
   <div class="app dark">
     <span v-if="this.$route.name !== 'login'">
-      <Sidebar
-        v-if="
-          role !== 'admin' &&
-          role !== 'worker' &&
-          role !== 'warehouseman' &&
-          role !== 'logistika'
-        "
-      />
+      <Sidebar v-if="['branch_admin', 'seller'].includes(role)" />
     </span>
     <div class="container-fluid pt-2" style="height: 100vh">
       <div
@@ -18,10 +11,9 @@
         "
         :style="[
           this.$route.name == 'login' ||
-          role == 'admin' ||
-          role == 'worker' ||
-          role == 'logistika' ||
-          role == 'warehouseman'
+          ['admin', 'cashier', 'logistika', 'warehouseman', 'worker'].includes(
+            role
+          )
             ? { 'margin-left': '0' }
             : { 'margin-left': '35px' },
         ]"
@@ -29,9 +21,13 @@
         <div
           class="btn-group btn-group-sm btn-admin"
           v-if="
-            (role == 'admin' ||
-              role == 'warehouseman' ||
-              role == 'logistika') &&
+            [
+              'admin',
+              'cashier',
+              'logistika',
+              'warehouseman',
+              'worker',
+            ].includes(role) &&
             this.$route.name !== 'login' &&
             this.$route.name !== 'main'
           "

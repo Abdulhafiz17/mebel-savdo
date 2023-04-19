@@ -94,6 +94,11 @@ export default {
           icon: "fa fa-truck-loading",
           title: "Taminotlar",
         },
+        {
+          link: `/`,
+          icon: "fa fa-sign-out",
+          title: "Chiqish",
+        },
       ],
       logistika: [
         {
@@ -110,6 +115,28 @@ export default {
           link: `/transport`,
           icon: "fa fa-truck",
           title: "Transport",
+        },
+        {
+          link: `/`,
+          icon: "fa fa-sign-out",
+          title: "Chiqish",
+        },
+      ],
+      cashier: [
+        {
+          link: `/filiallar`,
+          icon: "fa fa-code-branch",
+          title: "Filiallar",
+        },
+        {
+          link: `/cashiers`,
+          icon: "fa fa-cash-register",
+          title: "Kassalar",
+        },
+        {
+          link: `/`,
+          icon: "fa fa-sign-out",
+          title: "Chiqish",
         },
       ],
     };

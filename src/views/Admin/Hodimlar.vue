@@ -71,7 +71,7 @@
                   <span class="fa fa-info" />
                 </router-link>
               </div>
-              <div class="col" v-if="hodim.role == 'worker'">
+              <div class="col" v-if="false">
                 <button
                   class="btn btn-sm btn-block btn-outline-primary"
                   data-toggle="modal"
@@ -170,6 +170,7 @@
                   v-model="yangiHodim.role"
                 >
                   <option hidden value="">role</option>
+                  <option v-if="role == 'admin'" value="cashier">Kassir</option>
                   <option v-if="role == 'admin'" value="branch_admin">
                     Filial admin
                   </option>
