@@ -124,6 +124,11 @@ export default {
           title: "Transfer",
         },
         {
+          link: `/settings`,
+          icon: "fa fa-tools",
+          title: "Sozlamalar",
+        },
+        {
           link: `/`,
           icon: "fa fa-sign-out",
           title: "Chiqish",

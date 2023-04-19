@@ -809,3 +809,15 @@ export function enter_user(data) {
 export function close_user(data) {
   return api(`close_user`, "put", data);
 }
+
+// shipping
+
+export function shippingCost() {
+  return api(`get_shipping_cost`, "get");
+}
+export function createShippingCost(data) {
+  return api(`create_shipping_cost`, "post", data);
+}
+export function updateShippingCost(id, data) {
+  return api(`update_shipping_cost/${id}`, "put", data);
+}

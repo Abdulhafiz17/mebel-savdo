@@ -205,6 +205,110 @@
       </div>
     </details>
 
+    <details v-if="role == 'admin' || role == 'logistika'">
+      <summary @click="getShipping()">
+        <strong>Yetkazib berish narxi</strong>
+      </summary>
+      <div class="row">
+        <div class="col-md-8 my-1 mx-auto">
+          <form @submit.prevent="postShipping()">
+            <div class="input-group input-group-sm">
+              <div class="input-group-text p-0">
+                <button
+                  type="button"
+                  class="btn btn-sm"
+                  :class="shipping.city ? 'bg-primary' : ''"
+                  @click="shipping.city = !shipping.city"
+                >
+                  Shahar tashqarisi
+                </button>
+              </div>
+              <div class="input-group-text p-0">
+                <button
+                  type="button"
+                  class="btn btn-sm"
+                  :class="shipping.etaj ? 'bg-primary' : ''"
+                  @click="shipping.etaj = !shipping.etaj"
+                >
+                  Ko'p qavatli bino ( ^ 2 - qavat )
+                </button>
+              </div>
+              <input
+                class="form-control"
+                type="text"
+                minlength="1"
+                placeholder="nomi"
+                required
+                v-model="shipping.price"
+              />
+              <div class="input-group-append">
+                <div class="input-group-text">so'm</div>
+              </div>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary">
+                  <i class="fa fa-circle-plus" />
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div
+          class="col-md-8 my-1 mx-auto"
+          v-for="item in shippings"
+          :key="item"
+        >
+          <form @submit.prevent="putShipping(item)">
+            <div class="input-group input-group-sm">
+              <div class="input-group-text p-0">
+                <button
+                  type="button"
+                  class="btn btn-sm"
+                  :class="item.city ? 'bg-primary' : ''"
+                  @click="item.city = !item.city"
+                >
+                  Shahar tashqarisi
+                </button>
+              </div>
+              <div class="input-group-text p-0">
+                <button
+                  type="button"
+                  class="btn btn-sm"
+                  :class="item.etaj ? 'bg-primary' : ''"
+                  @click="item.etaj = !item.etaj"
+                >
+                  Ko'p qavatli bino ( ^ 2 - qavat )
+                </button>
+              </div>
+              <input
+                class="form-control"
+                type="text"
+                minlength="1"
+                placeholder="nomi"
+                required
+                v-model="item.price"
+              />
+              <div class="input-group-append">
+                <div class="input-group-text">so'm</div>
+              </div>
+              <div class="input-group-append">
+                <button class="btn btn-outline-success">
+                  <i class="far fa-circle-check" />
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-8 mx-auto">
+          <Pagination
+            :page="page"
+            :pages="pages"
+            :limit="limit"
+            @get="getCategories"
+          />
+        </div>
+      </div>
+    </details>
+
     <details>
       <summary @click="get()">
         <strong>Shaxsiy ma'lumotlar</strong>
@@ -312,6 +416,13 @@ export default {
         currency: null,
         price: null,
       },
+      shippings: [],
+      shipping: {
+        price: 0,
+        etaj: false,
+        city: false,
+        price_for_branch: 0,
+      },
     };
   },
   created() {},
@@ -345,6 +456,11 @@ export default {
         this.categories = Response.data.data;
       });
     },
+    getShipping() {
+      api.shippingCost().then((res) => {
+        this.shippings = res.data;
+      });
+    },
     postCurrency(data) {
       api.createCurrency(data).then((Response) => {
         this.currency.currency = null;
@@ -363,6 +479,19 @@ export default {
         });
       });
     },
+    postShipping() {
+      api.createShippingCost(this.shipping).then(() => {
+        api.success().then(() => {
+          this.shipping = {
+            price: 0,
+            etaj: false,
+            city: false,
+            price_for_branch: 0,
+          };
+          this.getShipping();
+        });
+      });
+    },
     put(data) {
       api.updateUser(data).then((Response) => {
         api.success();
@@ -376,6 +505,11 @@ export default {
     putCategory(data) {
       data.percent ? (data.percent = data.percent) : (data.percent = 0);
       api.updateCategory(data).then((Response) => {
+        api.success();
+      });
+    },
+    putShipping(data) {
+      api.updateShippingCost(data.id, data).then(() => {
         api.success();
       });
     },
