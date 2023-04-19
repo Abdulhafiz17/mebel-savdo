@@ -64,7 +64,7 @@
                   <i class="fa fa-history"></i>
                 </router-link>
               </div>
-              <div class="col" v-if="role == 'admin'">
+              <div class="col" v-if="role == 'admin' || role == 'cashier'">
                 <button
                   class="btn btn-sm btn-block btn-outline-success"
                   @click="$refs.PaymentModal.start(item)"
