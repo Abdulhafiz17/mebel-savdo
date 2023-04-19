@@ -69,7 +69,12 @@
   <hr />
 
   <div class="body">
-    <ul class="nav nav-pills nav-justified mb-3" id="pills-tab" role="tablist">
+    <ul
+      v-if="role == 'admin'"
+      class="nav nav-pills nav-justified mb-3"
+      id="pills-tab"
+      role="tablist"
+    >
       <li class="nav-item" role="presentation">
         <button
           class="nav-link active"
@@ -194,6 +199,7 @@
                     <td>
                       <div class="btn-group btn-group-sm">
                         <button
+                          v-if="role == 'admin'"
                           class="btn btn-outline-warning"
                           @click="$refs.mahsulotModal.start(item)"
                         >
@@ -1016,6 +1022,7 @@ export default {
   data() {
     return {
       image: api.url_to_files,
+      role: localStorage["role"],
       search: "",
       page: 0,
       pages: 1,
@@ -1144,7 +1151,9 @@ export default {
           limit,
           this.branch_id,
           this.from_date,
-          this.to_date,0,0
+          this.to_date,
+          0,
+          0
         )
         .then((Response) => {
           this.transfersWaiting = Response.data.data;
@@ -1162,7 +1171,9 @@ export default {
           limit,
           this.branch_id,
           this.from_date,
-          this.to_date,0,0
+          this.to_date,
+          0,
+          0
         )
         .then((Response) => {
           this.transfersAccepted = Response.data.data;
