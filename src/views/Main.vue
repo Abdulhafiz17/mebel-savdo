@@ -195,6 +195,51 @@ export default {
           title: "Chiqish",
         },
       ],
+      ustanovshik: [
+        {
+          link: `/transport`,
+          icon: "fa fa-truck",
+          title: "Transport",
+        },
+        {
+          link: `/transfer`,
+          icon: "fa fa-arrow-up",
+          icon_2: "fa fa-arrow-down",
+          title: "Transfer",
+        },
+        {
+          link: `/settings`,
+          icon: "fa fa-tools",
+          title: "Sozlamalar",
+        },
+        {
+          link: `/`,
+          icon: "fa fa-sign-out",
+          title: "Chiqish",
+        },
+      ],
+      seller: [
+        {
+          link: `/hodim/${localStorage["user_id"]}`,
+          icon: "fa fa-receipt",
+          title: "Buyurtmalar",
+        },
+        {
+          link: `/hodim-tarix/${localStorage["user_id"]}`,
+          icon: "fa fa-history",
+          title: "To'lov tarix",
+        },
+        {
+          link: `/settings`,
+          icon: "fa fa-tools",
+          title: "Sozlamalar",
+        },
+        {
+          link: `/`,
+          icon: "fa fa-sign-out",
+          title: "Chiqish",
+        },
+      ],
     };
   },
   computed: {

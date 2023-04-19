@@ -12,9 +12,15 @@ export default {
   },
   created() {
     if (
-      ["admin", "cashier", "logistika", "worker", "warehouseman"].includes(
-        this.role
-      )
+      [
+        "admin",
+        "cashier",
+        "logistika",
+        "worker",
+        "ustanovshik",
+        "warehouseman",
+        "seller",
+      ].includes(this.role)
     ) {
       this.$router.replace("/main");
     } else if (this.role == "branch_admin") {
