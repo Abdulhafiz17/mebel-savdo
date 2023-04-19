@@ -7,7 +7,12 @@
   </div>
   <hr />
 
-  <ul class="nav nav-pills nav-justified mb-3" id="pills-tab" role="tablist">
+  <ul
+    v-if="role !== 'branch_admin'"
+    class="nav nav-pills nav-justified mb-3"
+    id="pills-tab"
+    role="tablist"
+  >
     <li class="nav-item" role="presentation">
       <button
         class="nav-link active"
@@ -123,7 +128,8 @@ export default {
   components: { Pagination },
   data() {
     return {
-      type: "income",
+      role: localStorage["role"],
+      type: localStorage["role"] == "branch_admin" ? "expense" : "income",
       cashier: null,
       history: {
         current_page: 0,
