@@ -79,7 +79,7 @@
             data-dismiss="modal"
             @click="
               filter = {
-                status: 'false',
+                status: 'true',
                 warehouseman: false,
                 warehouseman_id: 0,
               };

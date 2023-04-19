@@ -51,6 +51,7 @@
               <td>{{ item.Warehouses.name }}</td>
               <td>
                 <button
+                  v-if="role == 'branch_admin'"
                   class="btn btn-sm btn-outline-success"
                   @click="$refs.mahsulotModal.start(item)"
                 >
