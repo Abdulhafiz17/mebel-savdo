@@ -56,10 +56,17 @@
                 <li class="list-group-item">
                   <span class="fa fa-user-tag" />
                   <span v-if="hodim.role == 'admin'">Admin</span>
-                  <span v-if="hodim.role == 'branch_admin'">Filial admin</span>
-                  <span v-if="hodim.role == 'cashier'">Kassir</span>
-                  <span v-if="hodim.role == 'seller'">Sotuvchi</span>
-                  <span v-if="hodim.role == 'worker'">Transport</span>
+                  <span v-else-if="hodim.role == 'branch_admin'"
+                    >Filial admin</span
+                  >
+                  <span v-else-if="hodim.role == 'cashier'">Kassir</span>
+                  <span v-else-if="hodim.role == 'seller'">Sotuvchi</span>
+                  <span v-else-if="hodim.role == 'worker'">Transport</span>
+                  <span v-else-if="hodim.role == 'ustanovshik'"
+                    >Ustanovshik</span
+                  >
+                  <span v-else-if="hodim.role == 'logistika'">Logistika</span>
+                  <span v-else-if="hodim.role == 'warehouseman'">Omborchi</span>
                 </li>
                 <li class="list-group-item">
                   <span class="fa fa-coins" />
