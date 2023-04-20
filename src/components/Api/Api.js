@@ -519,8 +519,8 @@ export function preOrders(
     "get"
   );
 }
-export function createPreOrder(data) {
-  return api(`create_pre_order`, "post", data);
+export function createPreOrder() {
+  return api(`create_pre_order`, "post");
 }
 export function updatePreOrder(data) {
   return api(`update_pre_order`, "put", data);

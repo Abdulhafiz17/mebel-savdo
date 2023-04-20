@@ -242,6 +242,12 @@ let routes = [
     component: () => import("../views/Kassa/Kassa.vue"),
   },
   {
+    path: "/pre-order",
+    name: "pre-order",
+    meta: { requiresAuth: true, title: "Oldindan buyurtma" },
+    component: () => import("../views/PreOrder/preOrder.vue"),
+  },
+  {
     path: "/cashiers",
     name: "cashiers",
     meta: { requiresAuth: true, title: "Kassalar" },

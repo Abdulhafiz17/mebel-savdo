@@ -51,6 +51,15 @@ export default {
 
         <router-link
           class="SidebarLink"
+          to="/pre-order"
+          v-if="role === 'branch_admin'"
+        >
+          <i class="icon"><span class="fa fa-receipt" /></i>
+          <p>Oldindan buyurtma</p>
+        </router-link>
+
+        <router-link
+          class="SidebarLink"
           :to="`/statistic/${branch_id}`"
           v-if="role === 'branch_admin'"
         >
