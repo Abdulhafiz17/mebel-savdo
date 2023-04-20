@@ -102,9 +102,10 @@ export default {
           title: "Ombor",
         },
         {
-          link: `/ombor-buyurtmalar/${localStorage["branch_id"]}`,
-          icon: "fa fa-receipt",
-          title: "Buyurtmalar",
+          link: `/products-from-warehouse`,
+          icon: "fa fa-code-branch",
+          icon_2: "fa fa-warehouse",
+          title: "Filial ombordan so'ragan mahsulotlar",
         },
         {
           link: `/ombor-taminotlar/${localStorage["branch_id"]}`,
