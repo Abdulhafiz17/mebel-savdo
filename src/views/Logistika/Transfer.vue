@@ -50,6 +50,7 @@
           <th>Mahsulot</th>
           <th>Soni</th>
           <th>Ombor</th>
+          <th>Filial</th>
           <th>Sana</th>
           <th>Narx</th>
           <th>
@@ -82,9 +83,8 @@
             }}
           </td>
           <td>{{ item.Transfers.quantity }} dona</td>
-          <td>
-            {{ item.name ? item.name : "" }}
-          </td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.branch }}</td>
           <td>
             {{ item.Transfers.time.replace("T", " ").substring(0, 10) }}
           </td>
