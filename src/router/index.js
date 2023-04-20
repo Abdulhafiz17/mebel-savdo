@@ -208,6 +208,12 @@ let routes = [
     component: () => import("../views/Mahsulotlar/Mahsulotlar.vue"),
   },
   {
+    path: "/nomenclature",
+    name: "nomenclature",
+    meta: { requiresAuth: true, title: "Nomenklatura" },
+    component: () => import("../views/Nomenklatura/nomenklatura.vue"),
+  },
+  {
     path: "/products-from-warehouse",
     name: "products-from-warehouse",
     meta: { requiresAuth: true, title: "Mahsulotlar" },

@@ -269,6 +269,16 @@ export function warehouseProducts(id, category_id, page, limit, status) {
     );
   }
 }
+export function productExamples(search, category_id, page, limit) {
+  const search_query = search ? `search=${search}&` : ``;
+  return api(
+    `get_product_examples?${search_query}category_id=${category_id}&page=${page}&limit=${limit}`,
+    "get"
+  );
+}
+export function addProductExample(data) {
+  return api(`add_product_example`, "post", data);
+}
 export function removeWarehouseProduct(product_id, quantity) {
   return api(`remove_w_product/${product_id}/${quantity}`, "delete");
 }

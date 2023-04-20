@@ -60,6 +60,11 @@ export default {
           title: "Transfer",
         },
         {
+          link: `/nomenclature`,
+          icon: "fa fa-signature",
+          title: "Nomenklatura",
+        },
+        {
           link: `/products`,
           icon: "fa fa-box",
           title: "Mahsulotlar",
