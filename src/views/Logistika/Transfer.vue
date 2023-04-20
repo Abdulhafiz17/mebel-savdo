@@ -33,7 +33,7 @@
         <tr>
           <th>
             <input
-              v-if="role == 'worker'"
+              v-if="role == 'worker' || role == 'logistika'"
               type="checkbox"
               :checked="
                 transfers.data.length &&
@@ -66,7 +66,7 @@
         <tr v-for="item in transfers.data" :key="item">
           <td>
             <input
-              v-if="role == 'worker'"
+              v-if="role == 'worker' || role == 'logistika'"
               type="checkbox"
               :value="item"
               v-model="transfers_to_send"
@@ -151,6 +151,9 @@
               <select class="form-select" v-model="filter.status">
                 <option value="filialga_berish_kutish">Kutish</option>
                 <option value="filialga_berish_logistika">Logistika</option>
+                <option value="filialga_berish_logistika_user">
+                  Logistika hodim biriktirilgan
+                </option>
                 <option value="filialga_berish_tasdiqlandi">Tasdiqlandi</option>
               </select>
             </div>
@@ -351,22 +354,28 @@ export default {
       });
     },
     getTransfers(page, limit) {
-      const worker_id =
+      let status = "";
+      let worker_id =
         this.role == "worker"
           ? this.user_id
           : this.role == "ustanovshik"
           ? 1
           : this.filter.worker_id;
-      const ustanovshik_id =
+      let ustanovshik_id =
         this.role == "ustanovshik"
           ? this.user_id
           : this.role == "worker"
           ? 1
           : this.filter.ustanovshik_id;
+      if (this.filter.status == "filialga_berish_logistika_user") {
+        status = "filialga_berish_logistika";
+        worker_id = 1;
+        ustanovshik_id = 1;
+      } else status = this.filter.status;
       api
         .transfers(
           this.filter.warehouse_id,
-          this.filter.status,
+          status,
           page,
           limit,
           this.filter.branch_id,

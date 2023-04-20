@@ -330,7 +330,7 @@ export function transfers(
   const time_query =
     from_time && to_time ? `from_time=${from_time}&to_time=${to_time}&` : ``;
   return api(
-    `get_transfers?warehouse_id=${warehouse_id}&status=${status}&branch_id=${branch_id}&${time_query}worker_id=${worker_id}&ustanovshik_id=${ustanovshik_id}&page=${page}&limit${limit}`,
+    `get_transfers?warehouse_id=${warehouse_id}&status=${status}&branch_id=${branch_id}&${time_query}worker_id=${worker_id}&ustanovshik_id=${ustanovshik_id}&page=${page}&limit=${limit}`,
     "get"
   );
 }

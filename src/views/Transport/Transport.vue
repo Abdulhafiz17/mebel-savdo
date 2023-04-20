@@ -56,7 +56,7 @@
               {{ item.comment }}
             </p>
             <div class="row">
-              <div class="col" v-if="!item.delivered">
+              <div class="col" v-if="!item.delivered && role == 'logistika'">
                 <button
                   class="btn btn-sm btn-block btn-outline-warning"
                   data-toggle="modal"
@@ -83,7 +83,7 @@
                   <i class="fa fa-info"></i>
                 </button>
               </div>
-              <div class="col" v-if="!item.delivered && role !== 'logistika'">
+              <div class="col" v-if="!item.delivered && role == 'worker'">
                 <button
                   class="btn btn-sm btn-block btn-outline-success"
                   @click="putOrder(item.id)"
