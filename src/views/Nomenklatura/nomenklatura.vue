@@ -76,7 +76,11 @@
       >
         <strong>
           {{
-            item.Product_examples.name + " - " + item.Product_examples.articul
+            item.Product_examples.name +
+            " - " +
+            item.Product_examples.articul +
+            " - " +
+            item.Product_examples.code
           }}
         </strong>
         <p>{{ item.Categories.name }}</p>
