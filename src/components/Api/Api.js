@@ -504,6 +504,33 @@ export function attachLogistika(data) {
 export function deliverOrder(id) {
   return api(`deliver_order/${id}`, "put");
 }
+export function preOrders(
+  customer_id,
+  seller_id,
+  branch_id,
+  status,
+  worker_id,
+  ustanovshik_id,
+  page,
+  limit
+) {
+  return api(
+    `get_pre_orders?customer_id=${customer_id}&seller_id=${seller_id}&branch_id=${branch_id}&status=${status}&worker_id=${worker_id}&ustanovshik_id=${ustanovshik_id}&page=${page}&limit=${limit}`,
+    "get"
+  );
+}
+export function createPreOrder(data) {
+  return api(`create_pre_order`, "post", data);
+}
+export function updatePreOrder(data) {
+  return api(`update_pre_order`, "put", data);
+}
+export function logistikaPreOrder(data) {
+  return api(`logistika_pre_order`, "put", data);
+}
+export function deliveredPreOrder(id) {
+  return api(`delivered_pre_order/${id}`, "put");
+}
 
 // trade
 
@@ -518,6 +545,21 @@ export function updateTrade(status, data) {
 }
 export function tradeBalance(id) {
   return api(`get_trade_balance/${id}`, "get");
+}
+export function preOrderTrades(order_id, page, limit) {
+  return api(
+    `get_pre_order_trades/${order_id}?page=${page}&limit=${limit}`,
+    "get"
+  );
+}
+export function tradeToPreOrder(data) {
+  return api(`trade_to_pre_order`, "post", data);
+}
+export function updateTradeToPreOrder(data) {
+  return api(`update_trade_to_pre_order`, "post", data);
+}
+export function deleteTradeToPreOrder(id) {
+  return api(`delete_trade_to_pre_order/${id}`);
 }
 
 // return
