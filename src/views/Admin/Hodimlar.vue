@@ -358,11 +358,7 @@
             <button class="btn btn-outline-primary">
               <span class="far fa-circle-check" />
             </button>
-            <button
-              class="btn btn-outline-danger"
-              data-dismiss="modal"
-              @click="get(this.$route.params.id, 0, 50)"
-            >
+            <button class="btn btn-outline-danger" data-dismiss="modal">
               <span class="far fa-circle-xmark" />
             </button>
           </div>
@@ -509,14 +505,14 @@ export default {
           status: true,
         };
         api.success(0).then(() => {
-          this.get(0, 25);
+          this.get(0, 100);
         });
       });
     },
     put(data) {
       api.updateUser(data).then((Response) => {
         api.success(1).then(() => {
-          this.get(0, 25);
+          this.get(0, 100);
         });
       });
     },

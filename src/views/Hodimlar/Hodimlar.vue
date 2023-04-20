@@ -394,7 +394,7 @@
     </div>
   </div>
 
-  <payToUser ref="payToUser" @end="get(this.$route.params.id, 0, 100)" />
+  <payToUser ref="payToUser" @end="get(0, 100)" />
 </template>
 
 <script>
@@ -436,7 +436,7 @@ export default {
     };
   },
   created() {
-    this.get(this.$route.params.id, 0, 100);
+    this.get(0, 100);
     this.getCashiers();
   },
   mounted() {},
@@ -468,8 +468,8 @@ export default {
         this.cashiers = res.data;
       });
     },
-    get(id, page, limit) {
-      api.users(id, 0, [], page, limit).then((Response) => {
+    get(page, limit) {
+      api.users(this.$route.params.id, 0, [], page, limit).then((Response) => {
         this.hodimlar = Response.data.data;
         this.getBranch();
       });
@@ -505,14 +505,14 @@ export default {
           status: true,
         };
         api.success(0).then(() => {
-          this.get(this.$route.params.id, 0, 25);
+          this.get(0, 100);
         });
       });
     },
     put(data) {
       api.updateUser(data).then((Response) => {
         api.success(1).then(() => {
-          this.get(this.$route.params.id, 0, 25);
+          this.get(0, 100);
         });
       });
     },
@@ -528,7 +528,7 @@ export default {
           kassa_id: 0,
         };
         api.success(2).then(() => {
-          this.get(this.$route.params.id, 0, 100);
+          this.get(0, 100);
         });
       });
     },
