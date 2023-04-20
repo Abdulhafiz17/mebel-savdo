@@ -39,6 +39,7 @@
                 transfers.data.length &&
                 transfers.data.length == transfers_to_send.length
               "
+              :disabled="filter.status !== 'filialga_berish_logistika'"
               @change="
                 $event.target.checked
                   ? (transfers_to_send = transfers.data)
@@ -69,6 +70,7 @@
               v-if="role == 'worker' || role == 'logistika'"
               type="checkbox"
               :value="item"
+              :disabled="filter.status !== 'filialga_berish_logistika'"
               v-model="transfers_to_send"
             />
           </td>
