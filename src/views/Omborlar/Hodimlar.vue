@@ -450,7 +450,7 @@ export default {
     },
     get(page, limit) {
       api
-        .users(this.$route.params.id, id, ["warehouseman"], page, limit)
+        .users(0, this.$route.params.id, ["warehouseman"], page, limit)
         .then((Response) => {
           this.hodimlar = Response.data.data;
           this.getWarehouse();

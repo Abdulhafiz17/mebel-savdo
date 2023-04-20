@@ -208,7 +208,6 @@
                     Filial admin
                   </option>
                   <option value="seller">Sotuvchi</option>
-                  <option value="worker">Transport</option>
                 </select>
               </div>
               <div class="col-md-6">
