@@ -26,6 +26,7 @@
         <table class="table table-sm table-hover">
           <thead>
             <tr>
+              <th>Kategoriya</th>
               <th>Mahsulot</th>
               <th>Narx</th>
               <th>Miqdor</th>
@@ -36,12 +37,15 @@
           <tbody>
             <tr v-for="item in products.data_w" :key="item">
               <td>
+                {{ item.Categories.name }}
+              </td>
+              <td>
                 {{
-                  item.Categories.name +
-                  " - " +
                   item.Warehouse_products.name +
-                  " - " +
-                  item.Warehouse_products.articul
+                  " " +
+                  item.Warehouse_products.articul +
+                  " " +
+                  item.Warehouse_products.name2
                 }}
               </td>
               <td>
@@ -62,7 +66,7 @@
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="5">
+              <td colspan="6">
                 <Pagination
                   :page="products.current_page_w"
                   :pages="products.pages_w"
@@ -80,6 +84,7 @@
         <table class="table table-sm table-hover">
           <thead>
             <tr>
+              <th>Kategoriya</th>
               <th>Mahsulot</th>
               <th>Narx</th>
               <th>Miqdor</th>
@@ -89,12 +94,15 @@
           <tbody>
             <tr v-for="item in products.data_p" :key="item">
               <td>
+                {{ item.Categories.name }}
+              </td>
+              <td>
                 {{
-                  item.Categories.name +
-                  " - " +
                   item.Products.name +
-                  " - " +
-                  item.Products.articul
+                  " " +
+                  item.Products.articul +
+                  " " +
+                  item.Products.name2
                 }}
               </td>
               <td>

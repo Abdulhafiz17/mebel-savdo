@@ -83,7 +83,15 @@
         <tr v-for="(item, n) in trades" :key="item">
           <td>{{ n + 1 }}</td>
           <td>
-            {{ item.Categories.name + " - " + item.Products.articul }}
+            {{
+              item.Categories.name +
+              " - " +
+              item.Products.name +
+              " " +
+              item.Products.articul +
+              " " +
+              item.Products.name2
+            }}
           </td>
           <td>
             <div class="input-group input-group-sm w-50 mx-auto">

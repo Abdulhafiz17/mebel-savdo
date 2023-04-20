@@ -67,7 +67,15 @@
               </thead>
               <tbody>
                 <tr v-for="item2 in item.Categories.products" :key="item2">
-                  <td>{{ item2.Products.articul }}</td>
+                  <td>
+                    {{
+                      item2.Products.name +
+                      " " +
+                      item2.Products.articul +
+                      " " +
+                      item2.Products.name2
+                    }}
+                  </td>
                   <td>{{ item2.Products.code }}</td>
                   <td>{{ item2.sum_quantity }} dona</td>
                   <td>
@@ -364,7 +372,15 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header" v-if="product">
-          <h4>{{ product.Products.articul }}</h4>
+          <h4>
+            {{
+              product.Products.name +
+              " " +
+              product.Products.articul +
+              " " +
+              product.Products.name2
+            }}
+          </h4>
         </div>
         <form @submit.prevent="postPhoto(product)">
           <div class="modal-body">

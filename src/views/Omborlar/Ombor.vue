@@ -157,7 +157,7 @@
               <table class="table table-sm table-hover">
                 <thead>
                   <tr>
-                    <th>Nomi</th>
+                    <th>Mahsulot</th>
                     <th>Miqdor</th>
                     <th>Kpi</th>
                     <th>Kpi savdo</th>
@@ -169,15 +169,21 @@
                 </thead>
                 <tbody>
                   <tr v-for="item in item.products" :key="item">
-                    <td>{{ item.Warehouse_products.articul }}</td>
+                    <td>
+                      {{
+                        item.Warehouse_products.name +
+                        " " +
+                        item.Warehouse_products.articul +
+                        " " +
+                        item.Warehouse_products.name2
+                      }}
+                    </td>
                     <td>{{ item.Warehouse_products.quantity }} dona</td>
                     <td>
                       {{ $util.currency(item.Warehouse_products.kpi) }} so'm
                     </td>
                     <td>
-                      {{
-                        $util.currency(item.Warehouse_products.kpi_trade)
-                      }}
+                      {{ $util.currency(item.Warehouse_products.kpi_trade) }}
                       so'm
                     </td>
                     <td>
@@ -321,7 +327,7 @@
                     <tr>
                       <th></th>
                       <th>Kategoriya</th>
-                      <th>Nomi</th>
+                      <th>Mahsulot</th>
                       <th>Soni</th>
                       <th>Tan narx</th>
                       <th>Ustama</th>
@@ -349,7 +355,15 @@
                         />
                       </td>
                       <td>{{ item.Warehouse_products.category.name }}</td>
-                      <td>{{ item.Warehouse_products.articul }}</td>
+                      <td>
+                        {{
+                          item.Warehouse_products.name +
+                          " " +
+                          item.Warehouse_products.articul +
+                          " " +
+                          item.Warehouse_products.name2
+                        }}
+                      </td>
                       <td>
                         <label class="input-group input-group-sm">
                           <input
@@ -542,7 +556,7 @@
                 <thead>
                   <tr>
                     <th>Kategoriya</th>
-                    <th>Nomi</th>
+                    <th>Mahsulot</th>
                     <th>Soni</th>
                     <th>Narx</th>
                     <th>Summa</th>
@@ -554,7 +568,15 @@
                 <tbody>
                   <tr v-for="item in transfersWaiting" :key="item">
                     <td>{{ item.Warehouse_products.category.name }}</td>
-                    <td>{{ item.Warehouse_products.articul }}</td>
+                    <td>
+                      {{
+                        item.Warehouse_products.name +
+                        " " +
+                        item.Warehouse_products.articul +
+                        " " +
+                        item.Warehouse_products.name2
+                      }}
+                    </td>
                     <td>{{ item.Transfers.quantity }} dona</td>
                     <td>
                       {{
@@ -654,7 +676,7 @@
                 <thead>
                   <tr>
                     <th>Kategoriya</th>
-                    <th>Nomi</th>
+                    <th>Mahsulot</th>
                     <th>Soni</th>
                     <th>Narx</th>
                     <th>Qaysi filialga</th>
@@ -664,7 +686,15 @@
                 <tbody>
                   <tr v-for="item in transfersAccepted" :key="item">
                     <td>{{ item.Warehouse_products.category.name }}</td>
-                    <td>{{ item.Warehouse_products.articul }}</td>
+                    <td>
+                      {{
+                        item.Warehouse_products.name +
+                        " " +
+                        item.Warehouse_products.articul +
+                        " " +
+                        item.Warehouse_products.name2
+                      }}
+                    </td>
                     <td>{{ item.Transfers.quantity }} dona</td>
                     <td>
                       {{
@@ -710,7 +740,13 @@
         <div class="modal-header" v-if="product">
           <h4>
             {{ product.Warehouse_products.category.name }}
-            {{ product.Warehouse_products.articul }}
+            {{
+              product.Warehouse_products.name +
+              " " +
+              product.Warehouse_products.articul +
+              " " +
+              product.Warehouse_products.name2
+            }}
           </h4>
         </div>
         <form @submit.prevent="postPhoto(product)">
@@ -800,7 +836,25 @@
                   class="form-control form-control-sm"
                   required
                   placeholder="nomi"
+                  v-model="new_product.name"
+                />
+              </div>
+              <div class="col-md-2">
+                <input
+                  type="text"
+                  class="form-control form-control-sm"
+                  required
+                  placeholder="artikul"
                   v-model="new_product.articul"
+                />
+              </div>
+              <div class="col-md-2">
+                <input
+                  type="text"
+                  class="form-control form-control-sm"
+                  required
+                  placeholder="kodi"
+                  v-model="new_product.name2"
                 />
               </div>
               <div class="col-md-2">
@@ -947,7 +1001,11 @@
             {{
               product.Warehouse_products.category.name +
               " " +
+              product.Warehouse_products.name +
+              " " +
               product.Warehouse_products.articul +
+              " " +
+              product.Warehouse_products.name2 +
               " tarixi"
             }}
           </h4>

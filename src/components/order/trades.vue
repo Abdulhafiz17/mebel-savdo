@@ -14,7 +14,15 @@
       <tbody>
         <tr v-for="i in trades.data" :key="i">
           <td>
-            {{ i.Categories.name + " - " + i.Products.articul }}
+            {{
+              i.Categories.name +
+              " - " +
+              i.Products.name +
+              " " +
+              i.Products.articul +
+              " " +
+              i.Products.name2
+            }}
           </td>
           <td v-if="price">
             {{ Intl.NumberFormat().format(i.Trades.price) + " so'm" }}

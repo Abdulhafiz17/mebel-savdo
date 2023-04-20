@@ -25,7 +25,7 @@
     <div class="col-md-1 mb-1">
       <button
         class="btn btn-sm btn-block btn-outline-secondary"
-        @click="get(0, 50)"
+        @click="get(0, 25)"
       >
         <i class="far fa-circle-check" />
       </button>
@@ -38,7 +38,7 @@
         <thead>
           <tr>
             <th>Kategoriya</th>
-            <th>Nomi</th>
+            <th>Mahsulot</th>
             <th>Soni</th>
             <th>Narx</th>
             <th>Ombor</th>
@@ -46,9 +46,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in transfers" :key="item">
+          <tr v-for="item in transfers.data" :key="item">
             <td>{{ item.Warehouse_products.category.name }}</td>
-            <td>{{ item.Warehouse_products.articul }}</td>
+            <td>
+              {{
+                item.Warehouse_products.name +
+                " " +
+                item.Warehouse_products.articul +
+                " " +
+                item.Warehouse_products.name2
+              }}
+            </td>
             <td>{{ item.Transfers.quantity }} dona</td>
             <td>
               {{ Intl.NumberFormat().format(item.Transfers.transfer_price) }}
@@ -69,51 +77,12 @@
         <tfoot>
           <tr>
             <td colspan="7">
-              <div class="input-group input-group-sm">
-                <button
-                  class="btn btn-sm"
-                  @click="get(0, limit)"
-                  :disabled="page == 0"
-                >
-                  <i class="fa fa-angle-double-left" />
-                </button>
-                <button
-                  class="btn btn-sm"
-                  @click="get(page - 1, limit)"
-                  :disabled="page == 0"
-                >
-                  <i class="fa fa-angle-left" />
-                </button>
-                <button class="btn btn-sm">
-                  {{ page + 1 }}
-                </button>
-                <button
-                  class="btn btn-sm"
-                  @click="get(page + 1, limit)"
-                  :disabled="page == pages - 1 || pages == 0"
-                >
-                  <i class="fa fa-angle-right" />
-                </button>
-                <button
-                  class="btn btn-sm"
-                  @click="get(pages - 1, limit)"
-                  :disabled="page == pages - 1 || pages == 0"
-                >
-                  <i class="fa fa-angle-double-right" />
-                </button>
-                <div class="input-group-append">
-                  <select
-                    class="form-select form-select-sm"
-                    v-model="limit"
-                    @change="get(page, limit)"
-                  >
-                    <option disabled value="">limit</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                  </select>
-                </div>
-              </div>
+              <Pagination
+                :page="transfers.current_page"
+                :pages="transfers.pages"
+                :limit="transfers.limit"
+                @get="get"
+              />
             </td>
           </tr>
         </tfoot>
@@ -124,22 +93,26 @@
 
 <script>
 import * as api from "@/components/Api/Api";
+import Pagination from "@/components/Pagination/Pagination.vue";
 export default {
   name: "Taminotlar",
   props: ["omborlar"],
+  components: { Pagination },
   data() {
     return {
-      page: 0,
-      pages: 1,
-      limit: 50,
       warehouse_id: 0,
       from_time: "",
       to_time: "",
-      transfers: [],
+      transfers: {
+        current_page: 0,
+        pages: 1,
+        limit: 25,
+        data: [],
+      },
     };
   },
   created() {
-    this.get(this.page, this.limit);
+    this.get(0, 25);
   },
   mounted() {
     document.querySelector("#pills-profile-tab").onclick = () => {
@@ -161,9 +134,7 @@ export default {
           0
         )
         .then((Response) => {
-          this.transfers = Response.data.data;
-          this.page = Response.data.current_page;
-          this.pages = Response.data.pages;
+          this.transfers = Response.data;
         });
     },
   },

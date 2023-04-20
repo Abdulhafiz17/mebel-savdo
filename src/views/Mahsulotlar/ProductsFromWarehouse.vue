@@ -12,6 +12,7 @@
       <thead>
         <tr>
           <th>Filial</th>
+          <th>Kategoriya</th>
           <th>Mahsulot</th>
           <th>Miqdor</th>
           <th>Sana</th>
@@ -30,12 +31,15 @@
         <tr v-for="item in products.data" :key="item">
           <td>{{ item.branch }}</td>
           <td>
+            {{ item.category }}
+          </td>
+          <td>
             {{
-              item.category +
+              item.Orders_from_branch.name +
               " " +
               item.Orders_from_branch.articul +
               " " +
-              item.Orders_from_branch.name
+              item.Orders_from_branch.name2
             }}
           </td>
           <td>{{ item.Orders_from_branch.quantity + " dona" }}</td>
@@ -49,7 +53,7 @@
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="5">
+          <td colspan="6">
             <Pagination
               :page="products.current_page"
               :pages="products.pages"

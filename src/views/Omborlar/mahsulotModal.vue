@@ -16,9 +16,11 @@
             {{
               product?.Warehouse_products?.category?.name +
               " " +
+              product?.Warehouse_products?.name +
+              " " +
               product?.Warehouse_products?.articul +
               " " +
-              product?.Warehouse_products?.name
+              product?.Warehouse_products?.name2
             }}
           </h5>
           <div class="text-left">

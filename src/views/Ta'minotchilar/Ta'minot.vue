@@ -104,7 +104,7 @@
         <div class="col-md-12">
           <form @submit.prevent="post(supply)">
             <div class="row m-1">
-              <div class="col-md-4 my-1">
+              <div class="col-md-3 my-1">
                 <select
                   class="form-select form-select-sm"
                   required
@@ -117,7 +117,7 @@
                   </option>
                 </select>
               </div>
-              <div class="col-md-4 my-1">
+              <div class="col-md-3 my-1">
                 <select
                   class="form-select form-select-sm"
                   required
@@ -134,11 +134,20 @@
                   </option>
                 </select>
               </div>
-              <div class="col-md-4 my-1">
+              <div class="col-md-3 my-1">
                 <input
                   class="form-control form-control-sm"
                   type="text"
                   placeholder="nomi"
+                  required
+                  v-model="supply.name"
+                />
+              </div>
+              <div class="col-md-3 my-1">
+                <input
+                  class="form-control form-control-sm"
+                  type="text"
+                  placeholder="articul"
                   required
                   v-model="supply.articul"
                 />
@@ -149,7 +158,7 @@
                   type="text"
                   placeholder="kodi"
                   required
-                  v-model="supply.name"
+                  v-model="supply.name2"
                 />
               </div>
               <div class="col-md-3 my-1">
@@ -222,7 +231,7 @@
                   <thead>
                     <tr>
                       <th>Kategoriya</th>
-                      <th>Nomi</th>
+                      <th>Mahsulot</th>
                       <th>Narx</th>
                       <th>Soni</th>
                       <th>Summa</th>
@@ -232,7 +241,9 @@
                   <tbody>
                     <tr v-for="item in item.supplies" :key="item">
                       <td>{{ item.category.name }}</td>
-                      <td>{{ item.articul }}</td>
+                      <td>
+                        {{ item.name + " " + item.articul + " " + item.name2 }}
+                      </td>
                       <td>
                         {{ Intl.NumberFormat().format(item.price) }}
                         {{ item.currency.currency }}
@@ -552,6 +563,7 @@ export default {
         category_id: "",
         articul: null,
         name: null,
+        name2: null,
         quantity: null,
         price: null,
         currency_id: "",

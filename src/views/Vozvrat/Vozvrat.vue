@@ -191,7 +191,15 @@
             <tbody>
               <tr v-for="i in trades" :key="i">
                 <td>
-                  {{ i.Categories.name + " - " + i.Products.articul }}
+                  {{
+                    i.Categories.name +
+                    " - " +
+                    i.Products.name +
+                    " " +
+                    i.Products.articul +
+                    " " +
+                    i.Products.name2
+                  }}
                 </td>
                 <td>
                   {{ Intl.NumberFormat().format(i.Trades.price) + " so'm" }}
@@ -284,7 +292,15 @@
             <tbody>
               <tr v-for="i in returned_products" :key="i">
                 <td>
-                  {{ `${i.Categories?.name} - ${i.Products?.articul}` }}
+                  {{
+                    i.Categories.name +
+                    " - " +
+                    i.Products.name +
+                    " " +
+                    i.Products.articul +
+                    " " +
+                    i.Products.name2
+                  }}
                 </td>
                 <td>
                   {{ i.sum_quantity + " dona" }}
@@ -322,7 +338,15 @@
       <div class="modal-content" v-if="product">
         <div class="modal-header">
           <h4>
-            {{ `${product.Categories.name} - ${product.Products.articul}` }}
+            {{
+              product.Categories.name +
+              " - " +
+              product.Products.name +
+              " " +
+              product.Products.articul +
+              " " +
+              product.Products.name2
+            }}
             dan qaytarib olish
           </h4>
         </div>

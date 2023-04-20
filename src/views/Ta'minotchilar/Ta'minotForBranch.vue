@@ -72,6 +72,7 @@
                     "
                   />
                 </th>
+                <th>Kategoriy</th>
                 <th>Mahsulot</th>
                 <th>Soni</th>
                 <th>Ombor</th>
@@ -89,10 +90,15 @@
                   <input type="checkbox" :value="item" v-model="transfers" />
                 </td>
                 <td>
+                  {{ item.Warehouse_products.category.name }}
+                </td>
+                <td>
                   {{
-                    item.Warehouse_products.category.name +
-                    " - " +
-                    item.Warehouse_products.articul
+                    item.Warehouse_products.name +
+                    " " +
+                    item.Warehouse_products.articul +
+                    " " +
+                    item.Warehouse_products.name2
                   }}
                 </td>
                 <td>{{ item.Transfers.quantity }} dona</td>
@@ -166,7 +172,7 @@
             </tbody>
             <tfoot>
               <tr>
-                <td colspan="10">
+                <td colspan="15">
                   <Pagination
                     :page="page"
                     :pages="pages"

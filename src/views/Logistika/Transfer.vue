@@ -47,6 +47,7 @@
               "
             />
           </th>
+          <th>Kategoriya</th>
           <th>Mahsulot</th>
           <th>Soni</th>
           <th>Ombor</th>
@@ -76,10 +77,15 @@
             />
           </td>
           <td>
+            {{ item.Warehouse_products.category.name }}
+          </td>
+          <td>
             {{
-              item.Warehouse_products.category.name +
-              " - " +
-              item.Warehouse_products.articul
+              item.Warehouse_products.name +
+              " " +
+              item.Warehouse_products.articul +
+              " " +
+              item.Warehouse_products.name2
             }}
           </td>
           <td>{{ item.Transfers.quantity }} dona</td>
