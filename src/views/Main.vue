@@ -168,6 +168,11 @@ export default {
           title: "Kassalar",
         },
         {
+          link: `/expense`,
+          icon: "fa fa-wallet",
+          title: "Chiqim",
+        },
+        {
           link: `/admin-hodimlar`,
           icon: "fa fa-user-group",
           title: "Hodimlar",
