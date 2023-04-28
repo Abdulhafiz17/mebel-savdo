@@ -114,6 +114,15 @@
                 </router-link>
               </div>
               <div class="col my-1" v-if="role == 'admin'">
+                <a
+                  :href="`https://www.google.com/maps/@${item.map_lat},${item.map_long},20z`"
+                  target="_blank"
+                  class="btn btn-sm btn-block btn-outline-success"
+                >
+                  <i class="fa fa-location-dot" />
+                </a>
+              </div>
+              <div class="col my-1" v-if="role == 'admin'">
                 <button
                   class="btn btn-sm btn-block btn-outline-warning"
                   data-toggle="modal"
