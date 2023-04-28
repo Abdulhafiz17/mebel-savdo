@@ -72,6 +72,7 @@ export default {
   data() {
     return {
       role: localStorage["role"],
+      branch_id: this.$route.query.branch_id || 0,
       page: 0,
       pages: 1,
       limit: 50,
@@ -89,7 +90,7 @@ export default {
         .variableExpenses(
           page,
           limit,
-          this.$route.params.id,
+          this.branch_id,
           this.from_time,
           this.to_time
         )

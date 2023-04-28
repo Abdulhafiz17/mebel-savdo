@@ -104,7 +104,7 @@ export default {
     return {
       _: Intl.NumberFormat(),
       role: localStorage["role"],
-      branch_id: localStorage["branch_id"],
+      branch_id: this.$route.query.branch_id || 0,
       page: 0,
       pages: 1,
       limit: 50,
@@ -137,13 +137,12 @@ export default {
         .fixedExpense(
           page,
           limit,
-          this.$route.params.id,
+          this.branch_id,
           this.id,
           this.from_time,
           this.to_time
         )
         .then((Response) => {
-          console.log(Response.data);
           this.page = Response.data.current_page;
           this.pages = Response.data.pages;
           this.history = Response.data.data;
@@ -155,12 +154,11 @@ export default {
         .variableExpenses(
           page,
           limit,
-          this.$route.params.id,
+          this.branch_id,
           this.from_time,
           this.to_time
         )
         .then((Response) => {
-          console.log(Response.data);
           this.page = Response.data.current_page;
           this.pages = Response.data.pages;
           this.history = this.history.concat(Response.data.data);

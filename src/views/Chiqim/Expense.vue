@@ -2,7 +2,7 @@
   <h3><span class="fa fa-wallet" /> Chiqim</h3>
   <div class="row">
     <div class="col-md"></div>
-    <div class="col-md my-1" v-if="role == 'branch_admin'">
+    <div class="col-md my-1" v-if="role == 'branch_admin' || role == 'cashier'">
       <div class="btn-group btn-group-sm">
         <button
           class="btn btn-outline-secondary float-right"
@@ -333,6 +333,7 @@ export default {
   data() {
     return {
       role: localStorage["role"],
+      branch_id: this.$route.query.branch_id || 0,
       cashiers: [],
       page: 0,
       pages: 1,
@@ -367,7 +368,7 @@ export default {
   },
   methods: {
     getCashiers() {
-      api.kassa("", 0, localStorage["branch_id"]).then((res) => {
+      api.kassa("", 0, this.branch_id).then((res) => {
         this.cashiers = res.data;
       });
     },
