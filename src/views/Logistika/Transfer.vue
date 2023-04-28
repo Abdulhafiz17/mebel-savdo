@@ -53,7 +53,7 @@
           <th>Ombor</th>
           <th>Filial</th>
           <th>Sana</th>
-          <th v-if="role !== 'worker'">Narx</th>
+          <th v-if="role !== 'worker' && role !== 'ustanovshik'">Narx</th>
           <th>
             <button
               class="btn btn-sm btn-outline-info"
@@ -94,7 +94,7 @@
           <td>
             {{ item.Transfers.time.replace("T", " ").substring(0, 10) }}
           </td>
-          <td v-if="role !== 'worker'">
+          <td v-if="role !== 'worker' && role !== 'ustanovshik'">
             {{
               _.format(item.Transfers.transfer_price) +
               " " +
