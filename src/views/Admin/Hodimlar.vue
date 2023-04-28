@@ -185,6 +185,34 @@
                   <div class="input-group-text">so'm</div>
                 </div>
               </div>
+              <div class="col-md-12" v-if="yangiHodim.role == 'logistika'">
+                <div class="row">
+                  <div class="col-6">
+                    Kunlik buyurtma limit
+                    <div class="input-group input-group-sm">
+                      <input
+                        type="number"
+                        class="form-control"
+                        min="1"
+                        v-model="yangiHodim.daily_limit"
+                      />
+                      <div class="input-group-text">dona</div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    Kunlik buyurtma limit bajarilgandagi bonus
+                    <div class="input-group input-group-sm">
+                      <input
+                        type="number"
+                        class="form-control"
+                        min="1"
+                        v-model="yangiHodim.daily_limit_money"
+                      />
+                      <div class="input-group-text">so'm</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="col-md-12">
                 Vazifasi
                 <select
@@ -455,6 +483,8 @@ export default {
         phone: null,
         daily_money: null,
         status: true,
+        daily_limit: null,
+        daily_limit_money: null,
       },
       editHodim: {},
       branch: null,
@@ -500,6 +530,8 @@ export default {
       });
     },
     post(data) {
+      data.daily_limit = data.daily_limit || 0;
+      data.daily_limit_money = data.daily_limit_money || 0;
       api.createUser(data).then((Response) => {
         this.yangiHodim = {
           id: 0,
@@ -510,6 +542,8 @@ export default {
           branch_id: "",
           phone: null,
           status: true,
+          daily_limit: null,
+          daily_limit_money: null,
         };
         api.success(0).then(() => {
           this.get(0, 100);
