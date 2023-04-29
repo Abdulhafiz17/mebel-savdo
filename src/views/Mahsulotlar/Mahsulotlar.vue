@@ -1,19 +1,30 @@
 <template>
   <h3><span class="fa fa-box" /> Mahsulotlar</h3>
   <div class="row">
-    <div class="col-md-4"></div>
-    <div class="col-md-4 my-1"></div>
-    <div class="col-md-4">
+    <div class="col-2" v-for="(item, i) in search" :key="item">
       <div class="input-group input-group-sm">
         <input
           type="search"
           class="form-control"
           placeholder="qidiruv"
-          v-model="search"
+          v-model="item.search"
           @keyup="get(0, 25, 0, 25)"
         />
         <div class="input-group-text">
           <i class="fa fa-search"></i>
+        </div>
+        <div class="input-group-append">
+          <button
+            class="btn btn-outline-secondary"
+            @click="search.push({ search: '' })"
+          >
+            <i class="fa fa-plus"></i>
+          </button>
+        </div>
+        <div class="input-group-append" v-if="search.length > 1">
+          <button class="btn btn-outline-danger" @click="search.splice(i, 1)">
+            <i class="fa fa-xmark"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -142,7 +153,7 @@ export default {
   data() {
     return {
       role: localStorage["role"],
-      search: "",
+      search: [{ search: "" }],
       products: {
         current_page_w: 0,
         current_page_p: 0,

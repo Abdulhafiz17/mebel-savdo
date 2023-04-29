@@ -286,13 +286,18 @@ export function updateKpiWarehouseProduct(data) {
   return api(`update_kpi_w_pr`, "put", data);
 }
 export function allProducts(
-  search = "",
+  search = [],
   page_w = 0,
   limit_w = 25,
   page_p = 0,
   limit_p = 25
 ) {
-  const search_query = search ? `search=${search}&` : ``;
+  let search_query = ``;
+  if (search.length) {
+    search.forEach((item) => {
+      search_query += `search=${item.search}&`;
+    });
+  } else search_query = ``;
   return api(
     `get_all_products?${search_query}page_w=${page_w}&limit_w=${limit_w}&page_p=${page_p}&limit_p=${limit_p}`,
     "get"
