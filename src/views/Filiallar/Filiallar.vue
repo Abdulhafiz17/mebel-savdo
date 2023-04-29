@@ -188,6 +188,51 @@
                   />
                 </label>
                 <div class="col-md-12">
+                  Savdo limit
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label class="input-group input-group-sm">
+                        <input
+                          class="form-control"
+                          type="number"
+                          min="0"
+                          placeholder="dan"
+                          required
+                          v-model="yangiFilial.limit_money"
+                        />
+                        <div class="input-group-text">so'm</div>
+                      </label>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="input-group input-group-sm">
+                        <input
+                          class="form-control"
+                          type="number"
+                          min="0"
+                          placeholder="gacha"
+                          required
+                          v-model="yangiFilial.limit_money2"
+                        />
+                        <div class="input-group-text">so'm</div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <label class="col-md-12">
+                  Bonus
+                  <div class="input-group input-group-sm">
+                    <input
+                      class="form-control"
+                      type="number"
+                      min="0"
+                      placeholder="bonus"
+                      required
+                      v-model="yangiFilial.bonus"
+                    />
+                    <div class="input-group-text">so'm</div>
+                  </div>
+                </label>
+                <div class="col-md-12">
                   Geo joylashuv
                   <div class="row">
                     <div class="col-md-6">
@@ -275,6 +320,51 @@
                   required
                   v-model="editFilial.address"
                 />
+              </label>
+              <div class="col-md-12">
+                Savdo limit
+                <div class="row">
+                  <div class="col-md-6">
+                    <label class="input-group input-group-sm">
+                      <input
+                        class="form-control"
+                        type="number"
+                        min="0"
+                        placeholder="dan"
+                        required
+                        v-model="editFilial.limit_money"
+                      />
+                      <div class="input-group-text">so'm</div>
+                    </label>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="input-group input-group-sm">
+                      <input
+                        class="form-control"
+                        type="number"
+                        min="0"
+                        placeholder="gacha"
+                        required
+                        v-model="editFilial.limit_money2"
+                      />
+                      <div class="input-group-text">so'm</div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <label class="col-md-12">
+                Bonus
+                <div class="input-group input-group-sm">
+                  <input
+                    class="form-control"
+                    type="number"
+                    min="0"
+                    placeholder="bonus"
+                    required
+                    v-model="editFilial.bonus"
+                  />
+                  <div class="input-group-text">so'm</div>
+                </div>
               </label>
               <div class="col-md-12">
                 Geo joylashuv
@@ -388,6 +478,9 @@ export default {
         map_long: null,
         map_lat: null,
         address: null,
+        limit_money: null,
+        limit_money2: null,
+        bonus: null,
       },
     };
   },
