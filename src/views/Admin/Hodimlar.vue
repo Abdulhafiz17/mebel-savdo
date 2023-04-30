@@ -94,7 +94,13 @@
                   <span class="fa fa-history" />
                 </router-link>
               </div>
-              <div class="col" v-if="false">
+              <div
+                class="col"
+                v-if="
+                  role == 'cashier' &&
+                  (hodim.role == 'worker' || hodim.role == 'ustanovshik')
+                "
+              >
                 <button
                   class="btn btn-sm btn-block btn-outline-primary"
                   data-toggle="modal"
@@ -410,35 +416,42 @@
         </div>
         <form @submit.prevent="payToUser(paying)">
           <div class="modal-body">
-            <select
-              class="form-select form-select-sm"
-              required
-              v-model="paying.kassa_id"
-            >
-              <option v-for="item in cashiers" :key="item" :value="item.id">
-                {{ item.name }}
-              </option>
-            </select>
-            <div class="input-group input-group-sm my-1">
-              <input
-                type="number"
-                step="any"
-                min="0"
-                class="form-control"
-                placeholder="summa"
-                required
-                v-model="paying.money"
-              />
-              <div class="input-group-append">
-                <div class="input-group-text">so'm</div>
+            <div class="row gap-1 text-left">
+              <div class="col-12">
+                Kassa
+                <select class="form-select" required v-model="paying.kassa_id">
+                  <option v-for="item in cashiers" :key="item" :value="item.id">
+                    {{ item.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-12">
+                Summa
+                <div class="input-group">
+                  <input
+                    type="number"
+                    step="any"
+                    min="0"
+                    class="form-control"
+                    placeholder="summa"
+                    required
+                    v-model="paying.money"
+                  />
+                  <div class="input-group-append">
+                    <div class="input-group-text">so'm</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                Izoh
+                <textarea
+                  type="textarea"
+                  class="form-control"
+                  placeholder="izoh"
+                  v-model="paying.comment"
+                ></textarea>
               </div>
             </div>
-            <textarea
-              type="textarea"
-              class="form-control form-control-sm"
-              placeholder="izoh"
-              v-model="paying.comment"
-            ></textarea>
           </div>
           <div class="modal-footer">
             <button class="btn btn-outline-primary">

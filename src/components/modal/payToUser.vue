@@ -43,7 +43,7 @@
                 Izoh
                 <textarea
                   type="textarea"
-                  class="form-control form-control-sm"
+                  class="form-control"
                   placeholder="izoh"
                   v-model="paying.comment"
                 ></textarea>
