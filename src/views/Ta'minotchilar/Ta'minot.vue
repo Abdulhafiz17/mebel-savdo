@@ -102,9 +102,9 @@
     >
       <div class="row" v-if="supplyType && !party?.warehouseman">
         <div class="col-md-12">
-          <form @submit.prevent="post(supply)">
+          <form @submit.prevent="post()">
             <div class="row m-1">
-              <div class="col-md-3 my-1">
+              <div class="col-md-6 my-1">
                 <select
                   class="form-select form-select-sm"
                   required
@@ -117,51 +117,60 @@
                   </option>
                 </select>
               </div>
-              <div class="col-md-3 my-1">
-                <select
-                  class="form-select form-select-sm"
-                  required
-                  v-model="supply.category_id"
-                  @click="categories.length ? '' : getCategories(0, 100)"
-                >
-                  <option disabled value="">Kategoriya</option>
-                  <option
-                    v-for="item in categories"
-                    :key="item"
-                    :value="item.id"
+              <div class="col-md-6 my-1">
+                <div class="dropdown">
+                  <button
+                    id="customerDropdown"
+                    type="button"
+                    class="btn btn-sm btn-block btn-outline-secondary dropdown-toggle"
+                    data-toggle="dropdown"
+                    @click="getProductExamples()"
                   >
-                    {{ item.name }}
-                  </option>
-                </select>
+                    {{
+                      example
+                        ? example.Product_examples.name +
+                          " " +
+                          example.Product_examples.articul +
+                          " " +
+                          example.Product_examples.code
+                        : "Mahsulot"
+                    }}
+                  </button>
+                  <div
+                    class="dropdown-menu w-100 p-1"
+                    aria-labelledby="customerDropdown"
+                  >
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      placeholder="qidiruv"
+                      v-model="search_example"
+                      @keyup="getProductExamples()"
+                    />
+                    <ul
+                      class="list-group p-1 responsive"
+                      style="max-height: 25vh"
+                      @scroll="scrollProductExamples($event)"
+                    >
+                      <li
+                        class="list-group-item p-2"
+                        v-for="item in examples.data"
+                        :key="item"
+                        @click="example = item"
+                      >
+                        {{
+                          item.Product_examples.name +
+                          " " +
+                          item.Product_examples.articul +
+                          " " +
+                          item.Product_examples.code
+                        }}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
-              <div class="col-md-3 my-1">
-                <input
-                  class="form-control form-control-sm"
-                  type="text"
-                  placeholder="nomi"
-                  required
-                  v-model="supply.name"
-                />
-              </div>
-              <div class="col-md-3 my-1">
-                <input
-                  class="form-control form-control-sm"
-                  type="text"
-                  placeholder="articul"
-                  required
-                  v-model="supply.articul"
-                />
-              </div>
-              <div class="col-md-4 my-1">
-                <input
-                  class="form-control form-control-sm"
-                  type="text"
-                  placeholder="kodi"
-                  required
-                  v-model="supply.name2"
-                />
-              </div>
-              <div class="col-md-3 my-1">
+              <div class="col-md-5 my-1">
                 <div class="input-group input-group-sm">
                   <input
                     class="form-control"
@@ -174,7 +183,7 @@
                   <div class="input-group-text">dona</div>
                 </div>
               </div>
-              <div class="col-md-4 my-1">
+              <div class="col-md-5 my-1">
                 <div class="input-group input-group-sm">
                   <input
                     class="form-control form-control-sm"
@@ -203,8 +212,11 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-1 my-1">
-                <button class="btn btn-sm btn-block btn-outline-secondary">
+              <div class="col-md-2 my-1">
+                <button
+                  class="btn btn-sm btn-block btn-outline-secondary"
+                  :disabled="!example"
+                >
                   <i class="far fa-circle-check" />
                 </button>
               </div>
@@ -551,7 +563,14 @@ export default {
       supplyType: false,
       party: null,
       markets: [],
-      categories: [],
+      search_example: "",
+      examples: {
+        current_page: 0,
+        pages: 1,
+        limit: 25,
+        data: [],
+      },
+      example: null,
       currencies: [],
       supplies: [],
       warehouses: [],
@@ -560,7 +579,7 @@ export default {
       totalPrice: [],
       totalExpense: [],
       supply: {
-        category_id: "",
+        category_id: null,
         articul: null,
         name: null,
         name2: null,
@@ -629,6 +648,29 @@ export default {
         }
       });
     },
+    getProductExamples() {
+      api.productExamples(this.search_example, 0, 0, 25).then((res) => {
+        this.examples = res.data;
+      });
+    },
+    scrollProductExamples(event) {
+      const div = event.target;
+      if (div.scrollTop + div.clientHeight == div.scrollHeight) {
+        if (this.examples.current_page < this.examples.pages - 1) {
+          api
+            .productExamples(
+              this.search_example,
+              0,
+              this.examples.current_page + 1,
+              25
+            )
+            .then((res) => {
+              this.examples.current_page = res.data.current_page;
+              this.examples.data = this.examples.data.concat(res.data.data);
+            });
+        }
+      }
+    },
     replace(data) {
       for (let i = 0; i < this.markets.length; i++) {
         if (
@@ -650,11 +692,6 @@ export default {
         }
       }
     },
-    getCategories(page, limit) {
-      api.categories(0, page, limit).then((Response) => {
-        this.categories = Response.data.data;
-      });
-    },
     getCurrencies() {
       api.currencies().then((Response) => {
         this.currencies = Response.data;
@@ -674,12 +711,13 @@ export default {
         this.branches = Response.data.branch;
       });
     },
-    post(data) {
-      api.takeSupply(data).then((Response) => {
+    post() {
+      this.supply.articul = this.example.Product_examples.articul;
+      this.supply.category_id = this.example.Categories.id;
+      this.supply.name = this.example.Product_examples.name;
+      this.supply.name2 = this.example.Product_examples.code;
+      api.takeSupply(this.supply).then((Response) => {
         api.success().then(() => {
-          this.supply.category_id = "";
-          this.supply.articul = null;
-          this.supply.name = null;
           this.supply.quantity = null;
           this.supply.price = null;
           this.supply.currency_id = this.currencies[0].id;
