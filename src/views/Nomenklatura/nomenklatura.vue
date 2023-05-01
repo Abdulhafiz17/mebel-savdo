@@ -68,30 +68,36 @@
   <hr />
 
   <div class="responsive" style="max-height: 80vh">
-    <ul class="list-group">
-      <li
-        class="list-group-item d-block text-left"
-        v-for="item in examples.data"
-        :key="item"
-      >
-        <strong>
-          {{
-            item.Product_examples.name +
-            " - " +
-            item.Product_examples.articul +
-            " - " +
-            item.Product_examples.code
-          }}
-        </strong>
-        <p>{{ item.Categories.name }}</p>
-      </li>
-    </ul>
-    <Pagination
-      :page="examples.current_page"
-      :pages="examples.pages"
-      :limit="examples.limit"
-      @get="getExamples"
-    />
+    <table class="table table-sm table-hover">
+      <thead>
+        <tr>
+          <th>Kategoriya</th>
+          <th>Nomi</th>
+          <th>Artikul</th>
+          <th>Kodi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in examples.data" :key="item">
+          <td>{{ item.Categories.name }}</td>
+          <td>{{ item.Product_examples.articul }}</td>
+          <td>{{ item.Product_examples.name }}</td>
+          <td>{{ item.Product_examples.code }}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4">
+            <Pagination
+              :page="examples.current_page"
+              :pages="examples.pages"
+              :limit="examples.limit"
+              @get="getExamples"
+            />
+          </td>
+        </tr>
+      </tfoot>
+    </table>
   </div>
 
   <div class="modal fade" id="add-example">
