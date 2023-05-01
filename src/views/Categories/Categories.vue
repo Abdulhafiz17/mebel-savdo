@@ -55,8 +55,9 @@
             <table class="table table-sm table-hover">
               <thead>
                 <tr>
+                  <th>Kodi</th>
+                  <th>Artikul</th>
                   <th>Nomi</th>
-                  <th>Shtrix kod</th>
                   <th>Miqdor</th>
                   <th>Narx</th>
                   <th>Oxirgi narx</th>
@@ -68,15 +69,14 @@
               <tbody>
                 <tr v-for="item2 in item.Categories.products" :key="item2">
                   <td>
-                    {{
-                      item2.Products.name +
-                      " " +
-                      item2.Products.articul +
-                      " " +
-                      item2.Products.name2
-                    }}
+                    {{ item2.Products.name2 }}
                   </td>
-                  <td>{{ item2.Products.code }}</td>
+                  <td>
+                    {{ item2.Products.articul }}
+                  </td>
+                  <td>
+                    {{ item2.Products.name }}
+                  </td>
                   <td>{{ item2.sum_quantity }} dona</td>
                   <td>
                     {{ Intl.NumberFormat().format(item2.Products.price) }}

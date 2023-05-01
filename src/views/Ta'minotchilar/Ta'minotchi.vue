@@ -110,6 +110,8 @@
                     <thead>
                       <tr>
                         <th>Kategoriya</th>
+                        <th>Kodi</th>
+                        <th>Artikul</th>
                         <th>Nomi</th>
                         <th>Narx</th>
                         <th>Miqdor</th>
@@ -120,7 +122,9 @@
                     <tbody>
                       <tr v-for="item in item.supplies" :key="item">
                         <td>{{ item.category.name }}</td>
+                        <td>{{ item.name2 }}</td>
                         <td>{{ item.articul }}</td>
+                        <td>{{ item.name }}</td>
                         <td>
                           {{ Intl.NumberFormat().format(item.price) }}
                           {{ item.currency.currency }}

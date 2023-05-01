@@ -97,7 +97,7 @@
             <table class="table table-sm table-hover">
               <thead>
                 <tr>
-                  <th>Kategoriya - Nomi - Code</th>
+                  <th>Kategoriya - Kodi - Artikul - Nomi</th>
                   <th>Hajm</th>
                 </tr>
               </thead>
@@ -107,9 +107,11 @@
                     {{
                       item.category +
                       " - " +
+                      item.code +
+                      " - " +
                       item.pr_articul +
                       " - " +
-                      item.code
+                      item.name
                     }}
                   </td>
                   <td>
@@ -181,7 +183,7 @@
             <table class="table table-sm table-hover">
               <thead>
                 <tr>
-                  <th>Kategoriya - Nomi - Code</th>
+                  <th>Kategoriya - Kodi - Artikul - Nomi</th>
                   <th>Hajm</th>
                 </tr>
               </thead>
@@ -191,9 +193,11 @@
                     {{
                       item.category +
                       " - " +
+                      item.code +
+                      " - " +
                       item.pr_articul +
                       " - " +
-                      item.code
+                      item.name
                     }}
                   </td>
                   <td>
@@ -265,7 +269,7 @@
             <table class="table table-sm table-hover">
               <thead>
                 <tr>
-                  <th>Kategoriya - Nomi - Code</th>
+                  <th>Kategoriya - Kodi - Artikul - Nomi</th>
                   <th>Real hajm</th>
                   <th>Tizimdagi hajm</th>
                   <th>Farq</th>
@@ -277,9 +281,11 @@
                     {{
                       item.category +
                       " - " +
+                      item.code +
+                      " - " +
                       item.pr_articul +
                       " - " +
-                      item.code
+                      item.name
                     }}
                   </td>
                   <td>

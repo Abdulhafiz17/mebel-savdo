@@ -38,7 +38,9 @@
           <thead>
             <tr>
               <th>Kategoriya</th>
-              <th>Mahsulot</th>
+              <th>Kodi</th>
+              <th>Artikul</th>
+              <th>Nomi</th>
               <th>Narx</th>
               <th>Miqdor</th>
               <th>Joylashuv</th>
@@ -51,13 +53,13 @@
                 {{ item.Categories.name }}
               </td>
               <td>
-                {{
-                  item.Warehouse_products.name +
-                  " " +
-                  item.Warehouse_products.articul +
-                  " " +
-                  item.Warehouse_products.name2
-                }}
+                {{ item.Warehouse_products.name2 }}
+              </td>
+              <td>
+                {{ item.Warehouse_products.articul }}
+              </td>
+              <td>
+                {{ item.Warehouse_products.name }}
               </td>
               <td>
                 {{ $util.currency(item.Warehouse_products.price) + " so'm" }}
@@ -96,7 +98,9 @@
           <thead>
             <tr>
               <th>Kategoriya</th>
-              <th>Mahsulot</th>
+              <th>Kodi</th>
+              <th>Artikul</th>
+              <th>Nomi</th>
               <th>Narx</th>
               <th>Miqdor</th>
               <th>Joylashuv</th>
@@ -108,13 +112,13 @@
                 {{ item.Categories.name }}
               </td>
               <td>
-                {{
-                  item.Products.name +
-                  " " +
-                  item.Products.articul +
-                  " " +
-                  item.Products.name2
-                }}
+                {{ item.Products.name2 }}
+              </td>
+              <td>
+                {{ item.Products.articul }}
+              </td>
+              <td>
+                {{ item.Products.name }}
               </td>
               <td>
                 {{ $util.currency(item.Products.price) + " so'm" }}

@@ -38,7 +38,9 @@
         <thead>
           <tr>
             <th>Kategoriya</th>
-            <th>Mahsulot</th>
+            <th>Kodi</th>
+            <th>Artikul</th>
+            <th>Nomi</th>
             <th>Soni</th>
             <th>Narx</th>
             <th>Ombor</th>
@@ -49,13 +51,13 @@
           <tr v-for="item in transfers.data" :key="item">
             <td>{{ item.Warehouse_products.category.name }}</td>
             <td>
-              {{
-                item.Warehouse_products.name +
-                " " +
-                item.Warehouse_products.articul +
-                " " +
-                item.Warehouse_products.name2
-              }}
+              {{ item.Warehouse_products.name2 }}
+            </td>
+            <td>
+              {{ item.Warehouse_products.articul }}
+            </td>
+            <td>
+              {{ item.Warehouse_products.name }}
             </td>
             <td>{{ item.Transfers.quantity }} dona</td>
             <td>

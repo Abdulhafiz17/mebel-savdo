@@ -72,17 +72,17 @@
       <thead>
         <tr>
           <th>Kategoriya</th>
-          <th>Nomi</th>
-          <th>Artikul</th>
           <th>Kodi</th>
+          <th>Artikul</th>
+          <th>Nomi</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="item in examples.data" :key="item">
           <td>{{ item.Categories.name }}</td>
+          <td>{{ item.Product_examples.code }}</td>
           <td>{{ item.Product_examples.articul }}</td>
           <td>{{ item.Product_examples.name }}</td>
-          <td>{{ item.Product_examples.code }}</td>
         </tr>
       </tbody>
       <tfoot>

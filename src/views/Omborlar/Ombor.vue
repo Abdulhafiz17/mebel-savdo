@@ -157,7 +157,9 @@
               <table class="table table-sm table-hover">
                 <thead>
                   <tr>
-                    <th>Mahsulot</th>
+                    <th>Kodi</th>
+                    <th>Artikul</th>
+                    <th>Nomi</th>
                     <th>Miqdor</th>
                     <th>Kpi</th>
                     <th>Kpi savdo</th>
@@ -170,13 +172,13 @@
                 <tbody>
                   <tr v-for="item in item.products" :key="item">
                     <td>
-                      {{
-                        item.Warehouse_products.name +
-                        " " +
-                        item.Warehouse_products.articul +
-                        " " +
-                        item.Warehouse_products.name2
-                      }}
+                      {{ item.Warehouse_products.name2 }}
+                    </td>
+                    <td>
+                      {{ item.Warehouse_products.articul }}
+                    </td>
+                    <td>
+                      {{ item.Warehouse_products.name }}
                     </td>
                     <td>{{ item.Warehouse_products.quantity }} dona</td>
                     <td>
@@ -327,7 +329,9 @@
                     <tr>
                       <th></th>
                       <th>Kategoriya</th>
-                      <th>Mahsulot</th>
+                      <th>Kodi</th>
+                      <th>Artikul</th>
+                      <th>Nomi</th>
                       <th>Soni</th>
                       <th>Tan narx</th>
                       <th>Ustama</th>
@@ -356,13 +360,13 @@
                       </td>
                       <td>{{ item.Warehouse_products.category.name }}</td>
                       <td>
-                        {{
-                          item.Warehouse_products.name +
-                          " " +
-                          item.Warehouse_products.articul +
-                          " " +
-                          item.Warehouse_products.name2
-                        }}
+                        {{ item.Warehouse_products.name2 }}
+                      </td>
+                      <td>
+                        {{ item.Warehouse_products.articul }}
+                      </td>
+                      <td>
+                        {{ item.Warehouse_products.name }}
                       </td>
                       <td>
                         <label class="input-group input-group-sm">
@@ -556,7 +560,9 @@
                 <thead>
                   <tr>
                     <th>Kategoriya</th>
-                    <th>Mahsulot</th>
+                    <th>Kodi</th>
+                    <th>Artikul</th>
+                    <th>Nomi</th>
                     <th>Soni</th>
                     <th>Narx</th>
                     <th>Summa</th>
@@ -569,13 +575,13 @@
                   <tr v-for="item in transfersWaiting" :key="item">
                     <td>{{ item.Warehouse_products.category.name }}</td>
                     <td>
-                      {{
-                        item.Warehouse_products.name +
-                        " " +
-                        item.Warehouse_products.articul +
-                        " " +
-                        item.Warehouse_products.name2
-                      }}
+                      {{ item.Warehouse_products.name2 }}
+                    </td>
+                    <td>
+                      {{ item.Warehouse_products.articul }}
+                    </td>
+                    <td>
+                      {{ item.Warehouse_products.name }}
                     </td>
                     <td>{{ item.Transfers.quantity }} dona</td>
                     <td>
@@ -676,7 +682,9 @@
                 <thead>
                   <tr>
                     <th>Kategoriya</th>
-                    <th>Mahsulot</th>
+                    <th>Kodi</th>
+                    <th>Artikul</th>
+                    <th>Nomi</th>
                     <th>Soni</th>
                     <th>Narx</th>
                     <th>Qaysi filialga</th>
@@ -687,13 +695,13 @@
                   <tr v-for="item in transfersAccepted" :key="item">
                     <td>{{ item.Warehouse_products.category.name }}</td>
                     <td>
-                      {{
-                        item.Warehouse_products.name +
-                        " " +
-                        item.Warehouse_products.articul +
-                        " " +
-                        item.Warehouse_products.name2
-                      }}
+                      {{ item.Warehouse_products.name2 }}
+                    </td>
+                    <td>
+                      {{ item.Warehouse_products.articul }}
+                    </td>
+                    <td>
+                      {{ item.Warehouse_products.name }}
                     </td>
                     <td>{{ item.Transfers.quantity }} dona</td>
                     <td>

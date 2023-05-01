@@ -11,9 +11,11 @@
     <table class="table table-sm table-hover">
       <thead>
         <tr>
-          <th>Filial</th>
+          <th v-if="role !== 'branch_admin'">Filial</th>
           <th>Kategoriya</th>
-          <th>Mahsulot</th>
+          <th>Kodi</th>
+          <th>Artikul</th>
+          <th>Nomi</th>
           <th>Miqdor</th>
           <th>Sana</th>
           <th>
@@ -29,18 +31,18 @@
       </thead>
       <tbody>
         <tr v-for="item in products.data" :key="item">
-          <td>{{ item.branch }}</td>
+          <td v-if="role !== 'branch_admin'">{{ item.branch }}</td>
           <td>
             {{ item.category }}
           </td>
           <td>
-            {{
-              item.Orders_from_branch.name +
-              " " +
-              item.Orders_from_branch.articul +
-              " " +
-              item.Orders_from_branch.name2
-            }}
+            {{ item.Orders_from_branch.name2 }}
+          </td>
+          <td>
+            {{ item.Orders_from_branch.articul }}
+          </td>
+          <td>
+            {{ item.Orders_from_branch.name }}
           </td>
           <td>{{ item.Orders_from_branch.quantity + " dona" }}</td>
           <td>

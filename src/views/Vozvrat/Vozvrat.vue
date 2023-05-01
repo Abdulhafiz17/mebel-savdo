@@ -180,7 +180,10 @@
           <table class="table table-sm table-hover">
             <thead>
               <tr>
-                <th>Mahsulot</th>
+                <th>Kategoriya</th>
+                <th>Kodi</th>
+                <th>Artikul</th>
+                <th>Nomi</th>
                 <th>Narx</th>
                 <th>Chegirma</th>
                 <th>Miqdor</th>
@@ -191,15 +194,16 @@
             <tbody>
               <tr v-for="i in trades" :key="i">
                 <td>
-                  {{
-                    i.Categories.name +
-                    " - " +
-                    i.Products.name +
-                    " " +
-                    i.Products.articul +
-                    " " +
-                    i.Products.name2
-                  }}
+                  {{ i.Categories.name }}
+                </td>
+                <td>
+                  {{ i.Products.name2 }}
+                </td>
+                <td>
+                  {{ i.Products.articul }}
+                </td>
+                <td>
+                  {{ i.Categories.name }}
                 </td>
                 <td>
                   {{ Intl.NumberFormat().format(i.Trades.price) + " so'm" }}
@@ -283,7 +287,10 @@
           <table class="table table-sm table-hover">
             <thead>
               <tr>
-                <th>Mahsulot</th>
+                <th>Kategoriya</th>
+                <th>Kodi</th>
+                <th>Artikul</th>
+                <th>Nomi</th>
                 <th>Miqdor</th>
                 <th>Hodim</th>
                 <th>Sana</th>
@@ -292,15 +299,16 @@
             <tbody>
               <tr v-for="i in returned_products" :key="i">
                 <td>
-                  {{
-                    i.Categories.name +
-                    " - " +
-                    i.Products.name +
-                    " " +
-                    i.Products.articul +
-                    " " +
-                    i.Products.name2
-                  }}
+                  {{ i.Categories.name }}
+                </td>
+                <td>
+                  {{ i.Products.name2 }}
+                </td>
+                <td>
+                  {{ i.Products.articul }}
+                </td>
+                <td>
+                  {{ i.Categories.name }}
                 </td>
                 <td>
                   {{ i.sum_quantity + " dona" }}

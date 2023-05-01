@@ -86,11 +86,11 @@
             {{
               item.Categories.name +
               " - " +
-              item.Products.name +
+              item.Products.name2 +
               " " +
               item.Products.articul +
               " " +
-              item.Products.name2
+              item.Products.name
             }}
           </td>
           <td>

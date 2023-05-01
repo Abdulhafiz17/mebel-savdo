@@ -3,7 +3,10 @@
     <table class="table table-sm table-hover">
       <thead>
         <tr>
-          <th>Mahsulot</th>
+          <th>Kategoriya</th>
+          <th>Kodi</th>
+          <th>Artikul</th>
+          <th>Nomi</th>
           <th v-if="price">Narx</th>
           <th v-if="price">Chegirma</th>
           <th>Miqdor</th>
@@ -14,15 +17,16 @@
       <tbody>
         <tr v-for="i in trades.data" :key="i">
           <td>
-            {{
-              i.Categories.name +
-              " - " +
-              i.Products.name +
-              " " +
-              i.Products.articul +
-              " " +
-              i.Products.name2
-            }}
+            {{ i.Categories.name }}
+          </td>
+          <td>
+            {{ i.Products.name2 }}
+          </td>
+          <td>
+            {{ i.Products.articul }}
+          </td>
+          <td>
+            {{ i.Products.name }}
           </td>
           <td v-if="price">
             {{ Intl.NumberFormat().format(i.Trades.price) + " so'm" }}
