@@ -33,7 +33,7 @@
         <tr>
           <th>
             <input
-              v-if="role == 'worker' || role == 'logistika'"
+              v-if="['worker', 'logistika', 'warehouseman'].includes(role)"
               type="checkbox"
               :checked="
                 transfers.data.length &&
@@ -71,7 +71,7 @@
         <tr v-for="item in transfers.data" :key="item">
           <td>
             <input
-              v-if="role == 'worker' || role == 'logistika'"
+              v-if="['worker', 'logistika', 'warehouseman'].includes(role)"
               type="checkbox"
               :value="item"
               :disabled="filter.status !== 'filialga_berish_logistika'"
@@ -105,11 +105,18 @@
           </td>
           <td>
             <button
-              v-if="role == 'worker' && !transfers_to_send.length"
+              v-if="
+                ['worker', 'warehouseman'].includes(role) &&
+                !transfers_to_send.length
+              "
               class="btn btn-sm btn-outline-success"
               @click="
                 transfers_to_send.push(item);
-                acceptTransfers();
+                role == 'worker'
+                  ? acceptTransfers()
+                  : role == 'warehouseman'
+                  ? transferProductWarehouseman()
+                  : false;
               "
             >
               <i class="far fa-circle-check"></i>
@@ -159,11 +166,16 @@
             <div class="col-12">
               Status
               <select class="form-select" v-model="filter.status">
-                <option value="filialga_berish_kutish">Kutish</option>
-                <option value="filialga_berish_logistika">Logistika</option>
+                <option value="filialga_berish_warehouseman">
+                  Kutish ombor
+                </option>
+                <option value="filialga_berish_logistika">
+                  Kutish logistika
+                </option>
                 <option value="filialga_berish_logistika_user">
                   Logistika hodim biriktirilgan
                 </option>
+                <option value="filialga_berish_kutish">Kutish filial</option>
                 <option value="filialga_berish_tasdiqlandi">Tasdiqlandi</option>
               </select>
             </div>
@@ -430,6 +442,28 @@ export default {
         });
         if (index == this.transfers_to_send.length - 1) {
           api.acceptTransferLogistika(data).then(() => {
+            api.success().then(() => {
+              this.transfers = {
+                current_page: 0,
+                pages: 1,
+                limit: 25,
+                data: [],
+              };
+              this.transfers_to_send = [];
+              this.getTransfers(0, 25);
+            });
+          });
+        }
+      });
+    },
+    transferProductWarehouseman() {
+      let data = [];
+      this.transfers_to_send.forEach((item, index) => {
+        data.push({
+          transfer_id: item.Transfers.id,
+        });
+        if (index == this.transfers_to_send.length - 1) {
+          api.transferProductWarehouseman(data).then(() => {
             api.success().then(() => {
               this.transfers = {
                 current_page: 0,
