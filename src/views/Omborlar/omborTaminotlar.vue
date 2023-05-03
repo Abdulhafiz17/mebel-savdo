@@ -40,33 +40,21 @@
           <div class="row gap-1 text-left">
             <div class="col-12">
               Status
-              <select
-                class="form-select"
-                v-model="filter.status"
-                @change="
-                  filter.status == 'false'
-                    ? (filter = {
-                        status: 'false',
-                        warehouseman: false,
-                        warehouseman_id: 0,
-                      })
-                    : false
-                "
-              >
+              <select class="form-select" v-model="filter.warehouseman">
                 <option value="false">Faol</option>
                 <option value="true">Yakunlangan</option>
               </select>
             </div>
-            <div class="col-12" v-if="filter.status == 'true'">
+            <div class="col-12">
               Status
-              <select class="form-select" v-model="filter.warehouseman">
-                <option :value="false">Omborga qabul qilinmagan</option>
-                <option :value="true">Omborga qabul qilingan</option>
+              <select class="form-select" v-model="filter.status">
+                <option value="false">Omborga qabul qilinmagan</option>
+                <option value="true">Omborga qabul qilingan</option>
               </select>
             </div>
             <div
               class="col-12"
-              v-if="filter.warehouseman == 'true' && role == 'admin'"
+              v-if="filter.status == 'true' && role == 'admin'"
             >
               Omborchi
               <select class="form-select" v-model="filter.warehouseman_id">
