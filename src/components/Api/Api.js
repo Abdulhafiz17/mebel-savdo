@@ -355,6 +355,9 @@ export function transferProduct(id, data) {
 export function transferProductLogistika(data) {
   return api(`transfer_product_logistika`, "put", data);
 }
+export function transferProductWarehouseman(data) {
+  return api(`transfer_product_warehouseman`, "put", data);
+}
 export function removeTransfer(transfer_id) {
   return api(`remove_transfer/${transfer_id}`, "delete");
 }
@@ -571,10 +574,10 @@ export function tradeToPreOrder(data) {
   return api(`trade_to_pre_order`, "post", data);
 }
 export function updateTradeToPreOrder(data) {
-  return api(`update_trade_to_pre_order`, "post", data);
+  return api(`update_trade_to_pre_order`, "put", data);
 }
 export function deleteTradeToPreOrder(id) {
-  return api(`delete_trade_to_pre_order/${id}`);
+  return api(`delete_trade_to_pre_order/${id}`, "delete");
 }
 
 // return
