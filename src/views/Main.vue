@@ -26,7 +26,7 @@
 <script>
 import * as api from "@/components/Api/Api";
 export default {
-  name: "Home",
+  name: "Main",
   data() {
     return {
       role: localStorage["role"],
@@ -118,6 +118,11 @@ export default {
           title: "Taminotlar",
         },
         {
+          link: `/pre-orders`,
+          icon: "fa fa-receipt",
+          title: "Oldindan buyurtmalar",
+        },
+        {
           link: `/`,
           icon: "fa fa-sign-out",
           title: "Chiqish",
@@ -144,6 +149,11 @@ export default {
           icon: "fa fa-arrow-up",
           icon_2: "fa fa-arrow-down",
           title: "Transfer",
+        },
+        {
+          link: `/pre-orders`,
+          icon: "fa fa-receipt",
+          title: "Oldindan buyurtmalar",
         },
         {
           link: `/settings`,
@@ -196,6 +206,11 @@ export default {
           title: "Transfer",
         },
         {
+          link: `/pre-orders`,
+          icon: "fa fa-receipt",
+          title: "Oldindan buyurtmalar",
+        },
+        {
           link: `/settings`,
           icon: "fa fa-tools",
           title: "Sozlamalar",
@@ -217,6 +232,11 @@ export default {
           icon: "fa fa-arrow-up",
           icon_2: "fa fa-arrow-down",
           title: "Transfer",
+        },
+        {
+          link: `/pre-orders`,
+          icon: "fa fa-receipt",
+          title: "Oldindan buyurtmalar",
         },
         {
           link: `/settings`,

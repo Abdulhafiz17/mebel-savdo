@@ -522,6 +522,9 @@ export function attachLogistika(data) {
 export function deliverOrder(id) {
   return api(`deliver_order/${id}`, "put");
 }
+export function preOrder(id) {
+  return api(`get_pre_order/${id}`, "get");
+}
 export function preOrders(
   customer_id,
   seller_id,
@@ -529,11 +532,15 @@ export function preOrders(
   status,
   worker_id,
   ustanovshik_id,
+  worker,
+  warehouseman_id,
   page,
   limit
 ) {
+  const status_query = status ? `&status=${status}` : ``;
+  const worker_query = worker ? `&worker=${worker}` : ``;
   return api(
-    `get_pre_orders?customer_id=${customer_id}&seller_id=${seller_id}&branch_id=${branch_id}&status=${status}&worker_id=${worker_id}&ustanovshik_id=${ustanovshik_id}&page=${page}&limit=${limit}`,
+    `get_pre_orders?customer_id=${customer_id}&seller_id=${seller_id}&branch_id=${branch_id}${status_query}&worker_id=${worker_id}&ustanovshik_id=${ustanovshik_id}${worker_query}&warehouseman_id=${warehouseman_id}&page=${page}&limit=${limit}`,
     "get"
   );
 }
@@ -542,6 +549,9 @@ export function createPreOrder() {
 }
 export function updatePreOrder(data) {
   return api(`update_pre_order`, "put", data);
+}
+export function warehousemanPreOrder(id) {
+  return api(`warehouseman_pre_order/${id}`, "put");
 }
 export function logistikaPreOrder(data) {
   return api(`logistika_pre_order`, "put", data);
@@ -563,6 +573,9 @@ export function updateTrade(status, data) {
 }
 export function tradeBalance(id) {
   return api(`get_trade_balance/${id}`, "get");
+}
+export function preOrderTradeBalance(id) {
+  return api(`get_pre_trade_balance/${id}`, "get");
 }
 export function preOrderTrades(order_id, page, limit) {
   return api(
