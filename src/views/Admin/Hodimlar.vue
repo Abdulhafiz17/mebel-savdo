@@ -513,6 +513,8 @@ export default {
   },
   created() {
     this.get(0, 100);
+    this.getBranches();
+    this.getWarehouses();
   },
   methods: {
     format(number) {
