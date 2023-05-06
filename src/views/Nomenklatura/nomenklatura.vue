@@ -147,7 +147,7 @@
                 type="text"
                 class="form-control"
                 required
-                v-memo="example.name"
+                v-model="example.name"
               />
             </div>
             <div class="col-12">
@@ -156,7 +156,7 @@
                 type="text"
                 class="form-control"
                 required
-                v-memo="example.articul"
+                v-model="example.articul"
               />
             </div>
             <div class="col-12">
@@ -165,7 +165,7 @@
                 type="text"
                 class="form-control"
                 required
-                v-memo="example.code"
+                v-model="example.code"
               />
             </div>
           </div>
