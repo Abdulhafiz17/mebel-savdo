@@ -143,6 +143,9 @@
           </div>
         </div>
       </div>
+      <div class="col-12">
+        <Pagination :page="page" :pages="pages" :limit="limit" @get="get" />
+      </div>
     </div>
   </div>
 
@@ -416,6 +419,9 @@ export default {
       role: localStorage.getItem("role"),
       branch_id: localStorage.getItem("branch_id"),
       search: "",
+      page: 0,
+      pages: 1,
+      limit: 25,
       hodimlar: [],
       cashiers: [],
       yangiHodim: {
@@ -442,7 +448,7 @@ export default {
     };
   },
   created() {
-    this.get(0, 100);
+    this.get(0, 25);
     this.getCashiers();
   },
   mounted() {},
@@ -476,6 +482,9 @@ export default {
     },
     get(page, limit) {
       api.users(this.$route.params.id, 0, [], page, limit).then((Response) => {
+        this.page = Response.data.current_page;
+        this.pages = Response.data.pages;
+        this.limit = Response.data.limit;
         this.hodimlar = Response.data.data;
         this.getBranch();
       });
@@ -511,14 +520,14 @@ export default {
           status: true,
         };
         api.success(0).then(() => {
-          this.get(0, 100);
+          this.get(0, 25);
         });
       });
     },
     put(data) {
       api.updateUser(data).then((Response) => {
         api.success(1).then(() => {
-          this.get(0, 100);
+          this.get(0, 25);
         });
       });
     },
@@ -534,7 +543,7 @@ export default {
           kassa_id: 0,
         };
         api.success(2).then(() => {
-          this.get(0, 100);
+          this.get(0, 25);
         });
       });
     },

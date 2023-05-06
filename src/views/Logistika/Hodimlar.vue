@@ -122,6 +122,9 @@
           </div>
         </div>
       </div>
+      <div class="col-12">
+        <Pagination :page="page" :pages="pages" :limit="limit" @get="get" />
+      </div>
     </div>
   </div>
 
@@ -334,6 +337,9 @@ export default {
       role: localStorage.getItem("role"),
       branch_id: localStorage.getItem("branch_id"),
       search: "",
+      page: 0,
+      pages: 1,
+      limit: 25,
       hodimlar: [],
       cashiers: [],
       yangiHodim: {
@@ -353,7 +359,7 @@ export default {
     };
   },
   created() {
-    this.get();
+    this.get(0, 25);
   },
   computed: {
     filterUser: function () {
@@ -378,10 +384,15 @@ export default {
           String(number).substr(7, 2)
       );
     },
-    get() {
-      api.users(0, 0, ["worker", "ustanovshik"], 0, 100).then((Response) => {
-        this.hodimlar = Response.data.data;
-      });
+    get(page, limit) {
+      api
+        .users(0, 0, ["worker", "ustanovshik"], page, limit)
+        .then((Response) => {
+          this.page = Response.data.current_page;
+          this.pages = Response.data.pages;
+          this.limit = Response.data.limit;
+          this.hodimlar = Response.data.data;
+        });
     },
     post(data) {
       api.createUser(data).then((Response) => {
@@ -396,14 +407,14 @@ export default {
           status: true,
         };
         api.success(0).then(() => {
-          this.get();
+          this.get(0, 25);
         });
       });
     },
     put(data) {
       api.updateUser(data).then((Response) => {
         api.success(1).then(() => {
-          this.get();
+          this.get(0, 25);
         });
       });
     },
