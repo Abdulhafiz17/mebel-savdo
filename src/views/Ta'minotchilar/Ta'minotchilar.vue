@@ -110,6 +110,14 @@
           </div>
         </div>
       </div>
+      <div class="col-12">
+        <Pagination
+          :page="taminotchilar.page"
+          :pages="taminotchilar.pages"
+          :limit="taminotchilar.limit"
+          @get="getMarkets"
+        />
+      </div>
     </div>
   </div>
 
@@ -280,6 +288,43 @@
                 </div>
               </div>
               <div class="col-md-12">
+                <div class="dropdown">
+                  <button
+                    id="customerDropdown"
+                    class="btn btn-sm btn-block btn-outline-primary dropdown-toggle"
+                    data-toggle="dropdown"
+                    @click="getCashiers()"
+                  >
+                    {{ cashier?.name || "Kassa" }}
+                  </button>
+                  <div
+                    class="dropdown-menu w-100 p-1"
+                    aria-labelledby="customerDropdown"
+                  >
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      placeholder="qidiruv"
+                      v-model="search_cashiers"
+                      @keyup="getCashiers()"
+                    />
+                    <ul
+                      class="list-group p-1 responsive"
+                      style="max-height: 25vh"
+                    >
+                      <li
+                        class="list-group-item p-2"
+                        v-for="item in cashiers"
+                        :key="item"
+                        @click="cashier = item"
+                      >
+                        {{ item.name }}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
                 <textarea
                   class="form-control form-control-sm"
                   cols="30"
@@ -291,7 +336,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-outline-primary">
+            <button class="btn btn-outline-primary" :disabled="!cashier">
               <i class="far fa-circle-check" />
             </button>
             <button class="btn btn-outline-danger" data-dismiss="modal">
@@ -341,6 +386,43 @@
                 </div>
               </div>
               <div class="col-md-12">
+                <div class="dropdown">
+                  <button
+                    id="customerDropdown"
+                    class="btn btn-sm btn-block btn-outline-primary dropdown-toggle"
+                    data-toggle="dropdown"
+                    @click="getCashiers()"
+                  >
+                    {{ cashier?.name || "Kassa" }}
+                  </button>
+                  <div
+                    class="dropdown-menu w-100 p-1"
+                    aria-labelledby="customerDropdown"
+                  >
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      placeholder="qidiruv"
+                      v-model="search_cashiers"
+                      @keyup="getCashiers()"
+                    />
+                    <ul
+                      class="list-group p-1 responsive"
+                      style="max-height: 25vh"
+                    >
+                      <li
+                        class="list-group-item p-2"
+                        v-for="item in cashiers"
+                        :key="item"
+                        @click="cashier = item"
+                      >
+                        {{ item.name }}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
                 <textarea
                   class="form-control form-control-sm"
                   cols="30"
@@ -352,7 +434,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-outline-primary">
+            <button class="btn btn-outline-primary" :disabled="!cashier">
               <i class="far fa-circle-check" />
             </button>
             <button class="btn btn-outline-danger" data-dismiss="modal">
@@ -367,37 +449,44 @@
 
 <script>
 import * as api from "@/components/Api/Api";
+import Pagination from "@/components/Pagination/Pagination.vue";
 export default {
   name: "Ta'minotchilar",
+  components: { Pagination },
   data() {
     return {
       search: "",
       branch_id: this.$route.params.id,
       currencies: [],
-      taminotchilar: [],
+      taminotchilar: { current_page: 0, pages: 1, limit: 25, data: [] },
       editTaminotchi: {},
       addTaminotchi: {
         name: null,
         phone: null,
         address: null,
       },
+      search_cashiers: "",
+      cashiers: [],
+      cashier: null,
       pay: {
         price: null,
         currency_id: "",
         source: null,
         comment: null,
+        kassa_id: 0,
       },
       take: {
         money: null,
         currency_id: "",
         from_: null,
         comment: null,
+        kassa_id: 0,
       },
     };
   },
   computed: {
     filter: function () {
-      return this.taminotchilar.filter((item) => {
+      return this.taminotchilar.data.filter((item) => {
         return (
           item.name.toLowerCase().match(this.search.toLowerCase()) ||
           String(item.phone).match(this.search)
@@ -419,7 +508,12 @@ export default {
     },
     getMarkets(page, limit) {
       api.markets(page, limit).then((Response) => {
-        this.taminotchilar = Response.data.data;
+        this.taminotchilar = Response.data;
+      });
+    },
+    getCashiers() {
+      api.kassa(this.search_cashiers, 0, 0).then((res) => {
+        this.cashiers = res.data;
       });
     },
     post(data) {
@@ -445,13 +539,16 @@ export default {
     },
     postPay(data) {
       data.comment = data.comment ? data.comment : " ";
+      data.kassa_id = this.cashier.id;
       api.payForMarketExpense(data).then((Response) => {
         document.querySelectorAll("[data-dismiss]")[2].click();
+        this.cashier = null;
         this.pay = {
           price: null,
           currency_id: "",
           source: null,
           comment: null,
+          kassa_id: 0,
         };
         api.success().then(() => {
           this.getMarkets(0, 100);
@@ -460,13 +557,16 @@ export default {
     },
     postTake(data) {
       data.comment = data.comment ? data.comment : " ";
+      data.kassa_id = this.cashier.id;
       api.takeIncomeFromMarket(data).then((Response) => {
         document.querySelectorAll("[data-dismiss]")[3].click();
+        this.cashier = null;
         this.take = {
           money: null,
           currency_id: "",
           from_: null,
           comment: null,
+          kassa_id: 0,
         };
         api.success().then(() => {
           this.getMarkets(0, 100);
