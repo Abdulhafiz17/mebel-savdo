@@ -234,9 +234,6 @@
                   <option v-if="role == 'admin'" value="logistika">
                     Logistika
                   </option>
-                  <option v-if="role == 'admin'" value="warehouseman">
-                    Omborchi
-                  </option>
                   <option value="seller">Sotuvchi</option>
                   <option value="worker">Transport</option>
                   <option value="ustanovshik">Ustanovshik</option>
@@ -253,22 +250,6 @@
                   v-model="yangiHodim.branch_id"
                 >
                   <option v-for="item in branches" :key="item" :value="item.id">
-                    {{ item.id }}
-                  </option>
-                </select>
-              </div>
-              <div class="col-md-12" v-if="yangiHodim.role == 'warehouseman'">
-                Ombor
-                <select
-                  class="form-control form-control-sm"
-                  required
-                  v-model="yangiHodim.branch_id"
-                >
-                  <option
-                    v-for="item in warehouses"
-                    :key="item"
-                    :value="item.id"
-                  >
                     {{ item.id }}
                   </option>
                 </select>
