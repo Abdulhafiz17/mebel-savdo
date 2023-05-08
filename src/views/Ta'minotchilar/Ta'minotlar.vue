@@ -32,6 +32,12 @@
         <span><strong>Sana:</strong> {{ item.sana }} </span>
       </router-link>
     </ul>
+    <Pagination
+      :page="parties.current_page"
+      :pages="parties.pages"
+      :limit="parties.limit"
+      @get="getParties"
+    />
   </div>
 
   <div class="modal fade" id="filter">
