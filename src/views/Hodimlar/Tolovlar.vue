@@ -99,7 +99,7 @@ export default {
   },
   methods: {
     getUser() {
-      api.user().then((res) => {
+      api.thisUser(this.$route.params.id).then((res) => {
         this.user = res.data;
       });
     },
