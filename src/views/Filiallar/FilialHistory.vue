@@ -8,7 +8,7 @@
     <div class="col-md-4 my-1"></div>
   </div>
   <hr />
-  <ul class="nav nav-pills nav-justified mb-3" id="pills-tab" role="tablist">
+  <!-- <ul class="nav nav-pills nav-justified mb-3" id="pills-tab" role="tablist">
     <li class="nav-item" role="presentation">
       <button
         class="nav-link active"
@@ -39,7 +39,7 @@
         To'lov
       </button>
     </li>
-  </ul>
+  </ul> -->
   <div class="tab-content" id="pills-tabContent">
     <div
       class="tab-pane fade show active"
