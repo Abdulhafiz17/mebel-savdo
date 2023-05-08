@@ -15,7 +15,7 @@
           getTransfersWaiting(0, 25);
         "
       >
-        Kutilayotgan
+        Kutilayotgan ta'minotlar
       </button>
     </li>
     <li class="nav-item" role="presentation">
@@ -33,7 +33,7 @@
           getTransfersClosed(0, 25);
         "
       >
-        Yakunlangan
+        Yakunlangan ta'minotlar
       </button>
     </li>
   </ul>
