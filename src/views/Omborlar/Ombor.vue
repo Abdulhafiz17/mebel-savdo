@@ -280,7 +280,16 @@
       >
         <form @submit.prevent="postToBranch(productsToBranch)">
           <div class="row">
-            <div class="col-md-11 my-1">
+            <div class="col-md-5 my-1">
+              <input
+                type="search"
+                class="form-control form-control-sm"
+                placeholder="qidiruv"
+                v-model="search_products"
+                @keyup="getProducts2(0, 25)"
+              />
+            </div>
+            <div class="col-md-6 my-1">
               <!-- <select
                 class="form-select form-select-sm"
                 required
@@ -444,7 +453,7 @@
                   </tbody>
                   <tfoot>
                     <tr>
-                      <td colspan="7">
+                      <td colspan="10">
                         <Pagination
                           :page="page"
                           :pages="pages"
@@ -1124,6 +1133,7 @@ export default {
       },
       new_products: [],
       products: [],
+      search_products: "",
       products2: [],
       productsToBranch: [],
       categories: [],
@@ -1157,7 +1167,7 @@ export default {
     },
     getCategories(page, limit) {
       api
-        .warehouseProducts(this.$route.params.id, 0, page, limit, false)
+        .warehouseProducts(this.$route.params.id, "", 0, page, limit, false)
         .then((Response) => {
           this.categories = Response.data.data;
           if (this.categories.length) {
@@ -1180,6 +1190,7 @@ export default {
       api
         .warehouseProducts(
           this.$route.params.id,
+          "",
           this.category_for_product.Warehouse_products.category_id,
           page,
           limit,
@@ -1198,7 +1209,14 @@ export default {
     },
     getProducts2(page, limit) {
       api
-        .warehouseProducts(this.$route.params.id, 0, page, limit, true)
+        .warehouseProducts(
+          this.$route.params.id,
+          this.search_products,
+          0,
+          page,
+          limit,
+          true
+        )
         .then((Response) => {
           this.products2 = Response.data.data;
           this.products2.forEach((item) => {

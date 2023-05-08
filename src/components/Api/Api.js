@@ -256,15 +256,23 @@ export function updateWarehouse(data) {
 export function warehouseBalances(id) {
   return api(`warehouse_products_sum_price/${id}`, "get");
 }
-export function warehouseProducts(id, category_id, page, limit, status) {
+export function warehouseProducts(
+  id,
+  search,
+  category_id,
+  page,
+  limit,
+  status
+) {
+  const search_query = search ? `search=${search}&` : ``;
   if (category_id) {
     return api(
-      `get_warehouse_products/${id}?category_id=${category_id}&group=${status}&page=${page}&limit=${limit}`,
+      `get_warehouse_products/${id}?${search_query}category_id=${category_id}&group=${status}&page=${page}&limit=${limit}`,
       "get"
     );
   } else {
     return api(
-      `get_warehouse_products/${id}?group=${status}&page=${page}&limit=${limit}`,
+      `get_warehouse_products/${id}?${search_query}group=${status}&page=${page}&limit=${limit}`,
       "get"
     );
   }
