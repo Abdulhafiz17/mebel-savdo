@@ -43,31 +43,9 @@ export default {
           title: "Filiallar",
         },
         {
-          link: `/products-from-warehouse`,
-          icon: "fa fa-code-branch",
-          icon_2: "fa fa-warehouse",
-          title: "Filial ombordan so'ragan mahsulotlar",
-        },
-        {
           link: `/omborlar`,
           icon: "fa fa-warehouse",
           title: "Omborlar",
-        },
-        {
-          link: `/transfer`,
-          icon: "fa fa-arrow-up",
-          icon_2: "fa fa-arrow-down",
-          title: "Transfer",
-        },
-        {
-          link: `/nomenclature`,
-          icon: "fa fa-signature",
-          title: "Nomenklatura",
-        },
-        {
-          link: `/products`,
-          icon: "fa fa-box",
-          title: "Mahsulotlar",
         },
         {
           link: `/taminotlar`,
@@ -85,14 +63,36 @@ export default {
           title: "Kassalar",
         },
         {
+          link: `/davomat`,
+          icon: "fa fa-clipboard-check",
+          title: "davomat",
+        },
+        {
           link: `/admin-hodimlar`,
           icon: "fa fa-user-group",
           title: "Hodimlar",
         },
         {
-          link: `/davomat`,
-          icon: "fa fa-clipboard-check",
-          title: "davomat",
+          link: `/products`,
+          icon: "fa fa-box",
+          title: "Mahsulotlar",
+        },
+        {
+          link: `/products-from-warehouse`,
+          icon: "fa fa-code-branch",
+          icon_2: "fa fa-warehouse",
+          title: "Filial ombordan so'ragan mahsulotlar",
+        },
+        {
+          link: `/transfer`,
+          icon: "fa fa-arrow-up",
+          icon_2: "fa fa-arrow-down",
+          title: "Transfer",
+        },
+        {
+          link: `/nomenclature`,
+          icon: "fa fa-signature",
+          title: "Nomenklatura",
         },
         {
           link: `/settings`,
