@@ -53,7 +53,12 @@
   </div> -->
   <hr />
 
-  <ul class="nav nav-pills nav-justified mb-3" id="pills-tab" role="tablist">
+  <ul
+    class="nav nav-pills nav-justified mb-3"
+    id="pills-tab"
+    role="tablist"
+    v-if="role !== 'warehouseman'"
+  >
     <li class="nav-item" role="presentation">
       <button
         class="nav-link active"
@@ -104,7 +109,10 @@
       role="tabpanel"
       aria-labelledby="pills-home-tab"
     >
-      <div class="row" v-if="supplyType && !party?.warehouseman">
+      <div
+        class="row"
+        v-if="supplyType && !party?.warehouseman && role !== 'warehouseman'"
+      >
         <div class="col-md-12">
           <form @submit.prevent="post()">
             <div class="row m-1">
@@ -250,9 +258,9 @@
                       <th>Kodi</th>
                       <th>Artikul</th>
                       <th>Nomi</th>
-                      <th>Narx</th>
+                      <th v-if="role !== 'warehouseman'">Narx</th>
                       <th>Soni</th>
-                      <th>Summa</th>
+                      <th v-if="role !== 'warehouseman'">Summa</th>
                       <th v-if="supplyType && !party?.warehouseman"></th>
                     </tr>
                   </thead>
@@ -268,12 +276,12 @@
                       <td>
                         {{ item.name }}
                       </td>
-                      <td>
+                      <td v-if="role !== 'warehouseman'">
                         {{ Intl.NumberFormat().format(item.price) }}
                         {{ item.currency.currency }}
                       </td>
                       <td>{{ item.quantity }} dona</td>
-                      <td>
+                      <td v-if="role !== 'warehouseman'">
                         {{
                           Intl.NumberFormat().format(item.quantity * item.price)
                         }}
@@ -302,7 +310,10 @@
       role="tabpanel"
       aria-labelledby="pills-profile-tab"
     >
-      <div class="row" v-if="supplyType && !party?.warehouseman">
+      <div
+        class="row"
+        v-if="supplyType && !party?.warehouseman && role !== 'warehouseman'"
+      >
         <div class="col-md-11 mx-auto">
           <form @submit.prevent="postExpense(expense)">
             <div class="row my-1">
