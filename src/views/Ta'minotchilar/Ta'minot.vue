@@ -23,7 +23,11 @@
     </div>
     <div class="col-md-4">
       <button
-        v-if="party?.warehouseman && !party?.warehouseman_id"
+        v-if="
+          party?.warehouseman &&
+          !party?.warehouseman_id &&
+          role == 'warehouseman'
+        "
         class="btn btn-sm btn-block btn-outline-success"
         @click="confirmParty()"
       >
