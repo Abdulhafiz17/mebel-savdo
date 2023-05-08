@@ -55,6 +55,15 @@
                   <i class="fa fa-info"></i>
                 </button>
               </div>
+              <div class="col">
+                <button
+                  v-if="['branch_admin', 'cashier'].includes(role)"
+                  class="btn btn-sm btn-block btn-outline-primary"
+                  @click="$refs.takeIncomeModal.start(item.Pre_orders.id)"
+                >
+                  <i class="fa fa-coins"></i>
+                </button>
+              </div>
               <div class="col" v-if="['worker', 'warehouseman'].includes(role)">
                 <button
                   class="btn btn-sm btn-block btn-outline-success"
@@ -469,6 +478,11 @@
   <updatePreOrderModal ref="updatePreOrderModal" />
 
   <preOrderModal ref="preOrderModal" />
+
+  <takeIncomeModal
+    ref="takeIncomeModal"
+    v-if="['branch_admin', 'cashier'].includes(role)"
+  />
 </template>
 
 <script>
@@ -476,9 +490,15 @@ import * as api from "@/components/Api/Api";
 import Pagination from "@/components/Pagination/Pagination.vue";
 import updatePreOrderModal from "./updatePreOrderModal.vue";
 import preOrderModal from "@/components/order/preOrderModal.vue";
+import takeIncomeModal from "./takeIncomeModal.vue";
 export default {
   name: "preOrders",
-  components: { Pagination, updatePreOrderModal, preOrderModal },
+  components: {
+    Pagination,
+    updatePreOrderModal,
+    preOrderModal,
+    takeIncomeModal,
+  },
   data() {
     return {
       role: localStorage["role"],

@@ -215,6 +215,9 @@ export function incomes(id, status, kassa_id, page, limit) {
 export function takeIncomeFromUser(data) {
   return api(`take_income_from_user`, "post", data);
 }
+export function takeIncomeFromPreOrder(data) {
+  return api(`take_income_from_pre_order`, "post", data);
+}
 
 // market
 
