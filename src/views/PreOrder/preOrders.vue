@@ -63,14 +63,31 @@
                   <i class="fa fa-check"></i>
                 </button>
               </div>
-              <div class="col" v-if="role == 'logistika'">
+              <div
+                class="col"
+                v-if="['branch_admin', 'logistika'].includes(role)"
+              >
                 <button
                   class="btn btn-sm btn-block btn-outline-warning"
+                  @click="$refs.updatePreOrderModal.start(item)"
+                >
+                  <i class="fa fa-edit"></i>
+                </button>
+              </div>
+              <div
+                class="col"
+                v-if="
+                  role == 'logistika' &&
+                  item.Pre_orders.status == 'warehouseman'
+                "
+              >
+                <button
+                  class="btn btn-sm btn-block btn-outline-success"
                   data-toggle="modal"
                   data-target="#pre-order"
                   @click="update_pre_order_logistika.id = item.Pre_orders.id"
                 >
-                  <i class="fa fa-edit"></i>
+                  <i class="fa fa-check"></i>
                 </button>
               </div>
             </div>
@@ -322,10 +339,10 @@
   <div class="modal fade" id="pre-order">
     <div class="modal-dialog">
       <form class="modal-content" @submit.prevent="updatePreOrderLogistika()">
-        <div class="modal-header"><h5>Filter</h5></div>
+        <div class="modal-header"><h5>Tahrirlash</h5></div>
         <div class="modal-body">
           <div class="row gap-1 text-left">
-            <div class="col-12">
+            <div class="col-12" v-if="role == 'logistika'">
               Pulni olib keluvchi hodim
               <div class="row">
                 <div class="col-6">
@@ -364,7 +381,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-12">
+            <div class="col-12" v-if="role == 'logistika'">
               Haydovchi biriktirish
               <div class="dropdown">
                 <button
@@ -396,7 +413,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-12">
+            <div class="col-12" v-if="role == 'logistika'">
               Ustanovshik biriktirish
               <div class="dropdown">
                 <button
@@ -449,16 +466,19 @@
     </div>
   </div>
 
+  <updatePreOrderModal ref="updatePreOrderModal" />
+
   <preOrderModal ref="preOrderModal" />
 </template>
 
 <script>
 import * as api from "@/components/Api/Api";
 import Pagination from "@/components/Pagination/Pagination.vue";
+import updatePreOrderModal from "./updatePreOrderModal.vue";
 import preOrderModal from "@/components/order/preOrderModal.vue";
 export default {
   name: "preOrders",
-  components: { Pagination, preOrderModal },
+  components: { Pagination, updatePreOrderModal, preOrderModal },
   data() {
     return {
       role: localStorage["role"],
