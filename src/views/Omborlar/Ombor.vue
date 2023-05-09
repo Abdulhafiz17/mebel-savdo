@@ -286,7 +286,7 @@
                 class="form-control form-control-sm"
                 placeholder="qidiruv"
                 v-model="search_products"
-                @keyup="getProducts2(0, 25)"
+                @input="getProducts2(0, 25)"
               />
             </div>
             <div class="col-md-6 my-1">
