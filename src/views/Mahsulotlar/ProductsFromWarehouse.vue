@@ -18,6 +18,7 @@
           <th>Nomi</th>
           <th>Miqdor</th>
           <th>Sana</th>
+          <th>Zarur sana</th>
           <th>
             <button
               class="btn btn-sm btn-outline-info"
@@ -49,6 +50,9 @@
             {{
               item.Orders_from_branch.time.replace("T", " ").substring(0, 16)
             }}
+          </td>
+          <td>
+            {{ item.Orders_from_branch.date }}
           </td>
           <td></td>
         </tr>
