@@ -7,7 +7,7 @@
         class="btn btn-sm btn-outline-info"
         data-toggle="modal"
         data-target="#filter"
-        v-if="!['warehouseman', 'worker', 'ustanovshik'].includes(role)"
+        v-if="!['worker', 'ustanovshik'].includes(role)"
       >
         <i class="fa fa-filter"></i>
       </button>
@@ -55,9 +55,11 @@
                   <i class="fa fa-info"></i>
                 </button>
               </div>
-              <div class="col">
+              <div
+                class="col"
+                v-if="['branch_admin', 'cashier'].includes(role)"
+              >
                 <button
-                  v-if="['branch_admin', 'cashier'].includes(role)"
                   class="btn btn-sm btn-block btn-outline-primary"
                   @click="$refs.takeIncomeModal.start(item.Pre_orders.id)"
                 >
@@ -122,7 +124,11 @@
           <div class="row gap-1 text-left">
             <div
               class="col-12"
-              v-if="['admin', 'branch_admin', 'logistika'].includes(role)"
+              v-if="
+                ['admin', 'branch_admin', 'logistika', 'warehouseman'].includes(
+                  role
+                )
+              "
             >
               Status
               <select
@@ -148,8 +154,16 @@
                 </option>
                 <option value="wait">Kutish</option>
                 <option value="warehouseman">Omborchi</option>
-                <option value="logistika">Logistika</option>
-                <option value="logistika_user">
+                <option
+                  value="logistika"
+                  v-if="['admin', 'branch_admin', 'logistika'].includes(role)"
+                >
+                  Logistika
+                </option>
+                <option
+                  value="logistika_user"
+                  v-if="['admin', 'branch_admin', 'logistika'].includes(role)"
+                >
                   Logistika hodim biriktirilgan
                 </option>
               </select>
@@ -186,7 +200,10 @@
                 </div>
               </div>
             </div>
-            <div class="col-12">
+            <div
+              class="col-12"
+              v-if="['admin', 'branch_admin', 'logistika'].includes(role)"
+            >
               Sotuvchi
               <div class="dropdown">
                 <button
@@ -580,7 +597,8 @@ export default {
       let worker = "";
       let status = this.filter.status;
       if (this.role == "warehouseman") {
-        warehouseman_id = this.user_id;
+        if (status == "warehouseman") warehouseman_id = this.user_id;
+        else warehouseman_id = 0;
       } else if (this.role == "worker") {
         worker = "true";
         worker_id = this.user_id;
