@@ -229,30 +229,11 @@
                 >
                   <option hidden value="">role</option>
                   <option v-if="role == 'admin'" value="cashier">Kassir</option>
-                  <option v-if="role == 'admin'" value="branch_admin">
-                    Filial admin
-                  </option>
                   <option v-if="role == 'admin'" value="logistika">
                     Logistika
                   </option>
-                  <option value="seller">Sotuvchi</option>
                   <option value="worker">Transport</option>
                   <option value="ustanovshik">Ustanovshik</option>
-                </select>
-              </div>
-              <div
-                class="col-md-12"
-                v-if="yangiHodim.role == ('branch_admin' || 'seller')"
-              >
-                Filial
-                <select
-                  class="form-control form-control-sm"
-                  required
-                  v-model="yangiHodim.branch_id"
-                >
-                  <option v-for="item in branches" :key="item" :value="item.id">
-                    {{ item.id }}
-                  </option>
                 </select>
               </div>
               <div class="col-md-6">
