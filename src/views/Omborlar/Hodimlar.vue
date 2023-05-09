@@ -314,11 +314,7 @@
             <button class="btn btn-outline-primary">
               <span class="far fa-circle-check" />
             </button>
-            <button
-              class="btn btn-outline-danger"
-              data-dismiss="modal"
-              @click="get(this.$route.params.id, 0, 50)"
-            >
+            <button class="btn btn-outline-danger" data-dismiss="modal">
               <span class="far fa-circle-xmark" />
             </button>
           </div>
