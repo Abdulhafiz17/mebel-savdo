@@ -1,7 +1,7 @@
 <template>
   <h3>
     <span class="fa px-1 fa-arrow-up" /><span class="fa px-1 fa-arrow-down" />
-    Transfer
+    Transfer {{ branch ? `Filial ${branch.name}` : `` }}
   </h3>
   <div class="row">
     <div class="col-md-4"></div>
@@ -147,7 +147,7 @@
         </div>
         <div class="modal-body">
           <div class="row gap-1 text-left">
-            <div class="col-12" v-if="role !== 'branch_admin'">
+            <div class="col-12" v-if="role !== 'branch_admin' && !branch_id">
               Filial
               <select class="form-select" v-model="filter.branch_id">
                 <option v-for="item in branches" :key="item" :value="item.id">
@@ -321,7 +321,9 @@ export default {
     return {
       role: localStorage["role"],
       user_id: localStorage["user_id"],
+      branch_id: this.$route.query.branch_id || 0,
       _: Intl.NumberFormat(),
+      branch: null,
       warehouses: [],
       branches: [],
       filter: {
@@ -346,6 +348,7 @@ export default {
     };
   },
   created() {
+    if (this.branch_id) this.getBranch();
     this.getTransfers(0, 25);
     if (["admin", "logistika"].includes(this.role)) {
       this.getUsers();
@@ -360,6 +363,11 @@ export default {
     }
   },
   methods: {
+    getBranch() {
+      api.branch(this.branch_id).then((res) => {
+        this.branch = res.data.branch;
+      });
+    },
     getWarehouses() {
       api.warehouses().then((res) => {
         this.warehouses = res.data;
@@ -400,7 +408,7 @@ export default {
           status,
           page,
           limit,
-          this.filter.branch_id,
+          this.filter.branch_id || this.branch_id,
           this.from_time,
           this.to_time,
           worker_id,

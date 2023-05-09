@@ -107,7 +107,7 @@
               </div>
               <div class="col my-1" v-if="role == 'admin'">
                 <router-link
-                  :to="`/filial/${item.id}`"
+                  :to="{ path: '/transfer', query: { branch_id: item.id } }"
                   class="btn btn-sm btn-block btn-outline-secondary"
                 >
                   <i class="fa fa-history" />
