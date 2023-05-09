@@ -205,6 +205,12 @@
       </div>
     </details>
 
+    <details>
+      <summary @click="$router.push('/nomenclature')">
+        <strong> Nomenklatura </strong>
+      </summary>
+    </details>
+
     <details v-if="role == 'admin' || role == 'logistika'">
       <summary @click="getShipping()">
         <strong>Yetkazib berish narxi</strong>

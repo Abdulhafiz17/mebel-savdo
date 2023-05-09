@@ -90,11 +90,6 @@ export default {
           title: "Transfer",
         },
         {
-          link: `/nomenclature`,
-          icon: "fa fa-signature",
-          title: "Nomenklatura",
-        },
-        {
           link: `/settings`,
           icon: "fa fa-tools",
           title: "Sozlamalar",
