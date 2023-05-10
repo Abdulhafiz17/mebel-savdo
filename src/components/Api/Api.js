@@ -306,16 +306,16 @@ export function allProducts(
   let search_query = ``;
   if (search.length) {
     search.forEach((item) => {
-      search_query += `search=${item.search}&`;
+      if (item.search) search_query += `search=${item.search}&`;
     });
-  } else search_query = ``;
+  }
   return api(
     `get_all_products?${search_query}page_w=${page_w}&limit_w=${limit_w}&page_p=${page_p}&limit_p=${limit_p}`,
     "get"
   );
 }
-export function ordersFromBranch(
-  search,
+export async function ordersFromBranch(
+  search = [""],
   branch_id,
   status,
   warehouse_id,
@@ -325,7 +325,12 @@ export function ordersFromBranch(
   page,
   limit
 ) {
-  const search_query = search ? `search=${search}&` : ``;
+  let search_query = ``;
+  if (search.length) {
+    for await (const item of search) {
+      search_query += `search=${item}&`;
+    }
+  }
   const time_query =
     from_time && to_time ? `from_time=${from_time}&to_time=${to_time}&` : ``;
   return api(
@@ -360,8 +365,8 @@ export function transfers(
     "get"
   );
 }
-export function transferProduct(id, data) {
-  return api(`transfer_product/${id}`, "post", data);
+export function transferProduct(data) {
+  return api(`transfer_product`, "post", data);
 }
 export function transferProductLogistika(data) {
   return api(`transfer_product_logistika`, "put", data);

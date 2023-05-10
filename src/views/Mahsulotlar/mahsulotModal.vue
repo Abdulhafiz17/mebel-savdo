@@ -92,6 +92,7 @@ export default {
         category_id: this.product.Warehouse_products.category_id,
         articul: this.product.Warehouse_products.articul,
         name: this.product.Warehouse_products.name,
+        name2: this.product.Warehouse_products.name2,
         quantity: this.quantity,
         warehouse_id: this.warehouse_id,
         date: this.date,

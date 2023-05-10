@@ -54,7 +54,15 @@
           <td>
             {{ item.Orders_from_branch.date }}
           </td>
-          <td></td>
+          <td>
+            <button
+              v-if="role == 'admin'"
+              class="btn btn-sm btn-outline-success"
+              @click="$refs.filialgaMahsulotYuborishModal.start(item)"
+            >
+              <i class="fa fa-check"></i>
+            </button>
+          </td>
         </tr>
       </tbody>
       <tfoot>
@@ -149,14 +157,17 @@
       </div>
     </div>
   </div>
+
+  <filialgaMahsulotYuborishModal ref="filialgaMahsulotYuborishModal" />
 </template>
 
 <script>
 import * as api from "@/components/Api/Api";
 import Pagination from "@/components/Pagination/Pagination.vue";
+import filialgaMahsulotYuborishModal from "../Omborlar/filialgaMahsulotYuborishModal.vue";
 export default {
   name: "ProductsFromWarehouse",
-  components: { Pagination },
+  components: { Pagination, filialgaMahsulotYuborishModal },
   data() {
     return {
       role: localStorage["role"],
@@ -208,7 +219,7 @@ export default {
         this.role == "branch_admin" ? 0 : this.filter.warehouse_id;
       api
         .ordersFromBranch(
-          "",
+          [""],
           branch_id,
           this.filter.status,
           warehouse_id,
