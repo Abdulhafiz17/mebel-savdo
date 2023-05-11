@@ -482,14 +482,14 @@ export function uploadPhoto(articul, file) {
 export function removePhoto(articul, id) {
   return api(`remove_photo/${articul}/${id}`, "delete");
 }
-export function orderPhotos(id) {
-  return api(`get_photos_order/${id}`, "get");
+export function orderPhotos(id, status) {
+  return api(`get_photos_order/${id}?status=${status}`, "get");
 }
 export function uploadOrderPhoto(id, status, data) {
   return api(`upload_photo_order/${id}?status=${status}`, "post", data);
 }
-export function removeOrderPhoto(id) {
-  return api(`remove_photo_order/${id}`, "delete");
+export function removeOrderPhoto(id, status) {
+  return api(`remove_photo_order/${id}?status=${status}`, "delete");
 }
 
 // order

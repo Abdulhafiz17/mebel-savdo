@@ -15,6 +15,14 @@
           <div class="d-flex justify-content-end">
             <button
               v-if="printable"
+              class="btn btn-outline-success mx-1"
+              data-dismiss="modal"
+              @click="$refs.orderGallery.start(order_id)"
+            >
+              <i class="fa fa-image"></i>
+            </button>
+            <button
+              v-if="printable"
               class="btn btn-outline-primary mx-1"
               @click="$refs.check.start()"
             >
@@ -37,19 +45,22 @@
   </div>
 
   <check :order-id="order_id" ref="check" />
+
+  <orderGallery ref="orderGallery" />
 </template>
 
 <script>
 import order from "./order.vue";
 import trades from "./trades.vue";
 import check from "@/components/order/check.vue";
+import orderGallery from "./orderGallery.vue";
 export default {
   name: "orderModal",
   props: {
     printable: { default: false },
     returnable: { default: false },
   },
-  components: { order, trades, check },
+  components: { order, trades, check, orderGallery },
   data() {
     return {
       order_id: 0,
