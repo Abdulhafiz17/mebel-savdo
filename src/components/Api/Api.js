@@ -425,9 +425,15 @@ export function addProducts(data) {
 export function updateProduct(code, size, data) {
   return api(`update_product/${code}/${size}`, "put", data);
 }
-export function productHistory(warehouse_id, category_id, articul) {
+export function productHistory(
+  warehouse_id,
+  category_id,
+  articul,
+  name,
+  name2
+) {
   return api(
-    `get_supplies_party/${warehouse_id}/${category_id}/${articul}`,
+    `get_supplies_party/${warehouse_id}/${category_id}/${articul}/${name}/${name2}`,
     "get"
   );
 }
@@ -479,8 +485,8 @@ export function removePhoto(articul, id) {
 export function orderPhotos(id) {
   return api(`get_photos_order/${id}`, "get");
 }
-export function uploadOrderPhoto(id, data) {
-  return api(`upload_photo_order/${id}`, "post", data);
+export function uploadOrderPhoto(id, status, data) {
+  return api(`upload_photo_order/${id}?status=${status}`, "post", data);
 }
 export function removeOrderPhoto(id) {
   return api(`remove_photo_order/${id}`, "delete");

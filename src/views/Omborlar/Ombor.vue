@@ -1395,7 +1395,9 @@ export default {
         .productHistory(
           product.Warehouse_products.warehouse_id,
           product.Warehouse_products.category_id,
-          product.Warehouse_products.articul
+          product.Warehouse_products.articul,
+          product.Warehouse_products.name,
+          product.Warehouse_products.name2
         )
         .then((Response) => {
           this.product_history = Response.data;
