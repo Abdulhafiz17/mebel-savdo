@@ -7,7 +7,6 @@
         class="btn btn-sm btn-outline-info"
         data-toggle="modal"
         data-target="#filter"
-        v-if="!['worker', 'ustanovshik'].includes(role)"
       >
         <i class="fa fa-filter"></i>
       </button>
@@ -66,7 +65,13 @@
                   <i class="fa fa-coins"></i>
                 </button>
               </div>
-              <div class="col" v-if="['worker', 'warehouseman'].includes(role)">
+              <div
+                class="col"
+                v-if="
+                  ['worker', 'warehouseman'].includes(role) &&
+                  item.Pre_orders.status == 'logistika'
+                "
+              >
                 <button
                   class="btn btn-sm btn-block btn-outline-success"
                   @click="check(item.Pre_orders.id)"
@@ -122,14 +127,7 @@
         <div class="modal-header"><h5>Filter</h5></div>
         <div class="modal-body">
           <div class="row gap-1 text-left">
-            <div
-              class="col-12"
-              v-if="
-                ['admin', 'branch_admin', 'logistika', 'warehouseman'].includes(
-                  role
-                )
-              "
-            >
+            <div class="col-12">
               Status
               <select
                 class="form-select"
@@ -140,29 +138,42 @@
                     : false
                 "
               >
-                <option
-                  v-if="['admin', 'branch_admin'].includes(role)"
-                  value="done"
-                >
-                  Yakunlangan
+                <option value="done">Yakunlangan</option>
+                <option value="false">Faol</option>
+                <option value="wait" v-if="['warehouseman'].includes(role)">
+                  Kutish
                 </option>
                 <option
-                  v-if="['admin', 'branch_admin'].includes(role)"
-                  value="false"
+                  value="warehouseman"
+                  v-if="['warehouseman', 'logistika'].includes(role)"
                 >
-                  Faol
+                  Omborchi
                 </option>
-                <option value="wait">Kutish</option>
-                <option value="warehouseman">Omborchi</option>
                 <option
                   value="logistika"
-                  v-if="['admin', 'branch_admin', 'logistika'].includes(role)"
+                  v-if="
+                    [
+                      'admin',
+                      'branch_admin',
+                      'logistika',
+                      'worker',
+                      'ustanovshik',
+                    ].includes(role)
+                  "
                 >
                   Logistika
                 </option>
                 <option
                   value="logistika_user"
-                  v-if="['admin', 'branch_admin', 'logistika'].includes(role)"
+                  v-if="
+                    [
+                      'admin',
+                      'branch_admin',
+                      'logistika',
+                      'worker',
+                      'ustanovshik',
+                    ].includes(role)
+                  "
                 >
                   Logistika hodim biriktirilgan
                 </option>

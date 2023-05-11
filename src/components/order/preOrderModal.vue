@@ -14,6 +14,13 @@
           <hr />
           <div class="d-flex justify-content-end">
             <button
+              class="btn btn-outline-success mx-1"
+              data-dismiss="modal"
+              @click="$refs.orderGallery.start(order_id, 'pre_order')"
+            >
+              <i class="fa fa-image"></i>
+            </button>
+            <button
               v-if="printable"
               class="btn btn-outline-primary mx-1"
               @click="$refs.check.start()"
@@ -37,19 +44,22 @@
   </div>
 
   <check :order-id="order_id" ref="check" />
+
+  <orderGallery ref="orderGallery" />
 </template>
 
 <script>
 import preOrder from "./preOrder.vue";
 import preOrderTrades from "./preOrderTrades.vue";
 import check from "@/components/order/check.vue";
+import orderGallery from "./orderGallery.vue";
 export default {
   name: "preOrderModal",
   props: {
     printable: { default: false },
     returnable: { default: false },
   },
-  components: { preOrder, preOrderTrades, check },
+  components: { preOrder, preOrderTrades, check, orderGallery },
   data() {
     return {
       order_id: 0,

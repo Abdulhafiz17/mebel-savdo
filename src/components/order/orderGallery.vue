@@ -7,7 +7,11 @@
           <h4>Buyurtma galereyasi</h4>
         </div>
         <div class="modal-body">
-          <form class="row gap-1 text-left" @submit.prevent="uploadPhoto()">
+          <form
+            class="row gap-1 text-left"
+            @submit.prevent="uploadPhoto()"
+            v-if="['worker', 'ustanovshik'].includes(role)"
+          >
             <div class="col-12">
               <input type="file" class="form-control" required file />
             </div>
@@ -26,12 +30,20 @@
               </button>
             </div>
           </form>
-          <div class="responsive mt-1" style="max-height: 40vh">
+          <div
+            class="responsive mt-1"
+            :style="{
+              'max-height': ['worker', 'ustanovshik'].includes(role)
+                ? '40vh'
+                : '60vh',
+            }"
+          >
             <div class="row">
               <div class="col-4" v-for="item in files" :key="item">
                 <button
                   class="btn btn-sm btn-danger delete"
                   @click="removePhoto(item.id)"
+                  v-if="['worker', 'ustanovshik'].includes(role)"
                 >
                   <i class="fa fa-trash"></i>
                 </button>
@@ -87,8 +99,10 @@ export default {
   name: "orderGallery",
   data() {
     return {
+      role: localStorage["role"],
       image: api.url_to_files,
       order_id: 0,
+      status: "",
       files: [],
       full_image: null,
       comment: "",
@@ -100,15 +114,16 @@ export default {
     },
   },
   methods: {
-    start(order_id) {
+    start(order_id, status) {
       this.order_id = order_id;
+      this.status = status;
       this.files = [];
 
       this.getFiles();
       this.toggle_button.click();
     },
     getFiles() {
-      api.orderPhotos(this.order_id, "order").then((res) => {
+      api.orderPhotos(this.order_id, this.status).then((res) => {
         this.files = res.data;
       });
     },
@@ -117,14 +132,14 @@ export default {
       let data = new FormData();
       data.append("file", file);
       data.append("comment", this.comment || " ");
-      api.uploadOrderPhoto(this.order_id, "order", data).then(() => {
+      api.uploadOrderPhoto(this.order_id, this.status, data).then(() => {
         api.success().then(() => {
           this.getFiles();
         });
       });
     },
     removePhoto(id) {
-      api.removeOrderPhoto(id, "order").then(() => {
+      api.removeOrderPhoto(id, this.status).then(() => {
         api.success().then(() => {
           this.getFiles();
         });

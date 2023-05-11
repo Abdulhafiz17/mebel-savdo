@@ -14,10 +14,9 @@
           <hr />
           <div class="d-flex justify-content-end">
             <button
-              v-if="printable"
               class="btn btn-outline-success mx-1"
               data-dismiss="modal"
-              @click="$refs.orderGallery.start(order_id)"
+              @click="$refs.orderGallery.start(order_id, 'order')"
             >
               <i class="fa fa-image"></i>
             </button>
