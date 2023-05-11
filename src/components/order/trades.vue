@@ -51,7 +51,7 @@
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="6">
+          <td colspan="10">
             <Pagination
               :page="trades.current_page"
               :pages="trades.pages"
