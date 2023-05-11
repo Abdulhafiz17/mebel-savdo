@@ -49,7 +49,7 @@
                 </button>
                 <div class="p-3 w-100 h-100">
                   <img
-                    :src="image + '/' + item.logo"
+                    :src="image + item.logo"
                     :alt="item.logo"
                     data-toggle="modal"
                     data-target="#full-view"
@@ -79,7 +79,7 @@
           <img
             v-if="full_image"
             class="full-view"
-            :src="image + '/' + full_image?.logo"
+            :src="image + full_image?.logo"
             :alt="full_image?.logo"
           />
         </div>
@@ -112,6 +112,9 @@ export default {
     toggle_button() {
       return document.querySelector(`[data-target="#gallery"]`);
     },
+    input() {
+      return document.querySelector("[file]");
+    },
   },
   methods: {
     start(order_id, status) {
@@ -128,12 +131,14 @@ export default {
       });
     },
     uploadPhoto() {
-      const file = document.querySelector("[file]").files[0];
+      let file = this.input.files[0];
       let data = new FormData();
       data.append("file", file);
       data.append("comment", this.comment || " ");
       api.uploadOrderPhoto(this.order_id, this.status, data).then(() => {
         api.success().then(() => {
+          this.input.value = null;
+          this.comment = "";
           this.getFiles();
         });
       });
