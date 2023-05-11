@@ -1290,17 +1290,16 @@ export default {
             transfer_price: item.Warehouse_products.price,
             to_: this.to.id,
             order_from_branch_id: 0,
+            warehouse_id: this.$route.params.id,
           });
           if (index == data.length - 1) {
-            api
-              .transferProduct(this.$route.params.id, array)
-              .then((Response) => {
-                api.success().then(() => {
-                  this.to = null;
-                  this.productsToBranch = [];
-                  this.getProducts2(this.page, this.limit);
-                });
+            api.transferProduct(array).then((Response) => {
+              api.success().then(() => {
+                this.to = null;
+                this.productsToBranch = [];
+                this.getProducts2(this.page, this.limit);
               });
+            });
           }
         });
       } else {
