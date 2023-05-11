@@ -33,7 +33,7 @@
         <tr>
           <th>
             <input
-              v-if="['worker', 'logistika', 'warehouseman'].includes(role)"
+              v-if="['worker', 'logistika'].includes(role)"
               type="checkbox"
               :checked="
                 transfers.data.length &&
@@ -71,7 +71,7 @@
         <tr v-for="item in transfers.data" :key="item">
           <td>
             <input
-              v-if="['worker', 'logistika', 'warehouseman'].includes(role)"
+              v-if="['worker', 'logistika'].includes(role)"
               type="checkbox"
               :value="item"
               :disabled="filter.status !== 'filialga_berish_logistika'"
@@ -163,7 +163,7 @@
                 </option>
               </select>
             </div>
-            <div class="col-12">
+            <div class="col-12" v-if="role !== 'warehouseman'">
               Status
               <select class="form-select" v-model="filter.status">
                 <option value="filialga_berish_warehouseman">
@@ -349,6 +349,8 @@ export default {
   },
   created() {
     if (this.branch_id) this.getBranch();
+    if (this.role == "warehouseman")
+      this.filter.status = "filialga_berish_warehouseman";
     this.getTransfers(0, 25);
     if (["admin", "logistika"].includes(this.role)) {
       this.getUsers();

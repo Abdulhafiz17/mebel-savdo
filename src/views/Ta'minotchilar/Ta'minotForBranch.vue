@@ -266,8 +266,8 @@ export default {
           this.$route.params.id,
           this.from_time,
           this.to_time,
-          0,
-          0
+          1,
+          1
         )
         .then((Response) => {
           this.page = Response.data.current_page;

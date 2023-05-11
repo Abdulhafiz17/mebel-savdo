@@ -55,6 +55,7 @@
             <table class="table table-sm table-hover">
               <thead>
                 <tr>
+                  <th>Shtrixkod</th>
                   <th>Kodi</th>
                   <th>Artikul</th>
                   <th>Nomi</th>
@@ -68,6 +69,9 @@
               </thead>
               <tbody>
                 <tr v-for="item2 in item.Categories.products" :key="item2">
+                  <td>
+                    {{ item2.Products.code }}
+                  </td>
                   <td>
                     {{ item2.Products.name2 }}
                   </td>
