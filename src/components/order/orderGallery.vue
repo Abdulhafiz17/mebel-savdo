@@ -39,7 +39,7 @@
             }"
           >
             <div class="row">
-              <div class="col-4" v-for="item in files" :key="item">
+              <div class="col-4 item" v-for="item in files" :key="item">
                 <button
                   class="btn btn-sm btn-danger delete"
                   @click="removePhoto(item.id)"
@@ -47,15 +47,13 @@
                 >
                   <i class="fa fa-trash"></i>
                 </button>
-                <div class="p-3 w-100 h-100">
-                  <img
-                    :src="image + item.logo"
-                    :alt="item.logo"
-                    data-toggle="modal"
-                    data-target="#full-view"
-                    @click="full_image = item"
-                  />
-                </div>
+                <img
+                  :src="image + item.logo"
+                  :alt="item.logo"
+                  data-toggle="modal"
+                  data-target="#full-view"
+                  @click="full_image = item"
+                />
               </div>
             </div>
           </div>
@@ -171,9 +169,13 @@ img.full-view {
   object-fit: contain;
 }
 
+.item {
+  position: relative;
+}
+
 .delete {
   position: absolute;
   top: 5%;
-  right: 5%;
+  right: 10%;
 }
 </style>
