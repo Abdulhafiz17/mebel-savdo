@@ -113,6 +113,12 @@ export default {
           title: "Taminotlar",
         },
         {
+          link: `/transfer`,
+          icon: "fa fa-arrow-up",
+          icon_2: "fa fa-arrow-down",
+          title: "Transfer",
+        },
+        {
           link: `/pre-orders`,
           icon: "fa fa-receipt",
           title: "Oldindan buyurtmalar",
