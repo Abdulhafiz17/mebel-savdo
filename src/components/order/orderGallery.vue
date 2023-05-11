@@ -161,10 +161,6 @@ img {
   transition: 0.2s all;
 }
 
-img:hover {
-  box-shadow: 0 0 10px -1px black;
-}
-
 img.full-view {
   object-fit: contain;
 }
