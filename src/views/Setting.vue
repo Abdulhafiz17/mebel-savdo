@@ -205,7 +205,7 @@
       </div>
     </details>
 
-    <details>
+    <details v-if="role == 'admin'">
       <summary @click="$router.push('/nomenclature')">
         <strong> Nomenklatura </strong>
       </summary>
