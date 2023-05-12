@@ -511,6 +511,7 @@ export default {
       });
     },
     postCategory(data) {
+      data.percent = data.percent || 0;
       api.createCategory(data).then((Response) => {
         this.category.name = null;
         this.category.percent = null;
