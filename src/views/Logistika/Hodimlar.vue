@@ -89,7 +89,7 @@
               </ul>
             </details>
             <div class="row my-1 gap-1">
-              <div class="col" v-if="role !== 'admin'">
+              <div class="col">
                 <router-link
                   class="btn btn-sm btn-block btn-outline-info"
                   :to="'/hodim/' + hodim.id"
