@@ -58,7 +58,7 @@
             <h4>{{ item.name }}</h4>
             <hr />
             <ul class="list-group">
-              <li class="list-group-item" v-if="item.balances.length">
+              <!-- <li class="list-group-item" v-if="item.balances.length">
                 <span
                   v-for="balance in item.balances"
                   :key="balance"
@@ -71,7 +71,7 @@
               <li class="list-group-item" v-else>
                 <i class="fa fa-money-bill" />
                 <span>0</span>
-              </li>
+              </li> -->
               <li class="list-group-item">
                 <i class="fa fa-location-dot" /> {{ item.address }}
               </li>
