@@ -21,6 +21,10 @@
           <div class="card-body flex">
             <div>
               <p>
+                <strong>ID:</strong>
+                {{ item.Pre_orders.id }}
+              </p>
+              <p>
                 <i class="fa fa-calendar-alt"></i>
                 {{ item.Pre_orders.time.replace("T", " ").substring(0, 16) }}
               </p>
@@ -56,7 +60,10 @@
               </div>
               <div
                 class="col"
-                v-if="['branch_admin', 'cashier'].includes(role)"
+                v-if="
+                  ['branch_admin', 'cashier'].includes(role) &&
+                  !['done', 'false'].includes(item.Pre_orders.status)
+                "
               >
                 <button
                   class="btn btn-sm btn-block btn-outline-primary"
@@ -69,7 +76,7 @@
                 class="col"
                 v-if="
                   ['worker', 'warehouseman'].includes(role) &&
-                  item.Pre_orders.status == 'logistika'
+                  ['wait', 'logistika'].includes(item.Pre_orders.status)
                 "
               >
                 <button
@@ -139,13 +146,18 @@
                 "
               >
                 <option value="done">Yakunlangan</option>
-                <option value="false">Faol</option>
-                <option value="wait" v-if="['warehouseman'].includes(role)">
+                <option value="false" v-if="['branch_admin'].includes(role)">
+                  Faol
+                </option>
+                <option
+                  value="wait"
+                  v-if="['warehouseman', 'cashier'].includes(role)"
+                >
                   Kutish
                 </option>
                 <option
                   value="warehouseman"
-                  v-if="['warehouseman', 'logistika'].includes(role)"
+                  v-if="['warehouseman', 'logistika', 'cashier'].includes(role)"
                 >
                   Omborchi
                 </option>
@@ -158,6 +170,7 @@
                       'logistika',
                       'worker',
                       'ustanovshik',
+                      'cashier',
                     ].includes(role)
                   "
                 >
@@ -172,6 +185,7 @@
                       'logistika',
                       'worker',
                       'ustanovshik',
+                      'cashier',
                     ].includes(role)
                   "
                 >
@@ -728,7 +742,8 @@ p {
   margin: 0 0 5px 0;
 }
 
-i {
+i,
+strong {
   padding: 0 5px;
 }
 
