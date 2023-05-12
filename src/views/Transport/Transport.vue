@@ -27,11 +27,11 @@
               <i class="fa fa-calendar-alt"></i>
               {{ item.time.replace("T", " ").substring(0, 16) }}
             </p>
-            <p>
+            <p v-if="item.customer">
               <i class="fa fa-handshake"></i>
               {{ item.customer?.name }}
             </p>
-            <p>
+            <p v-if="item.customer">
               <i class="fa fa-phone"></i>
               <a :href="`tel:+998${item.customer?.phone}`">
                 {{ "+998" + item.customer?.phone }}
@@ -51,7 +51,7 @@
               </strong>
               so'm
             </p>
-            <p>
+            <p v-if="item.comment">
               <i class="fa fa-comment"></i>
               {{ item.comment }}
             </p>
@@ -182,6 +182,39 @@
         <div class="modal-body">
           <div class="row gap-1 text-left">
             <div class="col-12">
+              Pulni olib keluvchi hodim
+              <div class="row">
+                <div class="col-6">
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-block"
+                    :class="
+                      attach.delivery_money_user == 'worker'
+                        ? 'btn-primary'
+                        : 'btn-outline-primary'
+                    "
+                    @click="attach.delivery_money_user = 'worker'"
+                  >
+                    Haydovchi
+                  </button>
+                </div>
+                <div class="col-6">
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-block"
+                    :class="
+                      attach.delivery_money_user == 'ustanovshik'
+                        ? 'btn-primary'
+                        : 'btn-outline-primary'
+                    "
+                    @click="attach.delivery_money_user = 'ustanovshik'"
+                  >
+                    Ustanovshik
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
               Haydovchi
               <select class="form-select" required v-model="attach.worker_id">
                 <option
@@ -283,6 +316,7 @@ export default {
         ustanovshik_id: 0,
         etaj: false,
         city: false,
+        delivery_money_user: "",
       },
     };
   },
@@ -318,7 +352,7 @@ export default {
         .orders(
           this.filter.from_time,
           this.filter.to_time,
-          true,
+          this.filter.status,
           0,
           worker_id,
           ustanovshik_id,
