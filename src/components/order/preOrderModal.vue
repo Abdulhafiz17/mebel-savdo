@@ -9,7 +9,10 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-body">
-          <preOrder ref="order" />
+          <preOrder
+            ref="order"
+            v-if="['admin', 'branch_admin', 'cashier'].includes(role)"
+          />
           <preOrderTrades ref="trades" />
           <hr />
           <div class="d-flex justify-content-end">
@@ -62,6 +65,7 @@ export default {
   components: { preOrder, preOrderTrades, check, orderGallery },
   data() {
     return {
+      role: localStorage["role"],
       order_id: 0,
       timeout: null,
     };
@@ -70,7 +74,8 @@ export default {
     start(order_id) {
       this.order_id = order_id;
 
-      this.$refs.order.start(order_id);
+      if (["admin", "branch_admin", "cashier"].includes(this.role))
+        this.$refs.order.start(order_id);
       this.$refs.trades.start(order_id);
       this.showModal();
     },
