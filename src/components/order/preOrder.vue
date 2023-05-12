@@ -52,7 +52,9 @@ export default {
   computed: {
     price() {
       if (
-        ["admin", "branch_admin", "seller"].includes(this.$util.storage("role"))
+        ["admin", "branch_admin", "seller", "cashier"].includes(
+          this.$util.storage("role")
+        )
       )
         return true;
       else return false;
