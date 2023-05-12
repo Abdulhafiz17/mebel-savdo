@@ -102,12 +102,6 @@ export default {
           title: "Ombor",
         },
         {
-          link: `/products-from-warehouse`,
-          icon: "fa fa-code-branch",
-          icon_2: "fa fa-warehouse",
-          title: "Filial ombordan so'ragan mahsulotlar",
-        },
-        {
           link: `/ombor-taminotlar/${localStorage["branch_id"]}`,
           icon: "fa fa-truck-loading",
           title: "Taminotlar",
