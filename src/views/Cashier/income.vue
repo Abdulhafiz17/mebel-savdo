@@ -56,7 +56,7 @@
           <select class="form-select" v-model="type">
             <option value="kassa">Hammasi</option>
             <option value="order">Buyurtma</option>
-            <option value="loan">Nasiya</option>
+            <option value="loan" v-if="role == 'branch_admin'">Nasiya</option>
             <option value="from_user">Transport xodimi</option>
           </select>
         </div>
@@ -106,10 +106,11 @@ export default {
   },
   methods: {
     getIncomes(page = 0, limit = 25) {
-      this.$route.params.id;
-      api.incomes(0, this.type, 0, page, limit).then((res) => {
-        this.incomes = res.data;
-      });
+      api
+        .incomes(0, this.type, this.$route.params.id, page, limit)
+        .then((res) => {
+          this.incomes = res.data;
+        });
     },
     incomeType(type) {
       if (type == "order") return "Buyurtma";

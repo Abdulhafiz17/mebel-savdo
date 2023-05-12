@@ -144,8 +144,13 @@ export default {
     getHistory(page = 0, limit = 25) {
       const from_id = this.type == "income" ? 0 : this.$route.params.id;
       const to_id = this.type == "expense" ? 0 : this.$route.params.id;
-      const type =
-        this.type == "income" ? "from_kassa_to_kassa" : "from_kassa_to_admin";
+      let type = "";
+      if (this.role == "branch_admin") {
+        type = "from_kassa_to_kassa";
+      } else {
+        type =
+          this.type == "income" ? "from_kassa_to_kassa" : "from_kassa_to_admin";
+      }
       api.kassaHistory(from_id, to_id, type, page, limit).then((res) => {
         this.history = res.data;
       });
