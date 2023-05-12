@@ -173,6 +173,11 @@ export default {
           title: "Kassalar",
         },
         {
+          link: `/pre-orders`,
+          icon: "fa fa-receipt",
+          title: "Oldindan buyurtmalar",
+        },
+        {
           link: `/expense`,
           icon: "fa fa-wallet",
           title: "Chiqim",
