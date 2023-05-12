@@ -151,7 +151,9 @@
                 </option>
                 <option
                   value="wait"
-                  v-if="['warehouseman', 'cashier'].includes(role)"
+                  v-if="
+                    ['branch_admin', 'warehouseman', 'cashier'].includes(role)
+                  "
                 >
                   Kutish
                 </option>
