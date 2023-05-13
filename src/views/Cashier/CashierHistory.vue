@@ -8,7 +8,7 @@
   <hr />
 
   <ul
-    v-if="role !== 'branch_admin'"
+    v-if="!cashier?.branch_id"
     class="nav nav-pills nav-justified mb-3"
     id="pills-tab"
     role="tablist"
@@ -121,7 +121,7 @@ export default {
   data() {
     return {
       role: localStorage["role"],
-      type: localStorage["role"] == "branch_admin" ? "expense" : "income",
+      type: "income",
       cashier: null,
       history: {
         current_page: 0,
@@ -133,19 +133,21 @@ export default {
   },
   created() {
     this.getCashier();
-    this.getHistory(0, 25);
   },
   methods: {
     getCashier() {
       api.kassa("", this.$route.params.id, 0).then((res) => {
         this.cashier = res.data;
+        if (this.cashier.branch_id) this.type = "expense";
+        else this.type = "income";
+        this.getHistory(0, 25);
       });
     },
     getHistory(page = 0, limit = 25) {
       const from_id = this.type == "income" ? 0 : this.$route.params.id;
       const to_id = this.type == "expense" ? 0 : this.$route.params.id;
       let type = "";
-      if (this.role == "branch_admin") {
+      if (this.cashier.branch_id) {
         type = "from_kassa_to_kassa";
       } else {
         type =
