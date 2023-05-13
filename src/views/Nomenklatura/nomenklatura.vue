@@ -1,7 +1,7 @@
 <template>
   <h3><span class="fa fa-signature" /> Nomenklatura</h3>
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 mb-1">
       <button
         class="btn btn-sm btn-block btn-outline-success"
         data-toggle="modal"

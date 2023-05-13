@@ -10,7 +10,7 @@
   <hr />
 
   <div class="row">
-    <div class="col-md-4 my-1" v-for="item in links" :key="item">
+    <div class="col-md-4 col-6 my-1" v-for="item in links" :key="item">
       <router-link :to="item.link" class="card shadow h-100">
         <div class="card-body">
           <i class="fa-2x px-1" :class="item.icon" />
@@ -289,7 +289,6 @@ export default {
 <style scoped>
 @media (max-width: 425px) {
   .col-md-4 {
-    width: 50%;
     font-size: 14px;
   }
 }
