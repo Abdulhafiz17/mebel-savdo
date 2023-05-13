@@ -174,7 +174,7 @@
   </div>
 
   <div class="modal fade" id="update">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog">
       <form class="modal-content" @submit.prevent="attachOrder()">
         <div class="modal-header">
           <h5>Buyurtma</h5>
@@ -215,34 +215,68 @@
               </div>
             </div>
             <div class="col-12">
-              Haydovchi
-              <select class="form-select" required v-model="attach.worker_id">
-                <option
-                  v-for="item in users.filter((item) => item.role == 'worker')"
-                  :key="item"
-                  :value="item.id"
+              Haydovchi biriktirish
+              <div class="dropdown">
+                <button
+                  id="customerDropdown"
+                  class="btn btn-sm btn-block btn-outline-primary dropdown-toggle"
+                  data-toggle="dropdown"
+                  @click="getUsers('worker')"
                 >
-                  {{ item.name }}
-                </option>
-              </select>
+                  {{ worker?.name || "Haydovchi tanlang" }}
+                </button>
+                <div
+                  class="dropdown-menu w-100 p-1"
+                  aria-labelledby="customerDropdown"
+                >
+                  <ul
+                    class="list-group p-1 responsive"
+                    style="max-height: 25vh"
+                    @scroll="scrollUsers($event, 'worker')"
+                  >
+                    <li
+                      class="list-group-item p-2"
+                      v-for="item in users.data"
+                      :key="item"
+                      @click="worker = item"
+                    >
+                      {{ item.name }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
             <div class="col-12">
-              Ustanovshik
-              <select
-                class="form-select"
-                required
-                v-model="attach.ustanovshik_id"
-              >
-                <option
-                  v-for="item in users.filter(
-                    (item) => item.role == 'ustanovshik'
-                  )"
-                  :key="item"
-                  :value="item.id"
+              Ustanovshik biriktirish
+              <div class="dropdown">
+                <button
+                  id="customerDropdown"
+                  class="btn btn-sm btn-block btn-outline-primary dropdown-toggle"
+                  data-toggle="dropdown"
+                  @click="getUsers('ustanovshik')"
                 >
-                  {{ item.name }}
-                </option>
-              </select>
+                  {{ ustanovshik?.name || "Ustanovshik tanlang" }}
+                </button>
+                <div
+                  class="dropdown-menu w-100 p-1"
+                  aria-labelledby="customerDropdown"
+                >
+                  <ul
+                    class="list-group p-1 responsive"
+                    style="max-height: 25vh"
+                    @scroll="scrollUsers($event, 'ustanovshik')"
+                  >
+                    <li
+                      class="list-group-item p-2"
+                      v-for="item in users.data"
+                      :key="item"
+                      @click="ustanovshik = item"
+                    >
+                      {{ item.name }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
             <div class="col-12">
               <button
@@ -295,8 +329,12 @@ export default {
       role: localStorage["role"],
       currency: Intl.NumberFormat(),
       user_id: localStorage["user_id"],
-      user: null,
-      users: [],
+      users: {
+        current_page: 0,
+        pages: 1,
+        limit: 25,
+        data: [],
+      },
       filter: {
         status: "false",
         attached: true,
@@ -310,6 +348,8 @@ export default {
         data: [],
       },
       order: null,
+      worker: null,
+      ustanovshik: null,
       attach: {
         order_id: 0,
         worker_id: 0,
@@ -334,10 +374,24 @@ export default {
         this.user = res.data;
       });
     },
-    getUsers() {
-      api.users(0, 0, ["worker", "ustanovshik"], 0, 100).then((res) => {
-        this.users = res.data.data;
+    getUsers(role) {
+      api.users(0, 0, [role], 0, 25).then((res) => {
+        this.users = res.data;
       });
+    },
+    scrollUsers(event, role) {
+      const element = event.target;
+      if (element.scrollTop + element.clientHeight >= element.scrollHeight) {
+        if (this.users.current_page < this.users.pages) {
+          api
+            .users(0, 0, [role], this.users.current_page + 1, 25)
+            .then((res) => {
+              this.users.current_page = res.data.current_page;
+              this.users.pages = res.data.pages;
+              this.users.data = this.users.data.concat(res.data.data);
+            });
+        }
+      }
     },
     getOrders(page = 0, limit = 25) {
       const worker_id =
