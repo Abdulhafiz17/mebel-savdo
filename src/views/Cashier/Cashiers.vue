@@ -40,6 +40,10 @@
               {{ item.name }}
             </p>
             <p>
+              <i class="fa fa-lg fa-money-bill"></i>
+              {{ item.currency.currency }}
+            </p>
+            <p>
               <i class="fa fa-lg fa-comment"></i>
               {{ item.comment }}
             </p>
