@@ -162,7 +162,12 @@
             class="btn btn-outline-danger"
             data-dismiss="modal"
             @click="
-              filter = { status: false, from_time: '', to_time: '' };
+              filter = {
+                status: 'false',
+                attached: true,
+                from_time: '',
+                to_time: '',
+              };
               getOrders(0, 25);
             "
           >
