@@ -708,7 +708,7 @@ export default {
         this.cashiers = res.data;
       });
     },
-    setCashier(kassa_id) {
+    setCashier() {
       this.cashier = this.cashiers.find((item) => {
         return item.id == this.order_confirm.kassa_id;
       });

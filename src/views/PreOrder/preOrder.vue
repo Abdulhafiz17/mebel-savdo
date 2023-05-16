@@ -208,7 +208,9 @@
                     </option>
                   </select>
                 </div>
-                <div class="input-group-text">so'm</div>
+                <div class="input-group-text">
+                  {{ cashier?.currency?.currency || "valyuta" }}
+                </div>
                 <div class="input-group-append">
                   <button
                     v-if="
@@ -246,7 +248,8 @@
                 @change="
                   update_order.incomes.forEach((item) => {
                     item.kassa_id = cashier_id;
-                  })
+                  });
+                  setCashier();
                 "
               >
                 <option v-for="item in cashiers" :key="item" :value="item.id">
@@ -319,6 +322,7 @@ export default {
       },
       user: null,
       cashiers: [],
+      cashier: null,
       cashier_id: 0,
       update_order: {
         id: 0,
@@ -443,6 +447,11 @@ export default {
     getCashiers() {
       api.kassa("", 0, this.branch_id).then((res) => {
         this.cashiers = res.data;
+      });
+    },
+    setCashier() {
+      this.cashier = this.cashiers.find((item) => {
+        return item.id == this.cashier_id;
       });
     },
     checkEndOfScroll(element) {
