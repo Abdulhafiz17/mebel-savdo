@@ -483,6 +483,7 @@
                   class="form-select form-select-sm"
                   required
                   v-model="order_confirm.kassa_id"
+                  @change="setCashier()"
                 >
                   <option v-for="item in cashiers" :key="item" :value="item.id">
                     {{ item.name }}
@@ -542,6 +543,7 @@ export default {
   data() {
     return {
       cashiers: [],
+      cashier: null,
       page: 0,
       pages: 1,
       limit: 50,
@@ -704,6 +706,11 @@ export default {
     getCashiers() {
       api.kassa("", 0, localStorage["branch_id"]).then((res) => {
         this.cashiers = res.data;
+      });
+    },
+    setCashier(kassa_id) {
+      this.cashier = this.cashiers.find((item) => {
+        return item.id == this.order_confirm.kassa_id;
       });
     },
     getTrades(order) {
