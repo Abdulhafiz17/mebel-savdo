@@ -239,6 +239,11 @@ export default {
           title: "Oldindan buyurtmalar",
         },
         {
+          link: `/kpi?user_id=${localStorage["user_id"]}`,
+          icon: "fa fa-file-invoice",
+          title: "Kpi",
+        },
+        {
           link: `/settings`,
           icon: "fa fa-tools",
           title: "Sozlamalar",
@@ -259,6 +264,11 @@ export default {
           link: `/hodim-tarix/${localStorage["user_id"]}`,
           icon: "fa fa-history",
           title: "To'lov tarix",
+        },
+        {
+          link: `/kpi?user_id=${localStorage["user_id"]}`,
+          icon: "fa fa-file-invoice",
+          title: "Kpi",
         },
         {
           link: `/settings`,

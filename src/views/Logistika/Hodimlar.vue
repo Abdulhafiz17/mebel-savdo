@@ -97,6 +97,14 @@
                   <span class="fa fa-info" />
                 </router-link>
               </div>
+              <div class="col" v-if="hodim.role == 'ustanovshik'">
+                <router-link
+                  class="btn btn-sm btn-block btn-outline-info"
+                  :to="{ path: '/kpi', query: { user_id: hodim.id } }"
+                >
+                  <span class="fa fa-file-invoice" />
+                </router-link>
+              </div>
               <div class="col">
                 <router-link
                   class="btn btn-sm btn-block btn-outline-secondary"

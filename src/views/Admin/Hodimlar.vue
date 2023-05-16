@@ -98,6 +98,24 @@
               <div
                 class="col"
                 v-if="
+                  [
+                    'branch_admin',
+                    'seller',
+                    'logistika',
+                    'ustanovshik',
+                  ].includes(hodim.role)
+                "
+              >
+                <router-link
+                  class="btn btn-sm btn-block btn-outline-info"
+                  :to="{ path: '/kpi', query: { user_id: hodim.id } }"
+                >
+                  <span class="fa fa-file-invoice" />
+                </router-link>
+              </div>
+              <div
+                class="col"
+                v-if="
                   role == 'cashier' &&
                   (hodim.role == 'worker' || hodim.role == 'ustanovshik')
                 "

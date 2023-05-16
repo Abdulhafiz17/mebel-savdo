@@ -75,8 +75,11 @@ export function catchError(error) {
       timer: 2000,
     });
   } else if (error.response.status == 422) {
+    console.error(error.config.baseURL, error.response.data.detail[0].loc);
     swal({
       icon: "warning",
+      closeOnEsc: false,
+      closeOnClickOutside: false,
       title: "Ma'lumotlar to'liq emas !",
       timer: 2000,
     });
@@ -107,6 +110,13 @@ export function branches() {
 }
 export function branch(id) {
   return api("get_branch/" + id, "get");
+}
+export function branchKpi(branch_id, user_id, date) {
+  const date_query = date ? `date=${date}` : ``;
+  return api(
+    `get_branch_kpi?branch_id=${branch_id}&user_id=${user_id}&${date_query}`,
+    "get"
+  );
 }
 export function createBranch(data) {
   return api(`create_branch`, "post", data);

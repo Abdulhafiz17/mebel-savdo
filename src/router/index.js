@@ -88,6 +88,12 @@ let routes = [
     component: () => import("../views/AdminStatistic/Statistic.vue"),
   },
   {
+    path: "/kpi",
+    name: "kpi",
+    meta: { requiresAuth: true, title: "Kpi" },
+    component: () => import("../views/Kpi/Kpi.vue"),
+  },
+  {
     path: "/hodimlar/:id",
     name: "hodimlar",
     meta: { requiresAuth: true, title: "Hodimlar" },
