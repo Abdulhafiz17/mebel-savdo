@@ -210,34 +210,6 @@
                   <div class="input-group-text">so'm</div>
                 </div>
               </div>
-              <div class="col-md-12" v-if="yangiHodim.role == 'logistika'">
-                <div class="row">
-                  <div class="col-6">
-                    Kunlik buyurtma limit
-                    <div class="input-group input-group-sm">
-                      <input
-                        type="number"
-                        class="form-control"
-                        min="1"
-                        v-model="yangiHodim.daily_limit"
-                      />
-                      <div class="input-group-text">dona</div>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    Kunlik buyurtma limit bajarilgandagi bonus
-                    <div class="input-group input-group-sm">
-                      <input
-                        type="number"
-                        class="form-control"
-                        min="1"
-                        v-model="yangiHodim.daily_limit_money"
-                      />
-                      <div class="input-group-text">so'm</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
               <div class="col-md-12">
                 Vazifasi
                 <select
@@ -253,6 +225,38 @@
                   <option value="worker">Transport</option>
                   <option value="ustanovshik">Ustanovshik</option>
                 </select>
+              </div>
+              <div
+                class="col-md-12"
+                v-if="['logistika', 'ustanovshik'].includes(yangiHodim.role)"
+              >
+                <div class="row">
+                  <div class="col-6">
+                    {{ yangiHodim.role == "ustanovshik" ? "Oylik" : "Kunlik" }}
+                    buyurtma limit
+                    <div class="input-group input-group-sm">
+                      <input
+                        type="number"
+                        class="form-control"
+                        min="1"
+                        v-model="yangiHodim.daily_limit"
+                      />
+                      <div class="input-group-text">dona</div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    Limit bajarilgandagi bonus
+                    <div class="input-group input-group-sm">
+                      <input
+                        type="number"
+                        class="form-control"
+                        min="1"
+                        v-model="yangiHodim.daily_limit_money"
+                      />
+                      <div class="input-group-text">so'm</div>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div class="col-md-6">
                 Foydalanuvchi nomi
@@ -352,6 +356,38 @@
                   <option value="true">Faol</option>
                   <option value="false">Nofaol</option>
                 </select>
+              </div>
+              <div
+                class="col-md-12"
+                v-if="['logistika', 'ustanovshik'].includes(editHodim.role)"
+              >
+                <div class="row">
+                  <div class="col-6">
+                    {{ editHodim.role == "ustanovshik" ? "Oylik" : "Kunlik" }}
+                    buyurtma limit
+                    <div class="input-group input-group-sm">
+                      <input
+                        type="number"
+                        class="form-control"
+                        min="1"
+                        v-model="editHodim.daily_limit"
+                      />
+                      <div class="input-group-text">dona</div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    Limit bajarilgandagi bonus
+                    <div class="input-group input-group-sm">
+                      <input
+                        type="number"
+                        class="form-control"
+                        min="1"
+                        v-model="editHodim.daily_limit_money"
+                      />
+                      <div class="input-group-text">so'm</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="row">
@@ -475,10 +511,11 @@ export default {
         role: "",
         branch_id: 0,
         phone: null,
-        daily_money: null,
         status: true,
+        daily_money: null,
         daily_limit: null,
         daily_limit_money: null,
+        daily_money_kpi: 0,
       },
       editHodim: {},
       branch: null,
