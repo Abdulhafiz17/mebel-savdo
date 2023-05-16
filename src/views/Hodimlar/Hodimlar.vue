@@ -447,7 +447,6 @@ export default {
     this.get(0, 25);
     this.getCashiers();
   },
-  mounted() {},
   computed: {
     filterUser: function () {
       return this.hodimlar.filter((hodim) => {

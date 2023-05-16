@@ -16,7 +16,12 @@
             <div class="row gap-1 text-left">
               <div class="col-12">
                 Kassa
-                <select class="form-select" required v-model="paying.kassa_id">
+                <select
+                  class="form-select"
+                  required
+                  v-model="paying.kassa_id"
+                  @change="setCashier()"
+                >
                   <option v-for="item in cashiers" :key="item" :value="item.id">
                     {{ item.name }}
                   </option>
@@ -35,7 +40,9 @@
                     v-model="paying.price"
                   />
                   <div class="input-group-append">
-                    <div class="input-group-text">so'm</div>
+                    <div class="input-group-text">
+                      {{ cashier?.currency?.currency || "valyuta" }}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -81,6 +88,7 @@ export default {
       branch_id: localStorage["branch_id"],
       user: null,
       cashiers: [],
+      cashier: null,
       paying: {
         price: null,
         currency_id: 0,
@@ -96,6 +104,7 @@ export default {
   methods: {
     start(user) {
       this.user = user;
+      this.cashier = null;
       this.paying = {
         price: null,
         currency_id: 0,
@@ -110,6 +119,12 @@ export default {
       api.kassa("", 0, branch_id).then((res) => {
         this.cashiers = res.data;
       });
+    },
+    setCashier() {
+      this.cashier = this.cashiers.find((item) => {
+        return item.id == this.paying.kassa_id;
+      });
+      this.paying.currency_id = this.cashier.currency_id;
     },
     payToUser() {
       api.payForUser(this.paying).then(() => {
