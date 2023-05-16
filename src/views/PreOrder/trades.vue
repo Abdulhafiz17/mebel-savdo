@@ -125,6 +125,14 @@
                         product.Warehouse_products.name
                       : "Mahsulot tanlang"
                   }}
+                  <span class="badge bg-success">
+                    {{
+                      product
+                        ? $util.currency(product.Warehouse_products.tan_narx) +
+                          " so'm"
+                        : ""
+                    }}
+                  </span>
                 </button>
                 <div
                   class="dropdown-menu w-100 p-1"
@@ -156,6 +164,12 @@
                         " " +
                         item.Warehouse_products.name
                       }}
+                      <span class="badge bg-success">
+                        {{
+                          $util.currency(item.Warehouse_products.tan_narx) +
+                          " so'm"
+                        }}
+                      </span>
                     </li>
                   </ul>
                 </div>
