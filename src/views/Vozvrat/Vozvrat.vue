@@ -417,7 +417,9 @@
                     v-model="return_product.price"
                   />
                   <div class="input-group-append">
-                    <div class="input-group-text">so'm</div>
+                    <div class="input-group-text">
+                      {{ cashier?.currency?.currency || "valyuta" }}
+                    </div>
                   </div>
                 </div>
               </label>
@@ -455,6 +457,7 @@
                   class="form-select form-select-sm"
                   required
                   v-model="return_product.kassa_id"
+                  @change="setCashier()"
                 >
                   <option v-for="item in cashiers" :key="item" :value="item.id">
                     {{ item.name }}
@@ -487,6 +490,7 @@ export default {
   data() {
     return {
       cashiers: [],
+      cashier: null,
       page: 0,
       pages: 1,
       limit: 100,
@@ -524,6 +528,11 @@ export default {
     getCashiers() {
       api.kassa("", 0, localStorage["branch_id"]).then((res) => {
         this.cashiers = res.data;
+      });
+    },
+    setCashier() {
+      this.cashier = this.cashiers.find((item) => {
+        return item.id == this.cashier_id;
       });
     },
     getOrder(id) {
