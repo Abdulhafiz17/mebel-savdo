@@ -54,6 +54,7 @@
           <th>Soni</th>
           <th>Ombor</th>
           <th>Filial</th>
+          <th>Status</th>
           <th>Sana</th>
           <th v-if="role !== 'worker' && role !== 'ustanovshik'">Narx</th>
           <th>
@@ -93,6 +94,7 @@
           <td>{{ item.Transfers.quantity }} dona</td>
           <td>{{ item.name }}</td>
           <td>{{ item.branch }}</td>
+          <td>{{ status(item.Transfers.status) }}</td>
           <td>
             {{ item.Transfers.time.replace("T", " ").substring(0, 10) }}
           </td>
@@ -365,6 +367,13 @@ export default {
     }
   },
   methods: {
+    status(status) {
+      if (status == "filialga_berish_warehouseman") return "Omborchi";
+      else if (status == "filialga_berish_logistika") return "Logistika";
+      else if (status == "filialga_berish_kutish") return "Filial kutish";
+      else if (status == "filialga_berish_tasdiqlandi") return "Tasdiqlandi";
+      else return "";
+    },
     getBranch() {
       api.branch(this.branch_id).then((res) => {
         this.branch = res.data.branch;
