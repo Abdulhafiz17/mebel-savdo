@@ -187,6 +187,9 @@
                   class="form-select form-select-sm"
                   required
                   v-model="payToFixedExpense.kassa_id"
+                  @change="
+                    setCashier(payToFixedExpense.kassa_id, 'payToFixedExpense')
+                  "
                 >
                   <option v-for="item in cashiers" :key="item" :value="item.id">
                     {{ item.name }}
@@ -206,9 +209,11 @@
                   <div class="input-group-append">
                     <select
                       class="form-control form-control-sm"
+                      disabled
                       v-model="payToFixedExpense.currency_id"
                       @click="kurslar.length ? '' : getCurrency()"
                     >
+                      <option value="">valyuta</option>
                       <option
                         v-for="item in kurslar"
                         :key="item"
@@ -262,6 +267,12 @@
                   class="form-select form-select-sm"
                   required
                   v-model="payToVariableExpense.kassa_id"
+                  @change="
+                    setCashier(
+                      payToVariableExpense.kassa_id,
+                      'payToVariableExpense'
+                    )
+                  "
                 >
                   <option v-for="item in cashiers" :key="item" :value="item.id">
                     {{ item.name }}
@@ -282,9 +293,11 @@
                     <select
                       class="form-select form-select-sm"
                       required
+                      disabled
                       v-model="payToVariableExpense.currency_id"
                       @click="kurslar.length ? '' : getCurrency()"
                     >
+                      <option value="">valyuta</option>
                       <option
                         v-for="item in kurslar"
                         :key="item"
@@ -335,6 +348,7 @@ export default {
       role: localStorage["role"],
       branch_id: this.$route.query.branch_id || 0,
       cashiers: [],
+      cashier: null,
       page: 0,
       pages: 1,
       limit: 100,
@@ -372,6 +386,12 @@ export default {
         this.cashiers = res.data;
       });
     },
+    setCashier(kassa_id, variable) {
+      this.cashier = this.cashiers.find((item) => {
+        return item.id == kassa_id;
+      });
+      this[variable].currency_id = this.cashier.currency_id;
+    },
     getData() {
       api.fixedExpenses().then((Response) => {
         this.chiqimlar = Response.data;
@@ -380,8 +400,6 @@ export default {
     getCurrency() {
       api.currencies().then((Response) => {
         this.kurslar = Response.data;
-        this.payToFixedExpense.currency_id = this.kurslar[0].id;
-        this.payToVariableExpense.currency_id = this.kurslar[0].id;
       });
     },
     post(data) {
