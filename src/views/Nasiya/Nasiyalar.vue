@@ -241,7 +241,9 @@
                     v-model="loan_price"
                   />
                   <div class="input-group-append">
-                    <div class="input-group-text">so'm</div>
+                    <div class="input-group-text">
+                      {{ cashier?.currency?.currency || "valyuta" }}
+                    </div>
                   </div>
                   <div class="input-group-append">
                     <select
@@ -260,6 +262,7 @@
                   class="form-select form-select-sm"
                   required
                   v-model="cashier_id"
+                  @change="setCashier()"
                 >
                   <option v-for="item in cashiers" :key="item" :value="item.id">
                     {{ item.name }}
@@ -292,6 +295,7 @@ export default {
     return {
       _: Intl.NumberFormat(),
       cashiers: [],
+      cashier: null,
       page: 0,
       pages: 1,
       limit: 25,
@@ -314,6 +318,11 @@ export default {
     getCashiers() {
       api.kassa("", 0, localStorage["branch_id"]).then((res) => {
         this.cashiers = res.data;
+      });
+    },
+    setCashier() {
+      this.cashier = this.cashiers.find((item) => {
+        return item.id == this.cashier_id;
       });
     },
     getFalse(page, limit) {
@@ -363,6 +372,7 @@ export default {
           document.querySelectorAll("[data-dismiss]")[0].click();
           this.loan_price = null;
           this.cashier_id = 0;
+          this.cashier = null;
           api.success().then(() => {
             this.getFalse(0, 25);
           });
