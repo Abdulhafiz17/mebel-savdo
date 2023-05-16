@@ -70,7 +70,9 @@
                   data-toggle="modal"
                   data-target="#pay"
                   @click="
-                    (editTaminotchi = taminotchi), (pay.source = taminotchi.id)
+                    editTaminotchi = taminotchi;
+                    cashier = null;
+                    pay.source = taminotchi.id;
                   "
                 >
                   <span class="fa fa-coins" />
@@ -82,7 +84,9 @@
                   data-toggle="modal"
                   data-target="#take"
                   @click="
-                    (editTaminotchi = taminotchi), (take.from_ = taminotchi.id)
+                    editTaminotchi = taminotchi;
+                    cashier = null;
+                    take.from_ = taminotchi.id;
                   "
                 >
                   <span class="fa fa-hand-holding-usd" />
@@ -274,8 +278,10 @@
                     <select
                       class="form-select form-select-sm"
                       required
+                      disabled
                       v-model="pay.currency_id"
                     >
+                      <option value="">valyuta</option>
                       <option
                         v-for="item in currencies"
                         :key="item"
@@ -316,7 +322,10 @@
                         class="list-group-item p-2"
                         v-for="item in cashiers"
                         :key="item"
-                        @click="cashier = item"
+                        @click="
+                          cashier = item;
+                          setCashier('pay');
+                        "
                       >
                         {{ item.name }}
                       </li>
@@ -372,8 +381,10 @@
                     <select
                       class="form-select form-select-sm"
                       required
+                      disabled
                       v-model="take.currency_id"
                     >
+                      <option value="">valyuta</option>
                       <option
                         v-for="item in currencies"
                         :key="item"
@@ -414,7 +425,10 @@
                         class="list-group-item p-2"
                         v-for="item in cashiers"
                         :key="item"
-                        @click="cashier = item"
+                        @click="
+                          cashier = item;
+                          setCashier('take');
+                        "
                       >
                         {{ item.name }}
                       </li>
@@ -501,8 +515,6 @@ export default {
     get(page, limit) {
       api.currencies().then((Response) => {
         this.currencies = Response.data;
-        this.pay.currency_id = this.currencies[0].id;
-        this.take.currency_id = this.currencies[0].id;
         this.getMarkets(page, limit);
       });
     },
@@ -515,6 +527,9 @@ export default {
       api.kassa(this.search_cashiers, 0, 0).then((res) => {
         this.cashiers = res.data;
       });
+    },
+    setCashier(variable) {
+      this[variable].currency_id = this.cashier.currency_id;
     },
     post(data) {
       api.createMarket(data).then((Response) => {
