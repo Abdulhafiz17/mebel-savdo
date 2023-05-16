@@ -15,7 +15,12 @@
           <div class="row gap-2 text-left">
             <div class="col-12" v-if="type == 'from_branch'">
               Kassa
-              <select class="form-select" required v-model="payment.to_id">
+              <select
+                class="form-select"
+                required
+                v-model="payment.to_id"
+                @change="setCashier()"
+              >
                 <option v-for="item in cashiers" :key="item" :value="item.id">
                   {{ item.name }}
                 </option>
@@ -32,7 +37,9 @@
                   required
                   v-model="payment.money"
                 />
-                <div class="input-group-text">so'm</div>
+                <div class="input-group-text">
+                  {{ to_cashier?.currency?.currency || "valyuta" }}
+                </div>
               </div>
             </div>
             <div class="col-12">
@@ -64,12 +71,14 @@
 
 <script>
 import * as api from "@/components/Api/Api.js";
+
 export default {
   name: "paymentModal",
   data() {
     return {
       cashiers: [],
       cashier: null,
+      to_cashier: null,
       payment: {
         from_kassa_id: null,
         to_id: 0,
@@ -101,6 +110,11 @@ export default {
     getCashiers() {
       api.kassa("", 0, 0).then((res) => {
         this.cashiers = res.data;
+      });
+    },
+    setCashier() {
+      this.to_cashier = this.cashiers.find((item) => {
+        return item.id == this.payment.to_id;
       });
     },
     postPayment() {
