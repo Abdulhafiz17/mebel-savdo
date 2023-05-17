@@ -614,6 +614,7 @@ export default {
     post(data) {
       data.daily_limit = data.daily_limit || 0;
       data.daily_limit_money = data.daily_limit_money || 0;
+      data.daily_money_kpi = data.daily_money_kpi || 0;
       api.createUser(data).then((Response) => {
         this.yangiHodim = {
           id: 0,
