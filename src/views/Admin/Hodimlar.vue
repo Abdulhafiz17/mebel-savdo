@@ -73,7 +73,7 @@
                     <i class="fa fa-receipt"></i>
                     <i class="fa fa-coins mx-1"></i>
                   </span>
-                  <span class="badge bg-info">{{
+                  <span class="badge bg-danger">{{
                     $util.currency(hodim.delivery_balance) + " so'm"
                   }}</span>
                 </li>
