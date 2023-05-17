@@ -505,10 +505,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button
-            class="btn btn-outline-primary"
-            :disabled="!worker || !ustanovshik"
-          >
+          <button class="btn btn-outline-primary" :disabled="!worker">
             <i class="far fa-circle-check"></i>
           </button>
           <button
@@ -729,7 +726,8 @@ export default {
     },
     updatePreOrderLogistika() {
       this.update_pre_order_logistika.worker_id = this.worker.id;
-      this.update_pre_order_logistika.ustanovshik_id = this.ustanovshik.id;
+      this.update_pre_order_logistika.ustanovshik_id =
+        this.ustanovshik?.id || 0;
       api.logistikaPreOrder(this.update_pre_order_logistika).then(() => {
         api.success("close-update-pre-order-modal").then(() => {
           this.worker = null;

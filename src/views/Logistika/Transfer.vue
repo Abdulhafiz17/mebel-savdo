@@ -183,33 +183,67 @@
             </div>
             <div class="col-12" v-if="['admin', 'logistika'].includes(role)">
               Haydovchi
-              <select class="form-select" required v-model="filter.worker_id">
-                <option
-                  v-for="item in users.filter((item) => item.role == 'worker')"
-                  :key="item"
-                  :value="item.id"
+              <div class="dropdown">
+                <button
+                  id="customerDropdown"
+                  class="btn btn-sm btn-block btn-outline-primary dropdown-toggle"
+                  data-toggle="dropdown"
+                  @click="getUsers('worker')"
                 >
-                  {{ item.name }}
-                </option>
-              </select>
+                  {{ filter.worker?.name || "Haydovchi tanlang" }}
+                </button>
+                <div
+                  class="dropdown-menu w-100 p-1"
+                  aria-labelledby="customerDropdown"
+                >
+                  <ul
+                    class="list-group p-1 responsive"
+                    style="max-height: 25vh"
+                    @scroll="scrollUsers($event, 'worker')"
+                  >
+                    <li
+                      class="list-group-item p-2"
+                      v-for="item in users.data"
+                      :key="item"
+                      @click="filter.worker = item"
+                    >
+                      {{ item.name }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
             <div class="col-12" v-if="['admin', 'logistika'].includes(role)">
               Ustanovshik
-              <select
-                class="form-select"
-                required
-                v-model="filter.ustanovshik_id"
-              >
-                <option
-                  v-for="item in users.filter(
-                    (item) => item.role == 'ustanovshik'
-                  )"
-                  :key="item"
-                  :value="item.id"
+              <div class="dropdown">
+                <button
+                  id="customerDropdown"
+                  class="btn btn-sm btn-block btn-outline-primary dropdown-toggle"
+                  data-toggle="dropdown"
+                  @click="getUsers('ustanovshik')"
                 >
-                  {{ item.name }}
-                </option>
-              </select>
+                  {{ filter.ustanovshik?.name || "Ustanovshik tanlang" }}
+                </button>
+                <div
+                  class="dropdown-menu w-100 p-1"
+                  aria-labelledby="customerDropdown"
+                >
+                  <ul
+                    class="list-group p-1 responsive"
+                    style="max-height: 25vh"
+                    @scroll="scrollUsers($event, 'ustanovshik')"
+                  >
+                    <li
+                      class="list-group-item p-2"
+                      v-for="item in users.data"
+                      :key="item"
+                      @click="filter.ustanovshik = item"
+                    >
+                      {{ item.name }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
             <div class="col-12">
               Dan
@@ -269,35 +303,73 @@
         <div class="modal-body">
           <div class="row gap-1 text-left">
             <div class="col-12">
-              Haydovchi
-              <select class="form-select" required v-model="worker_id">
-                <option
-                  v-for="item in users.filter((item) => item.role == 'worker')"
-                  :key="item"
-                  :value="item.id"
+              Haydovchi biriktirish
+              <div class="dropdown">
+                <button
+                  id="customerDropdown"
+                  class="btn btn-sm btn-block btn-outline-primary dropdown-toggle"
+                  data-toggle="dropdown"
+                  @click="getUsers('worker')"
                 >
-                  {{ item.name }}
-                </option>
-              </select>
+                  {{ worker?.name || "Haydovchi tanlang" }}
+                </button>
+                <div
+                  class="dropdown-menu w-100 p-1"
+                  aria-labelledby="customerDropdown"
+                >
+                  <ul
+                    class="list-group p-1 responsive"
+                    style="max-height: 25vh"
+                    @scroll="scrollUsers($event, 'worker')"
+                  >
+                    <li
+                      class="list-group-item p-2"
+                      v-for="item in users.data"
+                      :key="item"
+                      @click="worker = item"
+                    >
+                      {{ item.name }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
             <div class="col-12">
-              Ustanovshik
-              <select class="form-select" required v-model="ustanovshik_id">
-                <option
-                  v-for="item in users.filter(
-                    (item) => item.role == 'ustanovshik'
-                  )"
-                  :key="item"
-                  :value="item.id"
+              Ustanovshik biriktirish
+              <div class="dropdown">
+                <button
+                  id="customerDropdown"
+                  class="btn btn-sm btn-block btn-outline-primary dropdown-toggle"
+                  data-toggle="dropdown"
+                  @click="getUsers('ustanovshik')"
                 >
-                  {{ item.name }}
-                </option>
-              </select>
+                  {{ ustanovshik?.name || "Ustanovshik tanlang" }}
+                </button>
+                <div
+                  class="dropdown-menu w-100 p-1"
+                  aria-labelledby="customerDropdown"
+                >
+                  <ul
+                    class="list-group p-1 responsive"
+                    style="max-height: 25vh"
+                    @scroll="scrollUsers($event, 'ustanovshik')"
+                  >
+                    <li
+                      class="list-group-item p-2"
+                      v-for="item in users.data"
+                      :key="item"
+                      @click="ustanovshik = item"
+                    >
+                      {{ item.name }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-outline-primary">
+          <button class="btn btn-outline-primary" :disabled="!worker">
             <i class="far fa-circle-check"></i>
           </button>
           <button
@@ -334,8 +406,8 @@ export default {
         branch_id: 0,
         from_time: "",
         to_time: "",
-        worker_id: 0,
-        ustanovshik_id: 0,
+        worker: null,
+        ustanovshik: null,
       },
       transfers: {
         current_page: 0,
@@ -344,8 +416,8 @@ export default {
         data: [],
       },
       users: [],
-      worker_id: 0,
-      ustanovshik_id: 0,
+      worker: null,
+      ustanovshik: null,
       transfers_to_send: [],
     };
   },
@@ -390,10 +462,24 @@ export default {
         this.branches = res.data.branch;
       });
     },
-    getUsers() {
-      api.users(0, 0, ["worker", "ustanovshik"], 0, 100).then((res) => {
-        this.users = res.data.data;
+    getUsers(role) {
+      api.users(0, 0, [role], 0, 25).then((res) => {
+        this.users = res.data;
       });
+    },
+    scrollUsers(event, role) {
+      const element = event.target;
+      if (element.scrollTop + element.clientHeight >= element.scrollHeight) {
+        if (this.users.current_page < this.users.pages) {
+          api
+            .users(0, 0, [role], this.users.current_page + 1, 25)
+            .then((res) => {
+              this.users.current_page = res.data.current_page;
+              this.users.pages = res.data.pages;
+              this.users.data = this.users.data.concat(res.data.data);
+            });
+        }
+      }
     },
     getTransfers(page, limit) {
       let status = "";
@@ -402,13 +488,13 @@ export default {
           ? this.user_id
           : this.role == "ustanovshik"
           ? 1
-          : this.filter.worker_id;
+          : this.filter.worker?.id || 0;
       let ustanovshik_id =
         this.role == "ustanovshik"
           ? this.user_id
           : this.role == "worker"
           ? 1
-          : this.filter.ustanovshik_id;
+          : this.filter.ustanovshik?.id || 0;
       if (this.filter.status == "filialga_berish_logistika_user") {
         status = "filialga_berish_logistika";
         worker_id = 1;

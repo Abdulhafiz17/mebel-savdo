@@ -306,7 +306,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-outline-primary">
+          <button class="btn btn-outline-primary" :disabled="!worker">
             <i class="far fa-circle-check"></i>
           </button>
           <button
@@ -432,8 +432,12 @@ export default {
     },
     attachOrder() {
       this.attach.order_id = this.order.id;
+      this.attach.worker_id = this.worker.id;
+      this.attach.ustanovshik_id = this.ustanovshik?.id || 0;
       api.attachLogistika(this.attach).then(() => {
         api.success("close-attach-modal").then(() => {
+          this.worker = null;
+          this.ustanovshik = null;
           this.attach = {
             order_id: 0,
             worker_id: 0,
