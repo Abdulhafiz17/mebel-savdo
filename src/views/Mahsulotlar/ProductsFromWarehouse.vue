@@ -56,7 +56,9 @@
           </td>
           <td>
             <button
-              v-if="role == 'admin'"
+              v-if="
+                role == 'admin' && item.Orders_from_branch.status !== 'done'
+              "
               class="btn btn-sm btn-outline-success"
               @click="$refs.filialgaMahsulotYuborishModal.start(item)"
             >
