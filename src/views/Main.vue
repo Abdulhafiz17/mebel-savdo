@@ -48,6 +48,11 @@ export default {
           title: "Omborlar",
         },
         {
+          link: `/mijozlar`,
+          icon: "fa fa-handshake",
+          title: "Mijozlar",
+        },
+        {
           link: `/taminotlar`,
           icon: "fa fa-truck",
           title: "Ta'minot",

@@ -9,6 +9,7 @@
           type="search"
           placeholder="Qidiruv"
           v-model="search"
+          @keyup="get(0, 25)"
         />
       </div>
     </div>
@@ -19,7 +20,7 @@
   <div class="body">
     <div class="responsive">
       <div class="row">
-        <div class="col-md-4 my-1" v-for="(item, idx) in filter" :key="item">
+        <div class="col-md-4 my-1" v-for="(item, idx) in mijozlar" :key="item">
           <div class="card shadow">
             <div class="card-body">
               <details :id="idx">
@@ -168,6 +169,7 @@ export default {
   components: { Pagination },
   data() {
     return {
+      role: localStorage["role"],
       search: "",
       yangiMijoz: {
         name: "",
@@ -185,16 +187,6 @@ export default {
   created() {
     this.get(0, 25);
   },
-  computed: {
-    filter: function () {
-      return this.mijozlar.filter((mijoz) => {
-        return (
-          mijoz.name.toLowerCase().match(this.search.toLowerCase()) ||
-          String(mijoz.phone).match(this.search)
-        );
-      });
-    },
-  },
   methods: {
     format(number) {
       return String(
@@ -209,12 +201,20 @@ export default {
       );
     },
     get(page, limit) {
-      api.customers(page, limit, "").then((Response) => {
-        this.page = Response.data.current_page;
-        this.pages = Response.data.pages;
-        this.limit = Response.data.limit;
-        this.mijozlar = Response.data.data;
-      });
+      if (this.role == "admin")
+        api.customersAdmin(page, limit, this.search).then((Response) => {
+          this.page = Response.data.current_page;
+          this.pages = Response.data.pages;
+          this.limit = Response.data.limit;
+          this.mijozlar = Response.data.data;
+        });
+      else
+        api.customers(page, limit, this.search).then((Response) => {
+          this.page = Response.data.current_page;
+          this.pages = Response.data.pages;
+          this.limit = Response.data.limit;
+          this.mijozlar = Response.data.data;
+        });
     },
     post(data) {
       api.createCustomer(data).then((Response) => {

@@ -186,6 +186,16 @@ export function customers(page, limit, search) {
     return api(`get_customers?page=${page}&limit=${limit}`, "get");
   }
 }
+export function customersAdmin(page, limit, search) {
+  if (search) {
+    return api(
+      `get_customers_for_admin?search=${search}&page=${page}&limit=${limit}`,
+      "get"
+    );
+  } else {
+    return api(`get_customers_for_admin?page=${page}&limit=${limit}`, "get");
+  }
+}
 export function createCustomer(data) {
   return api("customer_create", "post", data);
 }
