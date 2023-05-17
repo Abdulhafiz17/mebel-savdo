@@ -48,6 +48,10 @@
                 <i class="fa fa-comment"></i>
                 {{ item.Pre_orders.comment }}
               </p>
+              <p v-if="item.Pre_orders.delivery_money_user == role">
+                <i class="fa fa-money-bill"></i>
+                {{ $util.currency(item.Pre_orders.delivery_money) + " so'm" }}
+              </p>
             </div>
             <div class="row">
               <div class="col">
