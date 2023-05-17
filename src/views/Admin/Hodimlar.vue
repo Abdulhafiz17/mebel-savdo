@@ -68,6 +68,15 @@
                     }}
                   </span>
                 </li>
+                <li class="list-group-item" v-if="hodim.delivery_balance">
+                  <span>
+                    <i class="fa fa-receipt"></i>
+                    <i class="fa fa-coins mx-1"></i>
+                  </span>
+                  <span class="badge bg-info">{{
+                    $util.currency(hodim.delivery_balance) + " so'm"
+                  }}</span>
+                </li>
               </ul>
             </details>
             <div class="row my-1 gap-1">
@@ -117,17 +126,15 @@
                 class="col"
                 v-if="
                   role == 'cashier' &&
-                  (hodim.role == 'worker' || hodim.role == 'ustanovshik')
+                  (hodim.role == 'worker' || hodim.role == 'ustanovshik') &&
+                  hodim.delivery_balance
                 "
               >
                 <button
                   class="btn btn-sm btn-block btn-outline-primary"
                   data-toggle="modal"
                   data-target="#pay"
-                  @click="
-                    this.editHodim = hodim;
-                    this.editHodim.password = '';
-                  "
+                  @click="this.editHodim = hodim"
                 >
                   <span class="fa fa-coins" />
                 </button>
@@ -455,12 +462,17 @@
         <div class="modal-header">
           <h4>{{ editHodim.name }} dan pul olish</h4>
         </div>
-        <form @submit.prevent="payToUser(paying)">
+        <form @submit.prevent="takeIncome()">
           <div class="modal-body">
             <div class="row gap-1 text-left">
               <div class="col-12">
                 Kassa
-                <select class="form-select" required v-model="paying.kassa_id">
+                <select
+                  class="form-select"
+                  required
+                  v-model="paying.kassa_id"
+                  @change="setCashier()"
+                >
                   <option v-for="item in cashiers" :key="item" :value="item.id">
                     {{ item.name }}
                   </option>
@@ -479,7 +491,9 @@
                     v-model="paying.money"
                   />
                   <div class="input-group-append">
-                    <div class="input-group-text">so'm</div>
+                    <div class="input-group-text">
+                      {{ cashier?.currency?.currency || "valyuta" }}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -498,7 +512,11 @@
             <button class="btn btn-outline-primary">
               <i class="far fa-circle-check" />
             </button>
-            <button class="btn btn-outline-danger" data-dismiss="modal">
+            <button
+              class="btn btn-outline-danger"
+              data-dismiss="modal"
+              close-pay-modal
+            >
               <i class="far fa-circle-xmark" />
             </button>
           </div>
@@ -527,6 +545,7 @@ export default {
       warehouses: [],
       hodimlar: { current_page: 0, pages: 1, limit: 25, data: [] },
       cashiers: [],
+      cashier: null,
       yangiHodim: {
         id: 0,
         name: "",
@@ -547,7 +566,7 @@ export default {
       paying: {
         money: null,
         currency_id: 0,
-        from_: null,
+        from_: 0,
         comment: "",
         kassa_id: 0,
       },
@@ -570,6 +589,12 @@ export default {
           " " +
           String(number).substr(7, 2)
       );
+    },
+    setCashier() {
+      this.cashier = this.cashiers.find((item) => {
+        return item.id == this.paying.kassa_id;
+      });
+      this.paying.currency_id = this.cashier.currency_id;
     },
     getBranches() {
       api.branches().then((res) => {
@@ -613,6 +638,14 @@ export default {
       api.updateUser(data).then((Response) => {
         api.success(1).then(() => {
           this.get(0, 100);
+        });
+      });
+    },
+    takeIncome() {
+      this.paying.from_ = this.editHodim.id;
+      api.takeIncomeFromUser(this.paying).then(() => {
+        api.success("close-pay-modal").then(() => {
+          this.get(0, 25);
         });
       });
     },

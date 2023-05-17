@@ -118,6 +118,7 @@ export default {
       const branch_id = this.role == "branch_admin" ? this.branch_id : 0;
       api.kassa("", 0, branch_id).then((res) => {
         this.cashiers = res.data;
+        this.$parent.cashiers = res.data;
       });
     },
     setCashier() {
