@@ -82,7 +82,16 @@
                   <i class="fa fa-coins"></i>
                 </button>
               </div>
-              <div class="col">
+              <div
+                class="col"
+                v-if="
+                  $route.query.branch_id
+                    ? role == 'branch_admin'
+                      ? true
+                      : false
+                    : true
+                "
+              >
                 <button
                   class="btn btn-sm btn-block btn-outline-warning"
                   @click="$refs.cashierModal.start('put', item)"
