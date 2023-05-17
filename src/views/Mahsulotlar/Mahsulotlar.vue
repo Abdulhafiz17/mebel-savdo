@@ -22,7 +22,13 @@
           </button>
         </div>
         <div class="input-group-append" v-if="search.length > 1">
-          <button class="btn btn-outline-danger" @click="search.splice(i, 1)">
+          <button
+            class="btn btn-outline-danger"
+            @click="
+              search.splice(i, 1);
+              get(0, 25, 0, 25);
+            "
+          >
             <i class="fa fa-xmark"></i>
           </button>
         </div>
