@@ -51,6 +51,19 @@
               <div class="input-group-text">so'm</div>
             </div>
           </div>
+          <div class="text-left">
+            Minimal qoldiq
+            <div class="input-group">
+              <input
+                type="number"
+                step="any"
+                min="1"
+                class="form-control"
+                required
+                v-model="warning_quantity"
+              />
+            </div>
+          </div>
         </div>
         <div class="modal-footer">
           <button class="btn btn-outline-primary">
@@ -78,6 +91,7 @@ export default {
       product: null,
       kpi: null,
       kpi_trade: null,
+      warning_quantity: null,
     };
   },
   methods: {
@@ -85,6 +99,7 @@ export default {
       this.product = product;
       this.kpi = product.Warehouse_products.kpi;
       this.kpi_trade = product.Warehouse_products.kpi_trade;
+      this.warning_quantity = product.Warehouse_products.warning_quantity;
       document.querySelector(`[put-modal-button]`).click();
     },
     putProduct() {
@@ -94,6 +109,7 @@ export default {
         name: this.product.Warehouse_products.name,
         kpi: this.kpi,
         kpi_trade: this.kpi_trade,
+        warning_quantity: this.warning_quantity,
       };
       api.updateKpiWarehouseProduct(data).then(() => {
         api.success("close-put-modal").then(() => {

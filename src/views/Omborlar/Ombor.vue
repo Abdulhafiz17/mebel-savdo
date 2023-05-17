@@ -160,6 +160,7 @@
                     <th>Kodi</th>
                     <th>Artikul</th>
                     <th>Nomi</th>
+                    <th>Minimal qoldiq</th>
                     <th>Miqdor</th>
                     <th>Kpi</th>
                     <th>Kpi savdo</th>
@@ -180,6 +181,7 @@
                     <td>
                       {{ item.Warehouse_products.name }}
                     </td>
+                    <td>{{ item.Warehouse_products.warning_quantity }} dona</td>
                     <td>{{ item.Warehouse_products.quantity }} dona</td>
                     <td>
                       {{ $util.currency(item.Warehouse_products.kpi) }} so'm
