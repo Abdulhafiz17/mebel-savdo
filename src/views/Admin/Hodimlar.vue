@@ -256,6 +256,18 @@
                       <div class="input-group-text">so'm</div>
                     </div>
                   </div>
+                  <div class="col-12" v-if="yangiHodim.role == 'ustanovshik'">
+                    Limit bajarilgandagi har bir buyurtma uchun bonus
+                    <div class="input-group input-group-sm">
+                      <input
+                        type="number"
+                        class="form-control"
+                        min="1"
+                        v-model="yangiHodim.daily_money_kpi"
+                      />
+                      <div class="input-group-text">so'm</div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="col-md-6">
@@ -383,6 +395,18 @@
                         class="form-control"
                         min="1"
                         v-model="editHodim.daily_limit_money"
+                      />
+                      <div class="input-group-text">so'm</div>
+                    </div>
+                  </div>
+                  <div class="col-12" v-if="editHodim.role == 'ustanovshik'">
+                    Limit bajarilgandagi har bir buyurtma uchun bonus
+                    <div class="input-group input-group-sm">
+                      <input
+                        type="number"
+                        class="form-control"
+                        min="1"
+                        v-model="editHodim.daily_money_kpi"
                       />
                       <div class="input-group-text">so'm</div>
                     </div>
@@ -515,7 +539,7 @@ export default {
         daily_money: null,
         daily_limit: null,
         daily_limit_money: null,
-        daily_money_kpi: 0,
+        daily_money_kpi: null,
       },
       editHodim: {},
       branch: null,
@@ -572,11 +596,13 @@ export default {
           username: "",
           password: "",
           role: "",
-          branch_id: "",
+          branch_id: 0,
           phone: null,
           status: true,
+          daily_money: null,
           daily_limit: null,
           daily_limit_money: null,
+          daily_money_kpi: null,
         };
         api.success(0).then(() => {
           this.get(0, 100);
