@@ -128,7 +128,7 @@
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="10">
+          <td colspan="15">
             <Pagination
               :page="transfers.current_page"
               :pages="transfers.pages"
@@ -353,8 +353,8 @@ export default {
     if (this.branch_id) this.getBranch();
     if (this.role == "warehouseman")
       this.filter.status = "filialga_berish_warehouseman";
-    this.getTransfers(0, 25);
     if (["admin", "logistika"].includes(this.role)) {
+      this.filter.status = "filialga_berish_warehouseman";
       this.getUsers();
     }
     if (this.role == "branch_admin") {
@@ -365,6 +365,7 @@ export default {
       this.getWarehouses();
       this.getBranches();
     }
+    this.getTransfers(0, 25);
   },
   methods: {
     status(status) {
