@@ -1,5 +1,32 @@
 <template>
   <h3><span class="fa fa-box" /> Mahsulotlar</h3>
+  <div class="row text-left">
+    <div class="col-md-6">
+      Umumiy ombor mahsulotlari:
+      <span
+        v-for="(item, index) in products.warehouse_products_total_price"
+        :key="item"
+      >
+        <strong>{{ $util.currency(item.total_tan_narx) }}</strong>
+        {{
+          item.tan_narx_currency +
+          (index < products.warehouse_products_total_price.length - 1
+            ? ", "
+            : "")
+        }}
+      </span>
+    </div>
+    <div class="col-md-6">
+      Umumiy mahsulotlar:
+      <span v-for="(item, index) in products.products_total_price" :key="item">
+        <strong>{{ $util.currency(item.total_price) }}</strong>
+        {{
+          item.currency +
+          (index < products.products_total_price.length - 1 ? ", " : "")
+        }}
+      </span>
+    </div>
+  </div>
   <div class="row">
     <div class="col-2" v-for="(item, i) in search" :key="item">
       <div class="input-group input-group-sm">
@@ -39,7 +66,7 @@
 
   <div class="row">
     <div :class="role == 'admin' ? 'col-md-6' : 'col-md-12'">
-      <div class="table-responsive" style="max-height: 80vh">
+      <div class="table-responsive" style="max-height: 74vh">
         <table class="table table-sm table-hover">
           <thead>
             <tr>
@@ -49,7 +76,7 @@
               <th>Nomi</th>
               <th>Narx</th>
               <th>Miqdor</th>
-              <th>Joylashuv</th>
+              <th>Ombor</th>
               <th></th>
             </tr>
           </thead>
@@ -85,7 +112,7 @@
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="6">
+              <td colspan="8">
                 <Pagination
                   :page="products.current_page_w"
                   :pages="products.pages_w"
@@ -99,7 +126,7 @@
       </div>
     </div>
     <div class="col-md-6" v-if="role == 'admin'">
-      <div class="table-responsive" style="max-height: 80vh">
+      <div class="table-responsive" style="max-height: 74vh">
         <table class="table table-sm table-hover">
           <thead>
             <tr>
@@ -109,7 +136,7 @@
               <th>Nomi</th>
               <th>Narx</th>
               <th>Miqdor</th>
-              <th>Joylashuv</th>
+              <th>Filial</th>
             </tr>
           </thead>
           <tbody>
@@ -135,7 +162,7 @@
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="4">
+              <td colspan="7">
                 <Pagination
                   :page="products.current_page_p"
                   :pages="products.pages_p"
@@ -173,6 +200,8 @@ export default {
         limit_p: 25,
         data_w: [],
         data_p: [],
+        warehouse_products_total_price: [],
+        products_total_price: [],
       },
     };
   },
