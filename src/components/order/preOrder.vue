@@ -4,35 +4,36 @@
     <strong>{{ order?.date }}</strong>
   </div>
   <hr />
-  <div class="row mb-2" v-if="order && incomes.length && balance && price">
-    <div :class="loan ? 'col-md-3' : 'col-md-4'">
+  <div class="row mb-2" v-if="order && balance && price">
+    <div :class="loan ? 'col-md-4' : 'col-md-6'">
       Buyurtma summasi
       <br />
       {{ $util.currency(balance.total_price) + " so'm" }}
     </div>
-    <div :class="loan ? 'col-md-3' : 'col-md-4'">
-      To'lov summa
-      <br />
-      <span v-for="(i, index) in incomes" :key="i">
-        {{
-          i.Incomes.comment +
-          ": " +
-          $util.currency(i.Incomes.money) +
-          " so'm" +
-          (index !== incomes.length - 1 ? ", " : "")
-        }}
-        <br />
-      </span>
-    </div>
-    <div :class="loan ? 'col-md-3' : 'col-md-4'">
+    <div :class="loan ? 'col-md-4' : 'col-md-6'">
       Yetkazilganda olinadigan summa
       <br />
       {{ $util.currency(order.delivery_money) + " so'm" }}
     </div>
-    <div class="col-md-3" v-if="loan">
+    <div class="col-md-4" v-if="loan">
       Nasiya summa
       <br />
       {{ $util.currency(loan.Loans.money) + " so'm" }}
+    </div>
+    <div class="col-md-12 text-left" v-if="incomes.length">
+      To'lov summa
+      <p v-for="i in incomes" :key="i">
+        {{
+          $util.currency(i.Incomes.money) +
+          " so'm " +
+          i.Incomes.comment +
+          " " +
+          i.Incomes.time.replace("T", " ")
+        }}
+      </p>
+      <span>
+        <br />
+      </span>
     </div>
   </div>
 </template>
@@ -100,5 +101,10 @@ export default {
 hr {
   margin-left: -15px;
   margin-right: -15px;
+}
+
+p {
+  margin: 0;
+  width: 100%;
 }
 </style>
