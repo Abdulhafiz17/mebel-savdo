@@ -139,36 +139,40 @@ export default {
 }
 
 .router-enter-active {
-  animation: routerIn 0.3s ease;
+  animation: routerIn 0.1s ease;
   transform-origin: top;
 }
 
 @keyframes routerIn {
   0% {
-    transform: translate(100%, 0);
+    /* transform: translate(100%, 0); */
     /* transform: scale(0); */
+    opacity: 0;
   }
   /* 50% {
     transform: scale(1.1);
   } */
   100% {
-    transform: translate(0, 0);
+    /* transform: translate(0, 0); */
     /* transform: scale(1); */
+    opacity: 1;
   }
 }
 
 .router-leave-active {
-  animation: routerOut 0.3s ease;
+  animation: routerOut 0.1s ease;
 }
 
 @keyframes routerOut {
   from {
-    transform: translate(0, 0);
+    /* transform: translate(0, 0); */
     /* transform: scale(1); */
+    opacity: 1;
   }
   to {
-    transform: translate(100%, 0);
+    /* transform: translate(100%, 0); */
     /* transform: scale(0.9); */
+    opacity: 0;
   }
 }
 </style>
