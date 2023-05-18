@@ -64,7 +64,10 @@
               </ul>
             </details>
             <div class="row my-1 gap-1">
-              <div class="col" v-if="taminotchi.balances.length">
+              <div
+                class="col"
+                v-if="taminotchi.balances.length && role == 'admin'"
+              >
                 <button
                   class="btn btn-sm btn-block btn-outline-primary"
                   data-toggle="modal"
@@ -78,7 +81,10 @@
                   <span class="fa fa-coins" />
                 </button>
               </div>
-              <div class="col" v-if="taminotchi.balances.length">
+              <div
+                class="col"
+                v-if="taminotchi.balances.length && role == 'admin'"
+              >
                 <button
                   class="btn btn-sm btn-block btn-outline-success"
                   data-toggle="modal"
@@ -100,7 +106,7 @@
                   <span class="fa fa-history" />
                 </router-link>
               </div>
-              <div class="col">
+              <div class="col" v-if="role == 'admin'">
                 <button
                   class="btn btn-sm btn-block btn-outline-warning"
                   data-toggle="modal"
@@ -116,7 +122,7 @@
       </div>
       <div class="col-12">
         <Pagination
-          :page="taminotchilar.page"
+          :page="taminotchilar.current_page"
           :pages="taminotchilar.pages"
           :limit="taminotchilar.limit"
           @get="getMarkets"
@@ -469,6 +475,7 @@ export default {
   components: { Pagination },
   data() {
     return {
+      role: localStorage["role"],
       search: "",
       branch_id: this.$route.params.id,
       currencies: [],
@@ -509,13 +516,13 @@ export default {
     },
   },
   created() {
-    this.get(0, 100);
+    this.get();
+    this.getMarkets(0, 100);
   },
   methods: {
-    get(page, limit) {
+    get() {
       api.currencies().then((Response) => {
         this.currencies = Response.data;
-        this.getMarkets(page, limit);
       });
     },
     getMarkets(page, limit) {
@@ -540,7 +547,7 @@ export default {
           address: null,
         };
         api.success().then(() => {
-          this.get(0, 100);
+          this.getMarkets(0, 100);
         });
       });
     },
@@ -548,7 +555,7 @@ export default {
       api.updateMarket(data).then((Response) => {
         document.querySelector("#close_modal").click();
         api.success().then(() => {
-          this.get(0, 100);
+          this.getMarkets(0, 100);
         });
       });
     },

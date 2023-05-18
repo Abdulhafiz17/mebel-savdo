@@ -291,6 +291,33 @@ export default {
           title: "Chiqish",
         },
       ],
+      taminotchi: [
+        {
+          link: `/taminotlar`,
+          icon: "fa fa-truck",
+          title: "Ta'minot",
+        },
+        {
+          link: `/taminotchilar`,
+          icon: "fa fa-truck-loading",
+          title: "Ta'minotchilar",
+        },
+        {
+          link: `/wanted-products`,
+          icon: "fa fa-box",
+          title: "Yetishmayotgan mahsulotlar",
+        },
+        {
+          link: `/settings`,
+          icon: "fa fa-tools",
+          title: "Sozlamalar",
+        },
+        {
+          link: `/`,
+          icon: "fa fa-sign-out",
+          title: "Chiqish",
+        },
+      ],
     };
   },
   computed: {
