@@ -350,7 +350,7 @@ export default {
   methods: {
     getOrder() {
       api
-        .preOrders(0, 0, this.branch_id, "false", 0, 0, "", 0, 0, 1)
+        .preOrders(0, 0, this.branch_id, "false", 0, 0, "", 0, "", 0, 1)
         .then((res) => {
           if (res.data.data.length) {
             this.order = res.data.data[0];

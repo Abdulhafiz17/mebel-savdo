@@ -688,20 +688,22 @@ export default {
       }
     },
     get(page, limit) {
-      api.orders("", "", false, 0, 0, 0, "", page, limit).then((Response) => {
-        this.orders = Response.data.data;
-        if (this.orders.length) {
-          this.order = this.orders[0];
-          this.getTrades(this.order);
-        } else {
-          this.order = null;
-          this.order_balance = {
-            currency: null,
-            currency_id: null,
-            total_price: null,
-          };
-        }
-      });
+      api
+        .orders("", "", false, 0, 0, 0, "", "", page, limit)
+        .then((Response) => {
+          this.orders = Response.data.data;
+          if (this.orders.length) {
+            this.order = this.orders[0];
+            this.getTrades(this.order);
+          } else {
+            this.order = null;
+            this.order_balance = {
+              currency: null,
+              currency_id: null,
+              total_price: null,
+            };
+          }
+        });
     },
     getCashiers() {
       api.kassa("", 0, localStorage["branch_id"]).then((res) => {

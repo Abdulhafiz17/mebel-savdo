@@ -1,3 +1,4 @@
+a
 <template>
   <h4>Oldindan buyurtmalar</h4>
   <div class="row">
@@ -36,6 +37,12 @@
                 <i class="fa fa-handshake"></i>
                 {{ item.Customers?.name }}
               </p>
+              <p v-if="item.Customers">
+                <i class="fa fa-phone"></i>
+                <a :href="`tel:+998${item.Customers.phone}`">
+                  {{ "+998 " + item.Customers?.phone }}
+                </a>
+              </p>
               <p v-if="item.Pre_orders.etaj">
                 <i class="fa fa-building"></i>
                 Ko'p qavatli
@@ -60,6 +67,17 @@
                   @click="$refs.preOrderModal.start(item.Pre_orders.id)"
                 >
                   <i class="fa fa-info"></i>
+                </button>
+              </div>
+              <div
+                class="col"
+                v-if="role == 'operator' && !item.Pre_orders.operator_status"
+              >
+                <button
+                  class="btn btn-sm btn-block btn-outline-success"
+                  @click="putOperator(item.Pre_orders.id)"
+                >
+                  <i class="fa fa-check"></i>
                 </button>
               </div>
               <div
@@ -138,7 +156,14 @@
         <div class="modal-header"><h5>Filter</h5></div>
         <div class="modal-body">
           <div class="row gap-1 text-left">
-            <div class="col-12">
+            <div class="col-12" v-if="role == 'operator'">
+              Status
+              <select class="form-select" v-model="filter.operator_status">
+                <option value="false">Faol</option>
+                <option value="true">Yakunlangan</option>
+              </select>
+            </div>
+            <div class="col-12" v-if="role !== 'operator'">
               Status
               <select
                 class="form-select"
@@ -564,6 +589,7 @@ export default {
       },
       filter: {
         status: "",
+        operator_status: "",
         customer: null,
         seller: null,
         worker: null,
@@ -613,6 +639,7 @@ export default {
     else if (this.role == "worker" || this.role == "ustanovshik")
       this.filter.status = "logistika";
     else this.filter.status = "done";
+    if (this.role == "operator") this.filter.operator_status = "false";
     this.getOrders(0, 25);
   },
   methods: {
@@ -632,6 +659,8 @@ export default {
         worker_id = this.user_id;
       } else if (this.role == "ustanovshik") {
         ustanovshik_id = this.user_id;
+      } else if (this.role == "operator") {
+        worker = "true";
       } else {
         if (this.filter.status == "logistika_user") {
           status = "logistika";
@@ -650,6 +679,7 @@ export default {
           ustanovshik_id,
           worker,
           warehouseman_id,
+          this.filter.operator_status,
           page,
           limit
         )
@@ -732,6 +762,13 @@ export default {
         api.success("close-update-pre-order-modal").then(() => {
           this.worker = null;
           this.ustanovshik = null;
+          this.getOrders(0, 25);
+        });
+      });
+    },
+    putOperator(id) {
+      api.operatorOrder(id, "pre_order").then(() => {
+        api.success().then(() => {
           this.getOrders(0, 25);
         });
       });

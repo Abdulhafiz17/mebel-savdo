@@ -318,6 +318,28 @@ export default {
           title: "Chiqish",
         },
       ],
+      operator: [
+        {
+          link: `/transport`,
+          icon: "fa fa-truck",
+          title: "Transport",
+        },
+        {
+          link: `/pre-orders`,
+          icon: "fa fa-receipt",
+          title: "Oldindan buyurtmalar",
+        },
+        {
+          link: `/settings`,
+          icon: "fa fa-tools",
+          title: "Sozlamalar",
+        },
+        {
+          link: `/`,
+          icon: "fa fa-sign-out",
+          title: "Chiqish",
+        },
+      ],
     };
   },
   computed: {

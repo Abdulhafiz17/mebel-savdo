@@ -532,14 +532,16 @@ export function orders(
   worker_id,
   ustanovshik_id,
   delivered,
+  operator,
   page,
   limit
 ) {
   const time_query =
     from_time && to_time ? `from_time=${from_time}&to_time=${to_time}&` : ``;
   const delivered_query = delivered ? `&delivered=${delivered}` : ``;
+  const operator_query = operator ? `&operator_status=${operator}` : ``;
   return api(
-    `get_orders?${time_query}status=${status}&seller_id=${seller_id}&worker_id=${worker_id}&ustanovshik_id=${ustanovshik_id}${delivered_query}&page=${page}&limit=${limit}`,
+    `get_orders?${time_query}status=${status}&seller_id=${seller_id}&worker_id=${worker_id}&ustanovshik_id=${ustanovshik_id}${delivered_query}${operator_query}&page=${page}&limit=${limit}`,
     "get"
   );
 }
@@ -562,6 +564,9 @@ export function createOrder() {
 export function removeOrder(id) {
   return api(`remove_order/${id}`, "delete");
 }
+export function operatorOrder(id, status) {
+  return api(`operator_order/${id}/${status}`, "put");
+}
 export function confirmationOrder(data) {
   return api(`order_confirmation`, "put", data);
 }
@@ -583,13 +588,15 @@ export function preOrders(
   ustanovshik_id,
   worker,
   warehouseman_id,
+  operator,
   page,
   limit
 ) {
   const status_query = status ? `&status=${status}` : ``;
   const worker_query = worker ? `&worker=${worker}` : ``;
+  const operator_query = worker ? `&operator_status=${operator}` : ``;
   return api(
-    `get_pre_orders?customer_id=${customer_id}&seller_id=${seller_id}&branch_id=${branch_id}${status_query}&worker_id=${worker_id}&ustanovshik_id=${ustanovshik_id}${worker_query}&warehouseman_id=${warehouseman_id}&page=${page}&limit=${limit}`,
+    `get_pre_orders?customer_id=${customer_id}&seller_id=${seller_id}&branch_id=${branch_id}${status_query}&worker_id=${worker_id}&ustanovshik_id=${ustanovshik_id}${worker_query}&warehouseman_id=${warehouseman_id}${operator_query}&page=${page}&limit=${limit}`,
     "get"
   );
 }

@@ -21,6 +21,7 @@ export default {
         "warehouseman",
         "seller",
         "taminotchi",
+        "operator",
       ].includes(this.role)
     ) {
       this.$router.replace("/main");

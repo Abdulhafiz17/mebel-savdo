@@ -10,11 +10,7 @@
         <i class="fa fa-filter"></i>
       </button>
     </div>
-    <div class="col-md-4">
-      <div v-if="role == 'worker'">
-        {{ currency.format(user?.balance) + " so'm" }}
-      </div>
-    </div>
+    <div class="col-md-4"></div>
     <div class="col-md-4"></div>
   </div>
 
@@ -83,6 +79,17 @@
                   <i class="fa fa-info"></i>
                 </button>
               </div>
+              <div
+                class="col"
+                v-if="role == 'operator' && !item.operator_status"
+              >
+                <button
+                  class="btn btn-sm btn-block btn-outline-success"
+                  @click="putOperator(item.id)"
+                >
+                  <i class="fa fa-check"></i>
+                </button>
+              </div>
               <div class="col" v-if="!item.delivered && role == 'worker'">
                 <button
                   class="btn btn-sm btn-block btn-outline-success"
@@ -116,7 +123,14 @@
         </div>
         <div class="modal-body">
           <div class="row gap-1 text-left">
-            <div class="col-12">
+            <div class="col-12" v-if="role == 'operator'">
+              Status
+              <select class="form-select" v-model="filter.operator_status">
+                <option value="false">Faol</option>
+                <option value="true">Yakunlangan</option>
+              </select>
+            </div>
+            <div class="col-12" v-if="role !== 'operator'">
               Status
               <select class="form-select" v-model="filter.status">
                 <option value="false">yetkazilmagan</option>
@@ -163,7 +177,8 @@
             data-dismiss="modal"
             @click="
               filter = {
-                status: 'false',
+                status: role == 'operator' ? 'true' : 'false',
+                operator_status: role == 'operator' ? 'false' : '',
                 attached: true,
                 from_time: '',
                 to_time: '',
@@ -342,6 +357,7 @@ export default {
       },
       filter: {
         status: "false",
+        operator_status: "",
         attached: true,
         from_time: "",
         to_time: "",
@@ -368,8 +384,12 @@ export default {
   created() {
     if (["worker", "ustanovshik"].includes(this.role)) {
       this.getUser();
-    } else {
+    } else if (this.role !== "operator") {
       this.getUsers();
+    }
+    if (this.role == "operator") {
+      this.filter.status = "true";
+      this.filter.operator_status = "false";
     }
     this.getOrders(0, 25);
   },
@@ -411,11 +431,12 @@ export default {
         .orders(
           this.filter.from_time,
           this.filter.to_time,
-          this.filter.status,
+          "true",
           0,
           worker_id,
           ustanovshik_id,
           this.filter.status,
+          this.filter.operator_status,
           page,
           limit
         )
@@ -445,6 +466,13 @@ export default {
             etaj: false,
             city: false,
           };
+          this.getOrders(0, 25);
+        });
+      });
+    },
+    putOperator(id) {
+      api.operatorOrder(id, "order").then(() => {
+        api.success().then(() => {
           this.getOrders(0, 25);
         });
       });
