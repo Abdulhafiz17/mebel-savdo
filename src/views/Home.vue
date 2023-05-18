@@ -20,6 +20,7 @@ export default {
         "ustanovshik",
         "warehouseman",
         "seller",
+        "taminotchi",
       ].includes(this.role)
     ) {
       this.$router.replace("/main");

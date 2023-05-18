@@ -19,6 +19,7 @@
             'worker',
             'ustanovshik',
             'seller',
+            'taminotchi',
           ].includes(role)
             ? { 'margin-left': '0' }
             : { 'margin-left': '35px' },
@@ -35,6 +36,7 @@
               'worker',
               'ustanovshik',
               'seller',
+              'taminotchi',
             ].includes(role) &&
             this.$route.name !== 'login' &&
             this.$route.name !== 'main'
