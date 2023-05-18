@@ -16,12 +16,25 @@
       />
     </div>
     <div class="col-md-3 my-1">
-      <button
-        class="btn btn-sm btn-block btn-outline-secondary"
-        @click="getSumStatistics()"
-      >
-        <span class="far fa-circle-check" /> Qidirish
-      </button>
+      <div class="row">
+        <div class="col-6">
+          <button
+            class="btn btn-sm btn-block btn-outline-primary"
+            data-toggle="modal"
+            data-target="#sum"
+          >
+            <span class="fa fa-money-bill" />
+          </button>
+        </div>
+        <div class="col-6">
+          <button
+            class="btn btn-sm btn-block btn-outline-secondary"
+            @click="getSumStatistics()"
+          >
+            <span class="far fa-circle-check" /> Qidirish
+          </button>
+        </div>
+      </div>
     </div>
     <div class="col-md-1 my-1">
       <div class="btn-group btn-group-sm w-100">
@@ -157,7 +170,7 @@
     </div>
   </div>
 
-  <div class="modal fade" id="sum">
+  <!-- <div class="modal fade" id="sum">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-body">
@@ -279,7 +292,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <div class="modal fade" id="day">
     <div class="modal-dialog modal-lg">
@@ -387,6 +400,142 @@
     </div>
   </div>
 
+  <div class="modal fade" id="sum">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4>Jami</h4>
+        </div>
+        <div class="modal-body">
+          <div v-for="item in sum" :key="item">
+            <strong>{{ item.day }}</strong>
+            <ul class="list-group">
+              <li class="list-group-item">
+                <span>Savdo</span>
+                <span>{{
+                  $util.currency(
+                    item.trade_total_price + item.pre_order_trade_total_price
+                  ) + " so'm"
+                }}</span>
+              </li>
+              <li class="list-group-item">
+                <span>Tan narx</span>
+                <span>{{
+                  $util.currency(
+                    item.trade_total_tan_narx +
+                      item.pre_order_trade_total_tan_narx
+                  ) + " so'm"
+                }}</span>
+              </li>
+              <li class="list-group-item">
+                <span>Buyurtmadan chegirma</span>
+                <span>{{ $util.currency(item.order_discount) + " so'm" }}</span>
+              </li>
+              <!-- <li class="list-group-item">
+                <span>Mahsulotdan chegirma</span>
+                <span>{{
+                  $util.currency(
+                    item.trade_total_discount +
+                      item.trade_from_comp_total_discount
+                  ) + " so'm"
+                }}</span>
+              </li> -->
+              <hr />
+              <li class="list-group-item">
+                <span>{{}}</span>
+                <!-- $util.currency(item.income_trade_sum) + " so'm" -->
+                <span>Savdodan kirim</span>
+              </li>
+              <li class="list-group-item">
+                <span>{{}}</span>
+                <!-- $util.currency(item.income_trade_sum) + " so'm" -->
+                <span>Buyurtma</span>
+              </li>
+              <ul class="list-group" v-if="item.incomes_trade.length">
+                <li
+                  class="list-group-item"
+                  v-for="item1 in item.incomes_trade"
+                  :key="item1"
+                  v-show="item1.sum_price"
+                >
+                  {{ $util.currency(item1.sum_price) + " so'm " + item1.type }}
+                </li>
+              </ul>
+              <li class="list-group-item">
+                <span>{{}}</span>
+                <!-- $util.currency(item.income_trade_sum) + " so'm" -->
+                <span>Oldindan buyurtma</span>
+              </li>
+              <ul class="list-group" v-if="item.incomes_pre_order_trade.length">
+                <li
+                  class="list-group-item"
+                  v-for="item1 in item.incomes_pre_order_trade"
+                  :key="item1"
+                  v-show="item1.sum_price"
+                >
+                  {{ $util.currency(item1.sum_price) + " so'm " + item1.type }}
+                </li>
+              </ul>
+              <hr />
+              <li class="list-group-item">
+                <span>Nasiyadan kirim</span>
+                <span>{{
+                  $util.currency(item.income_loan_sum) + " so'm"
+                }}</span>
+              </li>
+              <ul class="list-group" v-if="item.incomes_loan.length">
+                <li
+                  class="list-group-item"
+                  v-for="item1 in item.incomes_loan"
+                  :key="item1"
+                  v-show="item1.sum_price"
+                >
+                  {{ $util.currency(item1.sum_price) + " so'm " + item1.type }}
+                </li>
+              </ul>
+              <hr />
+              <li class="list-group-item">
+                <span>Chiqim</span>
+                <span>{{ $util.currency(item.expense_sum) + " so'm" }}</span>
+              </li>
+              <li class="list-group-item">
+                <span>Qaytarish chiqimi</span>
+                <span>{{ $util.currency(item.returned_price) + " so'm" }}</span>
+              </li>
+              <hr />
+              <li
+                class="list-group-item"
+                :class="
+                  item.total_profit + item.pre_order_total_profit > 0
+                    ? 'text-success'
+                    : item.total_profit + item.pre_order_total_profit < 0
+                    ? 'text-danger'
+                    : ''
+                "
+              >
+                <span>{{
+                  item.total_profit + item.pre_order_total_profit >= 0
+                    ? "Foyda"
+                    : "Zarar"
+                }}</span>
+                <span>{{
+                  $util.currency(
+                    item.total_profit + item.pre_order_total_profit
+                  ) + " so'm"
+                }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-danger" data-dismiss="modal">
+            <i class="far fa-circle-xmark"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <orderModal printable="true" returnable="true" ref="orderModal" />
 </template>
 
@@ -430,6 +579,17 @@ export default {
   },
   mounted() {},
   methods: {
+    benefit(data) {
+      return (
+        data.trade_total_price +
+        data.trade_from_comp_total_price -
+        (data.trade_total_tan_narx + data.trade_from_comp_total_tan_narx) -
+        data.order_discount -
+        (data.trade_total_discount + data.trade_from_comp_total_discount) -
+        data.expense_sum -
+        data.returned_price
+      );
+    },
     countPercentPrice(sum, percent) {
       return (sum / 100) * percent;
     },
@@ -576,5 +736,9 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.modal-body .list-group-item {
+  padding: 5px 10px;
 }
 </style>
