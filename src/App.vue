@@ -9,39 +9,9 @@
         :class="
           this.$route.name !== 'login' ? 'card shadow p-2 responsive' : ''
         "
-        :style="[
-          this.$route.name == 'login' ||
-          [
-            'admin',
-            'cashier',
-            'logistika',
-            'warehouseman',
-            'worker',
-            'ustanovshik',
-            'seller',
-            'taminotchi',
-          ].includes(role)
-            ? { 'margin-left': '0' }
-            : { 'margin-left': '35px' },
-        ]"
+        :style="{ 'margin-left': margin }"
       >
-        <div
-          class="btn-group btn-group-sm btn-admin"
-          v-if="
-            [
-              'admin',
-              'cashier',
-              'logistika',
-              'warehouseman',
-              'worker',
-              'ustanovshik',
-              'seller',
-              'taminotchi',
-            ].includes(role) &&
-            this.$route.name !== 'login' &&
-            this.$route.name !== 'main'
-          "
-        >
+        <div class="btn-group btn-group-sm btn-admin" v-if="route_buttons">
           <button class="btn btn-outline-secondary" @click="back()">
             <i class="fa fa-arrow-left" />
           </button>
@@ -77,6 +47,43 @@ export default {
   computed: {
     loading() {
       return this.$store.state.loading;
+    },
+    margin() {
+      if (
+        this.$route.name == "login" ||
+        [
+          "admin",
+          "cashier",
+          "logistika",
+          "warehouseman",
+          "worker",
+          "ustanovshik",
+          "seller",
+          "taminotchi",
+          "operator",
+        ].includes(this.role)
+      )
+        return "";
+      else return "35px";
+    },
+    route_buttons() {
+      if (
+        [
+          "admin",
+          "cashier",
+          "logistika",
+          "warehouseman",
+          "worker",
+          "ustanovshik",
+          "seller",
+          "taminotchi",
+          "operator",
+        ].includes(this.role) &&
+        this.$route.name !== "login" &&
+        this.$route.name !== "main"
+      )
+        return true;
+      else return false;
     },
   },
   watch: {
