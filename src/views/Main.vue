@@ -89,6 +89,11 @@ export default {
           title: "Filial ombordan so'ragan mahsulotlar",
         },
         {
+          link: `/wanted-products`,
+          icon: "fa fa-box",
+          title: "Yetishmayotgan mahsulotlar",
+        },
+        {
           link: `/transfer`,
           icon: "fa fa-arrow-up",
           icon_2: "fa fa-arrow-down",

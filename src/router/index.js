@@ -214,6 +214,13 @@ let routes = [
     component: () => import("../views/Mahsulotlar/Mahsulotlar.vue"),
   },
   {
+    path: "/wanted-products",
+    name: "wanted-products",
+    meta: { requiresAuth: true, title: "Yetishmayotgan Mahsulotlar" },
+    component: () =>
+      import("../views/Mahsulotlar/YetishmayotganMahsulotlar.vue"),
+  },
+  {
     path: "/nomenclature",
     name: "nomenclature",
     meta: { requiresAuth: true, title: "Nomenklatura" },
