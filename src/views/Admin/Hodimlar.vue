@@ -232,6 +232,9 @@
                   <option v-if="role == 'admin'" value="taminotchi">
                     Ta'minotchi
                   </option>
+                  <option v-if="role == 'admin'" value="operator">
+                    Operator
+                  </option>
                   <option value="worker">Transport</option>
                   <option value="ustanovshik">Ustanovshik</option>
                 </select>
