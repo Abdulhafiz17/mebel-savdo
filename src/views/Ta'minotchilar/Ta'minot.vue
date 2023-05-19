@@ -371,10 +371,10 @@
               <li class="list-group-item" v-for="item in expenses" :key="item">
                 <span>
                   <strong>Summa: </strong>
-                  {{ Intl.NumberFormat().format(item.price) }}
-                  {{ item.currency.currency }}
+                  {{ Intl.NumberFormat().format(item.Expenses.price) }}
+                  {{ item.Expenses.currency.currency }}
                   <br />
-                  <b>Izoh: </b>{{ item.comment }}
+                  <b>Izoh: </b>{{ item.Expenses.comment }}
                 </span>
               </li>
             </ul>
