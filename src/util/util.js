@@ -3,7 +3,7 @@ export default {
     return localStorage[key];
   },
   currency(price = 0) {
-    return Intl.NumberFormat().format(price.toFixed(2));
+    return Intl.NumberFormat().format(Number(price).toFixed(2));
   },
   payment_types: ["naxt", "plastik"],
 };

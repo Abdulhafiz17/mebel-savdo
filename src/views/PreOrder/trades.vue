@@ -276,6 +276,12 @@ export default {
     getTrades(page, limit) {
       api.preOrderTrades(this.order.Pre_orders.id, page, limit).then((res) => {
         this.trades = res.data;
+        this.getBalance();
+      });
+    },
+    getBalance() {
+      api.preOrderTradeBalance(this.order.Pre_orders.id).then((res) => {
+        this.$parent.balance = res.data;
       });
     },
     postTrade() {

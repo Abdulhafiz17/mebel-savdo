@@ -43,10 +43,13 @@
     <div class="modal-dialog">
       <form class="modal-content" @submit.prevent="updateOrder()">
         <div class="modal-header">
-          <h4>Buyurtmani tasdiqlash</h4>
+          <span class="text-left">
+            <h4>Buyurtmani tasdiqlash</h4>
+            <strong>{{ $util.currency(balance?.total_price) }}</strong> so'm
+          </span>
         </div>
         <div class="modal-body">
-          <div class="row gap-2 text-left">
+          <div class="row gap-1 text-left">
             <div class="col-12">
               <div class="dropdown">
                 <button
@@ -306,6 +309,7 @@ export default {
     return {
       branch_id: localStorage["branch_id"],
       order: null,
+      balance: null,
       search_customers: "",
       customers: {
         current_page: 0,
