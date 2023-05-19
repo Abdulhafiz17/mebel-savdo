@@ -90,7 +90,12 @@
                   <i class="fa fa-check"></i>
                 </button>
               </div>
-              <div class="col" v-if="!item.delivered && role == 'worker'">
+              <div
+                class="col"
+                v-if="
+                  !item.delivered && (role == 'worker' || role == 'ustanovshik')
+                "
+              >
                 <button
                   class="btn btn-sm btn-block btn-outline-success"
                   @click="putOrder(item.id)"
