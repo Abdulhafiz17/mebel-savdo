@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <div class="card p-5">
-      <img src="../../components/Pictures/rotate.png" width="110" alt="logo" />
+      <img src="../../assets/logo.jpg" width="110" alt="logo" />
       <div style="margin: 10px">
         <h4>Xush kelibsiz</h4>
       </div>
