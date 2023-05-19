@@ -97,7 +97,7 @@ a
               <div
                 class="col"
                 v-if="
-                  ['worker', 'warehouseman'].includes(role) &&
+                  ['worker', 'ustanovshik', 'warehouseman'].includes(role) &&
                   ['wait', 'logistika'].includes(item.Pre_orders.status)
                 "
               >
@@ -174,7 +174,6 @@ a
                     : false
                 "
               >
-                <option value="done">Yakunlangan</option>
                 <option value="false" v-if="['branch_admin'].includes(role)">
                   Faol
                 </option>
@@ -188,7 +187,14 @@ a
                 </option>
                 <option
                   value="warehouseman"
-                  v-if="['warehouseman', 'logistika', 'cashier'].includes(role)"
+                  v-if="
+                    [
+                      'branch_admin',
+                      'warehouseman',
+                      'logistika',
+                      'cashier',
+                    ].includes(role)
+                  "
                 >
                   Omborchi
                 </option>
@@ -196,8 +202,8 @@ a
                   value="logistika"
                   v-if="
                     [
-                      'admin',
                       'branch_admin',
+                      'warehouseman',
                       'logistika',
                       'worker',
                       'ustanovshik',
@@ -211,8 +217,8 @@ a
                   value="logistika_user"
                   v-if="
                     [
-                      'admin',
                       'branch_admin',
+                      'warehouseman',
                       'logistika',
                       'worker',
                       'ustanovshik',
@@ -222,6 +228,7 @@ a
                 >
                   Logistika hodim biriktirilgan
                 </option>
+                <option value="done">Yakunlangan</option>
               </select>
             </div>
             <div class="col-12" v-if="role == 'branch_admin'">
@@ -291,7 +298,10 @@ a
                 </div>
               </div>
             </div>
-            <div class="col-12" v-if="filter.status == 'logistika_user'">
+            <div
+              class="col-12"
+              v-if="filter.status == 'logistika_user' && role !== 'worker'"
+            >
               Haydovchi
               <div class="dropdown">
                 <button
@@ -323,7 +333,10 @@ a
                 </div>
               </div>
             </div>
-            <div class="col-12" v-if="filter.status == 'logistika_user'">
+            <div
+              class="col-12"
+              v-if="filter.status == 'logistika_user' && role !== 'ustanovshik'"
+            >
               Ustanovshik
               <div class="dropdown">
                 <button
@@ -731,7 +744,8 @@ export default {
     },
     check(id) {
       if (this.role == "warehouseman") this.warehousemanPreOrder(id);
-      else if (this.role == "worker") this.deliveredPreOrder(id);
+      else if (this.role == "worker" || this.role == "ustanovshik")
+        this.deliveredPreOrder(id);
     },
     warehousemanPreOrder(id) {
       api.warehousemanPreOrder(id).then(() => {
