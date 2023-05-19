@@ -533,14 +533,17 @@ export default {
           ? this.user_id
           : this.role == "ustanovshik"
           ? 1
-          : this.filter.worker?.id || 0;
+          : this.filter.worker?.id || 1;
       let ustanovshik_id =
         this.role == "ustanovshik"
           ? this.user_id
           : this.role == "worker"
           ? 1
-          : this.filter.ustanovshik?.id || 0;
-      if (this.filter.status == "filialga_berish_logistika_user") {
+          : this.filter.ustanovshik?.id || 1;
+      if (this.filter.status == "filialga_berish_logistika") {
+        worker_id = this.worker?.id || 0;
+        ustanovshik_id = this.ustanovshik?.id || 0;
+      } else if (this.filter.status == "filialga_berish_logistika_user") {
         status = "filialga_berish_logistika";
         worker_id = 1;
         ustanovshik_id = 1;
@@ -566,8 +569,8 @@ export default {
       this.transfers_to_send.forEach((item, index) => {
         data.push({
           transfer_id: item.Transfers.id,
-          worker_id: this.worker_id,
-          ustanovshik_id: this.ustanovshik_id,
+          worker_id: this.worker.id,
+          ustanovshik_id: this.ustanovshik?.id || 0,
         });
         if (index == this.transfers_to_send.length - 1) {
           api.transferProductLogistika(data).then(() => {
