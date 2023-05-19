@@ -259,7 +259,7 @@
                 </tbody>
                 <tfoot>
                   <tr>
-                    <td colspan="10">
+                    <td colspan="11">
                       <Pagination
                         :page="page1"
                         :pages="pages1"
@@ -1200,8 +1200,9 @@ export default {
         )
         .then((Response) => {
           this.category_for_product.products = Response.data.data;
-          this.page = Response.data.current_page;
-          this.pages = Response.data.pages;
+          this.page1 = Response.data.current_page;
+          this.pages1 = Response.data.pages;
+          this.limit1 = Response.data.limit;
         });
     },
     getBalance() {
