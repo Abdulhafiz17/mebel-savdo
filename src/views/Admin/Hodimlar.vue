@@ -68,13 +68,13 @@
                     }}
                   </span>
                 </li>
-                <li class="list-group-item" v-if="hodim.delivery_balance">
+                <li class="list-group-item" v-if="hodim.balance_delivery">
                   <span>
                     <i class="fa fa-receipt"></i>
                     <i class="fa fa-coins mx-1"></i>
                   </span>
                   <span class="badge bg-danger">{{
-                    $util.currency(hodim.delivery_balance) + " so'm"
+                    $util.currency(hodim.balance_delivery) + " so'm"
                   }}</span>
                 </li>
               </ul>
@@ -127,7 +127,7 @@
                 v-if="
                   role == 'cashier' &&
                   (hodim.role == 'worker' || hodim.role == 'ustanovshik') &&
-                  hodim.delivery_balance
+                  hodim.balance_delivery
                 "
               >
                 <button
@@ -652,6 +652,13 @@ export default {
       this.paying.from_ = this.editHodim.id;
       api.takeIncomeFromUser(this.paying).then(() => {
         api.success("close-pay-modal").then(() => {
+          this.paying = {
+            money: null,
+            currency_id: 0,
+            from_: 0,
+            comment: "",
+            kassa_id: 0,
+          };
           this.get(0, 25);
         });
       });
