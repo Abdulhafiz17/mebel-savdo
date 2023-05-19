@@ -1,6 +1,6 @@
 <template>
   <h3><span class="fa fa-box" /> Mahsulotlar</h3>
-  <div class="row text-left">
+  <div class="row text-left" v-if="role == 'admin'">
     <div class="col-md-6">
       Umumiy ombor mahsulotlari:
       <span
