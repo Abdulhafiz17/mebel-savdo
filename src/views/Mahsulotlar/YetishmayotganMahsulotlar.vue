@@ -28,6 +28,7 @@
           <th>Kodi</th>
           <th>Artikul</th>
           <th>Nomi</th>
+          <th>Minimal miqdor</th>
           <th>Miqdor</th>
         </tr>
       </thead>
@@ -37,12 +38,13 @@
           <td>{{ item.name2 }}</td>
           <td>{{ item.articul }}</td>
           <td>{{ item.name }}</td>
+          <td>{{ item.warning_quantity + " dona" }}</td>
           <td>{{ item.quantity + " dona" }}</td>
         </tr>
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="5">
+          <td colspan="6">
             <Pagination
               :page="products.current_page"
               :pages="products.pages"
