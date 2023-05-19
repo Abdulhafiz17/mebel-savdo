@@ -78,7 +78,7 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="7">
+            <td colspan="8">
               <Pagination
                 :page="transfers.current_page"
                 :pages="transfers.pages"
@@ -132,8 +132,8 @@ export default {
           this.$route.params.id,
           this.from_time,
           this.to_time,
-          0,
-          0
+          1,
+          1
         )
         .then((Response) => {
           this.transfers = Response.data;
