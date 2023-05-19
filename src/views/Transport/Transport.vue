@@ -40,9 +40,9 @@
               <i class="fa fa-location-dot"></i> {{ item.customer?.map_lat }} ;
               {{ item.customer?.map_long }}
             </p>
-            <p>
+            <p v-if="item.delivery_money_user == role">
               <i class="fa fa-coins"></i>
-              <strong>
+              <strong class="bg-success rounded">
                 {{ currency.format(item.delivery_money) }}
               </strong>
               so'm
