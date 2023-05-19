@@ -57,7 +57,17 @@ a
               </p>
               <p v-if="item.Pre_orders.delivery_money_user == role">
                 <i class="fa fa-money-bill"></i>
-                {{ $util.currency(item.Pre_orders.delivery_money) + " so'm" }}
+                <strong class="bg-success rounded">
+                  {{ $util.currency(item.Pre_orders.delivery_money) + " so'm" }}
+                </strong>
+              </p>
+              <p v-if="item.worker">
+                <i class="fa fa-truck"></i>
+                {{ item.worker }}
+              </p>
+              <p v-if="item.ustanovshik">
+                <i class="fa fa-tools"></i>
+                {{ item.ustanovshik }}
               </p>
             </div>
             <div class="row">
@@ -205,8 +215,6 @@ a
                       'branch_admin',
                       'warehouseman',
                       'logistika',
-                      'worker',
-                      'ustanovshik',
                       'cashier',
                     ].includes(role)
                   "
@@ -300,7 +308,11 @@ a
             </div>
             <div
               class="col-12"
-              v-if="filter.status == 'logistika_user' && role !== 'worker'"
+              v-if="
+                filter.status == 'logistika_user' &&
+                role !== 'worker' &&
+                role !== 'ustanovshik'
+              "
             >
               Haydovchi
               <div class="dropdown">
@@ -335,7 +347,11 @@ a
             </div>
             <div
               class="col-12"
-              v-if="filter.status == 'logistika_user' && role !== 'ustanovshik'"
+              v-if="
+                filter.status == 'logistika_user' &&
+                role !== 'worker' &&
+                role !== 'ustanovshik'
+              "
             >
               Ustanovshik
               <div class="dropdown">
@@ -650,7 +666,7 @@ export default {
     if (this.role == "warehouseman") this.filter.status = "wait";
     else if (this.role == "logistika") this.filter.status = "warehouseman";
     else if (this.role == "worker" || this.role == "ustanovshik")
-      this.filter.status = "logistika";
+      this.filter.status = "logistika_user";
     else this.filter.status = "done";
     if (this.role == "operator") this.filter.operator_status = "false";
     this.getOrders(0, 25);
