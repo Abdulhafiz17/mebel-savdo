@@ -1,7 +1,11 @@
 <template>
-  <h3><span class="fa fa-truck" /> {{ warehouse?.name }} ta'minotlari</h3>
+  <h3><span class="fa fa-truck" /> Ta'minotlar</h3>
   <div class="row">
-    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <button class="btn btn-sm btn-outline-secondary" @click="post()">
+        <i class="fa fa-circle-plus" /> Ta'minot qo'shish
+      </button>
+    </div>
     <div class="col-md-4 my-1"></div>
     <div class="col-md-4">
       <button
@@ -46,21 +50,23 @@
           <div class="row gap-1 text-left">
             <div class="col-12">
               Status
-              <select class="form-select" v-model="filter.warehouseman">
-                <option value="false">Faol</option>
-                <option value="true">Yakunlangan</option>
-              </select>
-            </div>
-            <div class="col-12">
-              Status
               <select class="form-select" v-model="filter.status">
-                <option value="false">Omborga qabul qilinmagan</option>
+                <option
+                  value="false"
+                  v-if="['admin', 'taminotchi'].includes(role)"
+                >
+                  Faol
+                </option>
+                <option value="warehouse">Omborga qabul qilinmagan</option>
                 <option value="true">Omborga qabul qilingan</option>
               </select>
             </div>
             <div
               class="col-12"
-              v-if="filter.status == 'true' && role == 'admin'"
+              v-if="
+                ['admin', 'taminotchi'].includes(role) &&
+                filter.status == 'true'
+              "
             >
               Omborchi
               <select class="form-select" v-model="filter.warehouseman_id">
@@ -88,8 +94,7 @@
             data-dismiss="modal"
             @click="
               filter = {
-                status: 'false',
-                warehouseman: false,
+                status: 'warehouse',
                 warehouseman_id: 0,
               };
               getParties(0, 25);
@@ -114,10 +119,14 @@ export default {
       role: localStorage["role"],
       user_id: localStorage["user_id"],
       warehousemen: [],
-      warehouse: null,
+      warehouses: {
+        current_page: 0,
+        pages: 1,
+        limit: 25,
+        data: [],
+      },
       filter: {
-        status: "false",
-        warehouseman: false,
+        status: "warehouse",
         warehouseman_id: 0,
       },
       parties: {
@@ -130,35 +139,34 @@ export default {
   },
   created() {
     this.getParties(0, 25);
-    this.getWarehouse();
+    if (this.role !== "warehouseman") this.getUsers();
   },
   methods: {
     getParties(page, limit) {
-      const status = () => {
-        if (this.role == "admin") {
-          return this.filter.status;
-        } else {
-          if (this.filter.warehouseman) {
-            return "true";
-          } else return "false";
-        }
-      };
-      const warehouseman =
-        this.role == "admin" ? this.filter.warehouseman : true;
-      const warehouseman_id = () => {
-        if (this.role == "admin") {
-          if (warehouseman) return this.filter.warehouseman_id;
-          else return 0;
-        } else {
-          if (this.filter.warehouseman) return this.user_id;
-          else return 0;
-        }
-      };
+      let status = "";
+      let warehouseman = "";
+      let warehouseman_id = 0;
+      if (this.filter.status == "true") {
+        status = "true";
+        warehouseman = "true";
+      } else if (this.filter.status == "warehouse") {
+        status = "false";
+        warehouseman = "true";
+      } else if (this.filter.status == "false") {
+        status = "false";
+        warehouseman = "false";
+      }
+      if (this.role == "warehouseman")
+        if (this.filter.status == "warehouse") warehouseman_id = -1;
+        else warehouseman_id = this.user_id;
+      else if (this.filter.warehouseman_id)
+        warehouseman_id = this.filter.warehouseman_id;
+      else warehouseman_id = -1;
       api
         .parties(
-          status(),
+          status,
           warehouseman,
-          warehouseman_id(),
+          warehouseman_id,
           this.$route.params.id,
           page,
           limit
@@ -174,15 +182,16 @@ export default {
           this.warehousemen = res.data.data;
         });
     },
-    getWarehouse() {
-      api.warehouse(this.$route.params.id).then((res) => {
-        this.warehouse = res.data;
-      });
-    },
     post() {
       api.createParty().then((Response) => {
         api.success().then(() => {
-          this.get(false, 0, 100);
+          this.filter = {
+            status: "false",
+            warehouseman: false,
+            warehouseman_id: 0,
+            warehouse_id: 0,
+          };
+          this.getParties(0, 25);
         });
       });
     },

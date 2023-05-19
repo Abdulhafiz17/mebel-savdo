@@ -52,7 +52,8 @@
               Status
               <select class="form-select" v-model="filter.status">
                 <option value="false">Faol</option>
-                <option value="true">Yakunlangan</option>
+                <option value="warehouse">Omborga qabul qilinmagan</option>
+                <option value="true">Omborga qabul qilingan</option>
               </select>
             </div>
             <div class="col-12" v-if="filter.status == 'true'">
@@ -67,24 +68,9 @@
                 </option>
               </select>
             </div>
-            <div class="col-12" v-if="filter.status == 'true'">
-              Status
-              <select
-                class="form-select"
-                v-model="filter.warehouseman"
-                @change="
-                  filter.warehouseman == 'false'
-                    ? (filter.warehouseman_id = 0)
-                    : false
-                "
-              >
-                <option value="false">Omborga qabul qilinmagan</option>
-                <option value="true">Omborga qabul qilingan</option>
-              </select>
-            </div>
             <div
               class="col-12"
-              v-if="filter.warehouse_id && filter.warehouseman == 'true'"
+              v-if="filter.warehouse_id && filter.status == 'true'"
             >
               Omborchi
               <select class="form-select" v-model="filter.warehouseman_id">
@@ -145,7 +131,6 @@ export default {
       },
       filter: {
         status: "false",
-        warehouseman: false,
         warehouseman_id: 0,
         warehouse_id: 0,
       },
@@ -163,11 +148,25 @@ export default {
   },
   methods: {
     getParties(page, limit) {
+      let status = "";
+      let warehouseman = "";
+      let warehouseman_id = this.filter.warehouseman_id;
+      if (this.filter.status == "true") {
+        status = "true";
+        warehouseman = "true";
+      } else if (this.filter.status == "warehouse") {
+        status = "false";
+        warehouseman = "true";
+      } else if (this.filter.status == "false") {
+        status = "false";
+        warehouseman = "false";
+      }
+      if (!this.filter.warehouseman_id) warehouseman_id = -1;
       api
         .parties(
-          this.filter.status,
-          this.filter.warehouseman,
-          this.filter.warehouseman_id,
+          status,
+          warehouseman,
+          warehouseman_id,
           this.filter.warehouse_id,
           page,
           limit
