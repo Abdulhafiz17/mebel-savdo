@@ -120,7 +120,10 @@ a
               </div>
               <div
                 class="col"
-                v-if="['branch_admin', 'logistika'].includes(role)"
+                v-if="
+                  ['branch_admin', 'logistika'].includes(role) &&
+                  item.Pre_orders.status !== 'done'
+                "
               >
                 <button
                   class="btn btn-sm btn-block btn-outline-warning"
@@ -698,6 +701,7 @@ export default {
           worker = "false";
         }
       }
+      if (this.filter.status == "done") worker = "true";
       api
         .preOrders(
           customer_id,
