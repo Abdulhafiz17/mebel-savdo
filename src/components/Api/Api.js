@@ -594,7 +594,7 @@ export function preOrders(
 ) {
   const status_query = status ? `&status=${status}` : ``;
   const worker_query = worker ? `&worker=${worker}` : ``;
-  const operator_query = worker ? `&operator_status=${operator}` : ``;
+  const operator_query = operator ? `&operator_status=${operator}` : ``;
   return api(
     `get_pre_orders?customer_id=${customer_id}&seller_id=${seller_id}&branch_id=${branch_id}${status_query}&worker_id=${worker_id}&ustanovshik_id=${ustanovshik_id}${worker_query}&warehouseman_id=${warehouseman_id}${operator_query}&page=${page}&limit=${limit}`,
     "get"
