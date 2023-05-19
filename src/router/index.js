@@ -168,7 +168,7 @@ let routes = [
   {
     path: "/taminotchi/:id",
     name: "taminotchi",
-    meta: { requiresAuth: true, title: "Ta'minotchi", role: "admin" },
+    meta: { requiresAuth: true, title: "Ta'minotchi" },
     component: () => import("../views/Ta'minotchilar/Ta'minotchi.vue"),
   },
   {
