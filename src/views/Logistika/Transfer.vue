@@ -108,13 +108,13 @@
           <td>
             <button
               v-if="
-                ['worker', 'warehouseman'].includes(role) &&
+                ['worker', 'ustanovshik', 'warehouseman'].includes(role) &&
                 !transfers_to_send.length
               "
               class="btn btn-sm btn-outline-success"
               @click="
                 transfers_to_send.push(item);
-                role == 'worker'
+                role == 'worker' || role == 'ustanovshik'
                   ? acceptTransfers()
                   : role == 'warehouseman'
                   ? transferProductWarehouseman()
@@ -165,20 +165,65 @@
                 </option>
               </select>
             </div>
-            <div class="col-12" v-if="role !== 'warehouseman'">
+            <div class="col-12">
               Status
               <select class="form-select" v-model="filter.status">
-                <option value="filialga_berish_warehouseman">
+                <option
+                  value="filialga_berish_warehouseman"
+                  v-if="['admin', 'warehouseman'].includes(role)"
+                >
                   Kutish ombor
                 </option>
-                <option value="filialga_berish_logistika">
+                <option
+                  value="filialga_berish_logistika"
+                  v-if="['admin', 'logistika', 'warehouseman'].includes(role)"
+                >
                   Kutish logistika
                 </option>
-                <option value="filialga_berish_logistika_user">
+                <option
+                  value="filialga_berish_logistika_user"
+                  v-if="
+                    [
+                      'admin',
+                      'logistika',
+                      'warehouseman',
+                      'worker',
+                      'ustanovshik',
+                    ].includes(role)
+                  "
+                >
                   Logistika hodim biriktirilgan
                 </option>
-                <option value="filialga_berish_kutish">Kutish filial</option>
-                <option value="filialga_berish_tasdiqlandi">Tasdiqlandi</option>
+                <option
+                  value="filialga_berish_kutish"
+                  v-if="
+                    [
+                      'admin',
+                      'branch_admin',
+                      'logistika',
+                      'warehouseman',
+                      'worker',
+                      'ustanovshik',
+                    ].includes(role)
+                  "
+                >
+                  Kutish filial
+                </option>
+                <option
+                  value="filialga_berish_tasdiqlandi"
+                  v-if="
+                    [
+                      'admin',
+                      'branch_admin',
+                      'logistika',
+                      'warehouseman',
+                      'worker',
+                      'ustanovshik',
+                    ].includes(role)
+                  "
+                >
+                  Tasdiqlandi
+                </option>
               </select>
             </div>
             <div class="col-12" v-if="['admin', 'logistika'].includes(role)">
@@ -426,7 +471,7 @@ export default {
     if (this.role == "warehouseman")
       this.filter.status = "filialga_berish_warehouseman";
     if (["admin", "logistika"].includes(this.role)) {
-      this.filter.status = "filialga_berish_warehouseman";
+      this.filter.status = "filialga_berish_logistika";
       this.getUsers();
     }
     if (this.role == "branch_admin") {
