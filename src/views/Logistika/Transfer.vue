@@ -1,5 +1,5 @@
 <template>
-  <h3 v-if="!parent_user_id">
+  <h3 v-if="!parent_user_id" @click="$refs.receipt.show = true">
     <span class="fa px-1 fa-arrow-up" /><span class="fa px-1 fa-arrow-down" />
     Transfer {{ branch ? `Filial ${branch.name}` : `` }}
   </h3>
@@ -431,18 +431,21 @@
       </form>
     </div>
   </div>
+
+  <!-- <transferReceipt ref="receipt" /> -->
 </template>
 
 <script>
 import * as api from "@/components/Api/Api";
 import Pagination from "@/components/Pagination/Pagination.vue";
+import transferReceipt from "@/components/receipt/transfer.vue";
 export default {
   name: "Transfer",
   props: {
     userId: Number,
     parentRole: String,
   },
-  components: { Pagination },
+  components: { Pagination, transferReceipt },
   data() {
     return {
       role: localStorage["role"],
