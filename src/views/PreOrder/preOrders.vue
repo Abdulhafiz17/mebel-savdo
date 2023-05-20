@@ -16,7 +16,10 @@
 
   <div
     class="table-responsive"
-    :style="{ height: parent_user_id ? '75vh' : '80vh' }"
+    :style="{
+      height:
+        parent_role == 'customer' ? '65vh' : parent_user_id ? '75vh' : '80vh',
+    }"
   >
     <div class="row">
       <div class="col-md-4 my-1" v-for="item in orders.data" :key="item">
@@ -726,6 +729,8 @@ export default {
       else if (this.parent_role == "worker") worker_id = this.parent_user_id;
       else if (this.parent_role == "ustanovshik")
         ustanovshik_id = this.parent_user_id;
+      else if (this.parent_role == "customer")
+        customer_id = this.parent_user_id;
       api
         .preOrders(
           customer_id,
