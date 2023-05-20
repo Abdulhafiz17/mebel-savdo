@@ -473,6 +473,8 @@ export default {
     if (["admin", "logistika"].includes(this.role)) {
       this.filter.status = "filialga_berish_logistika";
       this.getUsers();
+    } else if (["worker", "ustnaovshik"].includes(this.role)) {
+      this.filter.status = "filialga_berish_logistika_user";
     }
     if (this.role == "branch_admin") {
       this.getWarehouses();
