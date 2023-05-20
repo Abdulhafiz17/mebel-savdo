@@ -1,5 +1,5 @@
 <template>
-  <h3>
+  <h3 v-if="!parent_user_id">
     <span class="fa px-1 fa-arrow-up" /><span class="fa px-1 fa-arrow-down" />
     Transfer {{ branch ? `Filial ${branch.name}` : `` }}
   </h3>
@@ -26,8 +26,11 @@
       </button>
     </div>
   </div>
-  <hr />
-  <div class="table-responsive" style="height: 80vh">
+  <hr v-if="!parent_user_id" />
+  <div
+    class="table-responsive"
+    :style="{ height: parent_user_id ? '75vh' : '80vh' }"
+  >
     <table class="table table-sm table-hover">
       <thead>
         <tr>
@@ -435,6 +438,10 @@ import * as api from "@/components/Api/Api";
 import Pagination from "@/components/Pagination/Pagination.vue";
 export default {
   name: "Transfer",
+  props: {
+    userId: Number,
+    parentRole: String,
+  },
   components: { Pagination },
   data() {
     return {
@@ -465,6 +472,14 @@ export default {
       ustanovshik: null,
       transfers_to_send: [],
     };
+  },
+  computed: {
+    parent_user_id() {
+      return this.$props.userId;
+    },
+    parent_role() {
+      return this.$props.parentRole;
+    },
   },
   created() {
     if (this.branch_id) this.getBranch();
@@ -550,6 +565,9 @@ export default {
         worker_id = 1;
         ustanovshik_id = 1;
       } else status = this.filter.status;
+      if (this.parent_role == "worker") worker_id = this.parent_user_id;
+      else if (this.parent_role == "ustanovshik")
+        ustanovshik_id = this.parent_user_id;
       api
         .transfers(
           this.filter.warehouse_id,

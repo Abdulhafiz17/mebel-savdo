@@ -1,6 +1,5 @@
-a
 <template>
-  <h4>Oldindan buyurtmalar</h4>
+  <h4 v-if="!parent_user_id">Oldindan buyurtmalar</h4>
   <div class="row">
     <div class="col text-left"></div>
     <div class="col text-right">
@@ -13,9 +12,12 @@ a
       </button>
     </div>
   </div>
-  <hr />
+  <hr v-if="!parent_user_id" />
 
-  <div class="table-responsive" style="height: 80vh">
+  <div
+    class="table-responsive"
+    :style="{ height: parent_user_id ? '75vh' : '80vh' }"
+  >
     <div class="row">
       <div class="col-md-4 my-1" v-for="item in orders.data" :key="item">
         <div class="card shadow h-100">
@@ -122,7 +124,9 @@ a
                 class="col"
                 v-if="
                   ['branch_admin', 'logistika'].includes(role) &&
-                  item.Pre_orders.status !== 'done'
+                  !['warehouseman', 'logistika'].includes(
+                    item.Pre_orders.status
+                  )
                 "
               >
                 <button
@@ -276,7 +280,10 @@ a
             </div>
             <div
               class="col-12"
-              v-if="['admin', 'branch_admin', 'logistika'].includes(role)"
+              v-if="
+                ['admin', 'branch_admin', 'logistika'].includes(role) &&
+                parent_role !== 'seller'
+              "
             >
               Sotuvchi
               <div class="dropdown">
@@ -595,6 +602,10 @@ import preOrderModal from "@/components/order/preOrderModal.vue";
 import takeIncomeModal from "./takeIncomeModal.vue";
 export default {
   name: "preOrders",
+  props: {
+    userId: Number,
+    parentRole: String,
+  },
   components: {
     Pagination,
     updatePreOrderModal,
@@ -664,6 +675,12 @@ export default {
         warehouseman: null,
       };
     },
+    parent_user_id() {
+      return this.$props.userId;
+    },
+    parent_role() {
+      return this.$props.parentRole;
+    },
   },
   created() {
     if (this.role == "warehouseman") this.filter.status = "wait";
@@ -702,6 +719,13 @@ export default {
         }
       }
       if (this.filter.status == "done") worker = "true";
+      else worker = "false";
+      if (this.parent_role == "seller") seller_id = this.parent_user_id;
+      else if (this.parent_role == "warehouseman")
+        warehouseman_id = this.parent_user_id;
+      else if (this.parent_role == "worker") worker_id = this.parent_user_id;
+      else if (this.parent_role == "ustanovshik")
+        ustanovshik_id = this.parent_user_id;
       api
         .preOrders(
           customer_id,

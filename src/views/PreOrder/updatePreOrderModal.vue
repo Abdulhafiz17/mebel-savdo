@@ -223,7 +223,7 @@
         <div class="modal-footer">
           <button
             class="btn btn-outline-primary"
-            :disabled="!customer || !user || !worker || !ustanovshik"
+            :disabled="!customer || !user || !worker"
           >
             <i class="far fa-circle-check"></i>
           </button>
@@ -248,7 +248,6 @@ export default {
     return {
       role: localStorage["role"],
       branch_id: localStorage["branch_id"],
-      order: null,
       search_customers: "",
       customers: {
         current_page: 0,
@@ -378,6 +377,7 @@ export default {
         item.money = item.money || 0;
       });
       this.order.incomes = this.incomes;
+      console.log(this.order);
       api.updatePreOrder(this.order).then(() => {
         api.success("close-edit-pre-order-modal").then(() => {
           this.$parent.getOrders(0, 25);
