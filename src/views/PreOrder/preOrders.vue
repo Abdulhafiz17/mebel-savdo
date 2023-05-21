@@ -716,9 +716,8 @@ export default {
         if (this.filter.status == "logistika_user") worker_id = 1;
       } else if (this.role == "operator") {
         worker = "true";
-      } else {
-        if (this.filter.status == "logistika_user") status = "logistika";
       }
+      if (this.filter.status == "logistika_user") status = "logistika";
       if (["logistika_user", "done"].includes(this.filter.status))
         worker = "true";
       else worker = "false";
