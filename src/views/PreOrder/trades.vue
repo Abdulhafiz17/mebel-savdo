@@ -129,7 +129,8 @@
                     {{
                       product
                         ? $util.currency(product.Warehouse_products.tan_narx) +
-                          " so'm"
+                          " " +
+                          product.currency
                         : ""
                     }}
                   </span>
@@ -167,7 +168,8 @@
                       <span class="badge bg-success">
                         {{
                           $util.currency(item.Warehouse_products.tan_narx) +
-                          " so'm"
+                          " " +
+                          item.currency
                         }}
                       </span>
                     </li>
