@@ -565,8 +565,10 @@ export default {
         ustanovshik_id = this.ustanovshik?.id || 0;
       } else if (this.filter.status == "filialga_berish_logistika_user") {
         status = "filialga_berish_logistika";
-        worker_id = 1;
-        ustanovshik_id = 1;
+        if (!["worker", "ustanovshik"].includes(this.role)) {
+          worker_id = 1;
+          ustanovshik_id = 1;
+        }
       } else status = this.filter.status;
       if (this.role == "warehouseman") {
         worker_id = 0;
