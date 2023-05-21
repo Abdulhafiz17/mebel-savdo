@@ -711,19 +711,16 @@ export default {
         worker_id = this.user_id;
         if (this.filter.status == "logistika_user") ustanovshik_id = 1;
       } else if (this.role == "ustanovshik") {
+        worker = "true";
         ustanovshik_id = this.user_id;
         if (this.filter.status == "logistika_user") worker_id = 1;
       } else if (this.role == "operator") {
         worker = "true";
       } else {
-        if (this.filter.status == "logistika_user") {
-          status = "logistika";
-          worker = "true";
-        } else {
-          worker = "false";
-        }
+        if (this.filter.status == "logistika_user") status = "logistika";
       }
-      if (this.filter.status == "done") worker = "true";
+      if (["logistika_user", "done"].includes(this.filter.status))
+        worker = "true";
       else worker = "false";
       if (this.parent_role == "seller") seller_id = this.parent_user_id;
       else if (this.parent_role == "warehouseman")
