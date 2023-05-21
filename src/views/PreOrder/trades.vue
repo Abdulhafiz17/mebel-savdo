@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="table-responsive shadow"
-    style="height: 85vh; table-layout: fixed"
-  >
+  <div class="table-responsive" style="height: 85vh; table-layout: fixed">
     <table class="table table-sm table-hover">
       <thead>
         <tr>
