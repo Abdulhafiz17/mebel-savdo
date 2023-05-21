@@ -547,7 +547,7 @@ export default {
       }
     },
     getTransfers(page, limit) {
-      let status = "";
+      let status = this.filter.status;
       let worker_id =
         this.role == "worker"
           ? this.user_id
@@ -568,6 +568,10 @@ export default {
         worker_id = 1;
         ustanovshik_id = 1;
       } else status = this.filter.status;
+      if (this.role == "warehouseman") {
+        worker_id = 0;
+        ustanovshik_id = 0;
+      }
       if (this.parent_role == "worker") worker_id = this.parent_user_id;
       else if (this.parent_role == "ustanovshik")
         ustanovshik_id = this.parent_user_id;
