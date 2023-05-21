@@ -3,7 +3,7 @@
     <span class="fa fa-warehouse" />
     {{ warehouse ? "Ombor " + warehouse.name : "Ombor" }}
   </h3>
-  <div class="row">
+  <div class="row" v-if="role == 'admin'">
     <div class="col-md-2 d-flex align-items-center justify-content-center">
       <div class="dropdown" v-if="balance">
         <button
@@ -144,7 +144,10 @@
         aria-labelledby="pills-home-tab"
       >
         <div class="row">
-          <div class="col-md-11 mx-auto responsive" style="max-height: 68vh">
+          <div
+            class="col-md-11 mx-auto responsive"
+            :style="{ 'max-height': role == 'admin' ? '68vh' : '82vh' }"
+          >
             <details v-for="item in categories" :key="item">
               <summary
                 @click="
