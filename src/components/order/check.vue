@@ -186,13 +186,13 @@ export default {
       });
     },
     getOrder() {
-      api.preOrder(this.id).then((res) => {
+      api.order(this.id).then((res) => {
         this.order = res.data;
         this.getTrades();
       });
     },
     getTrades() {
-      api.preOrderTrades(this.id, 0, 50).then((res) => {
+      api.trades(this.id, 0, 50).then((res) => {
         this.trades = res.data.data;
         let quantity = null,
           discount = null;
@@ -206,13 +206,13 @@ export default {
       });
     },
     getBalance() {
-      api.preOrderTradeBalance(this.id).then((res) => {
+      api.tradeBalance(this.id).then((res) => {
         this.balance = res.data;
         this.getIncomes();
       });
     },
     getIncomes() {
-      api.incomes(this.id, "pre_order", 0, 0, 50).then((res) => {
+      api.incomes(this.id, "order", 0, 0, 50).then((res) => {
         this.incomes = res.data.data.sort((a, b) => {
           let x = a.Incomes.comment,
             y = b.Incomes.comment;
