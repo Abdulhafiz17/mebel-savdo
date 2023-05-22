@@ -432,7 +432,7 @@
     </div>
   </div>
 
-  <!-- <transferReceipt ref="receipt" /> -->
+  <transferReceipt ref="receipt" />
 </template>
 
 <script>

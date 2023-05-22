@@ -37,7 +37,7 @@ export default {
   name: "transfer-receipt",
   data() {
     return {
-      show: false,
+      show: true,
     };
   },
 };
