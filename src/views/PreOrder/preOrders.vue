@@ -79,7 +79,7 @@
               <div class="col">
                 <button
                   class="btn btn-sm btn-block btn-outline-info"
-                  @click="$refs.preOrderModal.start(item.Pre_orders.id)"
+                  @click="$refs.preOrderModal.start(item.Pre_orders.id, item)"
                 >
                   <i class="fa fa-info"></i>
                 </button>
@@ -711,23 +711,20 @@ export default {
           this.filter.status
         )
       ) {
-        warehouseman_id = this.filter.warehouseman?.id || 0;
-        worker_id = this.filter.worker?.id || 0;
-        ustanovshik_id = this.filter.ustanovshik?.id || 0;
         if (["warehouseman", "logistika"].includes(this.filter.status))
           if (this.role == "warehouseman") warehouseman_id = this.user_id;
         if (this.role == "worker") worker_id = this.user_id;
         if (this.role == "ustanovshik") ustanovshik_id = this.user_id;
         worker = "false";
       } else if (["logistika_user", "done"].includes(this.filter.status)) {
-        warehouseman_id = this.filter.warehouseman?.id || 1;
-        worker_id = this.filter.worker?.id || 1;
-        ustanovshik_id = this.filter.ustanovshik?.id || 1;
+        // warehouseman_id = this.filter.warehouseman?.id || 1;
+        // worker_id = this.filter.worker?.id || 1;
+        // ustanovshik_id = this.filter.ustanovshik?.id || 1;
         worker = "true";
-        if (this.role == "warehouseman") warehouseman_id = this.user_id;
-        if (this.role == "worker") worker_id = this.user_id;
-        if (this.role == "ustanovshik") ustanovshik_id = this.user_id;
       }
+      if (this.role == "warehouseman") warehouseman_id = this.user_id;
+      if (this.role == "worker") worker_id = this.user_id;
+      if (this.role == "ustanovshik") ustanovshik_id = this.user_id;
       if (this.role == "operator") worker = "true";
       if (this.filter.status == "logistika_user") status = "logistika";
       if (this.parent_role == "seller") seller_id = this.parent_user_id;
