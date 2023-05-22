@@ -589,7 +589,10 @@
 
   <updatePreOrderModal ref="updatePreOrderModal" />
 
-  <preOrderModal ref="preOrderModal" />
+  <preOrderModal
+    ref="preOrderModal"
+    :printable="role == 'branch_admin' ? true : false"
+  />
 
   <takeIncomeModal
     ref="takeIncomeModal"
@@ -711,7 +714,8 @@ export default {
         warehouseman_id = this.filter.warehouseman?.id || 0;
         worker_id = this.filter.worker?.id || 0;
         ustanovshik_id = this.filter.ustanovshik?.id || 0;
-        if (this.role == "warehouseman") warehouseman_id = this.user_id;
+        if (["warehouseman", "logistika"].includes(this.filter.status))
+          if (this.role == "warehouseman") warehouseman_id = this.user_id;
         if (this.role == "worker") worker_id = this.user_id;
         if (this.role == "ustanovshik") ustanovshik_id = this.user_id;
         worker = "false";
