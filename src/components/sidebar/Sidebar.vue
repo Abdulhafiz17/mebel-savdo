@@ -96,7 +96,7 @@ export default {
 
         <router-link
           class="SidebarLink"
-          to="/nasiyalar"
+          :to="`/nasiyalar?branch_id=${branch_id}`"
           v-if="role === 'branch_admin'"
         >
           <i class="icon"><span class="fa fa-hand-holding-usd" /></i>

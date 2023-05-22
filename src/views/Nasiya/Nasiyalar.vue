@@ -228,8 +228,9 @@
         </div>
         <form @submit.prevent="post(loan)">
           <div class="modal-body">
-            <div class="row">
+            <div class="row gap-1 text-left">
               <div class="col-md-12">
+                Summa
                 <div class="input-group input-group-sm">
                   <input
                     type="number"
@@ -258,6 +259,7 @@
                 </div>
               </div>
               <div class="col-12">
+                Kassa
                 <select
                   class="form-select form-select-sm"
                   required
@@ -316,7 +318,8 @@ export default {
   },
   methods: {
     getCashiers() {
-      api.kassa("", 0, localStorage["branch_id"]).then((res) => {
+      const branch_id = localStorage["branch_id"] || 0;
+      api.kassa("", 0, branch_id).then((res) => {
         this.cashiers = res.data;
       });
     },

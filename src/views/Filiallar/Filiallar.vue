@@ -105,6 +105,14 @@
                   <i class="fa fa-cash-register" />
                 </router-link>
               </div>
+              <div class="col my-1">
+                <router-link
+                  :to="`/nasiyalar?branch_id=${item.id}`"
+                  class="btn btn-sm btn-block btn-outline-primary"
+                >
+                  <i class="fa fa-hand-holding-usd" />
+                </router-link>
+              </div>
               <div class="col my-1" v-if="role == 'admin'">
                 <router-link
                   :to="{ path: '/transfer', query: { branch_id: item.id } }"
