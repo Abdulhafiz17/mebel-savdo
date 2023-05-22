@@ -13,7 +13,15 @@
         />
       </div>
     </div>
-    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <button
+        class="btn btn-sm btn-block btn-outline-success"
+        data-toggle="modal"
+        data-target="#yangiMijoz"
+      >
+        Yangi mijoz
+      </button>
+    </div>
   </div>
   <hr />
 
@@ -93,8 +101,8 @@
         </div>
         <form @submit.prevent="put(editMijoz)">
           <div class="modal-body">
-            <div class="row gap-2">
-              <div class="col-md-10 mx-auto">
+            <div class="row gap-1 text-left">
+              <div class="col-md-12">
                 Ism
                 <input
                   class="form-control form-control-sm"
@@ -104,7 +112,7 @@
                   v-model="editMijoz.name"
                 />
               </div>
-              <div class="col-md-10 mx-auto">
+              <div class="col-md-12">
                 Telefon raqam
                 <div class="input-group input-group-sm">
                   <div class="input-group-prepend">
@@ -121,7 +129,7 @@
                   />
                 </div>
               </div>
-              <div class="col-md-10 mx-auto">
+              <div class="col-md-12">
                 Tug'ilgan sana
                 <input
                   class="form-control form-control-sm"
@@ -130,7 +138,7 @@
                   v-model="editMijoz.birthday"
                 />
               </div>
-              <div class="col-md-10 mx-auto">
+              <div class="col-md-12">
                 Toifa
                 <select
                   class="form-select form-select-sm"
@@ -140,6 +148,35 @@
                   <option value="Qora ro'yxat">Qora ro'yxat</option>
                 </select>
               </div>
+              <div class="col-md-12">
+                Geo joylashuv
+                <div class="row">
+                  <div class="col-6">
+                    <div class="input-group input-group-sm">
+                      <input
+                        type="text"
+                        class="form-control form-control-sm"
+                        placeholder="uzunlik"
+                        required
+                        v-model="editMijoz.map_long"
+                      />
+                      <div class="input-group-text">uzunlik</div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="input-group input-group-sm">
+                      <input
+                        type="text"
+                        class="form-control form-control-sm"
+                        placeholder="kenglik"
+                        required
+                        v-model="editMijoz.map_lat"
+                      />
+                      <div class="input-group-text">kenglik</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="modal-footer">
@@ -148,6 +185,110 @@
             </button>
             <button
               id="close-modal"
+              class="btn btn-outline-danger"
+              data-dismiss="modal"
+              @click="get(0, 100)"
+            >
+              <span class="far fa-circle-xmark" />
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="yangiMijoz">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4>Yangi mijoz qo'shish</h4>
+        </div>
+        <form @submit.prevent="post()">
+          <div class="modal-body">
+            <div class="row gap-1 text-left">
+              <div class="col-md-12">
+                Ism
+                <input
+                  class="form-control form-control-sm"
+                  type="text"
+                  placeholder="ism"
+                  required
+                  v-model="yangiMijoz.name"
+                />
+              </div>
+              <div class="col-md-12">
+                Telefon raqam
+                <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">+998</div>
+                  </div>
+                  <input
+                    class="form-control"
+                    type="tel"
+                    minlength="9"
+                    maxlength="9"
+                    placeholder="tel"
+                    required
+                    v-model="yangiMijoz.phone"
+                  />
+                </div>
+              </div>
+              <div class="col-md-12">
+                Tug'ilgan sana
+                <input
+                  class="form-control form-control-sm"
+                  type="date"
+                  required
+                  v-model="yangiMijoz.birthday"
+                />
+              </div>
+              <div class="col-md-12">
+                Toifa
+                <select
+                  class="form-select form-select-sm"
+                  v-model="yangiMijoz.type"
+                >
+                  <option value="Umumiy">Umumiy</option>
+                  <option value="Qora ro'yxat">Qora ro'yxat</option>
+                </select>
+              </div>
+              <div class="col-md-12">
+                Geo joylashuv
+                <div class="row">
+                  <div class="col-6">
+                    <div class="input-group input-group-sm">
+                      <input
+                        type="text"
+                        class="form-control form-control-sm"
+                        placeholder="uzunlik"
+                        required
+                        v-model="yangiMijoz.map_long"
+                      />
+                      <div class="input-group-text">uzunlik</div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="input-group input-group-sm">
+                      <input
+                        type="text"
+                        class="form-control form-control-sm"
+                        placeholder="kenglik"
+                        required
+                        v-model="yangiMijoz.map_lat"
+                      />
+                      <div class="input-group-text">kenglik</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline-primary">
+              <span class="far fa-circle-check" />
+            </button>
+            <button
+              close-modal
               class="btn btn-outline-danger"
               data-dismiss="modal"
               @click="get(0, 100)"
@@ -174,8 +315,11 @@ export default {
       yangiMijoz: {
         name: "",
         phone: null,
+        birthday: "",
+        type: "",
         address: "",
-        comment: "",
+        map_long: "",
+        map_lat: "",
       },
       page: 0,
       pages: 1,
@@ -216,16 +360,18 @@ export default {
           this.mijozlar = Response.data.data;
         });
     },
-    post(data) {
-      api.createCustomer(data).then((Response) => {
+    post() {
+      api.createCustomer(this.yangiMijoz).then(() => {
         this.yangiMijoz = {
           name: "",
           phone: null,
+          birthday: "",
+          type: "",
           address: "",
-          comment: "",
+          map_long: "",
+          map_lat: "",
         };
-        document.querySelector("#close_modal").click();
-        api.success().then(() => {
+        api.success("close-modal").then(() => {
           this.get(0, 25);
         });
       });

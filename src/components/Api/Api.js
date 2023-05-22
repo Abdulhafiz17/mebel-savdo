@@ -197,7 +197,7 @@ export function customersAdmin(page, limit, search) {
   }
 }
 export function createCustomer(data) {
-  return api("customer_create", "post", data);
+  return api("create_customer", "post", data);
 }
 export function updateCustomer(data) {
   return api("update_customer/" + data.id, "put", data);
