@@ -223,7 +223,13 @@
         <div class="modal-footer">
           <button
             class="btn btn-outline-primary"
-            :disabled="!customer || !user || !worker"
+            :disabled="
+              role == 'branch_admin'
+                ? !customer || !user
+                : role == 'logistika'
+                ? !worker
+                : 'false'
+            "
           >
             <i class="far fa-circle-check"></i>
           </button>
