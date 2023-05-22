@@ -144,6 +144,8 @@
                   class="form-select form-select-sm"
                   v-model="editMijoz.type"
                 >
+                  <option value="Premium">Premium</option>
+                  <option value="Narx">Narx</option>
                   <option value="Umumiy">Umumiy</option>
                   <option value="Qora ro'yxat">Qora ro'yxat</option>
                 </select>
@@ -248,6 +250,8 @@
                   class="form-select form-select-sm"
                   v-model="yangiMijoz.type"
                 >
+                  <option value="Premium">Premium</option>
+                  <option value="Narx">Narx</option>
                   <option value="Umumiy">Umumiy</option>
                   <option value="Qora ro'yxat">Qora ro'yxat</option>
                 </select>

@@ -52,39 +52,49 @@
           <div class="row gap-1 text-left">
             <div class="col-12">
               <div class="dropdown">
-                <button
-                  id="customerDropdown"
-                  type="button"
-                  class="btn btn-sm btn-block btn-outline-primary dropdown-toggle"
-                  data-toggle="dropdown"
-                  @click="getCustomers()"
-                >
-                  {{ customer?.name || "Mijoz tanlang" }}
-                </button>
-                <div
-                  class="dropdown-menu w-100 p-1"
-                  aria-labelledby="customerDropdown"
-                >
-                  <input
-                    class="form-control form-control-sm"
-                    placeholder="qidiruv"
-                    v-model="search_customers"
-                    @keyup="getCustomers()"
-                  />
-                  <ul
-                    class="list-group p-1 responsive"
-                    style="max-height: 25vh"
-                    @scroll="scrollCustomers($event)"
+                <div class="btn-group btn-group-sm w-100">
+                  <button
+                    id="customerDropdown"
+                    type="button"
+                    class="btn btn-sm btn-block btn-outline-primary dropdown-toggle"
+                    data-toggle="dropdown"
+                    @click="getCustomers()"
                   >
-                    <li
-                      class="list-group-item p-2"
-                      v-for="item in customers.data"
-                      :key="item"
-                      @click="customer = item"
+                    {{ customer?.name || "Mijoz tanlang" }}
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-success"
+                    data-toggle="modal"
+                    data-target="#yangiMijoz"
+                  >
+                    <i class="fa fa-user-plus"></i>
+                  </button>
+                  <div
+                    class="dropdown-menu w-100 p-1"
+                    aria-labelledby="customerDropdown"
+                  >
+                    <input
+                      class="form-control form-control-sm"
+                      placeholder="qidiruv"
+                      v-model="search_customers"
+                      @keyup="getCustomers()"
+                    />
+                    <ul
+                      class="list-group p-1 responsive"
+                      style="max-height: 25vh"
+                      @scroll="scrollCustomers($event)"
                     >
-                      {{ item.name }}
-                    </li>
-                  </ul>
+                      <li
+                        class="list-group-item p-2"
+                        v-for="item in customers.data"
+                        :key="item"
+                        @click="customer = item"
+                      >
+                        {{ item.name }}
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
@@ -297,6 +307,111 @@
       </form>
     </div>
   </div>
+
+  <div class="modal fade" id="yangiMijoz">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4>Yangi mijoz qo'shish</h4>
+        </div>
+        <form @submit.prevent="postCustomer()">
+          <div class="modal-body">
+            <div class="row gap-1 text-left">
+              <div class="col-md-12">
+                Ism
+                <input
+                  class="form-control form-control-sm"
+                  type="text"
+                  placeholder="ism"
+                  required
+                  v-model="yangiMijoz.name"
+                />
+              </div>
+              <div class="col-md-12">
+                Telefon raqam
+                <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">+998</div>
+                  </div>
+                  <input
+                    class="form-control"
+                    type="tel"
+                    minlength="9"
+                    maxlength="9"
+                    placeholder="tel"
+                    required
+                    v-model="yangiMijoz.phone"
+                  />
+                </div>
+              </div>
+              <div class="col-md-12">
+                Tug'ilgan sana
+                <input
+                  class="form-control form-control-sm"
+                  type="date"
+                  required
+                  v-model="yangiMijoz.birthday"
+                />
+              </div>
+              <div class="col-md-12">
+                Toifa
+                <select
+                  class="form-select form-select-sm"
+                  v-model="yangiMijoz.type"
+                >
+                  <option value="Premium">Premium</option>
+                  <option value="Narx">Narx</option>
+                  <option value="Umumiy">Umumiy</option>
+                  <option value="Qora ro'yxat">Qora ro'yxat</option>
+                </select>
+              </div>
+              <div class="col-md-12">
+                Geo joylashuv
+                <div class="row">
+                  <div class="col-6">
+                    <div class="input-group input-group-sm">
+                      <input
+                        type="text"
+                        class="form-control form-control-sm"
+                        placeholder="uzunlik"
+                        required
+                        v-model="yangiMijoz.map_long"
+                      />
+                      <div class="input-group-text">uzunlik</div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="input-group input-group-sm">
+                      <input
+                        type="text"
+                        class="form-control form-control-sm"
+                        placeholder="kenglik"
+                        required
+                        v-model="yangiMijoz.map_lat"
+                      />
+                      <div class="input-group-text">kenglik</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline-primary">
+              <span class="far fa-circle-check" />
+            </button>
+            <button
+              close-modal
+              class="btn btn-outline-danger"
+              data-dismiss="modal"
+            >
+              <span class="far fa-circle-xmark" />
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -316,6 +431,15 @@ export default {
         pages: 1,
         limit: 25,
         data: [],
+      },
+      yangiMijoz: {
+        name: "",
+        phone: null,
+        birthday: "",
+        type: "",
+        address: "",
+        map_long: "",
+        map_lat: "",
       },
       customer: null,
       users: {
@@ -424,6 +548,22 @@ export default {
             });
         }
       }
+    },
+    postCustomer() {
+      api.createCustomer(this.yangiMijoz).then(() => {
+        this.yangiMijoz = {
+          name: "",
+          phone: null,
+          birthday: "",
+          type: "",
+          address: "",
+          map_long: "",
+          map_lat: "",
+        };
+        api.success("close-modal").then(() => {
+          this.getCustomers();
+        });
+      });
     },
     getUsers() {
       api.users(this.branch_id, 0, ["seller"], 0, 25).then((res) => {
