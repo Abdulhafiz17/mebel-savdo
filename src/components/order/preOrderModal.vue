@@ -26,7 +26,7 @@
             <button
               v-if="printable"
               class="btn btn-outline-primary mx-1"
-              @click="$refs.check.start()"
+              @click="$refs.check.start(order)"
             >
               <i class="fa fa-print"></i>
             </button>
@@ -54,7 +54,7 @@
 <script>
 import preOrder from "./preOrder.vue";
 import preOrderTrades from "./preOrderTrades.vue";
-import check from "@/components/order/check.vue";
+import check from "@/components/order/preOrderCheck.vue";
 import orderGallery from "./orderGallery.vue";
 export default {
   name: "preOrderModal",
@@ -67,12 +67,14 @@ export default {
     return {
       role: localStorage["role"],
       order_id: 0,
+      order: null,
       timeout: null,
     };
   },
   methods: {
-    start(order_id) {
+    start(order_id, order) {
       this.order_id = order_id;
+      this.order = order;
 
       if (["admin", "branch_admin", "cashier"].includes(this.role))
         this.$refs.order.start(order_id);
