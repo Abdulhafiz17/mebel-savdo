@@ -580,6 +580,8 @@ export function preOrder(id) {
   return api(`get_pre_order/${id}`, "get");
 }
 export function preOrders(
+  from_time,
+  to_time,
   customer_id,
   seller_id,
   branch_id,
@@ -592,11 +594,13 @@ export function preOrders(
   page,
   limit
 ) {
+  const time_query =
+    from_time && to_time ? `from_time=${from_time}&to_time=${to_time}` : ``;
   const status_query = status ? `&status=${status}` : ``;
   const worker_query = worker ? `&worker=${worker}` : ``;
   const operator_query = operator ? `&operator_status=${operator}` : ``;
   return api(
-    `get_pre_orders?customer_id=${customer_id}&seller_id=${seller_id}&branch_id=${branch_id}${status_query}&worker_id=${worker_id}&ustanovshik_id=${ustanovshik_id}${worker_query}&warehouseman_id=${warehouseman_id}${operator_query}&page=${page}&limit=${limit}`,
+    `get_pre_orders?customer_id=${customer_id}&seller_id=${seller_id}&branch_id=${branch_id}${status_query}&worker_id=${worker_id}&ustanovshik_id=${ustanovshik_id}${worker_query}&warehouseman_id=${warehouseman_id}${operator_query}&${time_query}&page=${page}&limit=${limit}`,
     "get"
   );
 }

@@ -176,6 +176,26 @@
         <div class="modal-header"><h5>Filter</h5></div>
         <div class="modal-body">
           <div class="row gap-1 text-left">
+            <div class="col-12">
+              <div class="row">
+                <div class="col-6">
+                  Dan
+                  <input
+                    type="date"
+                    class="form-control form-control-sm"
+                    v-model="filter.from_time"
+                  />
+                </div>
+                <div class="col-6">
+                  Gacha
+                  <input
+                    type="date"
+                    class="form-control form-control-sm"
+                    v-model="filter.to_time"
+                  />
+                </div>
+              </div>
+            </div>
             <div class="col-12" v-if="role == 'operator'">
               Status
               <select class="form-select" v-model="filter.operator_status">
@@ -637,6 +657,8 @@ export default {
         data: [],
       },
       filter: {
+        from_time: "",
+        to_time: "",
         status: "",
         operator_status: "",
         customer: null,
@@ -673,6 +695,8 @@ export default {
         status = "logistika";
       else status = "done";
       return {
+        from_time: "",
+        to_time: "",
         status: status,
         customer: null,
         seller: null,
@@ -737,6 +761,8 @@ export default {
         customer_id = this.parent_user_id;
       api
         .preOrders(
+          this.filter.from_time,
+          this.filter.to_time,
           customer_id,
           seller_id,
           this.branch_id,
