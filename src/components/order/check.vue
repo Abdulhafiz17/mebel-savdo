@@ -40,12 +40,12 @@
                 <span>{{ order?.customer ? order?.customer : "Kassir" }}</span>
               </div>
               <div>
-                <span>Mahsulotlar soni:</span>
-                <span>{{ trades_quantity + " dona" }}</span>
-              </div>
-              <div>
                 <span>Mijoz:</span>
                 <span>{{ order?.customer ? order?.customer : "" }}</span>
+              </div>
+              <div>
+                <span>Mahsulotlar soni:</span>
+                <span>{{ trades_quantity + " dona" }}</span>
               </div>
             </div>
             <hr />
