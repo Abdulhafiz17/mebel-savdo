@@ -587,8 +587,8 @@ export default {
           page,
           limit,
           this.filter.branch_id || this.branch_id,
-          this.from_time,
-          this.to_time,
+          this.filter.from_time,
+          this.filter.to_time,
           worker_id,
           ustanovshik_id
         )
