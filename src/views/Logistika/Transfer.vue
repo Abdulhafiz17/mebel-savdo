@@ -560,35 +560,22 @@ export default {
           : this.role == "worker"
           ? 1
           : this.filter.ustanovshik?.id || 1;
-      if (this.filter.status == "filialga_berish_logistika_user") {
+      if (this.filter.status == "filialga_berish_logistika_user")
         status = "filialga_berish_logistika";
-      } else status = this.filter.status;
-      if (this.role == "worker") {
-        if (
-          [
-            "filialga_berish_warehouseman",
-            "filialga_berish_logistika",
-          ].includes(this.filter.status)
-        ) {
-          worker_id = this.user_id;
-          ustanovshik_id = 0;
-        } else {
-          worker_id = this.user_id;
-          ustanovshik_id = 1;
-        }
-      } else if (this.role == "ustanovshik") {
-        if (
-          [
-            "filialga_berish_warehouseman",
-            "filialga_berish_logistika",
-          ].includes(this.filter.status)
-        ) {
-          worker_id = 0;
-          ustanovshik_id = this.user_id;
-        } else {
-          worker_id = 1;
-          ustanovshik_id = this.user_id;
-        }
+      if (
+        ["filialga_berish_warehouseman", "filialga_berish_logistika"].includes(
+          this.filter.status
+        )
+      ) {
+        worker_id = 0;
+        ustanovshik_id = 0;
+        if (this.role == "worker") worker_id = this.user_id;
+        if (this.role == "ustanovshik") ustanovshik_id = this.user_id;
+      } else {
+        worker_id = 1;
+        ustanovshik_id = 1;
+        if (this.role == "worker") worker_id = this.user_id;
+        if (this.role == "ustanovshik") ustanovshik_id = this.user_id;
       }
       if (this.parent_role == "worker") worker_id = this.parent_user_id;
       else if (this.parent_role == "ustanovshik")
