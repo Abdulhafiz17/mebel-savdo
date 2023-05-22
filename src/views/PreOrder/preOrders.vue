@@ -150,7 +150,10 @@
                   class="btn btn-sm btn-block btn-outline-success"
                   data-toggle="modal"
                   data-target="#pre-order"
-                  @click="update_pre_order_logistika.id = item.Pre_orders.id"
+                  @click="
+                    update_pre_order_logistika.id = item.Pre_orders.id;
+                    print_order = item;
+                  "
                 >
                   <i class="fa fa-check"></i>
                 </button>
@@ -681,6 +684,7 @@ export default {
         ustanovshik_id: 0,
         delivery_money_user: "worker",
       },
+      print_order: null,
     };
   },
   computed: {
@@ -853,9 +857,30 @@ export default {
         this.ustanovshik?.id || 0;
       api.logistikaPreOrder(this.update_pre_order_logistika).then(() => {
         api.success("close-update-pre-order-modal").then(() => {
-          this.worker = null;
-          this.ustanovshik = null;
-          this.getOrders(0, 25);
+          swal({
+            icon: "info",
+            title: "Buyurtma cheki chiqarilsinmi ?",
+            buttons: {
+              confirm: {
+                visible: true,
+                text: "Ok",
+                value: true,
+              },
+              cancel: {
+                visible: true,
+                text: "Bekor qilish",
+                value: false,
+              },
+            },
+          }).then((value) => {
+            if (value) {
+              this.$refs.preOrderModal.print(this.print_order);
+            } else {
+              this.worker = null;
+              this.ustanovshik = null;
+              this.getOrders(0, 25);
+            }
+          });
         });
       });
     },

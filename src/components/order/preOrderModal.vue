@@ -95,6 +95,9 @@ export default {
       });
       this.$router.push("/return");
     },
+    print(order) {
+      this.$refs.check.start(order);
+    },
   },
 };
 </script>
