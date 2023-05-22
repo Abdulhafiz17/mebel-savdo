@@ -53,6 +53,11 @@ export default {
           title: "Mijozlar",
         },
         {
+          link: `/pre-orders`,
+          icon: "fa fa-receipt",
+          title: "Oldindan buyurtmalar",
+        },
+        {
           link: `/taminotlar`,
           icon: "fa fa-truck",
           title: "Ta'minot",
