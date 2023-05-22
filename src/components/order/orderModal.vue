@@ -74,6 +74,9 @@ export default {
       this.$refs.trades.start(order_id);
       this.showModal();
     },
+    print() {
+      this.$refs.check.start();
+    },
     showModal() {
       this.timeout = null;
       this.timeout = setTimeout(() => {

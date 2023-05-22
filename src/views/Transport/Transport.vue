@@ -471,7 +471,28 @@ export default {
             etaj: false,
             city: false,
           };
-          this.getOrders(0, 25);
+          swal({
+            icon: "info",
+            title: "Buyurtma cheki chiqarilsinmi ?",
+            buttons: {
+              confirm: {
+                visible: true,
+                text: "Ok",
+                value: true,
+              },
+              cancel: {
+                visible: true,
+                text: "Bekor qilish",
+                value: false,
+              },
+            },
+          }).then((value) => {
+            if (value) {
+              this.$refs.orderModal.print();
+            } else {
+              this.getOrders(0, 25);
+            }
+          });
         });
       });
     },
