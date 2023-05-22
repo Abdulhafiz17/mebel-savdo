@@ -709,11 +709,11 @@ export default {
       } else if (this.role == "worker") {
         worker = "true";
         worker_id = this.user_id;
-        if (this.filter.status == "logistika_user") ustanovshik_id = 1;
+        if (this.filter.status == "logistika_user") ustanovshik_id = 0;
       } else if (this.role == "ustanovshik") {
         worker = "true";
         ustanovshik_id = this.user_id;
-        if (this.filter.status == "logistika_user") worker_id = 1;
+        if (this.filter.status == "logistika_user") worker_id = 0;
       } else if (this.role == "operator") {
         worker = "true";
       }
