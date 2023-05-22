@@ -1,5 +1,5 @@
 <template>
-  <h3 v-if="!parent_user_id" @click="$refs.receipt.show = true">
+  <h3 v-if="!parent_user_id">
     <span class="fa px-1 fa-arrow-up" /><span class="fa px-1 fa-arrow-down" />
     Transfer {{ branch ? `Filial ${branch.name}` : `` }}
   </h3>
@@ -577,6 +577,12 @@ export default {
       if (this.parent_role == "worker") worker_id = this.parent_user_id;
       else if (this.parent_role == "ustanovshik")
         ustanovshik_id = this.parent_user_id;
+      if (!["worker", "ustanovshik"].includes(this.role)) {
+        if (this.filter.status == "filialga_berish_warehouseman") {
+          worker_id = 0;
+          ustanovshik_id = 0;
+        }
+      }
       api
         .transfers(
           this.filter.warehouse_id,
