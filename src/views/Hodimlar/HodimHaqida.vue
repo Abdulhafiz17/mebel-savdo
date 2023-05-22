@@ -213,10 +213,10 @@ export default {
       });
     },
     getOrders(page, limit) {
-      const seller_id = this.user.role == "seller" ? this.$route.params.id : 0;
-      const worker_id = this.user.role == "worker" ? this.$route.params.id : 0;
+      const seller_id = this.user.role == "seller" ? this.$route.params.id : 1;
+      const worker_id = this.user.role == "worker" ? this.$route.params.id : 1;
       const ustanovshik_id =
-        this.user.role == "ustanovshik" ? this.$route.params.id : 0;
+        this.user.role == "ustanovshik" ? this.$route.params.id : 1;
       api
         .orders(
           this.from_date_2,
