@@ -698,29 +698,34 @@ export default {
     getOrders(page, limit) {
       let customer_id = this.filter.customer?.id || 0;
       let seller_id = this.filter.seller?.id || 0;
+      let warehouseman_id = this.filter.warehouseman?.id || 0;
       let worker_id = this.filter.worker?.id || 0;
       let ustanovshik_id = this.filter.ustanovshik?.id || 0;
-      let warehouseman_id = this.filter.warehouseman?.id || 0;
       let worker = "";
       let status = this.filter.status;
-      if (this.role == "warehouseman") {
-        if (status == "warehouseman") warehouseman_id = this.user_id;
-        else warehouseman_id = 0;
-      } else if (this.role == "worker") {
+      if (
+        ["false", "wait", "warehouseman", "logistika"].includes(
+          this.filter.status
+        )
+      ) {
+        warehouseman_id = this.filter.warehouseman?.id || 0;
+        worker_id = this.filter.worker?.id || 0;
+        ustanovshik_id = this.filter.ustanovshik?.id || 0;
+        if (this.role == "warehouseman") warehouseman_id = this.user_id;
+        if (this.role == "worker") worker_id = this.user_id;
+        if (this.role == "ustanovshik") ustanovshik_id = this.user_id;
+        worker = "false";
+      } else if (["logistika_user", "done"].includes(this.filter.status)) {
+        warehouseman_id = this.filter.warehouseman?.id || 1;
+        worker_id = this.filter.worker?.id || 1;
+        ustanovshik_id = this.filter.ustanovshik?.id || 1;
         worker = "true";
-        worker_id = this.user_id;
-        if (this.filter.status == "logistika_user") ustanovshik_id = 0;
-      } else if (this.role == "ustanovshik") {
-        worker = "true";
-        ustanovshik_id = this.user_id;
-        if (this.filter.status == "logistika_user") worker_id = 0;
-      } else if (this.role == "operator") {
-        worker = "true";
+        if (this.role == "warehouseman") warehouseman_id = this.user_id;
+        if (this.role == "worker") worker_id = this.user_id;
+        if (this.role == "ustanovshik") ustanovshik_id = this.user_id;
       }
+      if (this.role == "operator") worker = "true";
       if (this.filter.status == "logistika_user") status = "logistika";
-      if (["logistika_user", "done"].includes(this.filter.status))
-        worker = "true";
-      else worker = "false";
       if (this.parent_role == "seller") seller_id = this.parent_user_id;
       else if (this.parent_role == "warehouseman")
         warehouseman_id = this.parent_user_id;
