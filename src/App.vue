@@ -2,6 +2,7 @@
   <div class="app dark">
     <span v-if="this.$route.name !== 'login'">
       <Sidebar v-if="['branch_admin'].includes(role)" />
+      <notification />
     </span>
     <div class="container-fluid pt-2" style="height: 100vh">
       <div
@@ -34,11 +35,12 @@
 
 <script>
 import Sidebar from "./components/sidebar/Sidebar.vue";
+import notification from "./components/notification/notification.vue";
 import swal from "sweetalert";
 import isloading from "./components/Animation/Anime.vue";
 export default {
   name: "App",
-  components: { Sidebar, isloading },
+  components: { Sidebar, isloading, notification },
   data() {
     return {
       role: localStorage.getItem("role") || "admin",

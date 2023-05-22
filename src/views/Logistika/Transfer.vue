@@ -561,8 +561,8 @@ export default {
           ? 1
           : this.filter.ustanovshik?.id || 1;
       if (this.filter.status == "filialga_berish_logistika") {
-        worker_id = this.worker?.id || 0;
-        ustanovshik_id = this.ustanovshik?.id || 0;
+        worker_id = this.worker?.id || 1;
+        ustanovshik_id = this.ustanovshik?.id || 1;
       } else if (this.filter.status == "filialga_berish_logistika_user") {
         status = "filialga_berish_logistika";
         if (!["worker", "ustanovshik"].includes(this.role)) {
@@ -570,10 +570,10 @@ export default {
           ustanovshik_id = 1;
         }
       } else status = this.filter.status;
-      if (this.role == "warehouseman") {
-        worker_id = 0;
-        ustanovshik_id = 0;
-      }
+      // if (this.role == "warehouseman") {
+      //   worker_id = 0;
+      //   ustanovshik_id = 0;
+      // }
       if (this.parent_role == "worker") worker_id = this.parent_user_id;
       else if (this.parent_role == "ustanovshik")
         ustanovshik_id = this.parent_user_id;
