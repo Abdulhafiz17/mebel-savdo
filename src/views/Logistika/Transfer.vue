@@ -439,6 +439,7 @@
 import * as api from "@/components/Api/Api";
 import Pagination from "@/components/Pagination/Pagination.vue";
 import transferReceipt from "@/components/receipt/transfer.vue";
+import swal from "sweetalert";
 export default {
   name: "Transfer",
   props: {
@@ -613,8 +614,35 @@ export default {
                 limit: 25,
                 data: [],
               };
-              this.transfers_to_send = [];
-              this.getTransfers(0, 25);
+
+              swal({
+                icon: "info",
+                title: "Transfer cheki chiqarilsinmi ?",
+                buttons: {
+                  confirm: {
+                    visible: true,
+                    text: "Ok",
+                    value: true,
+                  },
+                  cancel: {
+                    visible: true,
+                    text: "Bekor qilish",
+                    value: false,
+                  },
+                },
+              }).then((value) => {
+                if (value) {
+                  this.$refs.receipt.transfers = this.transfers;
+                  this.$refs.receipt.worker = this.worker;
+                  this.$refs.receipt.ustanovshik = this.ustanovshik;
+                  this.$refs.receipt.start();
+                } else {
+                  this.worker = null;
+                  this.ustanovshik = null;
+                  this.transfers_to_send = [];
+                  this.getTransfers(0, 25);
+                }
+              });
             });
           });
         }
