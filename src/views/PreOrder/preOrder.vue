@@ -280,7 +280,7 @@
               />
             </div>
             <div class="col-12">
-              Izoh
+              Manzil / Izoh
               <input
                 type="text"
                 class="form-control form-control-sm"

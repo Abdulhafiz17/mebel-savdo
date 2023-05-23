@@ -332,7 +332,7 @@ export default {
         {
           link: `/pre-orders`,
           icon: "fa fa-receipt",
-          title: "Oldindan buyurtmalar",
+          title: "Topshirilgan buyurtmalar",
         },
         {
           link: `/settings`,

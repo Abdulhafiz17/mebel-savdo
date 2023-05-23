@@ -1,5 +1,9 @@
 <template>
-  <h4 v-if="!parent_user_id">Oldindan buyurtmalar</h4>
+  <h4 v-if="!parent_user_id">
+    {{
+      role == "operator" ? "Topshirilgan buyurtmalar" : "Oldindan buyurtmalar"
+    }}
+  </h4>
   <div class="row">
     <div class="col text-left"></div>
     <div class="col text-right">
