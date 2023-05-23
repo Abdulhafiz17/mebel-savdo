@@ -460,41 +460,41 @@ export default {
       this.attach.order_id = this.order.id;
       this.attach.worker_id = this.worker.id;
       this.attach.ustanovshik_id = this.ustanovshik?.id || 0;
-      api.attachLogistika(this.attach).then(() => {
-        api.success("close-attach-modal").then(() => {
-          this.worker = null;
-          this.ustanovshik = null;
-          this.attach = {
-            order_id: 0,
-            worker_id: 0,
-            ustanovshik_id: 0,
-            etaj: false,
-            city: false,
-          };
-          swal({
-            icon: "info",
-            title: "Buyurtma cheki chiqarilsinmi ?",
-            buttons: {
-              confirm: {
-                visible: true,
-                text: "Ok",
-                value: true,
-              },
-              cancel: {
-                visible: true,
-                text: "Bekor qilish",
-                value: false,
-              },
-            },
-          }).then((value) => {
-            if (value) {
-              this.$refs.orderModal.print();
-            } else {
-              this.getOrders(0, 25);
-            }
-          });
-        });
+      // api.attachLogistika(this.attach).then(() => {
+      //   api.success("close-attach-modal").then(() => {
+      //     this.worker = null;
+      //     this.ustanovshik = null;
+      //     this.attach = {
+      //       order_id: 0,
+      //       worker_id: 0,
+      //       ustanovshik_id: 0,
+      //       etaj: false,
+      //       city: false,
+      //     };
+      swal({
+        icon: "info",
+        title: "Buyurtma cheki chiqarilsinmi ?",
+        buttons: {
+          confirm: {
+            visible: true,
+            text: "Ok",
+            value: true,
+          },
+          cancel: {
+            visible: true,
+            text: "Bekor qilish",
+            value: false,
+          },
+        },
+      }).then((value) => {
+        if (value) {
+          this.$refs.orderModal.print(this.order.id);
+        } else {
+          this.getOrders(0, 25);
+        }
       });
+      //   });
+      // });
     },
     putOperator(id) {
       api.operatorOrder(id, "order").then(() => {
