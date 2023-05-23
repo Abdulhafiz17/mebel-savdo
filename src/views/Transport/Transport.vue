@@ -1,5 +1,7 @@
 <template>
-  <h3>Transport</h3>
+  <h3>
+    {{ role == "operator" ? "Magazindan  ketgan buyurtmalar" : "Transport" }}
+  </h3>
   <div class="row">
     <div class="col-md-4">
       <button

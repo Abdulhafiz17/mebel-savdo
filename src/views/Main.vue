@@ -327,7 +327,7 @@ export default {
         {
           link: `/transport`,
           icon: "fa fa-truck",
-          title: "Transport",
+          title: "Magazindan  ketgan buyurtmalar",
         },
         {
           link: `/pre-orders`,
