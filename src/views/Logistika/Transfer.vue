@@ -636,12 +636,11 @@ export default {
                   this.$refs.receipt.worker = this.worker;
                   this.$refs.receipt.ustanovshik = this.ustanovshik;
                   this.$refs.receipt.start();
-                } else {
-                  this.worker = null;
-                  this.ustanovshik = null;
-                  this.transfers_to_send = [];
-                  this.getTransfers(0, 25);
                 }
+                this.worker = null;
+                this.ustanovshik = null;
+                this.transfers_to_send = [];
+                this.getTransfers(0, 25);
               });
             });
           });
