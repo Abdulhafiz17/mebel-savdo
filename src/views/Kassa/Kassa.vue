@@ -50,7 +50,13 @@
               :key="item"
               :value="item.Products.code"
             >
-              {{ item.Products.articul }}
+              {{
+                item.Products.name2 +
+                " - " +
+                item.Products.articul +
+                " - " +
+                item.Products.name
+              }}
             </option>
           </datalist>
         </div>
