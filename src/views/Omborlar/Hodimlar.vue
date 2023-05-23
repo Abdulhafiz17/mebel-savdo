@@ -483,6 +483,10 @@ export default {
           branch_id: this.$route.params.id,
           phone: null,
           status: true,
+          daily_money: null,
+          daily_limit: null,
+          daily_limit_money: null,
+          daily_money_kpi: null,
         };
         api.success(0).then(() => {
           this.get(0, 25);
