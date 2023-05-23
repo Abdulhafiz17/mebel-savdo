@@ -37,11 +37,19 @@
             <div class="mini-view">
               <div>
                 <span>Sotuvchi:</span>
-                <span>{{ order?.customer ? order?.customer : "Kassir" }}</span>
+                <span>{{ order?.seller || "" }}</span>
+              </div>
+              <div>
+                <span>Haydovchi:</span>
+                <span>{{ order?.worker || "" }}</span>
+              </div>
+              <div>
+                <span>Ustanovshik:</span>
+                <span>{{ order?.ustanovshik || "" }}</span>
               </div>
               <div>
                 <span>Mijoz:</span>
-                <span>{{ order?.customer ? order?.customer : "" }}</span>
+                <span>{{ order?.mijoz || "" }}</span>
               </div>
               <div>
                 <span>Mahsulotlar soni:</span>
@@ -57,11 +65,11 @@
             <div class="products" v-for="item in trades" :key="item">
               <div>
                 {{
-                  item.Categories.name +
+                  item.Products.name2 +
                   " - " +
                   item.Products.articul +
                   " - " +
-                  item.Products.size
+                  item.Products.name
                 }}
               </div>
               <div>{{ item.Trades.quantity }}</div>
@@ -111,6 +119,11 @@
                 <span>{{ _.format(item.Incomes.money) + " so'm" }}</span>
               </div>
               <hr />
+              <!-- <div>
+                <span> Yetkazilganda olinadigan summa: </span>
+                <span> {{ _.format(order?.delivery_money) + " so'm" }} </span>
+              </div>
+              <hr /> -->
               <div>
                 <span>Jami summa:</span>
                 <span>
@@ -163,8 +176,8 @@ export default {
   },
   created() {},
   methods: {
-    start() {
-      this.getBranch();
+    start(order_id) {
+      this.getOrder(order_id);
     },
     formatPhoneNumber(number) {
       return String(
@@ -178,21 +191,14 @@ export default {
           String(number).substr(7, 2)
       );
     },
-    getBranch() {
-      api.branch(this.branch_id).then((res) => {
-        this.logo = res.data.logo?.logo;
-        this.phone = res.data.branch.phone;
-        this.getOrder();
-      });
-    },
-    getOrder() {
-      api.order(this.id).then((res) => {
+    getOrder(order_id) {
+      api.order(order_id || this.id).then((res) => {
         this.order = res.data;
         this.getTrades();
       });
     },
     getTrades() {
-      api.trades(this.id, 0, 50).then((res) => {
+      api.trades(this.order.Orders.id || this.id, 0, 50).then((res) => {
         this.trades = res.data.data;
         let quantity = null,
           discount = null;
@@ -206,26 +212,35 @@ export default {
       });
     },
     getBalance() {
-      api.tradeBalance(this.id).then((res) => {
+      api.tradeBalance(this.order.Orders.id || this.id).then((res) => {
         this.balance = res.data;
         this.getIncomes();
       });
     },
     getIncomes() {
-      api.incomes(this.id, "order", 0, 0, 50).then((res) => {
-        this.incomes = res.data.data.sort((a, b) => {
-          let x = a.Incomes.comment,
-            y = b.Incomes.comment;
-          return x > y ? 1 : x < y ? -1 : 0;
+      api
+        .incomes(this.order.Orders.id || this.id, "order", 0, 0, 50)
+        .then((res) => {
+          this.incomes = res.data.data.sort((a, b) => {
+            let x = a.Incomes.comment,
+              y = b.Incomes.comment;
+            return x > y ? 1 : x < y ? -1 : 0;
+          });
+          this.getBranch();
         });
-        this.createQrcode();
+    },
+    getBranch() {
+      api.branch(this.order.Orders.branch_id).then((res) => {
+        this.logo = res.data.logo?.logo;
+        this.phone = res.data.branch.phone;
       });
+      this.createQrcode();
     },
     createQrcode() {
       let div = document.querySelector("#qrcode");
       div.innerHTML = "";
       new QRCode(div, {
-        text: String(this.id),
+        text: String(this.order.id || this.id),
         width: 100,
         height: 100,
         colorDark: "black",
@@ -244,6 +259,7 @@ export default {
           #order-check {
             width: 300px;
             text-align: center;
+            font-size: small;
           }
 
           @media print {
@@ -299,7 +315,7 @@ export default {
 
           .products {
             display: flex;
-            font-size: small;
+            font-size: x-small;
           }
 
           .products > div {
