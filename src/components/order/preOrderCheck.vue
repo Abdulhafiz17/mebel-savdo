@@ -37,29 +37,27 @@
             <div class="mini-view">
               <div>
                 <span>Sotuvchi:</span>
-                <span>{{ order?.seller ? order?.seller : "" }}</span>
+                <span>{{ order?.seller || "" }}</span>
               </div>
               <div>
                 <span>Omborchi:</span>
-                <span>{{
-                  order?.warehouseman ? order?.warehouseman : ""
-                }}</span>
+                <span>{{ order?.warehouseman || "" }}</span>
               </div>
               <div>
                 <span>Haydovchi:</span>
-                <span>{{ order?.worker ? order?.worker : "" }}</span>
+                <span>{{ order?.worker || "" }}</span>
               </div>
               <div>
                 <span>Ustanovshik:</span>
-                <span>{{ order?.ustanovshik ? order?.ustanovshik : "" }}</span>
+                <span>{{ order?.ustanovshik || "" }}</span>
               </div>
               <div>
                 <span>Mijoz:</span>
-                <span>{{ order?.Customers ? order?.Customers.name : "" }}</span>
+                <span>{{ order?.Customers?.name || "" }}</span>
               </div>
               <div>
                 <span>Mahsulotlar soni:</span>
-                <span>{{ trades_quantity + " dona" }}</span>
+                <span>{{ $util.currency(trades_quantity) + " dona" }}</span>
               </div>
             </div>
             <hr />
@@ -130,6 +128,13 @@
               </div>
               <hr />
               <div>
+                <span>Yetkazilganda olinadigan summa:</span>
+                <span>{{
+                  $util.currency(order?.Pre_orders.delivery_money) + " so'm"
+                }}</span>
+              </div>
+              <hr />
+              <div>
                 <span>Jami summa:</span>
                 <span>
                   {{ _.format(balance?.total_price) + " so'm" }}
@@ -182,9 +187,8 @@ export default {
   },
   created() {},
   methods: {
-    start(order) {
-      this.order = order;
-      this.getBranch();
+    start(order_id) {
+      this.getOrder(order_id);
     },
     formatPhoneNumber(number) {
       return String(
@@ -198,48 +202,53 @@ export default {
           String(number).substr(7, 2)
       );
     },
-    getBranch() {
-      api.branch(this.branch_id).then((res) => {
-        this.logo = res.data.logo?.logo;
-        this.phone = res.data.branch.phone;
-        // this.getOrder();
-        this.getTrades();
-      });
-    },
-    getOrder() {
-      api.preOrder(this.id).then((res) => {
+    getOrder(order_id) {
+      api.preOrder(order_id || this.id).then((res) => {
         this.order = res.data;
         this.getTrades();
       });
     },
     getTrades() {
-      api.preOrderTrades(this.id, 0, 100).then((res) => {
-        this.trades = res.data.data;
-        let quantity = null,
-          discount = null;
-        this.trades.forEach((item) => {
-          quantity += item.Trades_pre_order.quantity;
-          discount +=
-            item.Trades_pre_order.discount * item.Trades_pre_order.quantity;
+      api
+        .preOrderTrades(this.order.Pre_orders.id || this.id, 0, 100)
+        .then((res) => {
+          this.trades = res.data.data;
+          let quantity = null,
+            discount = null;
+          this.trades.forEach((item) => {
+            quantity += item.Trades_pre_order.quantity;
+            discount +=
+              item.Trades_pre_order.discount * item.Trades_pre_order.quantity;
+          });
+          this.trades_quantity = quantity;
+          this.trades_discount = discount;
+          this.getBalance();
         });
-        this.trades_quantity = quantity;
-        this.trades_discount = discount;
-        this.getBalance();
-      });
     },
     getBalance() {
-      api.preOrderTradeBalance(this.id).then((res) => {
-        this.balance = res.data;
-        this.getIncomes();
-      });
+      api
+        .preOrderTradeBalance(this.order.Pre_orders.id || this.id)
+        .then((res) => {
+          this.balance = res.data;
+          this.getIncomes();
+        });
     },
     getIncomes() {
-      api.incomes(this.id, "pre_order", 0, 0, 50).then((res) => {
-        this.incomes = res.data.data.sort((a, b) => {
-          let x = a.Incomes.comment,
-            y = b.Incomes.comment;
-          return x > y ? 1 : x < y ? -1 : 0;
+      api
+        .incomes(this.order.Pre_orders.id || this.id, "pre_order", 0, 0, 50)
+        .then((res) => {
+          this.incomes = res.data.data.sort((a, b) => {
+            let x = a.Incomes.comment,
+              y = b.Incomes.comment;
+            return x > y ? 1 : x < y ? -1 : 0;
+          });
+          this.getBranch();
         });
+    },
+    getBranch() {
+      api.branch(this.order.Pre_orders.branch_id).then((res) => {
+        this.logo = res.data.logo?.logo;
+        this.phone = res.data.branch.phone;
         this.createQrcode();
       });
     },

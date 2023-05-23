@@ -874,12 +874,11 @@ export default {
             },
           }).then((value) => {
             if (value) {
-              this.$refs.preOrderModal.print(this.print_order);
-            } else {
-              this.worker = null;
-              this.ustanovshik = null;
-              this.getOrders(0, 25);
+              this.$refs.preOrderModal.print(this.print_order.Pre_orders.id);
             }
+            this.worker = null;
+            this.ustanovshik = null;
+            this.getOrders(0, 25);
           });
         });
       });
