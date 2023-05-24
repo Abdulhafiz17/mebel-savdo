@@ -633,6 +633,7 @@ import Pagination from "@/components/Pagination/Pagination.vue";
 import updatePreOrderModal from "./updatePreOrderModal.vue";
 import preOrderModal from "@/components/order/preOrderModal.vue";
 import takeIncomeModal from "./takeIncomeModal.vue";
+import swal from "sweetalert";
 export default {
   name: "preOrders",
   props: {

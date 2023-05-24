@@ -412,14 +412,18 @@
       </div>
     </div>
   </div>
+
+  <preOrderCheck ref="preOrderCheck" />
 </template>
 
 <script>
 import * as api from "@/components/Api/Api";
 import trades from "./trades.vue";
+import preOrderCheck from "@/components/order/preOrderCheck.vue";
+import swal from "sweetalert";
 export default {
   name: "preOrder",
-  components: { trades },
+  components: { trades, preOrderCheck },
   data() {
     return {
       branch_id: localStorage["branch_id"],
@@ -524,7 +528,27 @@ export default {
               },
             ],
           };
-          this.getOrder();
+          swal({
+            icon: "info",
+            title: "Buyurtma cheki chiqarilsinmi ?",
+            buttons: {
+              confirm: {
+                visible: true,
+                text: "Ok",
+                value: true,
+              },
+              cancel: {
+                visible: true,
+                text: "Bekor qilish",
+                value: false,
+              },
+            },
+          }).then((value) => {
+            if (value) {
+              this.$refs.preOrderCheck.start(this.order.Pre_orders.id);
+            }
+            this.getOrder();
+          });
         });
       });
     },

@@ -348,6 +348,7 @@
 import * as api from "@/components/Api/Api.js";
 import Pagination from "@/components/Pagination/Pagination.vue";
 import orderModal from "@/components/order/orderModal.vue";
+import swal from "sweetalert";
 export default {
   name: "Transport",
   components: { Pagination, orderModal },
