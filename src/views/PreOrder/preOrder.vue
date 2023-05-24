@@ -413,7 +413,7 @@
     </div>
   </div>
 
-  <preOrderCheck ref="preOrderCheck" />
+  <preOrderCheck ref="preOrderCheck" :order-id="0" />
 </template>
 
 <script>
