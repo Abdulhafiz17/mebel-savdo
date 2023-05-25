@@ -39,11 +39,11 @@
                 <span>Sotuvchi:</span>
                 <span>{{ order?.seller || "" }}</span>
               </div>
-              <div>
+              <div v-if="$route.name !== 'kassa'">
                 <span>Haydovchi:</span>
                 <span>{{ order?.worker || "" }}</span>
               </div>
-              <div>
+              <div v-if="$route.name !== 'kassa'">
                 <span>Ustanovshik:</span>
                 <span>{{ order?.ustanovshik || "" }}</span>
               </div>
