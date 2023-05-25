@@ -103,6 +103,48 @@
         <div class="modal-body">
           <div class="row gap-1 text-left">
             <div class="col-12">
+              Ombor
+              <div class="dropdown">
+                <button
+                  id="warehouseDropdown"
+                  type="button"
+                  class="btn btn-sm btn-block btn-outline-primary dropdown-toggle"
+                  data-toggle="dropdown"
+                  @click="getWarehouses()"
+                >
+                  {{ warehouse?.name || "Ombor tanlang" }}
+                </button>
+                <div
+                  class="dropdown-menu w-100 p-1"
+                  aria-labelledby="warehouseDropdown"
+                >
+                  <ul
+                    class="list-group p-1 responsive"
+                    style="max-height: 25vh"
+                  >
+                    <li
+                      class="list-group-item p-2"
+                      v-for="item in warehouses"
+                      :key="item"
+                      @click="
+                        warehouse = item;
+                        products = {
+                          current_page: 0,
+                          pages: 1,
+                          limit: 25,
+                          data: [],
+                        };
+                        product = null;
+                      "
+                    >
+                      {{ item.name }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-12" v-if="warehouse">
+              Mahsulot
               <div class="dropdown">
                 <button
                   id="customerDropdown"
@@ -113,7 +155,7 @@
                 >
                   {{
                     product
-                      ? product.Categories.name +
+                      ? product.Warehouse_products.category.name +
                         " - " +
                         product.Warehouse_products.name2 +
                         " " +
@@ -154,7 +196,7 @@
                       @click="product = item"
                     >
                       {{
-                        item.Categories.name +
+                        item.Warehouse_products.category.name +
                         " - " +
                         item.Warehouse_products.name2 +
                         " " +
@@ -245,6 +287,8 @@ export default {
   components: { Pagination },
   data() {
     return {
+      warehouses: [],
+      warehouse: null,
       search: "",
       products: {
         current_page: 0,
@@ -289,6 +333,7 @@ export default {
       this.trade.discount = this.trade.discount || 0;
       api.tradeToPreOrder(this.trade).then(() => {
         api.success("close-trade-modal").then(() => {
+          this.warehouse = null;
           this.product = null;
           this.trade = {
             warehouse_pr_id: 0,
@@ -319,27 +364,37 @@ export default {
         });
       });
     },
-    getProducts() {
-      const search = this.search.length ? Array({ search: this.search }) : [];
-      api.allProducts(search, 0, 25, 0, 25).then((res) => {
-        this.products.current_page = res.data.current_page_w;
-        this.products.pages = res.data.pages_w;
-        this.products.limit = res.data.limit_w;
-        this.products.data = res.data.data_w;
+    getWarehouses() {
+      api.warehouses().then((res) => {
+        this.warehouses = res.data;
       });
+    },
+    getProducts() {
+      api
+        .warehouseProducts(this.warehouse.id, this.search, 0, 0, 25, false)
+        .then((res) => {
+          this.products.current_page = res.data.current_page;
+          this.products.pages = res.data.pages;
+          this.products.limit = res.data.limit;
+          this.products.data = res.data.data;
+        });
     },
     scrollProducts(event) {
       const div = event.target;
       if (div.scrollTop + div.clientHeight == div.scrollHeight) {
         if (this.products.current_page < this.products.pages - 1) {
-          const search = this.search.length
-            ? Array({ search: this.search })
-            : [];
           api
-            .allProducts(search, this.products.current_page + 1, 25, 0, 25)
+            .warehouseProducts(
+              this.warehouse.id,
+              this.search,
+              0,
+              this.products.current_page + 1,
+              25,
+              false
+            )
             .then((res) => {
-              this.products.current_page = res.data.current_page_w;
-              this.products.data = this.products.data.concat(res.data.data_w);
+              this.products.current_page = res.data.current_page;
+              this.products.data = this.products.data.concat(res.data.data);
             });
         }
       }
