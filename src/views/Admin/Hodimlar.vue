@@ -620,7 +620,8 @@ export default {
       });
     },
     get(page, limit) {
-      api.users(0, 0, [], "", page, limit).then((Response) => {
+      const delivery_balance = this.role == "admin" ? "" : "true";
+      api.users(0, 0, [], delivery_balance, page, limit).then((Response) => {
         this.hodimlar = Response.data;
       });
     },
