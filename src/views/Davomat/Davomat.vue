@@ -177,7 +177,7 @@ export default {
       } else if (this.role == "logistika") {
         roles = ["worker", "ustanovshik"];
       }
-      api.users(branch_id, warehouse_id, roles, page, limit).then((res) => {
+      api.users(branch_id, warehouse_id, roles, "", page, limit).then((res) => {
         this.users = res.data;
         if (this.users.data.length) this.getDavomat(0);
       });

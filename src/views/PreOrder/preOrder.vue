@@ -590,7 +590,7 @@ export default {
       });
     },
     getUsers() {
-      api.users(this.branch_id, 0, ["seller"], 0, 25).then((res) => {
+      api.users(this.branch_id, 0, ["seller"], "", 0, 25).then((res) => {
         this.users = res.data;
       });
     },
@@ -602,6 +602,7 @@ export default {
               this.branch_id,
               0,
               ["seller"],
+              "",
               this.users.current_page + 1,
               25
             )

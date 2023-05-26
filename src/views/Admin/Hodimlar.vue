@@ -620,7 +620,7 @@ export default {
       });
     },
     get(page, limit) {
-      api.users(0, 0, [], page, limit).then((Response) => {
+      api.users(0, 0, [], "", page, limit).then((Response) => {
         this.hodimlar = Response.data;
       });
     },

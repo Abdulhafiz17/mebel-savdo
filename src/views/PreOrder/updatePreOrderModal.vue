@@ -338,7 +338,7 @@ export default {
       }
     },
     getUsers(role) {
-      api.users(this.branch_id, 0, [role], 0, 25).then((res) => {
+      api.users(this.branch_id, 0, [role], "", 0, 25).then((res) => {
         this.users = res.data;
       });
     },
@@ -346,7 +346,14 @@ export default {
       if (this.checkEndOfScroll(event.target)) {
         if (this.users.current_page < this.users.pages - 1) {
           api
-            .users(this.branch_id, 0, [role], this.users.current_page + 1, 25)
+            .users(
+              this.branch_id,
+              0,
+              [role],
+              "",
+              this.users.current_page + 1,
+              25
+            )
             .then((res) => {
               this.users.current_page = res.data.current_page;
               this.users.data = this.users.data.concat(res.data.data);
@@ -355,7 +362,7 @@ export default {
       }
     },
     getUsers(role) {
-      api.users(this.branch_id, 0, [role], 0, 25).then((res) => {
+      api.users(this.branch_id, 0, [role], "", 0, 25).then((res) => {
         this.users = res.data;
       });
     },
@@ -364,7 +371,14 @@ export default {
       if (element.scrollTop + element.clientHeight >= element.scrollHeight) {
         if (this.users.current_page < this.users.pages) {
           api
-            .users(this.branch_id, 0, [role], this.users.current_page + 1, 25)
+            .users(
+              this.branch_id,
+              0,
+              [role],
+              "",
+              this.users.current_page + 1,
+              25
+            )
             .then((res) => {
               this.users.current_page = res.data.current_page;
               this.users.pages = res.data.pages;

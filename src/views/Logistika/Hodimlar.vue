@@ -485,7 +485,7 @@ export default {
     },
     get(page, limit) {
       api
-        .users(0, 0, ["worker", "ustanovshik"], page, limit)
+        .users(0, 0, ["worker", "ustanovshik"], "", page, limit)
         .then((Response) => {
           this.page = Response.data.current_page;
           this.pages = Response.data.pages;

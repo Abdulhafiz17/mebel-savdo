@@ -139,7 +139,17 @@ export function thisUser(id) {
 export function user() {
   return api("get_user", "get");
 }
-export function users(branch_id, warehouse_id, role = [""], page, limit) {
+export function users(
+  branch_id,
+  warehouse_id,
+  role = [""],
+  delivery_balance,
+  page,
+  limit
+) {
+  const balance_query = delivery_balance
+    ? `delivery_balance=${delivery_balance}`
+    : ``;
   let role_query = ``;
   if (role.length) {
     role.forEach((item) => {
@@ -160,7 +170,7 @@ export function users(branch_id, warehouse_id, role = [""], page, limit) {
     });
   }
   return api(
-    `get_users?branch_id=${branch_id}&warehouse_id=${warehouse_id}&${role_query}page=${page}&limit=${limit}`,
+    `get_users?branch_id=${branch_id}&warehouse_id=${warehouse_id}&${role_query}${balance_query}&page=${page}&limit=${limit}`,
     "get"
   );
 }

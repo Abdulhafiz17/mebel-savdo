@@ -177,7 +177,7 @@ export default {
     },
     getUsers() {
       api
-        .users(0, this.filter.warehouse_id, ["warehouseman"], 0, 100)
+        .users(0, this.filter.warehouse_id, ["warehouseman"], "", 0, 100)
         .then((res) => {
           this.warehousemen = res.data.data;
         });

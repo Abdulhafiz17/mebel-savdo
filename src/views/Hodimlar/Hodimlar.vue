@@ -487,13 +487,15 @@ export default {
       });
     },
     get(page, limit) {
-      api.users(this.$route.params.id, 0, [], page, limit).then((Response) => {
-        this.page = Response.data.current_page;
-        this.pages = Response.data.pages;
-        this.limit = Response.data.limit;
-        this.hodimlar = Response.data.data;
-        this.getBranch();
-      });
+      api
+        .users(this.$route.params.id, 0, [], "", page, limit)
+        .then((Response) => {
+          this.page = Response.data.current_page;
+          this.pages = Response.data.pages;
+          this.limit = Response.data.limit;
+          this.hodimlar = Response.data.data;
+          this.getBranch();
+        });
     },
     getBranch() {
       api.branch(this.$route.params.id).then((Response) => {
