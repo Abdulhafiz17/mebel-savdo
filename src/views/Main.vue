@@ -193,9 +193,19 @@ export default {
           title: "Oldindan buyurtmalar",
         },
         {
+          link: `/nasiyalar`,
+          icon: "fa fa-hand-holding-usd",
+          title: "Nasiyalar",
+        },
+        {
           link: `/expense`,
           icon: "fa fa-wallet",
           title: "Chiqim",
+        },
+        {
+          link: `/taminotchilar`,
+          icon: "fa fa-truck-loading",
+          title: "Ta'minotchilar",
         },
         {
           link: `/admin-hodimlar`,
