@@ -91,6 +91,7 @@
                 <th>Summa</th>
                 <th>Muddat</th>
                 <th>Qaytarish sanasi</th>
+                <th v-if="role !== 'branch_admin'">Filial</th>
                 <th></th>
               </tr>
             </thead>
@@ -117,6 +118,9 @@
                 </td>
                 <td>
                   {{ i.Loans.return_date }}
+                </td>
+                <td v-if="role !== 'branch_admin'">
+                  {{ i.Branches.name }}
                 </td>
                 <td>
                   <div class="btn-group btn-group-sm">
@@ -180,6 +184,7 @@
                 </th>
                 <th>Summa</th>
                 <th>Qaytarish sanasi</th>
+                <th v-if="role !== 'branch_admin'">Filial</th>
                 <th></th>
               </tr>
             </thead>
@@ -190,6 +195,7 @@
                   {{ Intl.NumberFormat().format(i.Loans.money) + " so'm" }}
                 </td>
                 <td>{{ i.Loans.return_date }}</td>
+                <td v-if="role !== 'branch_admin'">{{ i.Branches.name }}</td>
                 <td>
                   <div class="btn-group btn-group-sm">
                     <router-link
@@ -295,6 +301,7 @@ export default {
   components: { Pagination },
   data() {
     return {
+      role: localStorage["role"],
       _: Intl.NumberFormat(),
       cashiers: [],
       cashier: null,
