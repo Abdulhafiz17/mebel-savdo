@@ -58,6 +58,16 @@ export default {
           title: "Oldindan buyurtmalar",
         },
         {
+          link: `/nasiyalar`,
+          icon: "fa fa-hand-holding-usd",
+          title: "Nasiyalar",
+        },
+        {
+          link: `/expense`,
+          icon: "fa fa-wallet",
+          title: "Chiqim",
+        },
+        {
           link: `/taminotlar`,
           icon: "fa fa-truck",
           title: "Ta'minot",
@@ -97,6 +107,11 @@ export default {
           link: `/wanted-products`,
           icon: "fa fa-box",
           title: "Yetishmayotgan mahsulotlar",
+        },
+        {
+          link: `/transport`,
+          icon: "fa fa-truck",
+          title: "Transport",
         },
         {
           link: `/transfer`,
