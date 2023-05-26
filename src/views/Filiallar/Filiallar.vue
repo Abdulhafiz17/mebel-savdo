@@ -79,6 +79,16 @@
                 <i class="fa fa-phone" /> +998
                 {{ format(item.phone) }}
               </a>
+              <li class="list-group-item">
+                <i class="fa fa-coins"></i>
+                <span>
+                  <span v-for="item1 in item.balances" :key="item1">
+                    <strong>{{ $util.currency(item1.balance) }}</strong>
+                    {{ item1.currency.currency }}
+                    <br />
+                  </span>
+                </span>
+              </li>
             </ul>
             <div class="row my-1">
               <div class="col my-1" v-if="role == 'admin'">
