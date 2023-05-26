@@ -66,7 +66,10 @@
             <div class="row my-1 gap-1">
               <div
                 class="col"
-                v-if="taminotchi.balances.length && role == 'admin'"
+                v-if="
+                  taminotchi.balances.length &&
+                  (role == 'admin' || role == 'cashier')
+                "
               >
                 <button
                   class="btn btn-sm btn-block btn-outline-primary"
