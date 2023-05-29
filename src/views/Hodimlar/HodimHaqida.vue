@@ -225,6 +225,7 @@ export default {
           seller_id,
           worker_id,
           ustanovshik_id,
+          0,
           "true",
           "",
           page,

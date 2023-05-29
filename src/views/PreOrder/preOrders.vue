@@ -424,6 +424,38 @@
                 </div>
               </div>
             </div>
+            <div class="col-12">
+              Gruzchik
+              <div class="dropdown">
+                <button
+                  id="gruzchikDropdown"
+                  class="btn btn-sm btn-block btn-outline-primary dropdown-toggle"
+                  data-toggle="dropdown"
+                  @click="getUsers('gruzchik')"
+                >
+                  {{ filter.gruzchik?.name || "Gruzchik tanlang" }}
+                </button>
+                <div
+                  class="dropdown-menu w-100 p-1"
+                  aria-labelledby="gruzchikDropdown"
+                >
+                  <ul
+                    class="list-group p-1 responsive"
+                    style="max-height: 25vh"
+                    @scroll="scrollUsers($event, 'gruzchik')"
+                  >
+                    <li
+                      class="list-group-item p-2"
+                      v-for="item in users.data"
+                      :key="item"
+                      @click="filter.gruzchik = item"
+                    >
+                      {{ item.name }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
             <div
               class="col-12"
               v-if="
@@ -596,6 +628,38 @@
                 </div>
               </div>
             </div>
+            <div class="col-12" v-if="role == 'logistika'">
+              Gruzchik biriktirish
+              <div class="dropdown">
+                <button
+                  id="gruzchikDropdown"
+                  class="btn btn-sm btn-block btn-outline-primary dropdown-toggle"
+                  data-toggle="dropdown"
+                  @click="getUsers('gruzchik')"
+                >
+                  {{ gruzchik?.name || "Gruzchik tanlang" }}
+                </button>
+                <div
+                  class="dropdown-menu w-100 p-1"
+                  aria-labelledby="gruzchikDropdown"
+                >
+                  <ul
+                    class="list-group p-1 responsive"
+                    style="max-height: 25vh"
+                    @scroll="scrollUsers($event, 'gruzchik')"
+                  >
+                    <li
+                      class="list-group-item p-2"
+                      v-for="item in users.data"
+                      :key="item"
+                      @click="gruzchik = item"
+                    >
+                      {{ item.name }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="modal-footer">
@@ -673,6 +737,7 @@ export default {
         seller: null,
         worker: null,
         ustanovshik: null,
+        gruzchik: null,
         warehouseman: null,
       },
       orders: {
@@ -683,10 +748,12 @@ export default {
       },
       worker: null,
       ustanovshik: null,
+      gruzchik: null,
       update_pre_order_logistika: {
         id: 0,
         worker_id: 0,
         ustanovshik_id: 0,
+        gruzchik_id: 0,
         delivery_money_user: "worker",
       },
       print_order: null,
@@ -711,6 +778,7 @@ export default {
         seller: null,
         worker: null,
         ustanovshik: null,
+        gruzchik: null,
         warehouseman: null,
       };
     },
@@ -737,6 +805,7 @@ export default {
       let warehouseman_id = this.filter.warehouseman?.id || 0;
       let worker_id = this.filter.worker?.id || 0;
       let ustanovshik_id = this.filter.ustanovshik?.id || 0;
+      let gruzchik_id = this.filter.gruzchik?.id || 0;
       let worker = "";
       let status = this.filter.status;
       if (
@@ -778,6 +847,7 @@ export default {
           status,
           worker_id,
           ustanovshik_id,
+          gruzchik_id,
           worker,
           warehouseman_id,
           this.filter.operator_status,
@@ -867,6 +937,7 @@ export default {
       this.update_pre_order_logistika.worker_id = this.worker.id;
       this.update_pre_order_logistika.ustanovshik_id =
         this.ustanovshik?.id || 0;
+      this.update_pre_order_logistika.gruzchik_id = this.gruzchik?.id || 0;
       api.logistikaPreOrder(this.update_pre_order_logistika).then(() => {
         api.success("close-update-pre-order-modal").then(() => {
           swal({
@@ -890,6 +961,7 @@ export default {
             }
             this.worker = null;
             this.ustanovshik = null;
+            this.gruzchik = null;
             this.getOrders(0, 25);
           });
         });

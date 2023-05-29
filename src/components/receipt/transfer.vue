@@ -3,6 +3,7 @@
     <ul class="list">
       <li>Haydovchi: {{ worker?.name || "" }}</li>
       <li v-if="ustanovshik">Ustanovshik: {{ ustanovshik?.name }}</li>
+      <li v-if="gruzchik">Gruzchik: {{ gruzchik?.name }}</li>
     </ul>
     <hr />
     <ul class="list">
@@ -41,6 +42,7 @@ export default {
       transfers: [],
       worker: null,
       ustanovshik: null,
+      gruzchik: null,
     };
   },
   methods: {

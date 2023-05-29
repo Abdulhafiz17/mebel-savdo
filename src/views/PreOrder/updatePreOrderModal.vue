@@ -218,6 +218,38 @@
                 </div>
               </div>
             </div>
+            <div class="col-12" v-if="role == 'logistika'">
+              Gruzchik biriktirish
+              <div class="dropdown">
+                <button
+                  id="gruzchikDropdown"
+                  class="btn btn-sm btn-block btn-outline-primary dropdown-toggle"
+                  data-toggle="dropdown"
+                  @click="getUsers('gruzchik')"
+                >
+                  {{ gruzchik?.name || "Gruzchik tanlang" }}
+                </button>
+                <div
+                  class="dropdown-menu w-100 p-1"
+                  aria-labelledby="gruzchikDropdown"
+                >
+                  <ul
+                    class="list-group p-1 responsive"
+                    style="max-height: 25vh"
+                    @scroll="scrollUsers($event, 'gruzchik')"
+                  >
+                    <li
+                      class="list-group-item p-2"
+                      v-for="item in users.data"
+                      :key="item"
+                      @click="gruzchik = item"
+                    >
+                      {{ item.name }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="modal-footer">
@@ -272,6 +304,7 @@ export default {
       user: null,
       worker: null,
       ustanovshik: null,
+      gruzchik: null,
       order: {
         date: "",
         id: 0,
@@ -361,32 +394,32 @@ export default {
         }
       }
     },
-    getUsers(role) {
-      api.users(this.branch_id, 0, [role], "", 0, 25).then((res) => {
-        this.users = res.data;
-      });
-    },
-    scrollUsers(event, role) {
-      const element = event.target;
-      if (element.scrollTop + element.clientHeight >= element.scrollHeight) {
-        if (this.users.current_page < this.users.pages) {
-          api
-            .users(
-              this.branch_id,
-              0,
-              [role],
-              "",
-              this.users.current_page + 1,
-              25
-            )
-            .then((res) => {
-              this.users.current_page = res.data.current_page;
-              this.users.pages = res.data.pages;
-              this.users.data = this.users.data.concat(res.data.data);
-            });
-        }
-      }
-    },
+    // getUsers(role) {
+    //   api.users(this.branch_id, 0, [role], "", 0, 25).then((res) => {
+    //     this.users = res.data;
+    //   });
+    // },
+    // scrollUsers(event, role) {
+    //   const element = event.target;
+    //   if (element.scrollTop + element.clientHeight >= element.scrollHeight) {
+    //     if (this.users.current_page < this.users.pages) {
+    //       api
+    //         .users(
+    //           this.branch_id,
+    //           0,
+    //           [role],
+    //           "",
+    //           this.users.current_page + 1,
+    //           25
+    //         )
+    //         .then((res) => {
+    //           this.users.current_page = res.data.current_page;
+    //           this.users.pages = res.data.pages;
+    //           this.users.data = this.users.data.concat(res.data.data);
+    //         });
+    //     }
+    //   }
+    // },
     checkEndOfScroll(element) {
       if (element.scrollTop + element.clientHeight == element.scrollHeight)
         return true;
@@ -397,7 +430,6 @@ export default {
         item.money = item.money || 0;
       });
       this.order.incomes = this.incomes;
-      console.log(this.order);
       api.updatePreOrder(this.order).then(() => {
         api.success("close-edit-pre-order-modal").then(() => {
           this.$parent.getOrders(0, 25);

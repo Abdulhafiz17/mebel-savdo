@@ -152,6 +152,38 @@
               </select>
             </div>
             <div class="col-12">
+              Gruzchik
+              <div class="dropdown">
+                <button
+                  id="gruzchikDropdown"
+                  class="btn btn-sm btn-block btn-outline-primary dropdown-toggle"
+                  data-toggle="dropdown"
+                  @click="getUsers('gruzchik')"
+                >
+                  {{ filter.gruzchik?.name || "Gruzchik tanlang" }}
+                </button>
+                <div
+                  class="dropdown-menu w-100 p-1"
+                  aria-labelledby="gruzchikDropdown"
+                >
+                  <ul
+                    class="list-group p-1 responsive"
+                    style="max-height: 25vh"
+                    @scroll="scrollUsers($event, 'gruzchik')"
+                  >
+                    <li
+                      class="list-group-item p-2"
+                      v-for="item in users.data"
+                      :key="item"
+                      @click="filter.gruzchik = item"
+                    >
+                      {{ item.name }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
               Dan
               <input
                 type="date"
@@ -186,6 +218,7 @@
               filter = {
                 status: role == 'operator' ? 'true' : 'false',
                 operator_status: role == 'operator' ? 'false' : '',
+                gruzchik: null,
                 attached: true,
                 from_time: '',
                 to_time: '',
@@ -306,6 +339,38 @@
               </div>
             </div>
             <div class="col-12">
+              Gruzchik biriktirish
+              <div class="dropdown">
+                <button
+                  id="gruzchikDropdown"
+                  class="btn btn-sm btn-block btn-outline-primary dropdown-toggle"
+                  data-toggle="dropdown"
+                  @click="getUsers('gruzchik')"
+                >
+                  {{ gruzchik?.name || "Gruzchik tanlang" }}
+                </button>
+                <div
+                  class="dropdown-menu w-100 p-1"
+                  aria-labelledby="gruzchikDropdown"
+                >
+                  <ul
+                    class="list-group p-1 responsive"
+                    style="max-height: 25vh"
+                    @scroll="scrollUsers($event, 'gruzchik')"
+                  >
+                    <li
+                      class="list-group-item p-2"
+                      v-for="item in users.data"
+                      :key="item"
+                      @click="gruzchik = item"
+                    >
+                      {{ item.name }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
               <button
                 type="button"
                 class="btn btn-block"
@@ -366,6 +431,7 @@ export default {
       filter: {
         status: "false",
         operator_status: "",
+        gruzchik: null,
         attached: true,
         from_time: "",
         to_time: "",
@@ -379,10 +445,12 @@ export default {
       order: null,
       worker: null,
       ustanovshik: null,
+      gruzchik: null,
       attach: {
         order_id: 0,
         worker_id: 0,
         ustanovshik_id: 0,
+        gruzchik_id: 0,
         etaj: false,
         city: false,
         delivery_money_user: "",
@@ -435,6 +503,7 @@ export default {
           : this.filter.attached
           ? 1
           : 0;
+      const gruzchik_id = this.filter.gruzchik?.id || 0;
       api
         .orders(
           this.filter.from_time,
@@ -443,6 +512,7 @@ export default {
           0,
           worker_id,
           ustanovshik_id,
+          gruzchik_id,
           this.filter.status,
           this.filter.operator_status,
           page,
@@ -463,6 +533,7 @@ export default {
       this.attach.order_id = this.order.id;
       this.attach.worker_id = this.worker.id;
       this.attach.ustanovshik_id = this.ustanovshik?.id || 0;
+      this.attach.gruzchik_id = this.gruzchik?.id || 0;
       api.attachLogistika(this.attach).then(() => {
         api.success("close-attach-modal").then(() => {
           this.worker = null;
@@ -471,6 +542,7 @@ export default {
             order_id: 0,
             worker_id: 0,
             ustanovshik_id: 0,
+            gruzchik_id: 0,
             etaj: false,
             city: false,
           };

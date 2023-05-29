@@ -294,6 +294,38 @@
               </div>
             </div>
             <div class="col-12">
+              Gruzchik
+              <div class="dropdown">
+                <button
+                  id="gruzchikDropdown"
+                  class="btn btn-sm btn-block btn-outline-primary dropdown-toggle"
+                  data-toggle="dropdown"
+                  @click="getUsers('gruzchik')"
+                >
+                  {{ filter.gruzchik?.name || "Gruzchik tanlang" }}
+                </button>
+                <div
+                  class="dropdown-menu w-100 p-1"
+                  aria-labelledby="gruzchikDropdown"
+                >
+                  <ul
+                    class="list-group p-1 responsive"
+                    style="max-height: 25vh"
+                    @scroll="scrollUsers($event, 'gruzchik')"
+                  >
+                    <li
+                      class="list-group-item p-2"
+                      v-for="item in users.data"
+                      :key="item"
+                      @click="filter.gruzchik = item"
+                    >
+                      {{ item.name }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
               Dan
               <input
                 type="date"
@@ -331,6 +363,7 @@
                 to_time: '',
                 worker_id: 0,
                 ustanovshik_id: 0,
+                gruzchik: null,
               };
               getTransfers(0, 25);
             "
@@ -414,6 +447,38 @@
                 </div>
               </div>
             </div>
+            <div class="col-12">
+              Gruzchik biriktirish
+              <div class="dropdown">
+                <button
+                  id="gruzchikDropdown"
+                  class="btn btn-sm btn-block btn-outline-primary dropdown-toggle"
+                  data-toggle="dropdown"
+                  @click="getUsers('gruzchik')"
+                >
+                  {{ gruzchik?.name || "Gruzchik tanlang" }}
+                </button>
+                <div
+                  class="dropdown-menu w-100 p-1"
+                  aria-labelledby="gruzchikDropdown"
+                >
+                  <ul
+                    class="list-group p-1 responsive"
+                    style="max-height: 25vh"
+                    @scroll="scrollUsers($event, 'gruzchik')"
+                  >
+                    <li
+                      class="list-group-item p-2"
+                      v-for="item in users.data"
+                      :key="item"
+                      @click="gruzchik = item"
+                    >
+                      {{ item.name }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="modal-footer">
@@ -464,6 +529,7 @@ export default {
         to_time: "",
         worker: null,
         ustanovshik: null,
+        gruzchik: null,
       },
       transfers: {
         current_page: 0,
@@ -474,6 +540,7 @@ export default {
       users: [],
       worker: null,
       ustanovshik: null,
+      gruzchik: null,
       transfers_to_send: [],
     };
   },
@@ -561,6 +628,7 @@ export default {
           : this.role == "worker"
           ? 1
           : this.filter.ustanovshik?.id || 1;
+      let gruzchik_id = this.filter.gruzchik?.id || 0;
       if (this.filter.status == "filialga_berish_logistika_user")
         status = "filialga_berish_logistika";
       if (
@@ -591,7 +659,8 @@ export default {
           this.filter.from_time,
           this.filter.to_time,
           worker_id,
-          ustanovshik_id
+          ustanovshik_id,
+          gruzchik_id
         )
         .then((Response) => {
           this.transfers = Response.data;
@@ -604,6 +673,7 @@ export default {
           transfer_id: item.Transfers.id,
           worker_id: this.worker.id,
           ustanovshik_id: this.ustanovshik?.id || 0,
+          gruzchik_id: this.gruzchik?.id || 0,
         });
         if (index == this.transfers_to_send.length - 1) {
           api.transferProductLogistika(data).then(() => {
@@ -635,10 +705,12 @@ export default {
                   this.$refs.receipt.transfers = this.transfers;
                   this.$refs.receipt.worker = this.worker;
                   this.$refs.receipt.ustanovshik = this.ustanovshik;
+                  this.$refs.receipt.gruzchik = this.gruzchik;
                   this.$refs.receipt.start();
                 }
                 this.worker = null;
                 this.ustanovshik = null;
+                this.gruzchik = null;
                 this.transfers_to_send = [];
                 this.getTransfers(0, 25);
               });

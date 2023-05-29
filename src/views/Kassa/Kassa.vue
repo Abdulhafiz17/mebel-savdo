@@ -695,7 +695,7 @@ export default {
     },
     get(page, limit) {
       api
-        .orders("", "", false, 0, 0, 0, "", "", page, limit)
+        .orders("", "", false, 0, 0, 0, 0, "", "", page, limit)
         .then((Response) => {
           this.orders = Response.data.data;
           if (this.orders.length) {

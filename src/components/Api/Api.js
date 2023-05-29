@@ -394,12 +394,13 @@ export function transfers(
   from_time,
   to_time,
   worker_id,
-  ustanovshik_id
+  ustanovshik_id,
+  gruzchik_id
 ) {
   const time_query =
     from_time && to_time ? `from_time=${from_time}&to_time=${to_time}&` : ``;
   return api(
-    `get_transfers?warehouse_id=${warehouse_id}&status=${status}&branch_id=${branch_id}&${time_query}worker_id=${worker_id}&ustanovshik_id=${ustanovshik_id}&page=${page}&limit=${limit}`,
+    `get_transfers?warehouse_id=${warehouse_id}&status=${status}&branch_id=${branch_id}&${time_query}worker_id=${worker_id}&ustanovshik_id=${ustanovshik_id}&gruzchik_id=${gruzchik_id}&page=${page}&limit=${limit}`,
     "get"
   );
 }
@@ -542,6 +543,7 @@ export function orders(
   seller_id,
   worker_id,
   ustanovshik_id,
+  gruzchik_id,
   delivered,
   operator,
   page,
@@ -552,7 +554,7 @@ export function orders(
   const delivered_query = delivered ? `&delivered=${delivered}` : ``;
   const operator_query = operator ? `&operator_status=${operator}` : ``;
   return api(
-    `get_orders?${time_query}status=${status}&seller_id=${seller_id}&worker_id=${worker_id}&ustanovshik_id=${ustanovshik_id}${delivered_query}${operator_query}&page=${page}&limit=${limit}`,
+    `get_orders?${time_query}status=${status}&seller_id=${seller_id}&worker_id=${worker_id}&ustanovshik_id=${ustanovshik_id}&gruzchik_id=${gruzchik_id}${delivered_query}${operator_query}&page=${page}&limit=${limit}`,
     "get"
   );
 }
@@ -599,6 +601,7 @@ export function preOrders(
   status,
   worker_id,
   ustanovshik_id,
+  gruzchik_id,
   worker,
   warehouseman_id,
   operator,
@@ -611,7 +614,7 @@ export function preOrders(
   const worker_query = worker ? `&worker=${worker}` : ``;
   const operator_query = operator ? `&operator_status=${operator}` : ``;
   return api(
-    `get_pre_orders?customer_id=${customer_id}&seller_id=${seller_id}&branch_id=${branch_id}${status_query}&worker_id=${worker_id}&ustanovshik_id=${ustanovshik_id}${worker_query}&warehouseman_id=${warehouseman_id}${operator_query}&${time_query}&page=${page}&limit=${limit}`,
+    `get_pre_orders?customer_id=${customer_id}&seller_id=${seller_id}&branch_id=${branch_id}${status_query}&worker_id=${worker_id}&ustanovshik_id=${ustanovshik_id}&gruzchik_id=${gruzchik_id}${worker_query}&warehouseman_id=${warehouseman_id}${operator_query}&${time_query}&page=${page}&limit=${limit}`,
     "get"
   );
 }
