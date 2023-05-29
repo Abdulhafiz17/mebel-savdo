@@ -51,6 +51,10 @@
                 <span>Ustanovshik:</span>
                 <span>{{ order?.ustanovshik || "" }}</span>
               </div>
+              <div v-if="$route.name !== 'pre-order'">
+                <span>Gruzchik:</span>
+                <span>{{ order?.gruzchik || "" }}</span>
+              </div>
               <div>
                 <span>Mijoz:</span>
                 <span>{{ order?.Customers?.name || "" }}</span>
