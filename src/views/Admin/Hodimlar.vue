@@ -210,7 +210,7 @@
                   />
                 </label>
               </div>
-              <div class="col-md-12">
+              <div class="col-md-12" v-if="yangiHodim.role !== 'gruzchik'">
                 Kunlik ish haqqi
                 <div class="input-group input-group-sm">
                   <input
@@ -241,6 +241,9 @@
                   </option>
                   <option v-if="role == 'admin'" value="operator">
                     Operator
+                  </option>
+                  <option v-if="role == 'admin'" value="gruzchik">
+                    Gruzchik
                   </option>
                   <option value="worker">Transport</option>
                   <option value="ustanovshik">Ustanovshik</option>
@@ -626,6 +629,7 @@ export default {
       });
     },
     post(data) {
+      data.daily_money = data.daily_money || 0;
       data.daily_limit = data.daily_limit || 0;
       data.daily_limit_money = data.daily_limit_money || 0;
       data.daily_money_kpi = data.daily_money_kpi || 0;
