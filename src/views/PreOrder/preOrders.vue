@@ -130,6 +130,20 @@
               <div
                 class="col"
                 v-if="
+                  item.Pre_orders.status == 'warehouseman' &&
+                  !item.Pre_orders.logistika_phone
+                "
+              >
+                <button
+                  class="btn btn-sm btn-block btn-outline-primary"
+                  @click="updatePreOrderPhone(item.Pre_orders.id)"
+                >
+                  <i class="fa fa-phone"></i>
+                </button>
+              </div>
+              <div
+                class="col"
+                v-if="
                   ['branch_admin', 'logistika'].includes(role) &&
                   !['warehouseman', 'logistika'].includes(
                     item.Pre_orders.status
@@ -274,6 +288,13 @@
                   Logistika hodim biriktirilgan
                 </option>
                 <option value="done">Yakunlangan</option>
+              </select>
+            </div>
+            <div class="col-12" v-if="role !== 'warehouseman'">
+              Status
+              <select class="form-select" v-model="filter.logistika_phone">
+                <option value="true">logistika qo'g'iroq qilgan</option>
+                <option value="false">logistika qo'g'iroq qilmagan</option>
               </select>
             </div>
             <div class="col-12" v-if="role == 'branch_admin'">
@@ -732,6 +753,7 @@ export default {
         from_time: "",
         to_time: "",
         status: "",
+        logistika_phone: "false",
         operator_status: "",
         customer: null,
         seller: null,
@@ -774,6 +796,7 @@ export default {
         from_time: "",
         to_time: "",
         status: status,
+        logistika_phone: "false",
         customer: null,
         seller: null,
         worker: null,
@@ -808,6 +831,8 @@ export default {
       let gruzchik_id = this.filter.gruzchik?.id || 0;
       let worker = "";
       let status = this.filter.status;
+      let logistika_phone = this.filter.logistika_phone;
+      if (this.role == "warehouseman") logistika_phone = "false";
       if (
         ["false", "wait", "warehouseman", "logistika"].includes(
           this.filter.status
@@ -851,6 +876,7 @@ export default {
           worker,
           warehouseman_id,
           this.filter.operator_status,
+          logistika_phone,
           page,
           limit
         )
@@ -964,6 +990,13 @@ export default {
             this.gruzchik = null;
             this.getOrders(0, 25);
           });
+        });
+      });
+    },
+    updatePreOrderPhone(id) {
+      api.logistikPreOrderPhone(id).then(() => {
+        api.success().then(() => {
+          this.getOrders(0, 25);
         });
       });
     },

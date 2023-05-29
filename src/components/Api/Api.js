@@ -605,6 +605,7 @@ export function preOrders(
   worker,
   warehouseman_id,
   operator,
+  logistika_phone,
   page,
   limit
 ) {
@@ -613,8 +614,11 @@ export function preOrders(
   const status_query = status ? `&status=${status}` : ``;
   const worker_query = worker ? `&worker=${worker}` : ``;
   const operator_query = operator ? `&operator_status=${operator}` : ``;
+  const logistika_query = logistika_phone
+    ? `logistika_phone=${logistika_phone}`
+    : ``;
   return api(
-    `get_pre_orders?customer_id=${customer_id}&seller_id=${seller_id}&branch_id=${branch_id}${status_query}&worker_id=${worker_id}&ustanovshik_id=${ustanovshik_id}&gruzchik_id=${gruzchik_id}${worker_query}&warehouseman_id=${warehouseman_id}${operator_query}&${time_query}&page=${page}&limit=${limit}`,
+    `get_pre_orders?customer_id=${customer_id}&seller_id=${seller_id}&branch_id=${branch_id}${status_query}&worker_id=${worker_id}&ustanovshik_id=${ustanovshik_id}&gruzchik_id=${gruzchik_id}${worker_query}&warehouseman_id=${warehouseman_id}${operator_query}&${logistika_query}&${time_query}&page=${page}&limit=${limit}`,
     "get"
   );
 }
@@ -629,6 +633,9 @@ export function warehousemanPreOrder(id) {
 }
 export function logistikaPreOrder(data) {
   return api(`logistika_pre_order`, "put", data);
+}
+export function logistikPreOrderPhone(id) {
+  return api(`logistika_pre_order_phone/${id}`, "put");
 }
 export function deliveredPreOrder(id) {
   return api(`delivered_pre_order/${id}`, "put");
