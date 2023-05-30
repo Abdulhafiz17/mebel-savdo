@@ -219,12 +219,33 @@
         <div class="col-md-8 my-1 mx-auto">
           <form @submit.prevent="postPriceForBranch()">
             <div class="input-group input-group-sm">
+              <div class="input-group-text">Servis</div>
+              <input
+                class="form-control"
+                type="number"
+                min="0"
+                required
+                v-model="price_for_branch.service_price"
+              />
+              <div class="input-group-append">
+                <div class="input-group-text">so'm</div>
+              </div>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary">
+                  <i class="far fa-circle-check" />
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-8 my-1 mx-auto">
+          <form @submit.prevent="postPriceForBranch()">
+            <div class="input-group input-group-sm">
               <div class="input-group-text">Do'kon uchun</div>
               <input
                 class="form-control"
-                type="text"
-                minlength="1"
-                placeholder="nomi"
+                type="number"
+                min="0"
                 required
                 v-model="price_for_branch.price_for_branch"
               />
@@ -458,7 +479,8 @@ export default {
         city: false,
         etaj: false,
         user_id: 1,
-        price_for_branch: 1000,
+        price_for_branch: 0,
+        service_price: 0,
       },
     };
   },
