@@ -658,9 +658,9 @@ export function tradeBalance(id) {
 export function preOrderTradeBalance(id) {
   return api(`get_pre_trade_balance/${id}`, "get");
 }
-export function preOrderTrades(order_id, page, limit) {
+export function preOrderTrades(order_id, warehouse_id, page, limit) {
   return api(
-    `get_pre_order_trades/${order_id}?page=${page}&limit=${limit}`,
+    `get_pre_order_trades/${order_id}?warehouse_id=${warehouse_id}&page=${page}&limit=${limit}`,
     "get"
   );
 }

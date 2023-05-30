@@ -76,6 +76,8 @@ export default {
   components: { Pagination },
   data() {
     return {
+      role: localStorage["role"],
+      user_id: localStorage["user_id"],
       order_id: 0,
       trades: {
         current_page: 0,
@@ -119,10 +121,13 @@ export default {
       this.getTrades(0, 25);
     },
     getTrades(page, limit) {
-      api.preOrderTrades(this.order_id, page, limit).then((Response) => {
-        this.trades = Response.data;
-        // this.getReturnedProducts();
-      });
+      const warehouse_id = this.role == "warehouseman" ? this.user_id : 0;
+      api
+        .preOrderTrades(this.order_id, warehouse_id, page, limit)
+        .then((Response) => {
+          this.trades = Response.data;
+          // this.getReturnedProducts();
+        });
     },
     getReturnedProducts() {
       api.returnedProducts(this.order_id, 0, 100).then((Response) => {

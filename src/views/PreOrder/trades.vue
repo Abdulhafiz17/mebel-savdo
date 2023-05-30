@@ -317,10 +317,12 @@ export default {
   },
   methods: {
     getTrades(page, limit) {
-      api.preOrderTrades(this.order.Pre_orders.id, page, limit).then((res) => {
-        this.trades = res.data;
-        this.getBalance();
-      });
+      api
+        .preOrderTrades(this.order.Pre_orders.id, 0, page, limit)
+        .then((res) => {
+          this.trades = res.data;
+          this.getBalance();
+        });
     },
     getBalance() {
       api.preOrderTradeBalance(this.order.Pre_orders.id).then((res) => {
