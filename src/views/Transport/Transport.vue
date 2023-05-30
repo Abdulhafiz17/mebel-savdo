@@ -105,6 +105,17 @@
                   <i class="far fa-circle-check"></i>
                 </button>
               </div>
+              <div
+                class="col"
+                v-if="item.status == true && role == 'logistika'"
+              >
+                <button
+                  class="btn btn-sm btn-block btn-outline-primary"
+                  @click="$refs.ServiceModal.start(item.id, 'order')"
+                >
+                  <i class="fa fa-gear"></i>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -407,16 +418,19 @@
       </form>
     </div>
   </div>
+
+  <ServiceModal ref="ServiceModal" />
 </template>
 
 <script>
 import * as api from "@/components/Api/Api.js";
 import Pagination from "@/components/Pagination/Pagination.vue";
+import ServiceModal from "@/components/modal/serviceModal.vue";
 import orderModal from "@/components/order/orderModal.vue";
 import swal from "sweetalert";
 export default {
   name: "Transport",
-  components: { Pagination, orderModal },
+  components: { Pagination, orderModal, ServiceModal },
   data() {
     return {
       role: localStorage["role"],

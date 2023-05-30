@@ -273,6 +273,12 @@ let routes = [
     component: () => import("../views/PreOrder/preOrders.vue"),
   },
   {
+    path: "/services",
+    name: "services",
+    meta: { requiresAuth: true, title: "Servislar" },
+    component: () => import("../views/Service/services.vue"),
+  },
+  {
     path: "/cashiers",
     name: "cashiers",
     meta: { requiresAuth: true, title: "Kassalar" },

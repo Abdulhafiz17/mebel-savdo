@@ -176,6 +176,19 @@
                   <i class="fa fa-check"></i>
                 </button>
               </div>
+              <div
+                class="col"
+                v-if="item.Pre_orders.status == 'done' && role == 'logistika'"
+              >
+                <button
+                  class="btn btn-sm btn-block btn-outline-primary"
+                  @click="
+                    $refs.ServiceModal.start(item.Pre_orders.id, 'pre_order')
+                  "
+                >
+                  <i class="fa fa-gear"></i>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -710,6 +723,8 @@
     ref="takeIncomeModal"
     v-if="['branch_admin', 'cashier'].includes(role)"
   />
+
+  <ServiceModal ref="ServiceModal" />
 </template>
 
 <script>
@@ -719,6 +734,7 @@ import updatePreOrderModal from "./updatePreOrderModal.vue";
 import preOrderModal from "@/components/order/preOrderModal.vue";
 import takeIncomeModal from "./takeIncomeModal.vue";
 import swal from "sweetalert";
+import ServiceModal from "@/components/modal/serviceModal.vue";
 export default {
   name: "preOrders",
   props: {
@@ -730,6 +746,7 @@ export default {
     updatePreOrderModal,
     preOrderModal,
     takeIncomeModal,
+    ServiceModal,
   },
   data() {
     return {

@@ -686,6 +686,32 @@ export function returnProduct(id, data) {
   return api(`return_product/${id}`, "put", data);
 }
 
+// service
+
+export function services(
+  source_id,
+  source,
+  worker_id,
+  ustanovshik_id,
+  logistika_id,
+  status,
+  page,
+  limit
+) {
+  const status_query = status ? `status=${status}` : ``;
+  const source_query = source ? `source=${source}` : ``;
+  return api(
+    `get_services?source_id=${source_id}&${source_query}&ustanovshik_id=${ustanovshik_id}&worker_id=${worker_id}&logistika_id=${logistika_id}&${status_query}&page=${page}&limit=${limit}`,
+    "get"
+  );
+}
+export function createService(data) {
+  return api(`create_service`, "post", data);
+}
+export function confirmService(id) {
+  return api(`confirm_service/${id}`, "put");
+}
+
 // party
 
 export function party(id) {

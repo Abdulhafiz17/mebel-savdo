@@ -181,6 +181,11 @@ export default {
           title: "Oldindan buyurtmalar",
         },
         {
+          link: `/services`,
+          icon: "fa fa-gear",
+          title: "Servislar",
+        },
+        {
           link: `/settings`,
           icon: "fa fa-tools",
           title: "Sozlamalar",
@@ -251,6 +256,11 @@ export default {
           title: "Oldindan buyurtmalar",
         },
         {
+          link: `/services`,
+          icon: "fa fa-gear",
+          title: "Servislar",
+        },
+        {
           link: `/settings`,
           icon: "fa fa-tools",
           title: "Sozlamalar",
@@ -277,6 +287,11 @@ export default {
           link: `/pre-orders`,
           icon: "fa fa-receipt",
           title: "Oldindan buyurtmalar",
+        },
+        {
+          link: `/services`,
+          icon: "fa fa-gear",
+          title: "Servislar",
         },
         {
           link: `/kpi?user_id=${localStorage["user_id"]}`,
