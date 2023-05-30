@@ -422,6 +422,40 @@ export function acceptTransfer(data) {
 export function acceptTransferLogistika(data) {
   return api(`acceptance_product_logistika`, "put", data);
 }
+export function transfersWarehouse2(
+  warehouse_id,
+  status,
+  branch_id,
+  from_time,
+  to_time,
+  worker_id,
+  ustanovshik_id,
+  gruzchik_id,
+  page,
+  limit
+) {
+  const status_query = status ? `status=${status}` : ``;
+  const time_query =
+    from_time && to_time ? `from_time=${from_time}&to_time=${to_time}` : ``;
+  return api(
+    `get_transfers_warehouse_2?warehouse_id=${warehouse_id}&${status_query}&branch_id=${branch_id}&${time_query}&worker_id=${worker_id}&ustanovshik_id=${ustanovshik_id}&gruzchik_id=${gruzchik_id}&page=${page}&limit=${limit}`
+  );
+}
+export function transferProduct2(data) {
+  return api(`transfer_product_2`, "post", data);
+}
+export function removeTransfer2(id) {
+  return api(`remove_transfer_2/${id}`, "delete");
+}
+export function transferProductLogistika2(data) {
+  return api(`transfer_product_logistika_2`, "put", data);
+}
+export function acceptanceProductLogistika2(data) {
+  return api(`acceptance_product_logistika_2`, "put", data);
+}
+export function transferProductWarehouseman2(data) {
+  return api(`transfer_product_warehouseman_2`, "put", data);
+}
 
 // currency
 
