@@ -8,7 +8,10 @@
           class="form-control"
           placeholder="qidiruv"
           v-model="search"
-          @input="getProducts(0, 25)"
+          @input="
+            getProducts(0, 25);
+            getProducts2(0, 25);
+          "
         />
         <div class="input-group-text">
           <i class="fa fa-search"></i>
