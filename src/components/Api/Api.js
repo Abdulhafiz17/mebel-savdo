@@ -348,7 +348,14 @@ export function allProducts(
 export function warningWarehouseProducts(search, page, limit) {
   const search_query = search ? `search=${search}` : ``;
   return api(
-    `get_warning_warehouse_products?${search_query}$page=${page}&limit=${limit}`,
+    `get_warning_warehouse_products?${search_query}&page=${page}&limit=${limit}`,
+    "get"
+  );
+}
+export function warningOrderWarehouseProducts(search, page, limit) {
+  const search_query = search ? `search=${search}` : ``;
+  return api(
+    `get_warning_order_warehouse_products?${search_query}&page=${page}&limit=${limit}`,
     "get"
   );
 }

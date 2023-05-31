@@ -20,41 +20,127 @@
   </div>
   <hr />
 
-  <div class="table-responsive" style="max-height: 80vh">
-    <table class="table table-sm table-hover">
-      <thead>
-        <tr>
-          <th>Kategoriya</th>
-          <th>Kodi</th>
-          <th>Artikul</th>
-          <th>Nomi</th>
-          <th>Minimal miqdor</th>
-          <th>Miqdor</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in products.data" :key="item">
-          <td>{{ item.category.name }}</td>
-          <td>{{ item.name2 }}</td>
-          <td>{{ item.articul }}</td>
-          <td>{{ item.name }}</td>
-          <td>{{ item.warning_quantity + " dona" }}</td>
-          <td>{{ item.quantity + " dona" }}</td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="6">
-            <Pagination
-              :page="products.current_page"
-              :pages="products.pages"
-              :limit="products.limit"
-              @get="getProducts"
-            />
-          </td>
-        </tr>
-      </tfoot>
-    </table>
+  <ul class="nav nav-pills nav-justified mb-3" id="pills-tab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link active"
+        id="false-tab"
+        data-bs-toggle="pill"
+        data-bs-target="#false"
+        type="button"
+        role="tab"
+        aria-controls="false"
+        aria-selected="true"
+      >
+        Yetishmayotgan mahsulotlar
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link"
+        id="true-tab"
+        data-bs-toggle="pill"
+        data-bs-target="#true"
+        type="button"
+        role="tab"
+        aria-controls="true"
+        aria-selected="false"
+      >
+        Buyurtmadan yetishmayotgan mahsulotlar
+      </button>
+    </li>
+  </ul>
+  <div class="tab-content" id="pills-tabContent">
+    <div
+      class="tab-pane fade show active"
+      id="false"
+      role="tabpanel"
+      aria-labelledby="false-tab"
+    >
+      <div class="table-responsive" style="max-height: 74vh">
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th>Kategoriya</th>
+              <th>Kodi</th>
+              <th>Artikul</th>
+              <th>Nomi</th>
+              <th>Minimal miqdor</th>
+              <th>Miqdor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in products.data" :key="item">
+              <td>{{ item.category.name }}</td>
+              <td>{{ item.name2 }}</td>
+              <td>{{ item.articul }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.warning_quantity + " dona" }}</td>
+              <td>{{ item.quantity + " dona" }}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="6">
+                <Pagination
+                  :page="products.current_page"
+                  :pages="products.pages"
+                  :limit="products.limit"
+                  @get="getProducts"
+                />
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+    <div
+      class="tab-pane fade"
+      id="true"
+      role="tabpanel"
+      aria-labelledby="true-tab"
+    >
+      <div class="table-responsive" style="max-height: 74vh">
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th>Kategoriya</th>
+              <th>Kodi</th>
+              <th>Artikul</th>
+              <th>Nomi</th>
+              <th>Buyurtma id</th>
+              <th>Yetishmayotgan miqdor</th>
+              <th>Miqdor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in products2" :key="item">
+              <td>{{ item.warehouse_product_data.category.name }}</td>
+              <td>{{ item.warehouse_product_data.name2 }}</td>
+              <td>{{ item.warehouse_product_data.articul }}</td>
+              <td>{{ item.warehouse_product_data.name }}</td>
+              <td>{{ item.pre_order_id }}</td>
+              <td>
+                {{ item.trade_quantity + " dona" }}
+              </td>
+              <td>{{ item.warehouse_product_data.quantity + " dona" }}</td>
+            </tr>
+          </tbody>
+          <!-- <tfoot>
+            <tr>
+              <td colspan="6">
+                <Pagination
+                  :page="products2.current_page"
+                  :pages="products2.pages"
+                  :limit="products2.limit"
+                  @get="getProducts2"
+                />
+              </td>
+            </tr>
+          </tfoot> -->
+        </table>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -67,7 +153,14 @@ export default {
   data() {
     return {
       search: "",
-      products: {
+      products: [],
+      // {
+      //   current_page: 0,
+      //   pages: 1,
+      //   limit: 25,
+      //   data: [],
+      // },
+      products2: {
         current_page: 0,
         pages: 1,
         limit: 25,
@@ -77,12 +170,20 @@ export default {
   },
   created() {
     this.getProducts(0, 25);
+    this.getProducts2(0, 25);
   },
   methods: {
     getProducts(page, limit) {
       api.warningWarehouseProducts(this.search, page, limit).then((res) => {
         this.products = res.data;
       });
+    },
+    getProducts2(page, limit) {
+      api
+        .warningOrderWarehouseProducts(this.search, page, limit)
+        .then((res) => {
+          this.products2 = res.data;
+        });
     },
   },
 };

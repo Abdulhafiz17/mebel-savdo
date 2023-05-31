@@ -120,6 +120,12 @@ export default {
           title: "Transfer",
         },
         {
+          link: `/branch-transfer`,
+          icon: "fa fa-arrow-up",
+          icon_2: "fa fa-arrow-down",
+          title: "Filial transfer",
+        },
+        {
           link: `/settings`,
           icon: "fa fa-tools",
           title: "Sozlamalar",
