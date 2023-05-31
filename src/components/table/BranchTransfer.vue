@@ -74,7 +74,15 @@
             <div class="btn-group btn-group-sm">
               <button
                 v-if="
-                  ['logistika', 'ustanovshik', 'warehouseman'].includes(role)
+                  (role == 'logistika' &&
+                    item.Transfers.status == 'omborga_berish_logistika_2' &&
+                    !item.Transfer.worker_id &&
+                    !item.Transfer.ustanovshik_id &&
+                    !item.Transfer.gruzchik_id) ||
+                  (role == 'ustanovshik' &&
+                    item.Transfers.status == 'omborga_berish_logistika_2') ||
+                  (role == 'warehouseman' &&
+                    item.Transfers.status == 'omborga_berish_warehouseman_2')
                 "
                 class="btn btn-sm btn-outline-success"
                 @click="check()"
@@ -377,6 +385,7 @@ export default {
       let gruzchik_id = this.filter.gruzchik?.id || 0;
       let status = this.filter.status;
       if (this.filter.status == "omborga_berish_logistika_user_2") {
+        status == "omborga_berish_logistika_2";
         if (this.role == "logistika") {
           worker_id = 1;
           ustanovshik_id = 1;
