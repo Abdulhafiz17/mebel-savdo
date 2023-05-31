@@ -150,6 +150,14 @@
                       >
                         <i class="fa fa-barcode" />
                       </button>
+                      <button
+                        class="btn btn-outline-primary"
+                        @click="
+                          $refs.TransferProductsModal.start(item2.Products.code)
+                        "
+                      >
+                        <i class="fa fa-truck" />
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -184,7 +192,7 @@
         </div>
         <form @submit.prevent="put(editProduct)">
           <div class="modal-body" v-if="editProduct">
-            <div class="row my-1">
+            <!-- <div class="row my-1">
               <label class="col-md-6">
                 <input type="radio" v-model="edit_type" value="0" />
                 Faqat ushbu o'lcham uchun
@@ -197,7 +205,7 @@
                 />
                 Barcha o'lchamlar uchun
               </label>
-            </div>
+            </div> -->
             <div class="row">
               <div class="col-md-12 mb-1">
                 <div class="input-group input-group-sm">
@@ -453,15 +461,18 @@
       </div>
     </div>
   </div>
+
+  <TransferProductsModal ref="TransferProductsModal" @end="get(0, 25)" />
 </template>
 
 <script>
 import * as api from "@/components/Api/Api";
 import Pagination from "@/components/Pagination/Pagination.vue";
 import JsBarcode from "jsbarcode";
+import TransferProductsModal from "@/components/modal/TransferProductsModal.vue";
 export default {
   name: "Categories",
-  components: { Pagination },
+  components: { Pagination, TransferProductsModal },
   data() {
     return {
       image: api.url_to_files,
