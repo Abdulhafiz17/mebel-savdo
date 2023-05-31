@@ -471,9 +471,10 @@ export function updateCurrency(data) {
 
 // category
 
-export function categories(id, page, limit) {
+export function categories(id, page, limit, search) {
+  const search_query = search ? `search=${search}` : ``;
   return api(
-    `get_categories?category_id=${id}&page=${page}&limit=${limit}`,
+    `get_categories?category_id=${id}&${search_query}&page=${page}&limit=${limit}`,
     "get"
   );
 }

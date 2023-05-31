@@ -114,6 +114,15 @@ export default {
 
         <router-link
           class="SidebarLink"
+          :to="`/branch-transfer`"
+          v-if="role === 'branch_admin'"
+        >
+          <i class="icon"><span class="fa fa-truck" /></i>
+          <p>Transfer</p>
+        </router-link>
+
+        <router-link
+          class="SidebarLink"
           :to="`/taminot/${branch_id}`"
           v-if="role === 'branch_admin'"
         >

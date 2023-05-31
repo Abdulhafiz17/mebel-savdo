@@ -34,6 +34,12 @@ let routes = [
     component: () => import("../views/Logistika/Transfer.vue"),
   },
   {
+    path: "/branch-transfer",
+    name: "branch-transfer",
+    meta: { requiresAuth: true, title: "Transfer" },
+    component: () => import("../components/table/BranchTransfer.vue"),
+  },
+  {
     path: "/main",
     name: "main",
     meta: { requiresAuth: true, title: "Asosiy" },
