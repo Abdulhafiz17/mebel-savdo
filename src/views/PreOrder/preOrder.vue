@@ -159,6 +159,29 @@
               </div>
             </div>
             <div class="col-12">
+              Nasiya
+              <div class="input-group input-group-sm">
+                <input
+                  type="number"
+                  class="form-control"
+                  step="any"
+                  min="0"
+                  placeholder="summa"
+                  v-model="update_order.loan"
+                />
+                <div class="input-group-text">so'm</div>
+              </div>
+            </div>
+            <div class="col-12" v-if="update_order.loan">
+              Nasiya qaytarish sana
+              <input
+                type="date"
+                class="form-control form-control-sm"
+                required
+                v-model="update_order.loan_repayment_date"
+              />
+            </div>
+            <div class="col-12">
               Chegirma
               <div class="input-group input-group-sm">
                 <input
@@ -466,6 +489,8 @@ export default {
         delivery_money: null,
         etaj: false,
         city: false,
+        loan: null,
+        loan_repayment_date: "",
         incomes: [
           {
             money: null,
@@ -482,7 +507,23 @@ export default {
   methods: {
     getOrder() {
       api
-        .preOrders("", "", 0, 0, this.branch_id, "false", 0, 0, "", 0, "", 0, 1)
+        .preOrders(
+          "",
+          "",
+          0,
+          0,
+          this.branch_id,
+          "false",
+          0,
+          0,
+          0,
+          "",
+          0,
+          "",
+          "",
+          0,
+          1
+        )
         .then((res) => {
           if (res.data.data.length) {
             this.order = res.data.data[0];
@@ -505,8 +546,11 @@ export default {
       this.update_order.seller_id = this.user.id;
       this.update_order.discount = this.update_order.discount || 0;
       this.update_order.delivery_money = this.update_order.delivery_money || 0;
+      this.update_order.loan_repayment_date =
+        this.update_order.loan_repayment_date || null;
       api.updatePreOrder(this.update_order).then(() => {
         api.success("close-update-order-modal").then(() => {
+          this.order = null;
           this.customer = null;
           this.user = null;
           this.cashier_id = 0;
@@ -520,6 +564,8 @@ export default {
             delivery_money: null,
             etaj: false,
             city: false,
+            loan: null,
+            loan_repayment_date: "",
             incomes: [
               {
                 money: null,
