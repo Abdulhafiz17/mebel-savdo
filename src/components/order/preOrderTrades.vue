@@ -78,6 +78,7 @@ export default {
     return {
       role: localStorage["role"],
       user_id: localStorage["user_id"],
+      branch_id: localStorage["branch_id"],
       order_id: 0,
       trades: {
         current_page: 0,
@@ -121,7 +122,7 @@ export default {
       this.getTrades(0, 25);
     },
     getTrades(page, limit) {
-      const warehouse_id = this.role == "warehouseman" ? this.user_id : 0;
+      const warehouse_id = this.role == "warehouseman" ? this.branch_id : 0;
       api
         .preOrderTrades(this.order_id, warehouse_id, page, limit)
         .then((Response) => {
