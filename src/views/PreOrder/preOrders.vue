@@ -254,7 +254,12 @@
                 <option
                   value="wait"
                   v-if="
-                    ['branch_admin', 'warehouseman', 'cashier'].includes(role)
+                    [
+                      'branch_admin',
+                      'warehouseman',
+                      'logistika',
+                      'cashier',
+                    ].includes(role)
                   "
                 >
                   Kutish
@@ -849,7 +854,7 @@ export default {
       let worker = "";
       let status = this.filter.status;
       let logistika_phone = this.filter.logistika_phone;
-      if (this.role == "warehouseman") logistika_phone = "false";
+      if (this.role == "warehouseman") logistika_phone = "true";
       if (
         ["false", "wait", "warehouseman", "logistika"].includes(
           this.filter.status
