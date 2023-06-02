@@ -30,6 +30,7 @@
             <button
               v-if="returnable"
               class="btn btn-outline-info mx-1"
+              data-dismiss="modal"
               @click="routerToReturn()"
             >
               <i class="fa fa-undo" />
@@ -85,10 +86,10 @@ export default {
     },
     routerToReturn() {
       localStorage.setItem("order_id_for_return", this.order_id);
-      const buttons = document.querySelectorAll(`[data-dismiss="modal"]`);
-      buttons.forEach((item) => {
-        item.click();
-      });
+      // const buttons = document.querySelectorAll(`[data-dismiss="modal"]`);
+      // buttons.forEach((item) => {
+      //   item.click();
+      // });
       this.$router.push("/return");
     },
   },
