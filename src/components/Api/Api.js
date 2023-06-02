@@ -990,6 +990,14 @@ export function tradeSumStatistics(from_time, to_time, branch_id) {
     "get"
   );
 }
+export function tradesForExcel(from_time, to_time, branch_id_admin) {
+  const time_query =
+    from_time && to_time ? `from_time=${from_time}&to_time=${to_time}` : ``;
+  return api(
+    `get_trades_for_excel?${time_query}&branch_id_admin=${branch_id_admin}`,
+    "get"
+  );
+}
 
 // kassa
 

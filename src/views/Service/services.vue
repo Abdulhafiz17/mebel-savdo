@@ -31,7 +31,7 @@
             <ul class="list">
               <li>
                 <strong>ID </strong>
-                <span>{{ item.id }}</span>
+                <span>{{ item.source_id }}</span>
               </li>
               <li>
                 <i class="fa fa-calendar-alt"></i>
