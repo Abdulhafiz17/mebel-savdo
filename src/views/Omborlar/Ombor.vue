@@ -1252,6 +1252,7 @@ export default {
           this.from_date,
           this.to_date,
           0,
+          0,
           0
         )
         .then((Response) => {
@@ -1271,6 +1272,7 @@ export default {
           this.branch_id,
           this.from_date,
           this.to_date,
+          0,
           0,
           0
         )

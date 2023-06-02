@@ -18,6 +18,7 @@
         class="btn btn-sm btn-block btn-outline-success"
         data-toggle="modal"
         data-target="#yangiMijoz"
+        v-if="role !== 'admin'"
       >
         Yangi mijoz
       </button>

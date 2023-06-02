@@ -2,7 +2,11 @@
   <h3><span class="fa fa-truck" /> Ta'minotlar</h3>
   <div class="row">
     <div class="col-md-4">
-      <button class="btn btn-sm btn-outline-secondary" @click="post()">
+      <button
+        class="btn btn-sm btn-outline-secondary"
+        @click="post()"
+        v-if="role !== 'admin'"
+      >
         <i class="fa fa-circle-plus" /> Ta'minot qo'shish
       </button>
     </div>
