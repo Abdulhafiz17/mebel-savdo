@@ -79,7 +79,7 @@
                 <i class="fa fa-phone" /> +998
                 {{ format(item.phone) }}
               </a>
-              <li class="list-group-item">
+              <!-- <li class="list-group-item">
                 <i class="fa fa-coins"></i>
                 <span>
                   <span v-for="item1 in item.balances" :key="item1">
@@ -87,6 +87,24 @@
                     {{ item1.currency.currency }}
                     <br />
                   </span>
+                </span>
+              </li> -->
+              <li
+                class="list-group-item"
+                v-if="branch_cashiers(item.id).length"
+              >
+                <i class="fa fa-cash-register"></i>
+                Kassalar
+              </li>
+              <li
+                class="list-group-item"
+                v-for="item1 in branch_cashiers(item.id)"
+                :key="item1"
+              >
+                <span>{{ item1.name }}</span>
+                <span>
+                  <strong>{{ $util.currency(item1.balance) }}</strong>
+                  {{ item1.currency.currency }}
                 </span>
               </li>
             </ul>
@@ -488,6 +506,7 @@ export default {
       currencies: [],
       logos: [],
       branches: [],
+      cashiers: [],
       editFilial: {},
       filial_currency: null,
       yangiFilial: {
@@ -516,8 +535,12 @@ export default {
     this.get();
     this.getLocation();
   },
-  mounted() {},
   methods: {
+    branch_cashiers(branch_id) {
+      return this.cashiers.filter((item) => {
+        return item.branch_id == branch_id;
+      });
+    },
     format(number) {
       return String(
         "(" +
@@ -534,6 +557,7 @@ export default {
       api.branches().then((Response) => {
         this.branches = Response.data.branch;
         this.logos = Response.data.logos;
+        this.cashiers = Response.data.kassalar;
       });
     },
     post(data) {
