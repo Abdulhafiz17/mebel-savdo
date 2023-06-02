@@ -264,7 +264,7 @@
             </tbody>
             <tfoot>
               <tr>
-                <td colspan="6">
+                <td colspan="9">
                   <Pagination
                     :page="page"
                     :pages="pages"
