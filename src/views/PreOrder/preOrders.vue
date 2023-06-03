@@ -130,7 +130,8 @@
               <div
                 class="col"
                 v-if="
-                  item.Pre_orders.status == 'warehouseman' &&
+                  role == 'logistika' &&
+                  item.Pre_orders.status == 'wait' &&
                   !item.Pre_orders.logistika_phone
                 "
               >
@@ -809,8 +810,7 @@ export default {
     },
     default_filter() {
       let status = "";
-      if (this.role == "warehouseman") status = "wait";
-      else if (this.role == "logistika") status = "warehouseman";
+      if (["warehouseman", "logistika"].includes(this.role)) status = "wait";
       else if (this.role == "worker" || this.role == "ustanovshik")
         status = "logistika";
       else status = "done";
