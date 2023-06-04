@@ -59,7 +59,7 @@
           <th>Filial</th>
           <th>Status</th>
           <th>Sana</th>
-          <th v-if="role !== 'worker' && role !== 'ustanovshik'">Narx</th>
+          <th v-if="show_price">Narx</th>
           <th>
             <button
               class="btn btn-sm btn-outline-info"
@@ -101,7 +101,7 @@
           <td>
             {{ item.Transfers.time.replace("T", " ").substring(0, 10) }}
           </td>
-          <td v-if="role !== 'worker' && role !== 'ustanovshik'">
+          <td v-if="show_price">
             {{
               _.format(item.Transfers.transfer_price) +
               " " +
@@ -550,6 +550,19 @@ export default {
     },
     parent_role() {
       return this.$props.parentRole;
+    },
+    show_price() {
+      if (
+        [
+          "logistika",
+          "worker",
+          "ustanovshik",
+          "gruzchik",
+          "warehouseman",
+        ].includes(this.role)
+      )
+        return false;
+      else return true;
     },
   },
   created() {
