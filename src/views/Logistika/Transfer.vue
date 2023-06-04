@@ -686,7 +686,6 @@ export default {
                 limit: 25,
                 data: [],
               };
-
               swal({
                 icon: "info",
                 title: "Transfer cheki chiqarilsinmi ?",
@@ -704,7 +703,7 @@ export default {
                 },
               }).then((value) => {
                 if (value) {
-                  this.$refs.receipt.transfers = this.transfers;
+                  this.$refs.receipt.transfers = this.transfers_to_send;
                   this.$refs.receipt.worker = this.worker;
                   this.$refs.receipt.ustanovshik = this.ustanovshik;
                   this.$refs.receipt.gruzchik = this.gruzchik;
