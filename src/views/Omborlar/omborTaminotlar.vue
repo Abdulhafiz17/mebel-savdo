@@ -5,7 +5,7 @@
       <button
         class="btn btn-sm btn-outline-secondary"
         @click="post()"
-        v-if="role !== 'admin'"
+        v-if="role !== 'admin' && false"
       >
         <i class="fa fa-circle-plus" /> Ta'minot qo'shish
       </button>
