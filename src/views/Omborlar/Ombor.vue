@@ -115,7 +115,7 @@
           Filialga mahsulot yuborish
         </button>
       </li>
-      <li class="nav-item" role="presentation">
+      <li class="nav-item" role="presentation" v-if="false">
         <button
           class="nav-link"
           id="pills-products-tab"
