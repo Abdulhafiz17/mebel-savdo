@@ -133,7 +133,7 @@
                   <i class="fa fa-cash-register" />
                 </router-link>
               </div>
-              <div class="col my-1" v-if="role !== 'admin'">
+              <div class="col my-1" v-if="false">
                 <router-link
                   :to="`/nasiyalar?branch_id=${item.id}`"
                   class="btn btn-sm btn-block btn-outline-primary"
