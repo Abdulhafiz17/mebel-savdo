@@ -616,6 +616,7 @@ export default {
     },
     getTransfers(page, limit) {
       let status = this.filter.status;
+      let warehouse_id = this.filter.warehouse_id;
       let worker_id =
         this.role == "worker"
           ? this.user_id
@@ -646,12 +647,13 @@ export default {
         if (this.role == "worker") worker_id = this.user_id;
         if (this.role == "ustanovshik") ustanovshik_id = this.user_id;
       }
+      if (this.role == "warehouseman") warehouse_id = localStorage["branch_id"];
       if (this.parent_role == "worker") worker_id = this.parent_user_id;
       else if (this.parent_role == "ustanovshik")
         ustanovshik_id = this.parent_user_id;
       api
         .transfers(
-          this.filter.warehouse_id,
+          warehouse_id,
           status,
           page,
           limit,
