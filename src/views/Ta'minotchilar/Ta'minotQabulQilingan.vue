@@ -133,7 +133,8 @@ export default {
           this.from_time,
           this.to_time,
           1,
-          1
+          1,
+          0
         )
         .then((Response) => {
           this.transfers = Response.data;
