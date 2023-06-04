@@ -165,11 +165,11 @@
                     <th>Nomi</th>
                     <th>Minimal qoldiq</th>
                     <th>Miqdor</th>
-                    <th>Kpi</th>
-                    <th>Kpi savdo</th>
-                    <th>Narx</th>
-                    <th>Tan narx</th>
-                    <th>Summa</th>
+                    <th v-if="role !== 'warehouseman'">Kpi</th>
+                    <th v-if="role !== 'warehouseman'">Kpi savdo</th>
+                    <th v-if="role !== 'warehouseman'">Narx</th>
+                    <th v-if="role !== 'warehouseman'">Tan narx</th>
+                    <th v-if="role !== 'warehouseman'">Summa</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -186,14 +186,14 @@
                     </td>
                     <td>{{ item.Warehouse_products.warning_quantity }} dona</td>
                     <td>{{ item.Warehouse_products.quantity }} dona</td>
-                    <td>
+                    <td v-if="role !== 'warehouseman'">
                       {{ $util.currency(item.Warehouse_products.kpi) }} so'm
                     </td>
-                    <td>
+                    <td v-if="role !== 'warehouseman'">
                       {{ $util.currency(item.Warehouse_products.kpi_trade) }}
                       so'm
                     </td>
-                    <td>
+                    <td v-if="role !== 'warehouseman'">
                       {{
                         Intl.NumberFormat().format(
                           item.Warehouse_products.price
@@ -201,7 +201,7 @@
                       }}
                       {{ item.Warehouse_products.currency.currency }}
                     </td>
-                    <td>
+                    <td v-if="role !== 'warehouseman'">
                       {{
                         Intl.NumberFormat().format(
                           item.Warehouse_products.tan_narx
@@ -209,7 +209,7 @@
                       }}
                       {{ item.currency }}
                     </td>
-                    <td>
+                    <td v-if="role !== 'warehouseman'">
                       {{
                         Intl.NumberFormat().format(
                           item.Warehouse_products.tan_narx *
@@ -1037,9 +1037,9 @@
             <table class="table table-sm table-hover">
               <thead>
                 <tr>
-                  <th>Narx</th>
-                  <th>Chiqim ustamasi</th>
-                  <th>Tan narx</th>
+                  <th v-if="role !== 'warehouseman'">Narx</th>
+                  <th v-if="role !== 'warehouseman'">Chiqim ustamasi</th>
+                  <th v-if="role !== 'warehouseman'">Tan narx</th>
                   <th>Miqdor</th>
                   <th>Taminotchi</th>
                   <th>Sana</th>
@@ -1047,21 +1047,21 @@
               </thead>
               <tbody>
                 <tr v-for="item in product_history" :key="item">
-                  <td>
+                  <td v-if="role !== 'warehouseman'">
                     {{
                       Intl.NumberFormat().format(item.price) +
                       " " +
                       item.currency.currency
                     }}
                   </td>
-                  <td>
+                  <td v-if="role !== 'warehouseman'">
                     {{
                       Intl.NumberFormat().format(item.added_expense_price) +
                       " " +
                       product.currency
                     }}
                   </td>
-                  <td>
+                  <td v-if="role !== 'warehouseman'">
                     {{
                       Intl.NumberFormat().format(
                         product.Warehouse_products.tan_narx
