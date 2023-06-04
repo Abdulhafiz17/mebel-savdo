@@ -309,7 +309,7 @@
                 <option value="done">Yakunlangan</option>
               </select>
             </div>
-            <div class="col-12" v-if="role !== 'warehouseman'">
+            <div class="col-12" v-if="role !== 'logistika'">
               Status
               <select class="form-select" v-model="filter.logistika_phone">
                 <option value="true">logistika qo'g'iroq qilgan</option>
@@ -854,7 +854,7 @@ export default {
       let worker = "";
       let status = this.filter.status;
       let logistika_phone = this.filter.logistika_phone;
-      if (this.role == "warehouseman") logistika_phone = "true";
+      if (this.role !== "logistika") logistika_phone = "true";
       if (
         ["false", "wait", "warehouseman", "logistika"].includes(
           this.filter.status
