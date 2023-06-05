@@ -448,7 +448,8 @@ export function transfersWarehouse2(
   const time_query =
     from_time && to_time ? `from_time=${from_time}&to_time=${to_time}` : ``;
   return api(
-    `get_transfers_warehouse_2?warehouse_id=${warehouse_id}&${status_query}&branch_id=${branch_id}&${time_query}&worker_id=${worker_id}&ustanovshik_id=${ustanovshik_id}&gruzchik_id=${gruzchik_id}&page=${page}&limit=${limit}`
+    `get_transfers_warehouse_2?warehouse_id=${warehouse_id}&${status_query}&branch_id=${branch_id}&${time_query}&worker_id=${worker_id}&ustanovshik_id=${ustanovshik_id}&gruzchik_id=${gruzchik_id}&page=${page}&limit=${limit}`,
+    "get"
   );
 }
 export function transferProduct2(data) {
