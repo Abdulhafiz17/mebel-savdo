@@ -833,8 +833,21 @@ export default {
   },
   created() {
     if (this.role == "warehouseman") this.filter.status = "wait";
-    else if (this.role == "logistika") this.filter.status = "warehouseman";
-    else if (this.role == "worker" || this.role == "ustanovshik")
+    else if (this.role == "logistika") {
+      this.filter.status = "wait";
+      this.filter.from_time = new Date(
+        new Date().getFullYear(),
+        new Date().getMonth()
+      )
+        .toISOString()
+        .substring(0, 10);
+      this.filter.to_time = new Date(
+        new Date().getFullYear(),
+        new Date().getMonth()
+      )
+        .toISOString()
+        .substring(0, 10);
+    } else if (this.role == "worker" || this.role == "ustanovshik")
       this.filter.status = "logistika_user";
     else this.filter.status = "done";
     if (this.role == "operator") this.filter.operator_status = "false";
@@ -857,8 +870,8 @@ export default {
           this.filter.status
         )
       ) {
-        if (["warehouseman", "logistika"].includes(this.filter.status))
-          if (this.role == "warehouseman") warehouseman_id = this.user_id;
+        // if (["warehouseman", "logistika"].includes(this.filter.status))
+        //   if (this.role == "warehouseman") warehouseman_id = this.user_id;
         if (this.role == "worker") worker_id = this.user_id;
         if (this.role == "ustanovshik") ustanovshik_id = this.user_id;
         worker = "false";
