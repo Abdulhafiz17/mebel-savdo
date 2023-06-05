@@ -11,7 +11,7 @@
       <div class="modal-content">
         <div class="modal-body" id="check">
           <div id="order-check">
-            <div class="check-img">
+            <div class="check-img" v-if="logo">
               <img :src="`${api.url_to_files}/${logo}`" :alt="logo" />
             </div>
             <!-- <div class="news">
@@ -29,12 +29,12 @@
               Будьте в курсе <br />
               новостей !
             </div> -->
-            <div class="date-time">
+            <div class="date-time" v-if="show_price">
               <b>{{ order?.Pre_orders?.time.split("T")[1].substring(0, 5) }}</b>
               <b>{{ order?.Pre_orders?.time.split("T")[0] }}</b>
             </div>
             <hr />
-            <div class="mini-view">
+            <div class="mini-view" v-if="show_price">
               <div>
                 <span>Sotuvchi:</span>
                 <span>{{ order?.seller || "" }}</span>
@@ -64,7 +64,7 @@
                 <span>{{ $util.currency(trades_quantity) + " dona" }}</span>
               </div>
             </div>
-            <hr />
+            <hr v-if="show_price" />
             <div class="products">
               <div><b>Mahsulot</b></div>
               <div><b>Dona</b></div>
@@ -104,7 +104,7 @@
               </div>
             </div>
             <hr />
-            <div class="sum">
+            <div class="sum" v-if="show_price">
               <div>
                 <span>Chegirmasiz summa:</span>
                 <span>
@@ -146,12 +146,12 @@
               </div>
             </div>
             <hr />
-            <div class="footer">
+            <div class="footer" v-if="show_price">
               <div>Haridingiz uchun rahmat !</div>
               <div>Thank you for your purchase !</div>
               <div>Спасибо за покупку !</div>
             </div>
-            <div id="qrcode"></div>
+            <div id="qrcode" v-if="show_price"></div>
           </div>
         </div>
       </div>
@@ -170,6 +170,7 @@ export default {
   data() {
     return {
       _: Intl.NumberFormat(),
+      role: localStorage["role"],
       branch_id: localStorage["branch_id"],
       logo: localStorage["branch_logo"],
       phone: localStorage["branch_phone"],
@@ -188,11 +189,20 @@ export default {
     id() {
       return this.$props.orderId;
     },
+    show_price() {
+      if (["admin", "branch_admin", "cashier"].includes(this.role)) return true;
+      else return false;
+    },
   },
   created() {},
   methods: {
     start(order_id) {
-      this.getOrder(order_id);
+      if (["admin", "branch_admin", "cashier"].includes(this.role))
+        this.getOrder(order_id);
+      else {
+        this.order = { Pre_orders: { id: order_id } };
+        this.getTrades();
+      }
     },
     formatPhoneNumber(number) {
       return String(
@@ -209,12 +219,12 @@ export default {
     getOrder(order_id) {
       api.preOrder(order_id || this.id).then((res) => {
         this.order = res.data;
-        this.getTrades();
+        this.getTrades("createQrcode");
       });
     },
     getTrades() {
       api
-        .preOrderTrades(this.order.Pre_orders.id || this.id, 0, 100)
+        .preOrderTrades(this.order.Pre_orders.id || this.id, 0, 0, 100)
         .then((res) => {
           this.trades = res.data.data;
           let quantity = null,
@@ -226,7 +236,9 @@ export default {
           });
           this.trades_quantity = quantity;
           this.trades_discount = discount;
-          this.getBalance();
+          if (["admin", "branch_admin", "cashier"].includes(this.role))
+            this.getBalance();
+          else this.printCheck();
         });
     },
     getBalance() {

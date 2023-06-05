@@ -26,7 +26,7 @@
             <button
               v-if="printable"
               class="btn btn-outline-primary mx-1"
-              @click="$refs.check.start(order)"
+              @click="$refs.check.start(order.Pre_orders.id)"
             >
               <i class="fa fa-print"></i>
             </button>

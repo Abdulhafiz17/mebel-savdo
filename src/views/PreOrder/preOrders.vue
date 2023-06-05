@@ -720,10 +720,7 @@
 
   <updatePreOrderModal ref="updatePreOrderModal" />
 
-  <preOrderModal
-    ref="preOrderModal"
-    :printable="role == 'branch_admin' ? true : false"
-  />
+  <preOrderModal ref="preOrderModal" :printable="true" />
 
   <takeIncomeModal
     ref="takeIncomeModal"
