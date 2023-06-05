@@ -216,6 +216,9 @@ export function updateCustomer(data) {
 
 // loan
 
+export function getLoan(order_id, loan_id) {
+  return api(`get_loan?order_id=${order_id}&loan_id=${loan_id}`, "get");
+}
 export function loan(id) {
   return api(`get_customer_loan/${id}`, "get");
 }

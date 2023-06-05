@@ -114,8 +114,10 @@
         role="tabpanel"
         aria-labelledby="pills-profile-tab"
       >
-        <order ref="order" />
-        <trades ref="trades" />
+        <order ref="order" v-if="!loan?.Loans?.pre_order" />
+        <trades ref="trades" v-if="!loan?.Loans?.pre_order" />
+        <preOrder ref="order" v-if="loan?.Loans?.pre_order" />
+        <preOrderTrades ref="trades" v-if="loan?.Loans?.pre_order" />
       </div>
     </div>
   </div>
@@ -124,13 +126,16 @@
 <script>
 import * as api from "@/components/Api/Api";
 import order from "@/components/order/order.vue";
+import preOrder from "@/components/order/preOrder.vue";
 import trades from "@/components/order/trades.vue";
+import preOrderTrades from "@/components/order/preOrderTrades.vue";
 import Pagination from "@/components/Pagination/Pagination.vue";
 export default {
   name: "NasiyaTarix",
-  components: { Pagination, order, trades },
+  components: { Pagination, order, trades, preOrder, preOrderTrades },
   data() {
     return {
+      loan: null,
       page: 0,
       pages: 1,
       limit: 100,
@@ -138,16 +143,18 @@ export default {
       pages1: 1,
       limit1: 100,
       payments: [],
-      order: null,
-      income: [],
-      balance: null,
-      trades: [],
     };
   },
   created() {
+    this.getLoan();
     this.get(this.page, this.limit);
   },
   methods: {
+    getLoan() {
+      api.getLoan(0, this.$route.params.id).then((res) => {
+        this.loan = res.data;
+      });
+    },
     get(page, limit) {
       api
         .incomes(this.$route.params.id, "loan", 0, page, limit)
