@@ -191,9 +191,13 @@
                   >
                     <li
                       class="list-group-item p-2"
+                      :class="{ 'border border-primary': findProduct(item) }"
                       v-for="item in products.data"
                       :key="item"
-                      @click="product = item"
+                      @click="
+                        // product = item;
+                        !findProduct(item) && products_for_trade.push(item)
+                      "
                     >
                       {{
                         item.Warehouse_products.category.name +
@@ -216,7 +220,52 @@
                 </div>
               </div>
             </div>
-            <label class="col-12" v-if="product">
+            <div class="col-12">
+              <ul class="list-group">
+                <li
+                  class="list-group-item"
+                  v-for="(item, index) in products_for_trade"
+                  :key="item"
+                >
+                  <div>
+                    {{
+                      item.Warehouse_products.category.name +
+                      " - " +
+                      item.Warehouse_products.name2 +
+                      " " +
+                      item.Warehouse_products.articul +
+                      " " +
+                      item.Warehouse_products.name
+                    }}
+                    <span class="badge bg-success">
+                      {{
+                        $util.currency(item.Warehouse_products.tan_narx) +
+                        " " +
+                        item.currency
+                      }}
+                    </span>
+                    <div class="input-group input-group-sm">
+                      <input
+                        type="number"
+                        class="form-control"
+                        min="0"
+                        step="any"
+                        required
+                        v-model="item.price"
+                      />
+                      <div class="input-group-text">so'm</div>
+                    </div>
+                  </div>
+                  <button
+                    class="btn btn-sm btn-danger"
+                    @click="products_for_trade.splice(index, 1)"
+                  >
+                    <i class="fa fa-sm fa-trash"></i>
+                  </button>
+                </li>
+              </ul>
+            </div>
+            <!-- <label class="col-12" v-if="product">
               Miqdor
               <div class="input-group input-group-sm">
                 <input
@@ -256,11 +305,11 @@
                 />
                 <div class="input-group-text">so'm</div>
               </div>
-            </label>
+            </label> -->
           </div>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-outline-primary" v-if="product">
+          <button class="btn btn-outline-primary">
             <i class="far fa-circle-check"></i>
           </button>
           <button
@@ -297,6 +346,7 @@ export default {
         data: [],
       },
       product: null,
+      products_for_trade: [],
       trade: {
         warehouse_pr_id: 0,
         quantity: null,
@@ -330,13 +380,24 @@ export default {
       });
     },
     postTrade() {
-      this.trade.pre_order_id = this.order.Pre_orders.id;
-      this.trade.warehouse_pr_id = this.product.Warehouse_products.id;
-      this.trade.discount = this.trade.discount || 0;
-      api.tradeToPreOrder(this.trade).then(() => {
+      // this.trade.pre_order_id = this.order.Pre_orders.id;
+      // this.trade.warehouse_pr_id = this.product.Warehouse_products.id;
+      // this.trade.discount = this.trade.discount || 0;
+      let data = [];
+      this.products_for_trade.forEach((item) => {
+        data.push({
+          warehouse_pr_id: item.Warehouse_products.id,
+          quantity: 1,
+          price: item.price,
+          discount: 0,
+          pre_order_id: this.order.Pre_orders.id,
+        });
+      });
+      api.tradeToPreOrder2(data).then(() => {
         api.success("close-trade-modal").then(() => {
           this.warehouse = null;
           this.product = null;
+          this.products_for_trade = [];
           this.trade = {
             warehouse_pr_id: 0,
             quantity: null,
@@ -379,6 +440,7 @@ export default {
           this.products.pages = res.data.pages;
           this.products.limit = res.data.limit;
           this.products.data = res.data.data;
+          this.products.data.forEach((item) => (item.price = null));
         });
     },
     scrollProducts(event) {
@@ -397,9 +459,16 @@ export default {
             .then((res) => {
               this.products.current_page = res.data.current_page;
               this.products.data = this.products.data.concat(res.data.data);
+              this.products.data.forEach((item) => (item.price = null));
             });
         }
       }
+    },
+    findProduct(product) {
+      const result = this.products_for_trade.find((item) => {
+        return item.Warehouse_products.id == product.Warehouse_products.id;
+      });
+      return result;
     },
   },
 };

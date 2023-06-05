@@ -709,6 +709,9 @@ export function preOrderTrades(order_id, warehouse_id, page, limit) {
 export function tradeToPreOrder(data) {
   return api(`trade_to_pre_order`, "post", data);
 }
+export function tradeToPreOrder2(data) {
+  return api(`trade_to_pre_order2`, "post", data);
+}
 export function updateTradeToPreOrder(data) {
   return api(`update_trade_to_pre_order`, "put", data);
 }
