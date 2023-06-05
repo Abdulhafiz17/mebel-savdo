@@ -309,7 +309,7 @@
                 <option value="done">Yakunlangan</option>
               </select>
             </div>
-            <div class="col-12" v-if="role !== 'logistika'">
+            <div class="col-12" v-if="role == 'logistika'">
               Status
               <select class="form-select" v-model="filter.logistika_phone">
                 <option value="true">logistika qo'g'iroq qilgan</option>
