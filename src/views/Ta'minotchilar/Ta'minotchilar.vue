@@ -19,6 +19,7 @@
     <div class="col-md-4 my-1"></div>
     <div class="col-md-4">
       <button
+        v-if="role == 'admin'"
         class="btn btn-sm btn-block btn-outline-secondary"
         data-toggle="modal"
         data-target="#addTaminotchi"
