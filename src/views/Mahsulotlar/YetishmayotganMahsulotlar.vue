@@ -117,7 +117,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in products2" :key="item">
+            <tr v-for="item in products2.data" :key="item">
               <td>{{ item.warehouse_product_data.category.name }}</td>
               <td>{{ item.warehouse_product_data.name2 }}</td>
               <td>{{ item.warehouse_product_data.articul }}</td>
