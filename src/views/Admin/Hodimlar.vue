@@ -49,6 +49,7 @@
                   >
                   <span v-else-if="hodim.role == 'logistika'">Logistika</span>
                   <span v-else-if="hodim.role == 'warehouseman'">Omborchi</span>
+                  <span v-else-if="hodim.role == 'operator'">Operator</span>
                 </li>
                 <li class="list-group-item">
                   <span class="fa fa-coins" />
