@@ -1,5 +1,5 @@
 <template>
-  <form class="row" @submit.prevent="getTrades(0, 25)">
+  <form class="row" @submit.prevent="getHistory(0, 25)">
     <div class="col-md-5">
       <input
         type="date"
@@ -60,7 +60,7 @@
                 {{ Intl.NumberFormat().format(i.Trades.discount) + " so'm" }}
               </td>
               <td>
-                {{ i.Trades.quantity + " dona" }}
+                {{ i.sum_quantity + " dona" }}
               </td>
               <td>
                 {{
@@ -119,11 +119,11 @@
                 }}
               </td>
               <td>
-                {{ i.Trades_pre_order.quantity + " dona" }}
+                {{ i.sum_quantity + " dona" }}
               </td>
               <!-- <td >
-              {{ findProduct(i) + " dona" }}
-            </td> -->
+                {{ findProduct(i) + " dona" }}
+              </td> -->
               <td>
                 {{
                   Intl.NumberFormat().format(
@@ -190,7 +190,7 @@
 <script>
 import * as api from "@/components/Api/Api";
 export default {
-  name: "TradesForExcel",
+  name: "ABS",
   data() {
     return {
       branch_id: this.$route.params.id,
@@ -208,15 +208,13 @@ export default {
     };
   },
   created() {
-    this.getTrades(0, 25);
+    this.getHistory(0, 25);
   },
   methods: {
-    getTrades(page, limit) {
-      api
-        .tradesForExcel(this.from_time, this.to_time, this.branch_id)
-        .then((res) => {
-          this.data = res.data;
-        });
+    getHistory(page, limit) {
+      api.abs(this.from_time, this.to_time, this.branch_id).then((res) => {
+        this.data = res.data;
+      });
     },
   },
 };

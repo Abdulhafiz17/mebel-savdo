@@ -1,7 +1,7 @@
 <template>
   <div class="app dark">
     <span v-if="this.$route.name !== 'login'">
-      <notification />
+      <notification v-if="$route.name !== 'home'" />
       <Sidebar v-if="['branch_admin'].includes(role)" />
     </span>
     <div class="container-fluid pt-2" style="height: 100vh">

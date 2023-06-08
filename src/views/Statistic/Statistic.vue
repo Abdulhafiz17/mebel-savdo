@@ -49,6 +49,38 @@
         Savdo jadvali
       </button>
     </li>
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link"
+        :class="{ active: tab == 3 }"
+        id="true-tab"
+        data-bs-toggle="pill"
+        data-bs-target="#true"
+        type="button"
+        role="tab"
+        aria-controls="true"
+        aria-selected="false"
+        @click="tab = 3"
+      >
+        ABS hisobot
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link"
+        :class="{ active: tab == 4 }"
+        id="true-tab"
+        data-bs-toggle="pill"
+        data-bs-target="#true"
+        type="button"
+        role="tab"
+        aria-controls="true"
+        aria-selected="false"
+        @click="tab = 4"
+      >
+        XYZ hisobot
+      </button>
+    </li>
   </ul>
   <div class="tab-content" id="pills-tabContent">
     <div
@@ -90,6 +122,24 @@
     >
       <TradesForExcel v-if="tab == 2" />
     </div>
+    <div
+      class="tab-pane fade"
+      :class="{ 'show active': tab == 3 }"
+      id="true"
+      role="tabpanel"
+      aria-labelledby="true-tab"
+    >
+      <ABS v-if="tab == 3" />
+    </div>
+    <div
+      class="tab-pane fade"
+      :class="{ 'show active': tab == 4 }"
+      id="true"
+      role="tabpanel"
+      aria-labelledby="true-tab"
+    >
+      <XYZ v-if="tab == 4" />
+    </div>
   </div>
 </template>
 
@@ -100,9 +150,11 @@ import Products from "./Products.vue";
 import Users from "./Hodimlar.vue";
 import * as api from "@/components/Api/Api";
 import TradesForExcel from "@/components/table/TradesForExcel.vue";
+import ABS from "./ABS.vue";
+import XYZ from "./XYZ.vue";
 export default {
   name: "Statistic",
-  components: { Sales, Expenses, Products, Users, TradesForExcel },
+  components: { Sales, Expenses, Products, Users, TradesForExcel, ABS, XYZ },
   data() {
     return {
       role: localStorage.getItem("role"),
