@@ -1005,6 +1005,16 @@ export function tradesForExcel(from_time, to_time, branch_id_admin) {
     "get"
   );
 }
+export function abs(from_time, to_time, branch_id_admin) {
+  const time_query =
+    from_time && to_time ? `from_time=${from_time}&to_time=${to_time}` : ``;
+  return api(`get_abs?${time_query}&branch_id_admin=${branch_id_admin}`, "get");
+}
+export function xyz(from_time, to_time, branch_id_admin) {
+  const time_query =
+    from_time && to_time ? `from_time=${from_time}&to_time=${to_time}` : ``;
+  return api(`get_xyz?${time_query}&branch_id_admin=${branch_id_admin}`, "get");
+}
 
 // kassa
 

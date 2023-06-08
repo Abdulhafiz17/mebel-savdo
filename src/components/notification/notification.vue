@@ -7,9 +7,7 @@ export default {
   name: "notification",
   data() {
     return {
-      socket: new WebSocket(
-        `wss://zarmebel-api.crud.uz/ws/connection?token=${localStorage["access_token"]}`
-      ),
+      socket: new WebSocket(),
       data: {
         title: "Yangi Buyurtma",
         body: "Hurmatli foydalanuvchi sizga ID 14 - buyurtma biriktirildi",
@@ -27,6 +25,9 @@ export default {
     },
   },
   created() {
+    this.socket = new WebSocket(
+      `wss://zarmebel-api.crud.uz/ws/connection?token=${localStorage["access_token"]}`
+    );
     this.socket.onopen = (event) => {
       // console.log(event);
     };
