@@ -28,11 +28,16 @@ export default {
   },
   created() {
     this.socket.onopen = (event) => {
-      console.log(event);
+      // console.log(event);
     };
     this.socket.onmessage = (event) => {
       this.data = event.data;
       this.checkSupport();
+    };
+    this.socket.onclose = () => {
+      this.socket = new WebSocket(
+        `wss://zarmebel-api.crud.uz/ws/connection?token=${localStorage["access_token"]}`
+      );
     };
   },
   methods: {
