@@ -1,8 +1,8 @@
 <template>
   <div class="app dark">
+    <notification v-if="notification" />
     <span v-if="this.$route.name !== 'login'">
       <Sidebar v-if="['branch_admin'].includes(role)" />
-      <notification />
     </span>
     <div class="container-fluid pt-2" style="height: 100vh">
       <div
@@ -86,6 +86,10 @@ export default {
       )
         return true;
       else return false;
+    },
+    notification() {
+      if (["login", "home"].includes(this.$route.name)) return false;
+      else return true;
     },
   },
   watch: {
