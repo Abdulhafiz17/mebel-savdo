@@ -807,13 +807,31 @@ export default {
     },
     default_filter() {
       let status = "";
+      let from_time = "";
+      let to_time = "";
+      if (this.role == "logistika") {
+        from_time = new Date(
+          new Date().getFullYear(),
+          new Date().getMonth(),
+          new Date().getDate() + 1
+        )
+          .toISOString()
+          .substring(0, 10);
+        to_time = new Date(
+          new Date().getFullYear(),
+          new Date().getMonth(),
+          new Date().getDate() + 1
+        )
+          .toISOString()
+          .substring(0, 10);
+      }
       if (["warehouseman", "logistika"].includes(this.role)) status = "wait";
       else if (this.role == "worker" || this.role == "ustanovshik")
         status = "logistika";
       else status = "done";
       return {
-        from_time: "",
-        to_time: "",
+        from_time: from_time,
+        to_time: to_time,
         status: status,
         logistika_phone: "false",
         customer: null,
@@ -837,13 +855,15 @@ export default {
       this.filter.status = "wait";
       this.filter.from_time = new Date(
         new Date().getFullYear(),
-        new Date().getMonth()
+        new Date().getMonth(),
+        new Date().getDate() + 1
       )
         .toISOString()
         .substring(0, 10);
       this.filter.to_time = new Date(
         new Date().getFullYear(),
-        new Date().getMonth()
+        new Date().getMonth(),
+        new Date().getDate() + 1
       )
         .toISOString()
         .substring(0, 10);

@@ -153,7 +153,9 @@
           <div class="col-md-3">
             Yetkazilganda olinadigan summa
             <br />
-            {{ Intl.NumberFormat().format(order.delivery_money) + " so'm" }}
+            {{
+              Intl.NumberFormat().format(order.Orders.delivery_money) + " so'm"
+            }}
           </div>
           <div class="col-md-3">
             Nasiya summa
