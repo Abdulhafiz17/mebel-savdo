@@ -138,7 +138,7 @@
       </div>
       <hr />
       <div class="col-12 text-left">
-        <h5>Qaytarib olindan mahsulotlar</h5>
+        <h5>Qaytarib olingan mahsulotlar</h5>
         <table
           class="table table-sm table-hover"
           v-if="data?.returned_pr_verification?.length"

@@ -34,9 +34,6 @@
               <th>Artikul</th>
               <th>Nomi</th>
               <th>Narx</th>
-              <th>Chegirma</th>
-              <th>Miqdor</th>
-              <th>Summa</th>
             </tr>
           </thead>
           <tbody>
@@ -56,19 +53,6 @@
               <td>
                 {{ Intl.NumberFormat().format(i.total_price) + " so'm" }}
               </td>
-              <td>
-                {{ Intl.NumberFormat().format(i.Trades.discount) + " so'm" }}
-              </td>
-              <td>
-                {{ i.Trades.quantity + " dona" }}
-              </td>
-              <td>
-                {{
-                  Intl.NumberFormat().format(
-                    (i.Trades.price - i.Trades.discount) * i.Trades.quantity
-                  ) + " so'm"
-                }}
-              </td>
             </tr>
           </tbody>
         </table>
@@ -87,10 +71,6 @@
               <th>Artikul</th>
               <th>Nomi</th>
               <th>Narx</th>
-              <th>Chegirma</th>
-              <th>Miqdor</th>
-              <!-- <th >Qaytarilgan</th> -->
-              <th>Summa</th>
             </tr>
           </thead>
           <tbody>
@@ -109,73 +89,6 @@
               </td>
               <td>
                 {{ Intl.NumberFormat().format(i.total_price) + " so'm" }}
-              </td>
-              <td>
-                {{
-                  Intl.NumberFormat().format(i.Trades_pre_order.discount) +
-                  " so'm"
-                }}
-              </td>
-              <td>
-                {{ i.Trades_pre_order.quantity + " dona" }}
-              </td>
-              <!-- <td >
-                  {{ findProduct(i) + " dona" }}
-                </td> -->
-              <td>
-                {{
-                  Intl.NumberFormat().format(
-                    (i.Trades_pre_order.price - i.Trades_pre_order.discount) *
-                      i.Trades_pre_order.quantity
-                  ) + " so'm"
-                }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <hr />
-      <div class="col-12 text-left">
-        <h5>Qaytarib olindan mahsulotlar</h5>
-        <table
-          class="table table-sm table-hover"
-          v-if="data?.returned_pr_verification?.length"
-        >
-          <thead>
-            <tr>
-              <th>Kategoriya</th>
-              <th>Kodi</th>
-              <th>Artikul</th>
-              <th>Nomi</th>
-              <th>Miqdor</th>
-              <th>Hodim</th>
-              <th>Sana</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="i in data?.returned_pr_verification" :key="i">
-              <td>
-                {{ i.Categories.name }}
-              </td>
-              <td>
-                {{ i.Products.name2 }}
-              </td>
-              <td>
-                {{ i.Products.articul }}
-              </td>
-              <td>
-                {{ i.Categories.name }}
-              </td>
-              <td>
-                {{ i.sum_quantity + " dona" }}
-              </td>
-              <td>{{ i.user }}</td>
-              <td>
-                {{
-                  i.Returned_products.time
-                    .replace("T", " ")
-                    .substring(i.Returned_products.time.length - 3, 0)
-                }}
               </td>
             </tr>
           </tbody>
