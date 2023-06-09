@@ -76,7 +76,7 @@
           <div class="col-md-3"></div>
           <div class="col-md-6 d-flex">
             <span>
-              <h5>Buyurtma - {{ order.Orders.ordinal_number }}</h5>
+              <h5>Buyurtma - {{ order.Pre_orders.ordinal_number }}</h5>
             </span>
             <span>
               <h5>Mijoz: {{ order.mijoz }}</h5>
@@ -84,9 +84,9 @@
             <span>
               <strong>
                 {{
-                  order.Orders.time
+                  order.Pre_orders.time
                     .replace("T", " ")
-                    .substring(0, order.Orders.time.length - 3)
+                    .substring(0, order.Pre_orders.time.length - 3)
                 }}
               </strong>
             </span>
@@ -104,8 +104,8 @@
               >
                 Umumiy nasiya:
                 {{
-                  loan.total_loan_price
-                    ? Intl.NumberFormat().format(loan.total_loan_price) +
+                  loan?.total_loan_price
+                    ? Intl.NumberFormat().format(loan?.total_loan_price) +
                       " so'm"
                     : 0
                 }}
@@ -154,7 +154,8 @@
             Yetkazilganda olinadigan summa
             <br />
             {{
-              Intl.NumberFormat().format(order.Orders.delivery_money) + " so'm"
+              Intl.NumberFormat().format(order.Pre_orders.delivery_money) +
+              " so'm"
             }}
           </div>
           <div class="col-md-3">
@@ -196,33 +197,44 @@
             <tbody>
               <tr v-for="i in trades" :key="i">
                 <td>
-                  {{ i.Categories.name }}
+                  {{ i.Warehouse_products.category.name }}
                 </td>
                 <td>
-                  {{ i.Products.name2 }}
+                  {{ i.Warehouse_products.name2 }}
                 </td>
                 <td>
-                  {{ i.Products.articul }}
+                  {{ i.Warehouse_products.articul }}
                 </td>
                 <td>
-                  {{ i.Categories.name }}
+                  {{ i.Warehouse_products.name }}
                 </td>
                 <td>
-                  {{ Intl.NumberFormat().format(i.Trades.price) + " so'm" }}
+                  {{
+                    Intl.NumberFormat().format(i.Trades_pre_order.price) +
+                    " so'm"
+                  }}
                 </td>
                 <td>
-                  {{ Intl.NumberFormat().format(i.Trades.discount) + " so'm" }}
+                  {{
+                    Intl.NumberFormat().format(i.Trades_pre_order.discount) +
+                    " so'm"
+                  }}
                 </td>
                 <td>
-                  {{ i.sum_quantity }}
+                  {{ i.Trades_pre_order.quantity }}
                   <span class="text-danger">
                     {{
                       returned_products.find((item) => {
-                        return i.Trades.code == item.Returned_products.code;
+                        return (
+                          i.Trades_pre_order.code == item.Returned_products.code
+                        );
                       })
                         ? " (-" +
                           returned_products.find((item) => {
-                            return i.Trades.code == item.Returned_products.code;
+                            return (
+                              i.Trades_pre_order.code ==
+                              item.Returned_products.code
+                            );
                           }).sum_quantity +
                           ")"
                         : ""
@@ -233,7 +245,8 @@
                 <td>
                   {{
                     Intl.NumberFormat().format(
-                      (i.Trades.price - i.Trades.discount) * i.sum_quantity
+                      (i.Trades_pre_order.price - i.Trades_pre_order.discount) *
+                        i.Trades_pre_order.quantity
                     ) + " so'm"
                   }}
                 </td>
@@ -245,11 +258,15 @@
                     :disabled="
                       returned_products.length
                         ? returned_products.find((item) => {
-                            return i.Trades.code == item.Returned_products.code;
+                            return (
+                              i.Trades_pre_order.code ==
+                              item.Returned_products.code
+                            );
                           })
                           ? returned_products.find((item) => {
                               return (
-                                i.Trades.code == item.Returned_products.code
+                                i.Trades_pre_order.code ==
+                                item.Returned_products.code
                               );
                             }).sum_quantity == i.sum_quantity
                             ? true
@@ -349,13 +366,13 @@
         <div class="modal-header">
           <h4>
             {{
-              product.Categories.name +
+              product.Warehouse_products.category.name +
               " - " +
-              product.Products.name +
+              product.Warehouse_products.name +
               " " +
-              product.Products.articul +
+              product.Warehouse_products.articul +
               " " +
-              product.Products.name2
+              product.Warehouse_products.name2
             }}
             dan qaytarib olish
           </h4>
@@ -383,7 +400,7 @@
                 </div>
               </label>
             </div>
-            <div class="row my-1" v-if="loan.total_loan_price">
+            <div class="row my-1" v-if="loan?.total_loan_price">
               <label class="col-md-6">
                 <input
                   type="radio"
@@ -433,11 +450,13 @@
                     step="any"
                     min="0"
                     :max="
-                      (product.Trades.price - product.Trades.discount) *
+                      (product.Trades_pre_order.price -
+                        product.Trades_pre_order.discount) *
                         return_product.quantity >=
-                      loan.total_loan_price
-                        ? loan.total_loan_price
-                        : (product.Trades.price - product.Trades.discount) *
+                      loan?.total_loan_price
+                        ? loan?.total_loan_price
+                        : (product.Trades_pre_order.price -
+                            product.Trades_pre_order.discount) *
                           return_product.quantity
                     "
                     class="form-control"
@@ -507,7 +526,6 @@ export default {
       return_product: {
         quantity: null,
         price: null,
-        loan_price: 0,
         status: true,
         kassa_id: 0,
       },
@@ -550,10 +568,10 @@ export default {
         loan_price: 0,
         status: true,
       };
-      api.order(id).then((Response) => {
+      api.preOrder(id).then((Response) => {
         this.order = Response.data;
         if (this.order) {
-          this.getLoan(id);
+          this.getIncome(id);
         } else {
           swal({
             icon: "warning",
@@ -567,9 +585,9 @@ export default {
       this.order_id = null;
     },
     getLoan(id) {
-      api.loan(this.order.Orders.customer_id).then((Response) => {
+      api.loan(this.order.Pre_orders.customer_id).then((Response) => {
         this.loan = Response.data;
-        if (this.loan.total_loan_price) {
+        if (this.loan?.total_loan_price) {
           this.return_product.status = true;
         } else {
           this.return_product.status = false;
@@ -578,26 +596,28 @@ export default {
       });
     },
     getIncome(id) {
-      api.incomes(id, "order", 0, 0, 100).then((Response) => {
+      api.incomes(id, "pre_order", 0, 0, 100).then((Response) => {
         this.income = Response.data.data;
         this.getBalance(id);
       });
     },
     getBalance(id) {
-      api.tradeBalance(id).then((Response) => {
+      api.preOrderTradeBalance(id).then((Response) => {
         this.balance = Response.data;
         this.getTrades(0, 100);
       });
     },
     getTrades(page, limit) {
-      api.trades(this.order.Orders.id, page, limit).then((Response) => {
-        this.trades = Response.data.data;
-        this.getReturnedProducts(0, 100);
-      });
+      api
+        .preOrderTrades(this.order.Pre_orders.id, 0, page, limit)
+        .then((Response) => {
+          this.trades = Response.data.data;
+          this.getReturnedProducts(0, 100);
+        });
     },
     getLoans() {
       api
-        .loans(false, this.order.Orders.customer_id, 0, 100)
+        .loans(false, this.order.Pre_orders.customer_id, 0, 100)
         .then((Response) => {
           this.loans = Response.data.data;
         });
@@ -605,27 +625,30 @@ export default {
     count(status, data) {
       if (status == "quantity") {
         data.price =
-          (this.product.Trades.price - this.product.Trades.discount) *
+          (this.product.Trades_pre_order.price -
+            this.product.Trades_pre_order.discount) *
           data.quantity;
       } else if (status == "loan") {
         data.price = data.price - data.loan_price;
       }
     },
     postReturn(data) {
-      api.returnProduct(this.product.Trades.id, data).then((Response) => {
-        this.order = null;
-        this.loan = null;
-        this.income = [];
-        this.balance = null;
-        this.trades = [];
-        this.loans = [];
-        this.product = null;
-        api.success(0).then(() => {});
-      });
+      api
+        .returnPreOrderProduct(this.product.Trades_pre_order.id, data)
+        .then((Response) => {
+          this.order = null;
+          this.loan = null;
+          this.income = [];
+          this.balance = null;
+          this.trades = [];
+          this.loans = [];
+          this.product = null;
+          api.success(0).then(() => {});
+        });
     },
     getReturnedProducts(page, limit) {
-      let id = this.order ? this.order.Orders.id : 0;
-      api.returnedProducts(id, page, limit).then((Response) => {
+      let id = this.order ? this.order.Pre_orders.id : 0;
+      api.returnedProductsPreOrder(id, page, limit).then((Response) => {
         this.returned_products = Response.data.data;
       });
     },

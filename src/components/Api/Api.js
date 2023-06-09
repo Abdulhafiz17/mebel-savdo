@@ -731,8 +731,17 @@ export function returnedProducts(id, page, limit) {
     "get"
   );
 }
+export function returnedProductsPreOrder(id, page, limit) {
+  return api(
+    `get_returned_products_pre?pre_order_id=${id}&page=${page}&limit=${limit}`,
+    "get"
+  );
+}
 export function returnProduct(id, data) {
   return api(`return_product/${id}`, "put", data);
+}
+export function returnPreOrderProduct(id, data) {
+  return api(`return_product_pre/${id}`, "put", data);
 }
 
 // service

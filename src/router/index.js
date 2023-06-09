@@ -172,6 +172,12 @@ let routes = [
     component: () => import("../views/Vozvrat/Vozvrat.vue"),
   },
   {
+    path: "/return-pre-order",
+    name: "ReturnPreOrder",
+    meta: { requiresAuth: true, title: "Mahsulot qaytarb olish" },
+    component: () => import("../views/Vozvrat/PreOrderVozvrat.vue"),
+  },
+  {
     path: "/taminotchi/:id",
     name: "taminotchi",
     meta: { requiresAuth: true, title: "Ta'minotchi" },

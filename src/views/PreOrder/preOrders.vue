@@ -718,16 +718,20 @@
     </div>
   </div>
 
-  <updatePreOrderModal ref="updatePreOrderModal" />
+  <updatePreOrderModal ref="updatePreOrderModal"></updatePreOrderModal>
 
-  <preOrderModal ref="preOrderModal" :printable="true" />
+  <preOrderModal
+    ref="preOrderModal"
+    :printable="true"
+    :returnable="true"
+  ></preOrderModal>
 
   <takeIncomeModal
     ref="takeIncomeModal"
     v-if="['branch_admin', 'cashier'].includes(role)"
-  />
+  ></takeIncomeModal>
 
-  <ServiceModal ref="ServiceModal" />
+  <ServiceModal ref="ServiceModal"></ServiceModal>
 </template>
 
 <script>

@@ -91,9 +91,14 @@ export default {
       localStorage.setItem("order_id_for_return", this.order_id);
       const buttons = document.querySelectorAll(`[data-dismiss="modal"]`);
       buttons.forEach((item) => {
+        item.setAttribute("type", "button");
         item.click();
       });
-      this.$router.push("/return");
+      const backdrops = document.querySelectorAll(".modal-backdrop");
+      backdrops.forEach((item) => {
+        item.remove();
+      });
+      this.$router.push("/return-pre-order");
     },
     print(order) {
       this.$refs.check.start(order);

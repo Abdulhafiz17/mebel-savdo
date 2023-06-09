@@ -114,6 +114,15 @@ export default {
 
         <router-link
           class="SidebarLink"
+          to="/return-pre-order"
+          v-if="role === 'branch_admin'"
+        >
+          <i class="icon"><span class="fa fa-undo" /></i>
+          <p>Vozvrat oldindan buyurtma</p>
+        </router-link>
+
+        <router-link
+          class="SidebarLink"
           :to="`/branch-transfer`"
           v-if="role === 'branch_admin'"
         >
