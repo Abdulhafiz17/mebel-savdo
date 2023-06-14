@@ -165,7 +165,9 @@ export function users(
       "seller",
       "worker",
       "ustanovshik",
+      "taminotchi",
       "operator",
+      "gruzchik",
     ].forEach((item) => {
       role_query += `role=${item}&`;
     });
