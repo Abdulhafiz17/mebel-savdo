@@ -440,7 +440,9 @@ export default {
           this.products.pages = res.data.pages;
           this.products.limit = res.data.limit;
           this.products.data = res.data.data;
-          this.products.data.forEach((item) => (item.price = null));
+          this.products.data.forEach((item) => {
+            item.price = null;
+          });
         });
     },
     scrollProducts(event) {
