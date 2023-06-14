@@ -406,6 +406,19 @@
             <div class="row my-1" v-if="customer_type">
               <div class="col-md-12">
                 To'lov summa
+                <strong>
+                  {{
+                    (order_confirm.money[0].paid_money
+                      ? $util.currency(order_confirm.money[0].paid_money) +
+                        " naxt"
+                      : "") +
+                    " " +
+                    (order_confirm.money[1].paid_money
+                      ? $util.currency(order_confirm.money[1].paid_money) +
+                        " plastik"
+                      : "")
+                  }}
+                </strong>
                 <div class="row my-1">
                   <div class="col-md-6">
                     <div class="input-group input-group-sm">
@@ -441,6 +454,11 @@
               </div>
               <div :class="customer_type == 'none' ? 'col-md-12' : 'col-md-6'">
                 Chegirma summa
+                <strong>{{
+                  order_confirm.discount
+                    ? $util.currency(order_confirm.discount) + " so'm"
+                    : ""
+                }}</strong>
                 <input
                   type="number"
                   min="0"
@@ -453,6 +471,11 @@
               </div>
               <div :class="customer_type == 'none' ? 'col-md-12' : 'col-md-6'">
                 Yetkazilganda olinadigan summa
+                <strong>{{
+                  order_confirm.delivery_money
+                    ? $util.currency(order_confirm.delivery_money) + " so'm"
+                    : ""
+                }}</strong>
                 <input
                   type="number"
                   min="0"
@@ -465,6 +488,9 @@
               </div>
               <div class="col-md-12" v-if="customer_type !== 'none'">
                 Nasiya summa
+                <strong>{{
+                  loan_price ? $util.currency(loan_price) + " so'm" : ""
+                }}</strong>
                 <input
                   type="number"
                   min="0"
