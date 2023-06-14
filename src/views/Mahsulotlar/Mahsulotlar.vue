@@ -95,7 +95,11 @@
                 {{ item.Warehouse_products.name }}
               </td>
               <td>
-                {{ $util.currency(item.Warehouse_products.price) + " so'm" }}
+                {{
+                  $util.currency(item.Warehouse_products.price) +
+                  " " +
+                  item.currency
+                }}
               </td>
               <td>{{ item.Warehouse_products.quantity + " dona" }}</td>
               <td>{{ item.Warehouses.name }}</td>
@@ -154,7 +158,7 @@
                 {{ item.Products.name }}
               </td>
               <td>
-                {{ $util.currency(item.Products.price) + " so'm" }}
+                {{ $util.currency(item.Products.price) + " " + item.currency }}
               </td>
               <td>{{ item.sum_quantity + " dona" }}</td>
               <td>{{ item.Branches.name }}</td>
