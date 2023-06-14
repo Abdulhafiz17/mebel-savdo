@@ -160,6 +160,13 @@
             </div>
             <div class="col-12">
               Nasiya
+              <strong>
+                {{
+                  update_order.loan
+                    ? $util.currency(update_order.loan) + " so'm"
+                    : ""
+                }}
+              </strong>
               <div class="input-group input-group-sm">
                 <input
                   type="number"
@@ -183,6 +190,13 @@
             </div>
             <div class="col-12">
               Chegirma
+              <strong>
+                {{
+                  update_order.discount
+                    ? $util.currency(update_order.discount) + " so'm"
+                    : ""
+                }}
+              </strong>
               <div class="input-group input-group-sm">
                 <input
                   type="number"
@@ -197,6 +211,13 @@
             </div>
             <div class="col-12">
               Yetkazilganda olinadigan summa
+              <strong>
+                {{
+                  update_order.delivery_money
+                    ? $util.currency(update_order.delivery_money) + " so'm"
+                    : ""
+                }}
+              </strong>
               <div class="input-group input-group-sm">
                 <input
                   type="number"
@@ -209,7 +230,12 @@
                 <div class="input-group-text">so'm</div>
               </div>
             </div>
-            <div class="col-12">To'lov</div>
+            <div class="col-12">
+              To'lov
+              <strong v-if="false">
+                {{ sum_payment ? $util.currency(sum_payment) + " so'm" : "" }}
+              </strong>
+            </div>
             <div
               class="col-12"
               v-for="(item, i) in update_order.incomes"
@@ -500,6 +526,13 @@ export default {
         ],
       },
     };
+  },
+  computed: {
+    sum_payment() {
+      return this.update_order.incomes.reduce((total_payment, payment) => {
+        total_payment + payment.money;
+      }, 0);
+    },
   },
   created() {
     this.getOrder();
