@@ -232,7 +232,7 @@
             </div>
             <div class="col-12">
               To'lov
-              <strong v-if="false">
+              <strong>
                 {{ sum_payment ? $util.currency(sum_payment) + " so'm" : "" }}
               </strong>
             </div>
@@ -529,9 +529,11 @@ export default {
   },
   computed: {
     sum_payment() {
-      return this.update_order.incomes.reduce((total_payment, payment) => {
-        total_payment + payment.money;
-      }, 0);
+      let result = 0;
+      this.update_order.incomes.forEach((item) => {
+        result += item.money;
+      });
+      return result;
     },
   },
   created() {
