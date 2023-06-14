@@ -61,7 +61,7 @@ export default {
         <router-link
           class="SidebarLink"
           :to="`/statistic/${branch_id}`"
-          v-if="role === 'branch_admin'"
+          v-if="false"
         >
           <i class="icon"><span class="fa fa-chart-line" /></i>
           <p>Hisobotlar</p>
