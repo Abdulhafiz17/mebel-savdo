@@ -231,11 +231,14 @@
                 </div>
               </div>
             </div>
-            <div class="col-12" v-if="role == 'operator'">
+            <div
+              class="col-12"
+              v-if="['branch_admin', 'operator'].includes(role)"
+            >
               Status
               <select class="form-select" v-model="filter.operator_status">
-                <option value="false">Faol</option>
-                <option value="true">Yakunlangan</option>
+                <option value="false">Qo'ng'iroq qilinmagan</option>
+                <option value="true">Qo'ng'iroq qilingan</option>
               </select>
             </div>
             <div class="col-12" v-if="role !== 'operator'">
