@@ -211,7 +211,7 @@
                   />
                 </label>
               </div>
-              <div class="col-md-12" v-if="yangiHodim.role !== 'gruzchik'">
+              <div class="col-md-12">
                 Kunlik ish haqqi
                 <div class="input-group input-group-sm">
                   <input
