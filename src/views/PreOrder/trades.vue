@@ -244,7 +244,31 @@
                         item.currency
                       }}
                     </span>
-                    <div class="input-group input-group-sm">
+                    <div class="row p-1" v-if="branch_name == 'ОПТОМ'">
+                      <div class="col-6">
+                        <button
+                          type="button"
+                          class="btn btn-sm btn-block btn-outline-primary"
+                          @click="
+                            item.price = countCurrency(item, 'optom_price')
+                          "
+                        >
+                          Optom narx
+                        </button>
+                      </div>
+                      <div class="col-6">
+                        <button
+                          type="button"
+                          class="btn btn-sm btn-block btn-outline-primary"
+                          @click="
+                            item.price = countCurrency(item, 'ishonch_price')
+                          "
+                        >
+                          Ishonch narx
+                        </button>
+                      </div>
+                    </div>
+                    <div class="input-group input-group-sm p-1">
                       <input
                         type="number"
                         class="form-control"
@@ -336,6 +360,7 @@ export default {
   components: { Pagination },
   data() {
     return {
+      branch_name: localStorage["branch_name"],
       warehouses: [],
       warehouse: null,
       search: "",
@@ -441,7 +466,10 @@ export default {
           this.products.limit = res.data.limit;
           this.products.data = res.data.data;
           this.products.data.forEach((item) => {
-            item.price = null;
+            item.price =
+              this.branch_name == "ОПТОМ"
+                ? this.countCurrency(item, "optom_price")
+                : this.countCurrency(item, "trade_price");
           });
         });
     },
@@ -471,6 +499,12 @@ export default {
         return item.Warehouse_products.id == product.Warehouse_products.id;
       });
       return result;
+    },
+    countCurrency(product, price) {
+      return (
+        product.Warehouse_products[price] *
+        product.Warehouse_products.trade_cur.price
+      );
     },
   },
 };
