@@ -488,7 +488,14 @@ export default {
     },
     get(page, limit) {
       api
-        .users(this.$route.params.id, 0, [], "", page, limit)
+        .users(
+          this.$route.params.id,
+          0,
+          ["branch_admin", "seller"],
+          "",
+          page,
+          limit
+        )
         .then((Response) => {
           this.page = Response.data.current_page;
           this.pages = Response.data.pages;
