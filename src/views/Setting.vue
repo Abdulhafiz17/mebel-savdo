@@ -472,6 +472,7 @@ export default {
         etaj: false,
         city: false,
         price_for_branch: 0,
+        service_price: 0,
       },
       price_for_branch: {
         id: 0,
@@ -550,6 +551,7 @@ export default {
             etaj: false,
             city: false,
             price_for_branch: 0,
+            service_price: 0,
           };
           this.getShipping();
         });
