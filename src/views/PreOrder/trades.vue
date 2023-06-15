@@ -167,7 +167,11 @@
                   <span class="badge bg-success">
                     {{
                       product
-                        ? $util.currency(product.Warehouse_products.tan_narx) +
+                        ? $util.currency(
+                            branch_name == "ОПТОМ"
+                              ? product.Warehouse_products.optom_price
+                              : product.Warehouse_products.trade_price
+                          ) +
                           " " +
                           product.currency
                         : ""
@@ -239,7 +243,11 @@
                     }}
                     <span class="badge bg-success">
                       {{
-                        $util.currency(item.Warehouse_products.tan_narx) +
+                        $util.currency(
+                          branch_name == "ОПТОМ"
+                            ? item.Warehouse_products.optom_price
+                            : item.Warehouse_products.trade_price
+                        ) +
                         " " +
                         item.currency
                       }}
@@ -501,10 +509,7 @@ export default {
       return result;
     },
     countCurrency(product, price) {
-      return (
-        product.Warehouse_products[price] *
-        product.Warehouse_products.trade_cur.price
-      );
+      return product.Warehouse_products[price] * product.trade_cur.price;
     },
   },
 };
