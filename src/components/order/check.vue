@@ -243,8 +243,9 @@ export default {
     createQrcode() {
       let div = document.querySelector("#qrcode");
       div.innerHTML = "";
+      // String(this.order.id || this.id)
       new QRCode(div, {
-        text: String(this.order.id || this.id),
+        text: "https://taplink.cc/zarmebel",
         width: 100,
         height: 100,
         colorDark: "black",
