@@ -32,7 +32,7 @@
                 min="1"
                 class="form-control"
                 required
-                v-model="kpi"
+                v-model="update_product.kpi"
               />
               <div class="input-group-text">so'm</div>
             </div>
@@ -46,7 +46,7 @@
                 min="1"
                 class="form-control"
                 required
-                v-model="kpi_trade"
+                v-model="update_product.kpi_trade"
               />
               <div class="input-group-text">so'm</div>
             </div>
@@ -60,8 +60,64 @@
                 min="1"
                 class="form-control"
                 required
-                v-model="warning_quantity"
+                v-model="update_product.warning_quantity"
               />
+            </div>
+          </div>
+          <div class="text-left">
+            Sotuv narx
+            <div class="input-group">
+              <input
+                type="number"
+                step="any"
+                min="1"
+                class="form-control"
+                required
+                v-model="update_product.trade_price"
+              />
+              <div class="input-group-append">
+                <select
+                  class="form-select"
+                  required
+                  v-model="update_product.trade_currency_id"
+                >
+                  <option
+                    v-for="item in currencies"
+                    :key="item"
+                    :value="item.id"
+                  >
+                    {{ item.currency }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="text-left">
+            Optom narx
+            <div class="input-group">
+              <input
+                type="number"
+                step="any"
+                min="1"
+                class="form-control"
+                required
+                v-model="update_product.optom_price"
+              />
+              <div class="input-group-text">{{ currency || "" }}</div>
+            </div>
+          </div>
+          <div class="text-left">
+            Ishonch narx
+            <div class="input-group">
+              <input
+                type="number"
+                step="any"
+                min="1"
+                class="form-control"
+                required
+                v-model="update_product.ishonch_price"
+              />
+              <div class="input-group-text">{{ currency || "" }}</div>
             </div>
           </div>
         </div>
@@ -88,30 +144,59 @@ export default {
   name: "mahsulotModal",
   data() {
     return {
+      currencies: [],
+      update_product: {
+        category_id: 0,
+        articul: "",
+        name: "",
+        name2: "",
+        kpi: null,
+        kpi_trade: null,
+        warning_quantity: null,
+        trade_price: 0,
+        optom_price: 0,
+        ishonch_price: 0,
+        trade_currency_id: 0,
+      },
       product: null,
-      kpi: null,
-      kpi_trade: null,
-      warning_quantity: null,
     };
+  },
+  computed: {
+    currency() {
+      return this.currencies.find((item) => {
+        return this.update_product.trade_currency_id == item.id;
+      })?.currency;
+    },
+  },
+  created() {
+    this.getCurrencies();
   },
   methods: {
     start(product) {
       this.product = product;
-      this.kpi = product.Warehouse_products.kpi;
-      this.kpi_trade = product.Warehouse_products.kpi_trade;
-      this.warning_quantity = product.Warehouse_products.warning_quantity;
+      this.update_product.category_id = product.Warehouse_products.category.id;
+      this.update_product.articul = product.Warehouse_products.articul;
+      this.update_product.name = product.Warehouse_products.name;
+      this.update_product.name2 = product.Warehouse_products.name2;
+      this.update_product.kpi = product.Warehouse_products.kpi;
+      this.update_product.kpi_trade = product.Warehouse_products.kpi_trade;
+      this.update_product.warning_quantity =
+        product.Warehouse_products.warning_quantity;
+      this.update_product.trade_price = product.Warehouse_products.trade_price;
+      this.update_product.optom_price = product.Warehouse_products.optom_price;
+      this.update_product.ishonch_price =
+        product.Warehouse_products.ishonch_price;
+      this.update_product.trade_currency_id =
+        product.Warehouse_products.trade_currency_id;
       document.querySelector(`[put-modal-button]`).click();
     },
+    getCurrencies() {
+      api.currencies().then((res) => {
+        this.currencies = res.data;
+      });
+    },
     putProduct() {
-      const data = {
-        category_id: this.product.Warehouse_products.category_id,
-        articul: this.product.Warehouse_products.articul,
-        name: this.product.Warehouse_products.name,
-        kpi: this.kpi,
-        kpi_trade: this.kpi_trade,
-        warning_quantity: this.warning_quantity,
-      };
-      api.updateKpiWarehouseProduct(data).then(() => {
+      api.updateKpiWarehouseProduct(this.update_product).then(() => {
         api.success("close-put-modal").then(() => {
           this.$parent.page = 0;
           this.$parent.pages = 1;
