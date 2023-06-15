@@ -190,7 +190,16 @@ export default {
       return this.$props.orderId;
     },
     show_price() {
-      if (["admin", "branch_admin", "cashier"].includes(this.role)) return true;
+      if (
+        [
+          "admin",
+          "branch_admin",
+          "cashier",
+          "logistika",
+          "warehouseman",
+        ].includes(this.role)
+      )
+        return true;
       else return false;
     },
   },
