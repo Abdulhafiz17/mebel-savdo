@@ -726,7 +726,7 @@
   <preOrderModal
     ref="preOrderModal"
     :printable="true"
-    :returnable="true"
+    :returnable="role == 'branch_admin' ? true : false"
   ></preOrderModal>
 
   <takeIncomeModal
