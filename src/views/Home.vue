@@ -33,6 +33,7 @@ export default {
     forBranch() {
       api.branch(this.branch_id).then(
         (Response) => {
+          localStorage.setItem("branch_name", Response.data.branch.name);
           Response.data.branch.font
             ? localStorage.setItem("main_font", Response.data.branch.font)
             : false;
