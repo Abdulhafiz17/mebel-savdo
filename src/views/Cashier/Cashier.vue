@@ -5,7 +5,14 @@
     <div class="col-md-4 my-1">
       {{ $util.currency(cashier?.balance) + " so'm" }}
     </div>
-    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <button
+        class="btn btn-sm btn-block btn-outline-primary"
+        @click="$refs.PaymentModal.start(cashier)"
+      >
+        Boshqa kassaga pul o'tkazish
+      </button>
+    </div>
   </div>
   <hr />
 
@@ -59,15 +66,17 @@
       <expense v-if="template == 'expense'" />
     </div>
   </div>
+  <PaymentModal ref="PaymentModal" between-cashiers />
 </template>
 
 <script>
 import * as api from "@/components/Api/Api.js";
 import income from "./income.vue";
 import expense from "./expense.vue";
+import PaymentModal from "./paymentModal.vue";
 export default {
   name: "Cashier",
-  components: { income, expense },
+  components: { income, expense, PaymentModal },
   data() {
     return {
       template: "income",
@@ -82,6 +91,14 @@ export default {
       api.kassa("", this.$route.params.id, 0).then((res) => {
         this.cashier = res.data;
       });
+    },
+    reset() {
+      const template = this.template;
+      this.template = "";
+      setTimeout(() => {
+        this.template = template;
+        this.getCashier();
+      }, 100);
     },
   },
 };

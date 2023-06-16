@@ -1053,6 +1053,9 @@ export function takeMoneyFromBranchKassa(data) {
 export function takeMoneyFromAdminKassa(data) {
   return api(`take_money_from_admin_kassa`, "post", data);
 }
+export function transferToSecondKassa(data) {
+  return api(`transfer_to_second_kassa`, "post", data);
+}
 
 // davomat
 

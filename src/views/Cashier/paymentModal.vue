@@ -9,11 +9,24 @@
     <div class="modal-dialog">
       <form class="modal-content" @submit.prevent="postPayment()">
         <div class="modal-header">
-          <h4>Pul olish</h4>
+          <h4>Pul {{ betweenCashiers ? "o'tkazish" : "olish" }}</h4>
         </div>
         <div class="modal-body">
           <div class="row gap-2 text-left">
             <div class="col-12" v-if="type == 'from_branch'">
+              Kassa
+              <select
+                class="form-select"
+                required
+                v-model="payment.to_id"
+                @change="setCashier()"
+              >
+                <option v-for="item in cashiers" :key="item" :value="item.id">
+                  {{ item.name }}
+                </option>
+              </select>
+            </div>
+            <div class="col-12" v-else>
               Kassa
               <select
                 class="form-select"
@@ -40,6 +53,18 @@
                 <div class="input-group-text">
                   {{ to_cashier?.currency?.currency || "valyuta" }}
                 </div>
+              </div>
+            </div>
+            <div class="col-12" v-if="betweenCashiers">
+              Ushbu kassadan olinadigan summa
+              <div class="input-group">
+                <strong>
+                  {{
+                    $util.currency(count_price) +
+                    " " +
+                    (cashier?.currency?.currency || "valyuta")
+                  }}
+                </strong>
               </div>
             </div>
             <div class="col-12">
@@ -71,9 +96,11 @@
 
 <script>
 import * as api from "@/components/Api/Api.js";
-
 export default {
   name: "paymentModal",
+  props: {
+    betweenCashiers: Boolean,
+  },
   data() {
     return {
       cashiers: [],
@@ -91,8 +118,11 @@ export default {
     type() {
       return this.cashier?.branch_id ? "from_branch" : "from_admin";
     },
-    branch_id() {
-      return this.type == "from_branch" ? localStorage["branch_id"] : 0;
+    count_price() {
+      return (
+        (this.payment.money / this.cashier?.currency?.price) *
+          this.to_cashier?.currency?.price || 0
+      );
     },
   },
   methods: {
@@ -108,7 +138,8 @@ export default {
       document.querySelector(`[payment-modal-button]`).click();
     },
     getCashiers() {
-      api.kassa("", 0, 0).then((res) => {
+      const branch_id = this.cashier?.branch_id || 0;
+      api.kassa("", 0, branch_id).then((res) => {
         this.cashiers = res.data;
       });
     },
@@ -119,13 +150,19 @@ export default {
     },
     postPayment() {
       this.payment.from_kassa_id = this.cashier.id;
-      const request =
-        this.type == "from_branch"
-          ? "takeMoneyFromBranchKassa"
-          : "takeMoneyFromAdminKassa";
+      let request = "";
+      if (this.$props.betweenCashiers) {
+        request = "transferToSecondKassa";
+      } else {
+        request =
+          this.type == "from_branch"
+            ? "takeMoneyFromBranchKassa"
+            : "takeMoneyFromAdminKassa";
+      }
       api[request](this.payment).then(() => {
         api.success("close-payment-modal").then(() => {
-          this.$parent.getCashiers();
+          if (this.$props.betweenCashiers) this.$parent.reset();
+          else this.$parent.getCashiers();
         });
       });
     },
