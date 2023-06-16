@@ -263,7 +263,7 @@
                       <th v-if="role !== 'warehouseman'">Narx</th>
                       <th>Soni</th>
                       <th v-if="role !== 'warehouseman'">Summa</th>
-                      <th v-if="supplyType && !party?.warehouseman"></th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -289,7 +289,7 @@
                         }}
                         {{ item.currency.currency }}
                       </td>
-                      <td v-if="supplyType && !party?.warehouseman">
+                      <td>
                         <button
                           class="btn btn-sm btn-outline-danger"
                           @click="remove(item.id)"
