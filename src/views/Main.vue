@@ -93,6 +93,11 @@ export default {
           title: "Hodimlar",
         },
         {
+          link: `/kpi`,
+          icon: "fa fa-file-invoice",
+          title: "Kpi",
+        },
+        {
           link: `/products`,
           icon: "fa fa-box",
           title: "Mahsulotlar",
@@ -249,6 +254,11 @@ export default {
           link: `/admin-hodimlar`,
           icon: "fa fa-user-group",
           title: "Hodimlar",
+        },
+        {
+          link: `/kpi`,
+          icon: "fa fa-file-invoice",
+          title: "Kpi",
         },
         {
           link: `/`,
