@@ -206,7 +206,15 @@ export default {
   created() {},
   methods: {
     start(order_id) {
-      if (["admin", "branch_admin", "cashier"].includes(this.role))
+      if (
+        [
+          "admin",
+          "branch_admin",
+          "cashier",
+          "logistika",
+          "warehouseman",
+        ].includes(this.role)
+      )
         this.getOrder(order_id);
       else {
         this.order = { Pre_orders: { id: order_id } };
@@ -245,7 +253,15 @@ export default {
           });
           this.trades_quantity = quantity;
           this.trades_discount = discount;
-          if (["admin", "branch_admin", "cashier"].includes(this.role))
+          if (
+            [
+              "admin",
+              "branch_admin",
+              "cashier",
+              "logistika",
+              "warehouseman",
+            ].includes(this.role)
+          )
             this.getBalance();
           else this.printCheck();
         });
