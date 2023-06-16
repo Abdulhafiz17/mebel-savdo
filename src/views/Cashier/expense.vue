@@ -103,6 +103,7 @@ export default {
   components: { Pagination },
   data() {
     return {
+      role: localStorage["role"],
       types: [],
       from_time: "",
       to_time: "",

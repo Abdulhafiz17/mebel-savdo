@@ -92,6 +92,7 @@ export default {
   components: { Pagination },
   data() {
     return {
+      role: localStorage["role"],
       type: "kassa",
       incomes: {
         current_page: 0,
