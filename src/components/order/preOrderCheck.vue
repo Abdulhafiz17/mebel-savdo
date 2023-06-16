@@ -29,12 +29,12 @@
               Будьте в курсе <br />
               новостей !
             </div> -->
-            <div class="date-time" v-if="show_price">
+            <div class="date-time">
               <b>{{ order?.Pre_orders?.time.split("T")[1].substring(0, 5) }}</b>
               <b>{{ order?.Pre_orders?.time.split("T")[0] }}</b>
             </div>
             <hr />
-            <div class="mini-view" v-if="show_price">
+            <div class="mini-view">
               <div>
                 <span>Sotuvchi:</span>
                 <span>{{ order?.seller || "" }}</span>
@@ -64,11 +64,11 @@
                 <span>{{ $util.currency(trades_quantity) + " dona" }}</span>
               </div>
             </div>
-            <hr v-if="show_price" />
+            <hr />
             <div class="products">
               <div><b>Mahsulot</b></div>
               <div><b>Dona</b></div>
-              <div><b>Narx</b></div>
+              <div v-if="show_price"><b>Narx</b></div>
             </div>
             <div class="products" v-for="item in trades" :key="item">
               <div>
@@ -83,7 +83,7 @@
                 }}
               </div>
               <div>{{ item.Trades_pre_order.quantity }}</div>
-              <div>
+              <div v-if="show_price">
                 <div class="discount" v-if="item.Trades_pre_order.discount">
                   <div class="discount-price">
                     {{ _.format(item.Trades_pre_order.price) + " so'm" }}
@@ -103,9 +103,9 @@
                 </div>
               </div>
             </div>
-            <hr />
-            <div class="sum" v-if="show_price">
-              <div>
+            <hr v-if="show_price" />
+            <div class="sum">
+              <div v-if="show_price">
                 <span>Chegirmasiz summa:</span>
                 <span>
                   {{
@@ -113,32 +113,34 @@
                   }}
                 </span>
               </div>
-              <div>
+              <div v-if="show_price">
                 <span>Chegirma summa:</span>
                 <span>
                   {{ _.format(trades_discount) + " so'm" }}
                 </span>
               </div>
-              <hr />
+              <hr v-if="show_price" />
               <div
                 v-for="item in incomes"
                 :key="item"
                 v-show="item.Incomes.money"
               >
-                <span>
+                <span v-if="show_price">
                   {{ item.Incomes.comment + ":" }}
                 </span>
-                <span>{{ _.format(item.Incomes.money) + " so'm" }}</span>
+                <span v-if="show_price">{{
+                  _.format(item.Incomes.money) + " so'm"
+                }}</span>
               </div>
-              <hr />
+              <hr v-if="show_price" />
               <div>
                 <span>Yetkazilganda olinadigan summa:</span>
                 <span>{{
                   $util.currency(order?.Pre_orders.delivery_money) + " so'm"
                 }}</span>
               </div>
-              <hr />
-              <div>
+              <hr v-if="show_price" />
+              <div v-if="show_price">
                 <span>Jami summa:</span>
                 <span>
                   {{ _.format(balance?.total_price) + " so'm" }}
@@ -146,12 +148,12 @@
               </div>
             </div>
             <hr />
-            <div class="footer" v-if="show_price">
+            <div class="footer">
               <div>Haridingiz uchun rahmat !</div>
               <div>Thank you for your purchase !</div>
               <div>Спасибо за покупку !</div>
             </div>
-            <div id="qrcode" v-if="show_price"></div>
+            <div id="qrcode"></div>
           </div>
         </div>
       </div>
@@ -195,8 +197,8 @@ export default {
           "admin",
           "branch_admin",
           "cashier",
-          "logistika",
-          "warehouseman",
+          // "logistika",
+          // "warehouseman",
         ].includes(this.role)
       )
         return true;
