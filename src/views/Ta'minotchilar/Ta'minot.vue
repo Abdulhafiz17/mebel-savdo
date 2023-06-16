@@ -168,7 +168,10 @@
                         class="list-group-item p-2"
                         v-for="item in examples.data"
                         :key="item"
-                        @click="example = item"
+                        @click="
+                          example = item;
+                          getLastPrice(item.Product_examples.id);
+                        "
                       >
                         {{
                           item.Product_examples.code +
@@ -695,6 +698,14 @@ export default {
             });
         }
       }
+    },
+    getLastPrice(id) {
+      api.supplyThisPr(id).then((res) => {
+        if (res.data) {
+          this.supply.price = res.data.price;
+          this.supply.currency_id = res.data.currency.id;
+        }
+      });
     },
     replace(data) {
       for (let i = 0; i < this.markets.length; i++) {

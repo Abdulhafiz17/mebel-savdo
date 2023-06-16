@@ -845,6 +845,9 @@ export function takeSupply(data) {
 export function removeSupply(id) {
   return api(`remove_supply/${id}`, "delete");
 }
+export function supplyThisPr(id) {
+  return api(`get_supply_this_pr/${id}`, "get");
+}
 
 // expense
 
