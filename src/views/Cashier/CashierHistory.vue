@@ -61,6 +61,30 @@
         Chiqim
       </button>
     </li>
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link"
+        id="pills-profile-tab"
+        data-bs-toggle="pill"
+        data-bs-target="#pills-profile"
+        type="button"
+        role="tab"
+        aria-controls="pills-profile"
+        aria-selected="false"
+        @click="
+          type = 'from_kassa_to_second_kassa';
+          history = {
+            current_page: 0,
+            pages: 1,
+            limit: 25,
+            data: [],
+          };
+          getHistory(0, 25);
+        "
+      >
+        Kassadan kassaga
+      </button>
+    </li>
   </ul>
   <div class="tab-content" id="pills-tabContent">
     <div class="table-responsive" style="max-height: 72vh">
@@ -72,7 +96,18 @@
             <th>Hodim</th>
             <th>Kassa</th>
             <th>Sana</th>
-            <th></th>
+            <th>
+              <button
+                class="btn btn-sm btn-outline-primary"
+                @click="
+                  between_cashiers = between_cashiers == 'from' ? 'to' : 'from';
+                  getHistory(0, 25);
+                "
+                v-if="type == 'from_kassa_to_second_kassa'"
+              >
+                Ushbu {{ between_cashiers == "from" ? "kassadan" : "kassaga" }}
+              </button>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -82,7 +117,7 @@
             </td>
             <td>{{ item.Kassa_history.comment }}</td>
             <td>{{ item.user }}</td>
-            <td>{{ type == "income" ? item.from_kassa : item.name_for_to }}</td>
+            <td>{{ cashierName(item) }}</td>
             <td>
               {{ item.Kassa_history.time.replace("T", " ").substring(0, 16) }}
             </td>
@@ -123,6 +158,7 @@ export default {
       role: localStorage["role"],
       type: "income",
       cashier: null,
+      between_cashiers: "from",
       history: {
         current_page: 0,
         pages: 1,
@@ -144,18 +180,42 @@ export default {
       });
     },
     getHistory(page = 0, limit = 25) {
-      const from_id = this.type == "income" ? 0 : this.$route.params.id;
-      const to_id = this.type == "expense" ? 0 : this.$route.params.id;
+      let from_id = this.type == "income" ? 0 : this.$route.params.id;
+      let to_id = this.type == "expense" ? 0 : this.$route.params.id;
       let type = "";
       if (this.cashier.branch_id) {
         type = "from_kassa_to_kassa";
       } else {
-        type =
-          this.type == "income" ? "from_kassa_to_kassa" : "from_kassa_to_admin";
+        if (this.type == "income") type = "from_kassa_to_kassa";
+        else if (this.type == "expense") type = "from_kassa_to_admin";
+        else type = this.type;
+      }
+      if (this.type == "from_kassa_to_second_kassa") {
+        if (this.between_cashiers == "from") {
+          from_id = this.$route.params.id;
+          to_id = 0;
+        }
+        if (this.between_cashiers == "to") {
+          to_id = this.$route.params.id;
+          from_id = 0;
+        }
       }
       api.kassaHistory(from_id, to_id, type, page, limit).then((res) => {
         this.history = res.data;
       });
+    },
+    cashierName(item) {
+      if (this.type == "income") {
+        return item.from_kassa;
+      } else if (this.type == "expense") {
+        return item.name_for_to;
+      } else {
+        if (this.between_cashiers == "from") {
+          return item.name_for_to;
+        } else if (this.between_cashiers == "to") {
+          return item.from_kassa;
+        }
+      }
     },
   },
 };

@@ -153,6 +153,7 @@ export default {
       let request = "";
       if (this.$props.betweenCashiers) {
         request = "transferToSecondKassa";
+        this.payment.money = this.count_price;
       } else {
         request =
           this.type == "from_branch"

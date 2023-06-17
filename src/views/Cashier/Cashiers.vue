@@ -49,7 +49,7 @@
             </p>
             <p>
               <i class="fa fa-lg fa-coins"></i>
-              {{ $util.currency(item.balance) + " so'm" }}
+              {{ $util.currency(item.balance) + " " + item.currency.currency }}
             </p>
             <div class="row mt-1">
               <div class="col">
