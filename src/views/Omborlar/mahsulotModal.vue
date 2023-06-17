@@ -103,7 +103,7 @@
                 required
                 v-model="update_product.optom_price"
               />
-              <div class="input-group-text">{{ currency || "" }}</div>
+              <div class="input-group-text">so'm</div>
             </div>
           </div>
           <div class="text-left">
@@ -117,7 +117,7 @@
                 required
                 v-model="update_product.ishonch_price"
               />
-              <div class="input-group-text">{{ currency || "" }}</div>
+              <div class="input-group-text">so'm</div>
             </div>
           </div>
         </div>
