@@ -24,7 +24,7 @@
             }}
           </h5>
           <div class="text-left">
-            Kpi narxi
+            Kpi ustanovka narxi
             <div class="input-group">
               <input
                 type="number"
