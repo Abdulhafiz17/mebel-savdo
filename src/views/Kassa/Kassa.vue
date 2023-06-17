@@ -798,7 +798,7 @@ export default {
       });
     },
     confirmOrder(order) {
-      const request = "";
+      let request = "";
       if (this.delivery) request = "confirmationOrder";
       else request = "confirmationOrderWithoutDelivery";
       if (order.customer_phone == null) {
