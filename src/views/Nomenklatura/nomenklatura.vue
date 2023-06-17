@@ -6,6 +6,14 @@
         class="btn btn-sm btn-block btn-outline-success"
         data-toggle="modal"
         data-target="#add-example"
+        @click="
+          example = {
+            category_id: 0,
+            name: '',
+            articul: '',
+            code: '',
+          }
+        "
       >
         Nomenklatura qo'shish
       </button>
@@ -75,6 +83,7 @@
           <th>Nomi</th>
           <th>Artikul</th>
           <th>Kategoriya</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -83,6 +92,19 @@
           <td>{{ item.Product_examples.name }}</td>
           <td>{{ item.Product_examples.articul }}</td>
           <td>{{ item.Categories.name }}</td>
+          <td>
+            <button
+              class="btn btn-sm btn-outline-warning"
+              data-toggle="modal"
+              data-target="#add-example"
+              @click="
+                example = item.Product_examples;
+                category_1 = item.Categories;
+              "
+            >
+              <i class="fa fa-edit"></i>
+            </button>
+          </td>
         </tr>
       </tbody>
       <tfoot>
@@ -104,7 +126,10 @@
     <div class="modal-dialog">
       <form class="modal-content" @submit.prevent="postExample()">
         <div class="modal-header">
-          <h4>Nomenklatura qo'shish</h4>
+          <h4>
+            Nomenklatura
+            {{ example?.id ? "ma'lumotini tahrirlash" : "qo'shish" }}
+          </h4>
         </div>
         <div class="modal-body">
           <div class="row gap-1 text-left">
@@ -249,8 +274,27 @@ export default {
       });
     },
     postExample() {
+      if (this.example?.id) {
+        this.putExample();
+        return;
+      }
       this.example.category_id = this.category_1.id;
       api.addProductExample(this.example).then(() => {
+        api.success("close-example-modal").then(() => {
+          this.example = {
+            category_id: 0,
+            name: "",
+            articul: "",
+            code: "",
+          };
+          this.category_1 = null;
+          this.getExamples(0, 25);
+        });
+      });
+    },
+    putExample() {
+      this.example.category_id = this.category_1.id;
+      api.updateProductExample(this.example).then(() => {
         api.success("close-example-modal").then(() => {
           this.example = {
             category_id: 0,

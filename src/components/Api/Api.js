@@ -326,6 +326,9 @@ export function productExamples(search, category_id, page, limit) {
 export function addProductExample(data) {
   return api(`add_product_example`, "post", data);
 }
+export function updateProductExample(data) {
+  return api(`update_product_example/${data.id}`, "put", data);
+}
 export function removeWarehouseProduct(product_id, quantity) {
   return api(`remove_w_product/${product_id}/${quantity}`, "delete");
 }
