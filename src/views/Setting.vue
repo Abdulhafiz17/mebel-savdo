@@ -261,6 +261,28 @@
           </form>
         </div>
         <div class="col-md-8 my-1 mx-auto">
+          <form @submit.prevent="postPriceForBranch()">
+            <div class="input-group input-group-sm">
+              <div class="input-group-text">Qayta yetkazib berish</div>
+              <input
+                class="form-control"
+                type="number"
+                min="0"
+                required
+                v-model="price_for_branch.qayta_dostavka_price"
+              />
+              <div class="input-group-append">
+                <div class="input-group-text">so'm</div>
+              </div>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary">
+                  <i class="far fa-circle-check" />
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-8 my-1 mx-auto">
           <form @submit.prevent="postShipping()">
             <div class="input-group input-group-sm">
               <div class="input-group-text p-0">
@@ -472,6 +494,7 @@ export default {
         etaj: false,
         city: false,
         price_for_branch: 0,
+        qayta_dostavka_price: 0,
         service_price: 0,
       },
       price_for_branch: {
@@ -481,6 +504,7 @@ export default {
         etaj: false,
         user_id: 1,
         price_for_branch: 0,
+        qayta_dostavka_price: 0,
         service_price: 0,
       },
     };
