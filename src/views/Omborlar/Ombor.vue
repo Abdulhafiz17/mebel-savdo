@@ -199,7 +199,7 @@
                           item.Warehouse_products.price
                         )
                       }}
-                      {{ item.Warehouse_products.currency.currency }}
+                      {{ item.Warehouse_products.currency?.currency }}
                     </td>
                     <td v-if="role !== 'warehouseman'">
                       {{
