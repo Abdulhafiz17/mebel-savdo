@@ -404,6 +404,16 @@
               </div>
             </div>
             <div class="row my-1" v-if="customer_type">
+              <div class="col-12">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-block"
+                  :class="delivery ? 'btn-primary' : 'btn-outline-primary'"
+                  @click="delivery = !delivery"
+                >
+                  Yetkazib berish
+                </button>
+              </div>
               <div class="col-md-12">
                 To'lov summa
                 <strong>
@@ -452,7 +462,13 @@
                   </div>
                 </div>
               </div>
-              <div :class="customer_type == 'none' ? 'col-md-12' : 'col-md-6'">
+              <div
+                :class="
+                  customer_type == 'none' || !delivery
+                    ? 'col-md-12'
+                    : 'col-md-6'
+                "
+              >
                 Chegirma summa
                 <strong>{{
                   order_confirm.discount
@@ -469,7 +485,10 @@
                   v-model="order_confirm.discount"
                 />
               </div>
-              <div :class="customer_type == 'none' ? 'col-md-12' : 'col-md-6'">
+              <div
+                :class="customer_type == 'none' ? 'col-md-12' : 'col-md-6'"
+                v-if="delivery"
+              >
                 Yetkazilganda olinadigan summa
                 <strong>{{
                   order_confirm.delivery_money
@@ -602,6 +621,7 @@ export default {
       customer_search: "",
       customers: [],
       dropdown_menu: null,
+      delivery: false,
       order_confirm: {
         id: 0,
         customer_name: "",
@@ -778,6 +798,9 @@ export default {
       });
     },
     confirmOrder(order) {
+      const request = "";
+      if (this.delivery) request = "confirmationOrder";
+      else request = "confirmationOrderWithoutDelivery";
       if (order.customer_phone == null) {
         swal({
           icon: "warning",
@@ -790,7 +813,7 @@ export default {
         order.money[1].paid_money = order.money[1].paid_money || 0;
         order.discount = order.discount || 0;
         order.delivery_money = order.delivery_money || 0;
-        api.confirmationOrder(order).then((Response) => {
+        api[request](order).then((Response) => {
           document.querySelector("[close-confirmation]").click();
           this.order_confirm = {
             id: 0,

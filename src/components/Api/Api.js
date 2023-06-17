@@ -629,7 +629,10 @@ export function operatorOrder(id, status) {
   return api(`operator_order/${id}/${status}`, "put");
 }
 export function confirmationOrder(data) {
-  return api(`order_confirmation`, "put", data);
+  return api(`order_confirmation_order`, "put", data);
+}
+export function confirmationOrderWithoutDelivery(data) {
+  return api(`order_confirmation_without_delivery`, "put", data);
 }
 export function attachLogistika(data) {
   return api(`attach_logistika`, "put", data);
