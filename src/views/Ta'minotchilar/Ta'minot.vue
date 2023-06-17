@@ -306,6 +306,14 @@
               </div>
             </details>
           </div>
+          <div class="col-12">
+            <Pagination
+              :page="supplies_pagination.current_page"
+              :limit="supplies_pagination.limit"
+              :pages="supplies_pagination.pages"
+              @get="getSupplies"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -581,9 +589,11 @@
 
 <script>
 import * as api from "@/components/Api/Api";
+import Pagination from "@/components/Pagination/Pagination.vue";
 import swal from "sweetalert";
 export default {
   name: "Ta'minot",
+  components: { Pagination },
   data() {
     return {
       role: localStorage["role"],
@@ -600,6 +610,11 @@ export default {
       },
       example: null,
       currencies: [],
+      supplies_pagination: {
+        current_page: 0,
+        pages: 1,
+        limit: 25,
+      },
       supplies: [],
       warehouses: [],
       branches: [],
