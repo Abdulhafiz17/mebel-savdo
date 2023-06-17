@@ -114,7 +114,7 @@ export function branch(id) {
 export function branchKpi(branch_id, user_id, date) {
   const date_query = date ? `date=${date}` : ``;
   return api(
-    `get_branch_kpi?branch_id=${branch_id}&user_id=${user_id}&${date_query}`,
+    `get_branch_kpi_main?branch_id=${branch_id}&user_id=${user_id}&${date_query}`,
     "get"
   );
 }
