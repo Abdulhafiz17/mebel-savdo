@@ -18,6 +18,7 @@
           class="btn btn-outline-success"
           data-toggle="modal"
           data-target="#confirm-order"
+          @click="$refs.trades.getBalance()"
         >
           Buyurtmani tasdiqlash
         </button>
@@ -246,9 +247,8 @@
                   class="form-control"
                   type="number"
                   step="any"
-                  min="0.1"
+                  min="0"
                   placeholder="summa"
-                  required
                   v-model="item.money"
                 />
                 <div class="input-group-append">
@@ -585,7 +585,6 @@ export default {
         this.update_order.loan_repayment_date || null;
       api.updatePreOrder(this.update_order).then(() => {
         api.success("close-update-order-modal").then(() => {
-          this.order = null;
           this.customer = null;
           this.user = null;
           this.cashier_id = 0;
