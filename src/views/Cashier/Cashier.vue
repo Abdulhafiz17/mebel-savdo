@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-md-4"></div>
     <div class="col-md-4 my-1">
-      {{ $util.currency(cashier?.balance) + " so'm" }}
+      {{ $util.currency(cashier?.balance) + " " + cashier?.currency?.currency }}
     </div>
     <div class="col-md-4">
       <button
