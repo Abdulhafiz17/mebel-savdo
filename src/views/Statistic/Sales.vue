@@ -1,5 +1,5 @@
 <template>
-  <h4>Savdo</h4>
+  <h4 v-if="false">Savdo</h4>
   <div class="row my-1">
     <div class="col-md-4 my-1">
       <input
@@ -62,16 +62,10 @@
     <canvas id="salesChart" width="600" height="250" />
   </div>
 
-  <!-- <ul class="list-group" v-if="template == 'card'">
-    <li class="list-group-item" data-toggle="modal" data-target="#sum">
-      <strong>Umumiy</strong>
-    </li>
-  </ul> -->
-
   <div
     v-if="template == 'card'"
     class="responsive p-1"
-    style="max-height: 70vh"
+    style="max-height: 68vh"
   >
     <div class="row">
       <div class="col-md-4 col-sm-6 my-1" v-for="item in days" :key="item">
@@ -84,215 +78,142 @@
           >
             <strong>{{ item.day }}</strong>
             <hr />
-            <span>
-              Umumiy tan narx:
-              <strong>
-                {{ _.format(item.trade_total_tan_narx) + " so'm" }}
-              </strong>
-            </span>
-            <span>
-              Umumiy savdo:
-              <strong>
-                {{ _.format(item.trade_total_price) + " so'm" }}
-              </strong>
-            </span>
-            <span>
-              Vozvrat:
-              <strong>
-                {{ _.format(item.returned_price) + " so'm" }}
-              </strong>
-            </span>
-            <hr />
-            <strong>Kirim</strong>
-            <span v-show="item.incomes_trade.length">
-              Savdo:
-              <strong>
-                <span
-                  v-for="item2 in item.incomes_trade"
-                  :key="item2"
-                  v-show="item2.sum_price"
+            <ul class="list">
+              <li>
+                Jami savdo summasi
+                <br />
+                <strong>
+                  {{ $util.currency(item.trade_total_price) + " so'm" }}
+                </strong>
+              </li>
+              <hr />
+              <li>
+                Jami tan narx
+                <br />
+                <strong>
+                  {{ $util.currency(item.trade_total_tan_narx) + " so'm" }}
+                </strong>
+              </li>
+              <hr />
+              <li>
+                Vozvrat summasi
+                <br />
+                <strong>
+                  {{ $util.currency(item.returned_price) + " so'm" }}
+                </strong>
+              </li>
+              <hr />
+              <li>
+                Chiqim
+                <strong v-for="item2 in item.expenses" :key="item">
+                  <br />
+                  {{ $util.format(item2.sum_price) + " so'm" }}
+                </strong>
+              </li>
+              <hr />
+              <li>
+                Kpi
+                <br />
+                <strong>
+                  {{ $util.currency(item.total_kpi) + " so'm" }}
+                </strong>
+              </li>
+              <hr />
+              <li>
+                Daromad
+                <br />
+                <strong>
+                  {{ $util.currency(item.total_profit) + " so'm" }}
+                </strong>
+              </li>
+            </ul>
+            <div v-if="false">
+              <span>
+                Umumiy tan narx:
+                <strong>
+                  {{ _.format(item.trade_total_tan_narx) + " so'm" }}
+                </strong>
+              </span>
+              <span>
+                Umumiy savdo:
+                <strong>
+                  {{ _.format(item.trade_total_price) + " so'm" }}
+                </strong>
+              </span>
+              <span>
+                Vozvrat:
+                <strong>
+                  {{ _.format(item.returned_price) + " so'm" }}
+                </strong>
+              </span>
+              <hr />
+              <strong>Kirim</strong>
+              <span v-show="item.incomes_trade.length">
+                Savdo:
+                <strong>
+                  <span
+                    v-for="item2 in item.incomes_trade"
+                    :key="item2"
+                    v-show="item2.sum_price"
+                  >
+                    {{ _.format(item2.sum_price) + " so'm " + item2.type }}
+                  </span>
+                </strong>
+              </span>
+              <span v-show="item.incomes_delivered.length">
+                Yetkazib berilganda:
+                <strong>
+                  <span
+                    v-for="item2 in item.incomes_delivered"
+                    :key="item2"
+                    v-show="item2.sum_price"
+                  >
+                    {{ _.format(item2.sum_price) + " so'm" }}
+                  </span>
+                </strong>
+              </span>
+              <span v-show="item.incomes_loan.length">
+                Nasiya:
+                <strong>
+                  <span
+                    v-for="item2 in item.incomes_loan"
+                    :key="item2"
+                    v-show="item2.sum_price"
+                  >
+                    {{ _.format(item2.sum_price) + " so'm " + item2.type }}
+                  </span>
+                </strong>
+              </span>
+              <hr />
+              <span>
+                Chiqimlar:
+                <strong>
+                  <span v-for="item2 in item.expenses" :key="item">
+                    {{ _.format(item2.sum_price) + " so'm" }} <br />
+                  </span>
+                </strong>
+              </span>
+              <hr />
+              <span>
+                Daromad:
+                <strong
+                  :class="
+                    item.total_profit > 0
+                      ? 'text-success'
+                      : item.total_profit < 0
+                      ? 'text-danger'
+                      : ''
+                  "
                 >
-                  {{ _.format(item2.sum_price) + " so'm " + item2.type }}
-                </span>
-              </strong>
-            </span>
-            <span v-show="item.incomes_delivered.length">
-              Yetkazib berilganda:
-              <strong>
-                <span
-                  v-for="item2 in item.incomes_delivered"
-                  :key="item2"
-                  v-show="item2.sum_price"
-                >
-                  {{ _.format(item2.sum_price) + " so'm" }}
-                </span>
-              </strong>
-            </span>
-            <span v-show="item.incomes_loan.length">
-              Nasiya:
-              <strong>
-                <span
-                  v-for="item2 in item.incomes_loan"
-                  :key="item2"
-                  v-show="item2.sum_price"
-                >
-                  {{ _.format(item2.sum_price) + " so'm " + item2.type }}
-                </span>
-              </strong>
-            </span>
-            <hr />
-            <span>
-              Chiqimlar:
-              <strong>
-                <span v-for="item2 in item.expenses" :key="item">
-                  {{ _.format(item2.sum_price) + " so'm" }} <br />
-                </span>
-              </strong>
-            </span>
-            <hr />
-            <span>
-              Daromad:
-              <strong
-                :class="
-                  item.total_profit > 0
-                    ? 'text-success'
-                    : item.total_profit < 0
-                    ? 'text-danger'
-                    : ''
-                "
-              >
-                {{ _.format(item.total_profit) + " so'm" }}
-              </strong>
-            </span>
+                  {{ _.format(item.total_profit) + " so'm" }}
+                </strong>
+              </span>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- <div class="modal fade" id="sum">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-body">
-          <div class="row" v-for="item in sum" :key="item">
-            <div class="col-md-4 mb-1">
-              <div class="card shadow">
-                <div class="card-body p-2">
-                  Umumiy tan narx
-                  <br />
-                  <strong>
-                    {{ _.format(item.trade_total_tan_narx) + " so'm" }}
-                  </strong>
-                  <hr />
-                  Umumiy savdo
-                  <br />
-                  <strong>
-                    {{ _.format(item.trade_total_price) + " so'm" }}
-                  </strong>
-                  <hr />
-                  Vozvrat
-                  <br />
-                  <strong>
-                    {{ _.format(item.returned_price) + " so'm" }}
-                  </strong>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 mb-1">
-              <div class="card shadow">
-                <div class="card-body p-2">
-                  Kirim
-                  <hr />
-                  <span v-show="item.incomes_trade.length">
-                    Savdo
-                    <br />
-                    <strong>
-                      <span
-                        v-for="item2 in item.incomes_trade"
-                        :key="item2"
-                        v-show="item2.sum_price"
-                      >
-                        {{ _.format(item2.sum_price) + " so'm " + item2.type }}
-                        <br />
-                      </span>
-                    </strong>
-                  </span>
-                  <span v-show="item.incomes_loan.length">
-                    <hr />
-                    Nasiya
-                    <br />
-                    <strong>
-                      <span
-                        v-for="item2 in item.incomes_loan"
-                        :key="item2"
-                        v-show="item2.sum_price"
-                      >
-                        {{ _.format(item2.sum_price) + " so'm " + item2.type }}
-                        <br />
-                      </span>
-                    </strong>
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 mb-1">
-              <div class="card shadow">
-                <div class="card-body p-2">
-                  Chiqimlar
-                  <hr />
-                  <strong>
-                    <span v-for="item2 in item.expenses" :key="item">
-                      {{ _.format(item2.sum_price) + " so'm" }}
-                      <br />
-                    </span>
-                  </strong>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="card shadow">
-                <div class="card-body p-2">
-                  <div class="row">
-                    <div class="col-md-4">
-                      Adminga beriladigan summa <br />
-                      <strong>{{
-                        _.format(item.admin_price) + " so'm"
-                      }}</strong>
-                    </div>
-                    <div class="col-md-4">
-                      Chegirmadan qolgan summa <br />
-                      <strong class="text-success">
-                        {{ _.format(item.trade_total_discount) + " so'm" }}
-                      </strong>
-                    </div>
-                    <div class="col-md-4">
-                      Ish xaqqi <br />
-                      <strong
-                        :class="
-                          item.total_profit > 0
-                            ? 'text-success'
-                            : item.total_profit < 0
-                            ? 'text-danger'
-                            : ''
-                        "
-                      >
-                        {{ _.format(item.total_profit) + " so'm" }}
-                      </strong>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-outline-danger" data-dismiss="modal">
-            <i class="far fa-circle-xmark"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div> -->
 
   <div class="modal fade" id="day">
     <div class="modal-dialog modal-lg">
@@ -409,120 +330,53 @@
         <div class="modal-body">
           <div v-for="item in sum" :key="item">
             <strong>{{ item.day }}</strong>
-            <ul class="list-group">
-              <li class="list-group-item">
-                <span>Savdo</span>
-                <span>{{
-                  $util.currency(
-                    item.trade_total_price + item.pre_order_trade_total_price
-                  ) + " so'm"
-                }}</span>
-              </li>
-              <li class="list-group-item">
-                <span>Tan narx</span>
-                <span>{{
-                  $util.currency(
-                    item.trade_total_tan_narx +
-                      item.pre_order_trade_total_tan_narx
-                  ) + " so'm"
-                }}</span>
-              </li>
-              <li class="list-group-item">
-                <span>Buyurtmadan chegirma</span>
-                <span>{{ $util.currency(item.order_discount) + " so'm" }}</span>
-              </li>
-              <!-- <li class="list-group-item">
-                <span>Mahsulotdan chegirma</span>
-                <span>{{
-                  $util.currency(
-                    item.trade_total_discount +
-                      item.trade_from_comp_total_discount
-                  ) + " so'm"
-                }}</span>
-              </li> -->
-              <hr />
-              <li class="list-group-item">
-                <span>{{}}</span>
-                <!-- $util.currency(item.income_trade_sum) + " so'm" -->
-                <span>Savdodan kirim</span>
-              </li>
-              <li class="list-group-item">
-                <span>{{}}</span>
-                <!-- $util.currency(item.income_trade_sum) + " so'm" -->
-                <span>Buyurtma</span>
-              </li>
-              <ul class="list-group" v-if="item.incomes_trade.length">
-                <li
-                  class="list-group-item"
-                  v-for="item1 in item.incomes_trade"
-                  :key="item1"
-                  v-show="item1.sum_price"
-                >
-                  {{ $util.currency(item1.sum_price) + " so'm " + item1.type }}
-                </li>
-              </ul>
-              <li class="list-group-item">
-                <span>{{}}</span>
-                <!-- $util.currency(item.income_trade_sum) + " so'm" -->
-                <span>Oldindan buyurtma</span>
-              </li>
-              <ul class="list-group" v-if="item.incomes_pre_order_trade.length">
-                <li
-                  class="list-group-item"
-                  v-for="item1 in item.incomes_pre_order_trade"
-                  :key="item1"
-                  v-show="item1.sum_price"
-                >
-                  {{ $util.currency(item1.sum_price) + " so'm " + item1.type }}
-                </li>
-              </ul>
-              <hr />
-              <li class="list-group-item">
-                <span>Nasiyadan kirim</span>
-                <span>{{
-                  $util.currency(item.income_loan_sum) + " so'm"
-                }}</span>
-              </li>
-              <ul class="list-group" v-if="item.incomes_loan.length">
-                <li
-                  class="list-group-item"
-                  v-for="item1 in item.incomes_loan"
-                  :key="item1"
-                  v-show="item1.sum_price"
-                >
-                  {{ $util.currency(item1.sum_price) + " so'm " + item1.type }}
-                </li>
-              </ul>
-              <hr />
-              <li class="list-group-item">
-                <span>Chiqim</span>
-                <span>{{ $util.currency(item.expense_sum) + " so'm" }}</span>
-              </li>
-              <li class="list-group-item">
-                <span>Qaytarish chiqimi</span>
-                <span>{{ $util.currency(item.returned_price) + " so'm" }}</span>
+            <ul class="list">
+              <li>
+                Jami savdo summasi
+                <br />
+                <strong>
+                  {{ $util.currency(item.trade_total_price) + " so'm" }}
+                </strong>
               </li>
               <hr />
-              <li
-                class="list-group-item"
-                :class="
-                  item.total_profit + item.pre_order_total_profit > 0
-                    ? 'text-success'
-                    : item.total_profit + item.pre_order_total_profit < 0
-                    ? 'text-danger'
-                    : ''
-                "
-              >
-                <span>{{
-                  item.total_profit + item.pre_order_total_profit >= 0
-                    ? "Foyda"
-                    : "Zarar"
-                }}</span>
-                <span>{{
-                  $util.currency(
-                    item.total_profit + item.pre_order_total_profit
-                  ) + " so'm"
-                }}</span>
+              <li>
+                Jami tan narx
+                <br />
+                <strong>
+                  {{ $util.currency(item.trade_total_tan_narx) + " so'm" }}
+                </strong>
+              </li>
+              <hr />
+              <li>
+                Vozvrat summasi
+                <br />
+                <strong>
+                  {{ $util.currency(item.returned_price) + " so'm" }}
+                </strong>
+              </li>
+              <hr />
+              <li>
+                Chiqim
+                <strong v-for="item2 in item.expenses" :key="item">
+                  <br />
+                  {{ $util.format(item2.sum_price) + " so'm" }}
+                </strong>
+              </li>
+              <hr />
+              <li>
+                Kpi
+                <br />
+                <strong>
+                  {{ $util.currency(item.total_kpi) + " so'm" }}
+                </strong>
+              </li>
+              <hr />
+              <li>
+                Daromad
+                <br />
+                <strong>
+                  {{ $util.currency(item.total_profit) + " so'm" }}
+                </strong>
               </li>
             </ul>
           </div>
@@ -594,7 +448,7 @@ export default {
       return (sum / 100) * percent;
     },
     getUsers() {
-      this.template = "chart";
+      this.template = "card";
       // api.users(this.branch_id, 0, 0, 25).then((Response) => {
       //   this.users = Response.data.data;
       this.getSumStatistics();
@@ -740,5 +594,9 @@ export default {
 
 .modal-body .list-group-item {
   padding: 5px 10px;
+}
+
+.list {
+  gap: 0;
 }
 </style>
