@@ -231,10 +231,7 @@
                 </div>
               </div>
             </div>
-            <div
-              class="col-12"
-              v-if="['branch_admin', 'operator'].includes(role)"
-            >
+            <div class="col-12" v-if="['operator'].includes(role)">
               Status
               <select class="form-select" v-model="filter.operator_status">
                 <option value="false">Qo'ng'iroq qilinmagan</option>
@@ -312,7 +309,10 @@
                 <option value="done">Yakunlangan</option>
               </select>
             </div>
-            <div class="col-12" v-if="role == 'logistika'">
+            <div
+              class="col-12"
+              v-if="['branch_admin', 'logistika'].includes(role)"
+            >
               Status
               <select class="form-select" v-model="filter.logistika_phone">
                 <option value="true">logistika qo'g'iroq qilgan</option>
@@ -781,7 +781,7 @@ export default {
         to_time: "",
         status: "",
         logistika_phone: "false",
-        operator_status: "",
+        operator_status: "false",
         customer: null,
         seller: null,
         worker: null,
@@ -841,6 +841,7 @@ export default {
         to_time: to_time,
         status: status,
         logistika_phone: "false",
+        operator_status: "false",
         customer: null,
         seller: null,
         worker: null,
@@ -891,7 +892,8 @@ export default {
       let worker = "";
       let status = this.filter.status;
       let logistika_phone = this.filter.logistika_phone;
-      if (this.role !== "logistika") logistika_phone = "true";
+      if (!["branch_admin", "logistika"].includes(this.role))
+        logistika_phone = "true";
       if (
         ["false", "wait", "warehouseman", "logistika"].includes(
           this.filter.status
