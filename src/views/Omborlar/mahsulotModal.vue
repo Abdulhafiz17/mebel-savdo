@@ -65,7 +65,7 @@
             </div>
           </div>
           <div class="text-left">
-            Sotuv narx
+            Optom narx
             <div class="input-group">
               <input
                 type="number"
@@ -73,7 +73,7 @@
                 min="1"
                 class="form-control"
                 required
-                v-model="update_product.trade_price"
+                v-model="update_product.optom_price"
               />
               <div class="input-group-append">
                 <select
@@ -93,7 +93,7 @@
             </div>
           </div>
           <div class="text-left">
-            Optom narx
+            Sotuv narx
             <div class="input-group">
               <input
                 type="number"
@@ -101,7 +101,7 @@
                 min="1"
                 class="form-control"
                 required
-                v-model="update_product.optom_price"
+                v-model="update_product.trade_price"
               />
               <div class="input-group-text">so'm</div>
             </div>
