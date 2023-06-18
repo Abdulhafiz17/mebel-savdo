@@ -509,7 +509,9 @@ export default {
       return result;
     },
     countCurrency(product, price) {
-      return product.Warehouse_products[price] * product.trade_cur.price;
+      if (price == "optom_price")
+        return product.Warehouse_products[price] * product.trade_cur.price;
+      else return product.Warehouse_products[price];
     },
   },
 };
