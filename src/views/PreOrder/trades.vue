@@ -167,13 +167,15 @@
                   <span class="badge bg-success">
                     {{
                       product
-                        ? $util.currency(
-                            branch_name == "ОПТОМ"
-                              ? product.Warehouse_products.optom_price
-                              : product.Warehouse_products.trade_price
-                          ) +
-                          " " +
-                          product.currency
+                        ? branch_name == "ОПТОМ"
+                          ? $util.currency(
+                              product.Warehouse_products.optom_price
+                            ) +
+                            " " +
+                            product.trade_cur.curre
+                          : $util.currency(
+                              product.Warehouse_products.trade_price
+                            ) + " so'm"
                         : ""
                     }}
                   </span>
@@ -214,9 +216,15 @@
                       }}
                       <span class="badge bg-success">
                         {{
-                          $util.currency(item.Warehouse_products.tan_narx) +
-                          " " +
-                          item.currency
+                          branch_name == "ОПТОМ"
+                            ? $util.currency(
+                                item.Warehouse_products.optom_price
+                              ) +
+                              " " +
+                              item.trade_cur.curre
+                            : $util.currency(
+                                item.Warehouse_products.trade_price
+                              ) + " so'm"
                         }}
                       </span>
                     </li>
@@ -243,13 +251,15 @@
                     }}
                     <span class="badge bg-success">
                       {{
-                        $util.currency(
-                          branch_name == "ОПТОМ"
-                            ? item.Warehouse_products.optom_price
-                            : item.Warehouse_products.trade_price
-                        ) +
-                        " " +
-                        item.currency
+                        branch_name == "ОПТОМ"
+                          ? $util.currency(
+                              item.Warehouse_products.optom_price
+                            ) +
+                            " " +
+                            item.trade_cur.curre
+                          : $util.currency(
+                              item.Warehouse_products.trade_price
+                            ) + " so'm"
                       }}
                     </span>
                     <div class="row p-1" v-if="branch_name == 'ОПТОМ'">
@@ -297,7 +307,7 @@
                 </li>
               </ul>
             </div>
-            <!-- <label class="col-12" v-if="product">
+            <label class="col-12" v-if="false">
               Miqdor
               <div class="input-group input-group-sm">
                 <input
@@ -311,7 +321,7 @@
                 <div class="input-group-text">dona</div>
               </div>
             </label>
-            <label class="col-12" v-if="product">
+            <label class="col-12" v-if="false">
               Narx
               <div class="input-group input-group-sm">
                 <input
@@ -325,7 +335,7 @@
                 <div class="input-group-text">so'm</div>
               </div>
             </label>
-            <label class="col-12" v-if="product">
+            <label class="col-12" v-if="false">
               Chegirma
               <div class="input-group input-group-sm">
                 <input
@@ -337,7 +347,7 @@
                 />
                 <div class="input-group-text">so'm</div>
               </div>
-            </label> -->
+            </label>
           </div>
         </div>
         <div class="modal-footer">
