@@ -33,6 +33,15 @@ export default {
       <div class="sidebar-link">
         <router-link
           class="SidebarLink"
+          :to="`/orders`"
+          v-if="role === 'branch_admin'"
+        >
+          <i class="icon"><span class="fa fa-clock-rotate-left" /></i>
+          <p>Buyurtmalar tarixi</p>
+        </router-link>
+
+        <router-link
+          class="SidebarLink"
           :to="`/cashiers?branch_id=${branch_id}`"
           v-if="role === 'branch_admin'"
         >
