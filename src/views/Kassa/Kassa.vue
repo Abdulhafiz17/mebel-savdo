@@ -505,6 +505,15 @@
                   v-model="order_confirm.delivery_money"
                 />
               </div>
+              <div class="col-md-12 my-1" v-if="delivery">
+                Topshirish sanasi
+                <input
+                  type="date"
+                  class="form-control form-control-sm"
+                  required
+                  v-model="order_confirm.delivery_date"
+                />
+              </div>
               <div class="col-md-12" v-if="customer_type !== 'none'">
                 Nasiya summa
                 <strong>{{
@@ -648,6 +657,7 @@ export default {
         worker_id: 0,
         ustanovshik_id: 0,
         delivery_money: null,
+        delivery_date: null,
         kassa_id: 0,
       },
       loan_price: null,
