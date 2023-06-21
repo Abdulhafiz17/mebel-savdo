@@ -35,7 +35,7 @@
       </button>
     </div>
   </div>
-  <!-- <div class="row">
+  <div class="row" v-if="false">
     <div class="col-md-6">
       <b>Mahsulot: </b>
       <span v-for="item in totalPrice" :key="item">
@@ -50,7 +50,7 @@
         <i class="fa fa-coin" />
       </span>
     </div>
-  </div> -->
+  </div>
   <hr />
 
   <ul
@@ -117,17 +117,44 @@
           <form @submit.prevent="post()">
             <div class="row m-1">
               <div class="col-md-6 my-1">
-                <select
-                  class="form-select form-select-sm"
-                  required
-                  v-model="supply.market_id"
-                  @click="markets.length ? '' : getMarkets(0, 100)"
-                >
-                  <option hidden value="">Ta'minotchi</option>
-                  <option v-for="item in markets" :key="item" :value="item.id">
-                    {{ item.name }}
-                  </option>
-                </select>
+                <div class="dropdown">
+                  <button
+                    id="marketDropdown"
+                    type="button"
+                    class="btn btn-sm btn-block btn-outline-secondary dropdown-toggle"
+                    data-toggle="dropdown"
+                    @click="getMarkets()"
+                  >
+                    {{ market?.name || "Ta'minotchi" }}
+                  </button>
+                  <div
+                    class="dropdown-menu w-100 p-1"
+                    aria-labelledby="marketDropdown"
+                  >
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      placeholder="qidiruv"
+                      v-model="search_market"
+                      @keyup="getMarkets()"
+                      v-if="false"
+                    />
+                    <ul
+                      class="list-group p-1 responsive"
+                      style="max-height: 25vh"
+                      @scroll="scrollMarkets($event)"
+                    >
+                      <li
+                        class="list-group-item p-2"
+                        v-for="item in markets.data"
+                        :key="item"
+                        @click="market = item"
+                      >
+                        {{ item.name }}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
               <div class="col-md-6 my-1">
                 <div class="dropdown">
@@ -242,7 +269,7 @@
         </div>
       </div>
 
-      <div class="responsive">
+      <div class="responsive" style="max-height: 58vh">
         <div class="row">
           <div
             class="col-md-11 mx-auto my-1"
@@ -252,8 +279,18 @@
             <details>
               <summary>
                 <h5>
-                  {{ item.market }}
+                  {{ item.market.name }}
                 </h5>
+                <span>
+                  <strong v-for="item1 in item.sum_price" :key="item1">
+                    {{
+                      $util.currency(item1.price) +
+                      " " +
+                      item1.currency?.currency +
+                      " "
+                    }}
+                  </strong>
+                </span>
               </summary>
               <div class="table-responsive text-center">
                 <table class="table table-sm table-hover table-borderless">
@@ -600,7 +637,14 @@ export default {
       branch_id: localStorage["branch_id"],
       supplyType: false,
       party: null,
-      markets: [],
+      search_market: "",
+      markets: {
+        current_page: 0,
+        pages: 1,
+        limit: 25,
+        data: [],
+      },
+      market: null,
       search_example: "",
       examples: {
         current_page: 0,
@@ -667,10 +711,23 @@ export default {
         this.supplyType = !res.data.status;
       });
     },
-    getMarkets(page, limit) {
-      api.markets(page, limit).then((Response) => {
-        this.markets = Response.data.data;
+    getMarkets() {
+      api.markets(0, 100, this.search_market).then((Response) => {
+        this.markets = Response.data;
       });
+    },
+    scrollMarkets(event) {
+      const div = event.target;
+      if (div.scrollTop + div.clientHeight == div.scrollHeight) {
+        if (this.markets.current_page < this.markets.pages - 1) {
+          api
+            .markets(this.markets.current_page + 1, 25, this.search_market)
+            .then((res) => {
+              this.markets.current_page = res.data.current_page;
+              this.markets.data = this.markets.data.concat(res.data.data);
+            });
+        }
+      }
     },
     getBalances() {
       api.partyBalances(this.$route.params.id).then((Response) => {
@@ -722,26 +779,107 @@ export default {
         }
       });
     },
-    replace(data) {
-      for (let i = 0; i < this.markets.length; i++) {
-        if (
-          data.find((item) => {
-            return item.market_id == this.markets[i].id;
-          })
-        ) {
-          this.supplies.push({
-            market: this.markets[i].name,
-            supplies: data.filter((item) => {
-              return item.market_id == this.markets[i].id;
-            }),
+    async replace(data) {
+      let markets = [],
+        prices = [],
+        sum_price = [];
+      await new Promise((resolve, reject) => {
+        data.forEach((item, index) => {
+          const market = markets.find((item1) => {
+            return item1.market.id == item.market_id;
           });
-          this.supplies.sort((x, y) => {
-            let a = x.market,
-              b = y.market;
-            return a > b ? 1 : a == b ? 0 : -1;
+          if (!market) {
+            markets.push({
+              market: item.market,
+            });
+          }
+          if (index == data.length - 1) resolve();
+        });
+      }).then(() => {
+        new Promise((resolve, reject) => {
+          markets.forEach((item, index) => {
+            item.supplies = data.filter((item1) => {
+              return item1.market_id == item.market.id;
+            });
+            if (index == markets.length - 1) resolve();
           });
-        }
-      }
+        }).then(() => {
+          new Promise((resolve, reject) => {
+            markets.forEach((item, index) => {
+              prices = [];
+              item.supplies.forEach((item1) => {
+                const price = prices.find((item2) => {
+                  return item2.currency_id == item1.currency_id;
+                });
+                if (!price) prices.push(item1);
+              });
+              if (index == markets.length - 1) resolve();
+            });
+          }).then(() => {
+            new Promise((resolve, reject) => {
+              markets.forEach((item, index) => {
+                sum_price = [];
+                prices.forEach((item1) => {
+                  sum_price.push({
+                    currency: item1.currency,
+                    price: item.supplies
+                      .filter((item2) => {
+                        return item1.currency_id == item2.currency_id;
+                      })
+                      .reduce((total, object) => {
+                        return total + object.quantity * object.price;
+                      }, 0),
+                  });
+                  item.sum_price = sum_price;
+                });
+                if (index == markets.length - 1) resolve();
+              });
+            }).then(() => {
+              this.supplies = markets;
+            });
+          });
+        });
+      });
+      // data.forEach((item, index) => {
+      //   const market = markets.find((item1) => {
+      //     return item1.market.id == item.market_id;
+      //   });
+      //   if (!market) {
+      //     markets.push({
+      //       market: item.market,
+      //     });
+      //   }
+      //   const pushArray = () => {
+      //     markets.forEach((item) => {
+      //       item.supplies = data.filter((item1) => {
+      //         return item1.market_id == item.market.id;
+      //       });
+      //       let sum_price = [];
+      //       let prices = [];
+      //       item.supplies.forEach((item1) => {
+      //         const price = prices.find((item2) => {
+      //           return item2.currency_id == item1.currency_id;
+      //         });
+      //         if (!price) prices.push(item1);
+      //       });
+      //       prices.forEach((item1) => {
+      //         sum_price.push({
+      //           currency: item1.currency,
+      //           price: item.supplies
+      //             .filter((item2) => {
+      //               return item1.currency_id == item2.currency_id;
+      //             })
+      //             .reduce((total, object) => {
+      //               return total + object.quantity * object.price;
+      //             }, 0),
+      //         });
+      //       });
+      //       item.sum_price = sum_price;
+      //     });
+      //     this.supplies = markets;
+      //   };
+      //   if (index == data.length - 1) pushArray();
+      // });
     },
     getCurrencies() {
       api.currencies().then((Response) => {
@@ -763,6 +901,7 @@ export default {
       });
     },
     post() {
+      this.supply.market_id = this.market.id;
       this.supply.articul = this.example.Product_examples.articul;
       this.supply.category_id = this.example.Categories.id;
       this.supply.name = this.example.Product_examples.name;

@@ -260,7 +260,7 @@ export function takeIncomeFromPreOrder(data) {
 export function market(id) {
   return api(`this_market/${id}`, "get");
 }
-export function markets(page, limit) {
+export function markets(page, limit, search) {
   return api("get_markets?page=" + page + "&limit=" + limit, "get");
 }
 export function createMarket(data) {
