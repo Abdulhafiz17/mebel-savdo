@@ -258,7 +258,9 @@
               <tr v-for="item in expenses" :key="item">
                 <td>
                   {{
-                    Intl.NumberFormat().format(item.Expenses.price) + " so'm"
+                    Intl.NumberFormat().format(item.Expenses.price) +
+                    " " +
+                    item.Expenses.currency.currency
                   }}
                 </td>
                 <td>{{ item.Expenses.comment }}</td>
