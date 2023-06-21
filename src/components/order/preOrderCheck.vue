@@ -14,21 +14,7 @@
             <div class="check-img" v-if="logo">
               <img :src="`${api.url_to_files}/${logo}`" :alt="logo" />
             </div>
-            <!-- <div class="news">
-              Yangiliklardan <br />
-              habardor bo'ling !
-            </div>
-            <div class="social">
-              <div><i class="fab fa-telegram-plane"></i> adidas_andijon</div>
-              <div><i class="fab fa-instagram"></i> adidas.navruzmall</div>
-              <div>
-                <i class="fa fa-phone"></i> +998 {{ formatPhoneNumber(phone) }}
-              </div>
-            </div>
-            <div class="news">
-              Будьте в курсе <br />
-              новостей !
-            </div> -->
+            <div>Buyurtma id: {{ order?.Pre_orders?.id }}</div>
             <div class="date-time">
               <b>{{ order?.Pre_orders?.time.split("T")[1].substring(0, 5) }}</b>
               <b>{{ order?.Pre_orders?.time.split("T")[0] }}</b>
