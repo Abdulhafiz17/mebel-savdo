@@ -60,7 +60,7 @@
       role="tabpanel"
       aria-labelledby="false-tab"
     >
-      <div class="table-responsive" style="max-height: 74vh">
+      <div class="table-responsive" style="max-height: 72vh">
         <table class="table table-sm table-hover">
           <thead>
             <tr>
@@ -103,7 +103,7 @@
       role="tabpanel"
       aria-labelledby="true-tab"
     >
-      <div class="table-responsive" style="max-height: 74vh">
+      <div class="table-responsive" style="max-height: 72vh">
         <table class="table table-sm table-hover">
           <thead>
             <tr>
@@ -117,7 +117,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in products2.data" :key="item">
+            <tr v-for="item in products2" :key="item">
               <td>{{ item.warehouse_product_data.category.name }}</td>
               <td>{{ item.warehouse_product_data.name2 }}</td>
               <td>{{ item.warehouse_product_data.articul }}</td>
@@ -156,19 +156,19 @@ export default {
   data() {
     return {
       search: "",
-      products: [],
+      products: {
+        current_page: 0,
+        pages: 1,
+        limit: 25,
+        data: [],
+      },
+      products2: [],
       // {
       //   current_page: 0,
       //   pages: 1,
       //   limit: 25,
       //   data: [],
       // },
-      products2: {
-        current_page: 0,
-        pages: 1,
-        limit: 25,
-        data: [],
-      },
     };
   },
   created() {
