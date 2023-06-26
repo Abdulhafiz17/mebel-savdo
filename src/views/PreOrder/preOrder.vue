@@ -583,6 +583,9 @@ export default {
       this.update_order.delivery_money = this.update_order.delivery_money || 0;
       this.update_order.loan_repayment_date =
         this.update_order.loan_repayment_date || null;
+      this.update_order.incomes.forEach((item) => {
+        item.money = item.money || 0;
+      });
       api.updatePreOrder(this.update_order).then(() => {
         api.success("close-update-order-modal").then(() => {
           this.customer = null;
