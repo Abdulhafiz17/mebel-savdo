@@ -22,7 +22,11 @@
         >
           Buyurtmani tasdiqlash
         </button>
-        <button class="btn btn-outline-danger" v-if="order">
+        <button
+          class="btn btn-outline-danger"
+          v-if="order"
+          @click="removeOrder()"
+        >
           Buyurtmani o'chirish
         </button>
         <button
@@ -570,6 +574,13 @@ export default {
     },
     createOrder() {
       api.createPreOrder().then(() => {
+        api.success().then(() => {
+          this.getOrder();
+        });
+      });
+    },
+    removeOrder() {
+      api.removePreOrder(this.order.Pre_orders.id).then(() => {
         api.success().then(() => {
           this.getOrder();
         });

@@ -682,6 +682,9 @@ export function createPreOrder() {
 export function updatePreOrder(data) {
   return api(`update_pre_order`, "put", data);
 }
+export function removePreOrder(id) {
+  return api(`remove_pre_order/${id}`, "delete");
+}
 export function warehousemanPreOrder(id) {
   return api(`warehouseman_pre_order/${id}`, "put");
 }
