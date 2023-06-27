@@ -142,6 +142,9 @@
 import * as api from "@/components/Api/Api.js";
 export default {
   name: "mahsulotModal",
+  emits: {
+    close: null,
+  },
   data() {
     return {
       currencies: [],
@@ -198,10 +201,7 @@ export default {
     putProduct() {
       api.updateKpiWarehouseProduct(this.update_product).then(() => {
         api.success("close-put-modal").then(() => {
-          this.$parent.page = 0;
-          this.$parent.pages = 1;
-          this.$parent.limit = 50;
-          this.$parent.getCategories(0, 50);
+          this.$emit("close");
         });
       });
     },

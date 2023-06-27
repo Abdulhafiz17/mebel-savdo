@@ -1097,7 +1097,7 @@
     </div>
   </div>
 
-  <mahsulotModal ref="mahsulotModal" />
+  <mahsulotModal ref="mahsulotModal" @close="getProducts(0, limit)" />
 </template>
 
 <script>
