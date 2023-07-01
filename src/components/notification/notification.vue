@@ -27,9 +27,9 @@ export default {
     },
   },
   created() {
-    this.socket.onopen = (event) => {
-      // console.log(event);
-    };
+    // this.socket.onopen = (event) => {
+    //   console.log(event);
+    // };
     this.socket.onmessage = (event) => {
       this.data = event.data;
       this.checkSupport();
