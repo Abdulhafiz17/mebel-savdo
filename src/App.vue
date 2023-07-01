@@ -7,9 +7,7 @@
     <div class="container-fluid pt-2" style="height: 100vh">
       <div
         id="main-card"
-        :class="
-          this.$route.name !== 'login' ? 'card shadow p-2 responsive' : ''
-        "
+        :class="{ 'card shadow p-2 responsive': $route.name !== 'login' }"
         :style="{ 'margin-left': margin }"
       >
         <div class="btn-group btn-group-sm btn-admin" v-if="route_buttons">
