@@ -12,6 +12,7 @@
           <th>Miqdor</th>
           <!-- <th v-if="price">Qaytarilgan</th> -->
           <th v-if="price">Summa</th>
+          <th>Ombor</th>
         </tr>
       </thead>
       <tbody>
@@ -50,6 +51,7 @@
               ) + " so'm"
             }}
           </td>
+          <td>{{ i.Warehouses.name }}</td>
         </tr>
       </tbody>
       <tfoot>
