@@ -190,6 +190,14 @@
                   <i class="fa fa-gear"></i>
                 </button>
               </div>
+              <div class="col" v-if="item.Pre_orders.status == 'wait'">
+                <button
+                  class="btn btn-sm btn-block btn-outline-danger"
+                  @click="returnPreOrder(item.Pre_orders.id)"
+                >
+                  <i class="fa fa-undo"></i>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -998,6 +1006,13 @@ export default {
       if (this.role == "warehouseman") this.warehousemanPreOrder(id);
       else if (this.role == "worker" || this.role == "ustanovshik")
         this.deliveredPreOrder(id);
+    },
+    returnPreOrder(id) {
+      api.returnPreOrder(id).then(() => {
+        api.success().then(() => {
+          this.getOrders(0, 25);
+        });
+      });
     },
     warehousemanPreOrder(id) {
       api.warehousemanPreOrder(id).then(() => {
