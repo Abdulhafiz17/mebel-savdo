@@ -710,10 +710,10 @@ export function returnPreOrder(id) {
   return api(`return_order/${id}`, "put");
 }
 export function warehousemanPreOrder(id) {
-  return api(`warehouseman_pre_order/${id}`, "put");
+  return api(`warehouseman_pre_order2/${id}`, "put");
 }
 export function logistikaPreOrder(data) {
-  return api(`logistika_pre_order`, "put", data);
+  return api(`logistika_pre_order2`, "put", data);
 }
 export function logistikPreOrderPhone(id) {
   return api(`logistika_pre_order_phone/${id}`, "put");
@@ -746,10 +746,10 @@ export function preOrderTrades(order_id, warehouse_id, page, limit) {
   );
 }
 export function tradeToPreOrder(data) {
-  return api(`trade_to_pre_order`, "post", data);
+  return api(`trade_to_pre_order1`, "post", data);
 }
 export function tradeToPreOrder2(data) {
-  return api(`trade_to_pre_order2`, "post", data);
+  return api(`trade_to_pre_order2_2`, "post", data);
 }
 export function updateTradeToPreOrder(data) {
   return api(`update_trade_to_pre_order`, "put", data);
@@ -776,7 +776,7 @@ export function returnProduct(id, data) {
   return api(`return_product/${id}`, "put", data);
 }
 export function returnPreOrderProduct(id, data) {
-  return api(`return_product_pre/${id}`, "put", data);
+  return api(`return_product_pre2/${id}`, "put", data);
 }
 
 // service
