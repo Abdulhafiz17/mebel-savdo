@@ -316,6 +316,27 @@ export function warehouseProducts(
     );
   }
 }
+export function warehouseProducts2(
+  id,
+  search,
+  category_id,
+  page,
+  limit,
+  status
+) {
+  const search_query = search ? `search=${search}&` : ``;
+  if (category_id) {
+    return api(
+      `get_warehouse_products2/${id}?${search_query}category_id=${category_id}&group=${status}&page=${page}&limit=${limit}`,
+      "get"
+    );
+  } else {
+    return api(
+      `get_warehouse_products2/${id}?${search_query}group=${status}&page=${page}&limit=${limit}`,
+      "get"
+    );
+  }
+}
 export function productExamples(search, category_id, page, limit) {
   const search_query = search ? `search=${search}&` : ``;
   return api(

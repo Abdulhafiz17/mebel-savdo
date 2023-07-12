@@ -477,7 +477,7 @@ export default {
     },
     getProducts() {
       api
-        .warehouseProducts(this.warehouse.id, this.search, 0, 0, 25, false)
+        .warehouseProducts2(this.warehouse.id, this.search, 0, 0, 25, false)
         .then((res) => {
           this.products.current_page = res.data.current_page;
           this.products.pages = res.data.pages;
@@ -496,7 +496,7 @@ export default {
       if (div.scrollTop + div.clientHeight == div.scrollHeight) {
         if (this.products.current_page < this.products.pages - 1) {
           api
-            .warehouseProducts(
+            .warehouseProducts2(
               this.warehouse.id,
               this.search,
               0,

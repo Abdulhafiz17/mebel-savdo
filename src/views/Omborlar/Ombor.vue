@@ -185,7 +185,7 @@
                       {{ item.Warehouse_products.name }}
                     </td>
                     <td>{{ item.Warehouse_products.warning_quantity }} dona</td>
-                    <td>{{ item.Warehouse_products.quantity }} dona</td>
+                    <td>{{ item.sum_quantity }} dona</td>
                     <td v-if="role !== 'warehouseman'">
                       {{ $util.currency(item.Warehouse_products.kpi) }} so'm
                     </td>
@@ -212,8 +212,7 @@
                     <td v-if="role !== 'warehouseman'">
                       {{
                         Intl.NumberFormat().format(
-                          item.Warehouse_products.tan_narx *
-                            item.Warehouse_products.quantity
+                          item.Warehouse_products.tan_narx * item.sum_quantity
                         )
                       }}
                       {{ item.currency }}
@@ -1172,7 +1171,7 @@ export default {
     },
     getCategories(page, limit) {
       api
-        .warehouseProducts(this.$route.params.id, "", 0, page, limit, false)
+        .warehouseProducts2(this.$route.params.id, "", 0, page, limit, false)
         .then((Response) => {
           this.categories = Response.data.data;
           if (this.categories.length) {
@@ -1193,7 +1192,7 @@ export default {
     },
     getProducts(page, limit) {
       api
-        .warehouseProducts(
+        .warehouseProducts2(
           this.$route.params.id,
           "",
           this.category_for_product.Warehouse_products.category_id,
