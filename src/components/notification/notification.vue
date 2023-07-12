@@ -31,7 +31,7 @@ export default {
     //   console.log(event);
     // };
     this.socket.onmessage = (event) => {
-      this.data = event.data;
+      this.data = JSON.parse(event.data);
       this.checkSupport();
     };
     this.socket.onclose = () => {
