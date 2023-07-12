@@ -118,15 +118,23 @@
           </thead>
           <tbody>
             <tr v-for="item in products2" :key="item">
-              <td>{{ item.warehouse_product_data.category.name }}</td>
-              <td>{{ item.warehouse_product_data.name2 }}</td>
-              <td>{{ item.warehouse_product_data.articul }}</td>
-              <td>{{ item.warehouse_product_data.name }}</td>
+              <td>
+                {{
+                  item.warehouse_product_data.Warehouse_products.category.name
+                }}
+              </td>
+              <td>
+                {{ item.warehouse_product_data.Warehouse_products.name2 }}
+              </td>
+              <td>
+                {{ item.warehouse_product_data.Warehouse_products.articul }}
+              </td>
+              <td>{{ item.warehouse_product_data.Warehouse_products.name }}</td>
               <td>{{ item.pre_order_id }}</td>
               <td>
                 {{ item.trade_quantity + " dona" }}
               </td>
-              <td>{{ item.warehouse_product_data.quantity + " dona" }}</td>
+              <td>{{ item.warehouse_product_data.sum_quantity + " dona" }}</td>
             </tr>
           </tbody>
           <!-- <tfoot>
