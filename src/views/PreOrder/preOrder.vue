@@ -1,6 +1,7 @@
 <template>
   <div class="row">
     <div class="col-md-3"><h4>Oldindan buyurtma</h4></div>
+    <div class="col">{{ $util.currency(balance?.total_price) + " so'm" }}</div>
     <div class="col text-right">
       <div class="btn-group btn-group-sm">
         <router-link to="/pre-orders" class="btn btn-outline-secondary">
@@ -182,6 +183,15 @@
                   v-model="update_order.loan"
                 />
                 <div class="input-group-text">so'm</div>
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    @click="update_order.loan = amount_payment"
+                  >
+                    <i class="fa fa-magnet"></i>
+                  </button>
+                </div>
               </div>
             </div>
             <div class="col-12" v-if="update_order.loan">
@@ -212,6 +222,15 @@
                   v-model="update_order.discount"
                 />
                 <div class="input-group-text">so'm</div>
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    @click="update_order.discount = amount_payment"
+                  >
+                    <i class="fa fa-magnet"></i>
+                  </button>
+                </div>
               </div>
             </div>
             <div class="col-12">
@@ -233,6 +252,15 @@
                   v-model="update_order.delivery_money"
                 />
                 <div class="input-group-text">so'm</div>
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    @click="update_order.delivery_money = amount_payment"
+                  >
+                    <i class="fa fa-magnet"></i>
+                  </button>
+                </div>
               </div>
             </div>
             <div class="col-12">
@@ -276,6 +304,15 @@
                 </div>
                 <div class="input-group-text">
                   {{ cashier?.currency?.currency || "valyuta" }}
+                </div>
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    @click="item.money = amount_payment"
+                  >
+                    <i class="fa fa-magnet"></i>
+                  </button>
                 </div>
                 <div class="input-group-append">
                   <button
@@ -539,6 +576,14 @@ export default {
       });
       return result;
     },
+    amount_payment() {
+      let result = this.balance?.total_price;
+      result -= this.sum_payment;
+      result -= this.update_order.delivery_money;
+      result -= this.update_order.discount;
+      result -= this.update_order.loan;
+      return result;
+    },
   },
   created() {
     this.getOrder();
@@ -678,7 +723,8 @@ export default {
           map_long: "",
           map_lat: "",
         };
-        api.success("close-modal").then(() => {
+        api.success("close-modal").then((res) => {
+          this.customer = res.data;
           this.getCustomers();
         });
       });
