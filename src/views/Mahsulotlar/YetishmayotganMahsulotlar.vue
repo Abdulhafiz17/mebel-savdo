@@ -74,12 +74,12 @@
           </thead>
           <tbody>
             <tr v-for="item in products.data" :key="item">
-              <td>{{ item.category.name }}</td>
-              <td>{{ item.name2 }}</td>
-              <td>{{ item.articul }}</td>
-              <td>{{ item.name }}</td>
-              <td>{{ item.warning_quantity + " dona" }}</td>
-              <td>{{ item.quantity + " dona" }}</td>
+              <td>{{ item.Warehouse_products.category.name }}</td>
+              <td>{{ item.Warehouse_products.name2 }}</td>
+              <td>{{ item.Warehouse_products.articul }}</td>
+              <td>{{ item.Warehouse_products.name }}</td>
+              <td>{{ item.Warehouse_products.warning_quantity + " dona" }}</td>
+              <td>{{ item.sum_quantity + " dona" }}</td>
             </tr>
           </tbody>
           <tfoot>

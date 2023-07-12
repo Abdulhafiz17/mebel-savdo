@@ -377,7 +377,7 @@ export function allProducts(
 export function warningWarehouseProducts(search, page, limit) {
   const search_query = search ? `search=${search}` : ``;
   return api(
-    `get_warning_warehouse_products?${search_query}&page=${page}&limit=${limit}`,
+    `get_warning_warehouse_products2?${search_query}&page=${page}&limit=${limit}`,
     "get"
   );
 }
