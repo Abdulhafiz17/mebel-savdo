@@ -148,9 +148,9 @@ export default {
     start(product) {
       this.product = product;
       this.search = [
-        { search: this.product.category },
-        { search: this.product.Orders_from_branch.articul },
-        { search: this.product.Orders_from_branch.name },
+        // { search: this.product.category },
+        // { search: this.product.Orders_from_branch.articul },
+        // { search: this.product.Orders_from_branch.name },
         { search: this.product.Orders_from_branch.name2 },
       ];
       this.products_to_branch = [];
