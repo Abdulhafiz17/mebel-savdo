@@ -330,7 +330,7 @@
                   {{ i.Categories.name }}
                 </td>
                 <td>
-                  {{ i.Returned_products.quantity + " dona" }}
+                  {{ i.sum_quantity + " dona" }}
                 </td>
                 <td>{{ i.user }}</td>
                 <td>
