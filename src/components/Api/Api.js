@@ -370,7 +370,7 @@ export function allProducts(
     });
   }
   return api(
-    `get_all_products?${search_query}page_w=${page_w}&limit_w=${limit_w}&page_p=${page_p}&limit_p=${limit_p}`,
+    `get_all_products2?${search_query}page_w=${page_w}&limit_w=${limit_w}&page_p=${page_p}&limit_p=${limit_p}`,
     "get"
   );
 }

@@ -101,7 +101,7 @@
                   item.currency
                 }}
               </td>
-              <td>{{ item.Warehouse_products.quantity + " dona" }}</td>
+              <td>{{ item.sum_quantity + " dona" }}</td>
               <td>{{ item.Warehouses.name }}</td>
               <td>
                 <button
