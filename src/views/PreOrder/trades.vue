@@ -28,7 +28,7 @@
                 step="any"
                 min="0.1"
                 required
-                v-model="item.Trades_pre_order.quantity"
+                v-model="item.sum_quantity"
                 @change="putTrade(item)"
               />
               <div class="input-group-text">dona</div>
@@ -65,7 +65,7 @@
             {{
               $util.currency(
                 (item.Trades_pre_order.price - item.Trades_pre_order.discount) *
-                  item.Trades_pre_order.quantity
+                  item.sum_quantity
               ) + " so'm"
             }}
           </td>
@@ -455,7 +455,7 @@ export default {
     putTrade(item) {
       const data = {
         id: item.Trades_pre_order.id,
-        quantity: item.Trades_pre_order.quantity,
+        quantity: item.sum_quantity,
         price: item.Trades_pre_order.price,
         discount: item.Trades_pre_order.discount || 0,
       };

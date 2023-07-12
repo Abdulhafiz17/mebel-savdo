@@ -38,7 +38,7 @@
             }}
           </td>
           <td>
-            {{ i.Trades_pre_order.quantity + " dona" }}
+            {{ i.sum_quantity + " dona" }}
           </td>
           <!-- <td v-if="price">
             {{ findProduct(i) + " dona" }}
@@ -47,7 +47,7 @@
             {{
               Intl.NumberFormat().format(
                 (i.Trades_pre_order.price - i.Trades_pre_order.discount) *
-                  i.Trades_pre_order.quantity
+                  i.sum_quantity
               ) + " so'm"
             }}
           </td>

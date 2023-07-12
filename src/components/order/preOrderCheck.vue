@@ -68,7 +68,7 @@
                   item.Warehouse_products.name
                 }}
               </div>
-              <div>{{ item.Trades_pre_order.quantity }}</div>
+              <div>{{ item.sum_quantity }}</div>
               <div v-if="show_price">
                 <div class="discount" v-if="item.Trades_pre_order.discount">
                   <div class="discount-price">
@@ -235,9 +235,8 @@ export default {
           let quantity = null,
             discount = null;
           this.trades.forEach((item) => {
-            quantity += item.Trades_pre_order.quantity;
-            discount +=
-              item.Trades_pre_order.discount * item.Trades_pre_order.quantity;
+            quantity += item.sum_quantity;
+            discount += item.Trades_pre_order.discount * item.sum_quantity;
           });
           this.trades_quantity = quantity;
           this.trades_discount = discount;
